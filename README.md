@@ -11,6 +11,7 @@ You can use the native components such as `UICollectionView` and `UICollectionVi
 
 ```html
 <html>
+
 	<body>
 		
 		<UICollectionView class="list" is-vertical>
@@ -20,6 +21,7 @@ You can use the native components such as `UICollectionView` and `UICollectionVi
 		</UICollectionView>
 
 	</body>
+	
 </html>
 ```
 
@@ -29,6 +31,7 @@ You can use the standard HTML tags such as `div` and `img` on iOS. This gives yo
 
 ```html
 <html>
+
 	<body>
 
 		<UICollectionViewCell is-static is-row>
@@ -51,6 +54,7 @@ You can use the standard HTML tags such as `div` and `img` on iOS. This gives yo
 		</UICollectionViewCell>
 
 	</body>
+	
 </html>
 ```
 
@@ -58,45 +62,103 @@ You can use the standard HTML tags such as `div` and `img` on iOS. This gives yo
 
 We brought the css layout model from the web to SamuraiFramework, css layout makes it simple to build the most common UI layouts, such as stacked and nested boxes with margin and padding. SamuraiFramework also supports common web styles, such as `font-weight` and `border-radius`, and you can extend your style in `SamuraiHtmlRenderStyle` class.
 
+(TODO: Flex-Box)
+
 ```html
 <html>
-<body>
 
-	<div class="tab-bar">
-		<div class="tab">Popular</div>
-		<div class="tab">Debuts</div>
-		<div class="tab">Everyone</div>
-	</div>
+	<head>
+		
+		<link rel="stylesheet" type="text/css" href="../css/normalize.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/main.css"/>
+		
+	</head>
 	
-</body>
-<style>
-
-	.tab-bar {
-		display: block;
-		width: 100%;
-		height: 34px;
-		background-color: #e5508c;
-		/* box-shadow: 0px 0.5px 0.5px black; */
-		z-index: 2;
-	}
-
-	.tab {
-		float: left;
-		display: block;
-		width: 33.33%;
-		height: 34px;
-		font-size: 14px;
-		line-height: 34px;
-		color: #fff 0.75;
-		text-align: center;
-		font-weight: normal;
-	}
-	
-	...
-	
-</style>
 </html>
+```
 
+```html
+<html>
+
+	<body>
+	
+		<p style="color: red;">
+			Hello, world!
+		</p>
+		
+	</body>
+
+</html>
+```
+
+```html
+<html>
+
+	<body>
+	
+		<div class="tab-bar">
+			<div class="tab">Popular</div>
+			<div class="tab">Debuts</div>
+			<div class="tab">Everyone</div>
+		</div>
+
+		<style>
+		
+			.tab-bar {
+				display: block;
+				width: 100%;
+				height: 34px;
+				background-color: #e5508c;
+				/* box-shadow: 0px 0.5px 0.5px black; */
+				z-index: 2;
+			}
+		
+			.tab {
+				float: left;
+				display: block;
+				width: 33.33%;
+				height: 34px;
+				font-size: 14px;
+				line-height: 34px;
+				color: #fff 0.75;
+				text-align: center;
+				font-weight: normal;
+			}
+			
+			...
+			
+		</style>
+		
+	</body>
+
+</html>
+```
+
+## Signal Handling
+
+SamuraiFramework provide a high level event system called `Signal`, you can interact with HTML page through signal system.
+
+```html
+<html>
+
+	<body>
+
+		<div onclick="signal('switch-tab1')">Popular</div>
+		
+	</body>
+	
+</html>
+```
+
+```objc
+@implementation MyViewController
+
+handleSignal( switch_tab1 )
+{
+	[self something];
+}
+
+@end
 ```
 
 ## Extensibility
@@ -104,6 +166,7 @@ We brought the css layout model from the web to SamuraiFramework, css layout mak
 SamuraiFramework is designed to be easily extended with custom native components, that means you can reuse anything you've already built, and can import and use your favorite native components.
 
 ```objc
+
 @implementation UILabel(Html)
 
 - (void)html_applyDom:(SamuraiHtmlDomNode *)dom
@@ -151,3 +214,4 @@ Samurai is licensed under the MIT License.
 * [katana](https://github.com/): An CSS3 parsing library in pure C99
 * [fishhook](https://github.com/facebook/fishhook): A library that enables dynamically rebinding symbols in Mach-O binaries running on iOS.
 * [AFNetworking](https://github.com/AFNetworking/AFNetworking): A delightful iOS and OS X networking framework
+	
