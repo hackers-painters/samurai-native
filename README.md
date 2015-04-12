@@ -209,6 +209,15 @@ samurai-native is designed to be easily extended with custom native components, 
 @end
 ```
 
+## Live reload
+
+Add lines below into your `main()` function, samurai-native will applies HTML/CSS changes to iPhoneSimulator without rebuild and run the app.
+
+```objc
+[[SamuraiWatcher sharedInstance] watch:@(__FILE__)];
+}
+```
+
 ## Running the Examples
 
 - clone `https://github.com/hackers-painters/samurai.git`
