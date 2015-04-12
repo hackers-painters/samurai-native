@@ -1,7 +1,7 @@
-Samurai: Bring web standards to native platform
-===============================================
+SamuraiNative: Bring web standards to native platform
+=====================================================
 
-SamuraiFramework enables you to build native apps using web technologies (HTML/CSS) based on its own Web-Core. Support iOS now, Android later.
+SamuraiNative enables you to build native apps using web technologies (HTML/CSS) based on its own Web-Core. Support iOS now, Android later.
 
 Check out demo at `samurai-examples/dribbble` and `samurai-examples/movie`.
 
@@ -60,7 +60,7 @@ You can use the standard HTML tags such as `div` and `img` on iOS. This gives yo
 
 ## CSS Fluid layout	
 
-We brought the css layout model from the web to SamuraiFramework, css layout makes it simple to build the most common UI layouts, such as stacked and nested boxes with margin and padding. SamuraiFramework also supports common web styles, such as `font-weight` and `border-radius`, and you can extend your style in `SamuraiHtmlRenderStyle` class.
+We brought the css layout model from the web to SamuraiNative, css layout makes it simple to build the most common UI layouts, such as stacked and nested boxes with margin and padding. SamuraiNative also supports common web styles, such as `font-weight` and `border-radius`, and you can extend your style in `SamuraiHtmlRenderStyle` class.
 
 (TODO: Flex-Box)
 
@@ -157,7 +157,7 @@ We brought the css layout model from the web to SamuraiFramework, css layout mak
 
 ## Signal Handling
 
-SamuraiFramework provide a high level event system called `Signal`, you can interact with HTML page through signal system.
+SamuraiNative provide a high level event system called `Signal`, you can interact with HTML page through signal system.
 
 ```html
 <div onclick="signal('switch-tab1')">
@@ -178,7 +178,7 @@ handleSignal( switch_tab1 )
 
 ## Extensibility
 
-SamuraiFramework is designed to be easily extended with custom native components, that means you can reuse anything you've already built, and can import and use your favorite native components.
+SamuraiNative is designed to be easily extended with custom native components, that means you can reuse anything you've already built, and can import and use your favorite native components.
 
 ```objc
 
@@ -216,7 +216,7 @@ SamuraiFramework is designed to be easily extended with custom native components
 
 ## Licensing
 
-Samurai is licensed under the MIT License.
+SamuraiNative is licensed under the MIT License.
 
 ## Contributors
 
