@@ -135,27 +135,6 @@ We brought the css layout model from the web to samurai-native, css layout makes
 </html>
 ```
 
-## Easy to use API
-
-```objc
-
-@implementation MyViewController
-
-- (void)viewDidLoad
-{
-	[self loadViewTemplate:@"/www/html/dribbble-index.html"];
-//	[self loadViewTemplate:@"http://localhost:8000/html/dribbble-index.html"];
-
-}
-
-- (void)dealloc
-{
-	[self unloadViewTemplate];
-}
-
-@end
-```
-
 ## Signal Handling
 
 samurai-native provide a high level event system called `Signal`, you can interact with HTML page through signal system.
@@ -209,6 +188,26 @@ samurai-native is designed to be easily extended with custom native components, 
 @end
 ```
 
+## Local/Remote update
+
+```objc
+
+@implementation MyViewController
+
+- (void)viewDidLoad
+{
+	[self loadViewTemplate:@"/www/html/dribbble-index.html"];
+//	[self loadViewTemplate:@"http://localhost:8000/html/dribbble-index.html"];
+}
+
+- (void)dealloc
+{
+	[self unloadViewTemplate];
+}
+
+@end
+```
+
 ## Live reload
 
 Add lines below into your `main()` function, samurai-native will applies HTML/CSS changes to iPhoneSimulator without rebuild and run the app.
@@ -235,6 +234,6 @@ samurai-native is licensed under the MIT License.
 ## Related Projects
 
 * [gumbo](https://github.com/google/gumbo-parser): An HTML5 parsing library in pure C99
-* [katana](https://github.com/): An CSS3 parsing library in pure C99
+* [katana](https://github.com/hackers-painters/katana-parser): An CSS3 parsing library in pure C99
 * [fishhook](https://github.com/facebook/fishhook): A library that enables dynamically rebinding symbols in Mach-O binaries running on iOS.
 * [AFNetworking](https://github.com/AFNetworking/AFNetworking): A delightful iOS and OS X networking framework
