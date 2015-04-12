@@ -1,0 +1,11 @@
+/*************************
+ * Plugin
+ *************************/
+
+img, image, SDWebImageView {
+
+	/*background-color: #333;*/
+
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'SDWebImageView';
+}

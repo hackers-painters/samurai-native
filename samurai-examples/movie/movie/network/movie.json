@@ -1,0 +1,88 @@
+{
+    "title": "Rotten Tomatoes v1 API",
+    "source": "http:\/\/developer.rottentomatoes.com/docs",
+    "author": "Geek Zoo Studio",
+    "file": "Movies",
+    "model": {
+        "DATES": {
+            "theater": "2010-06-18",
+            "dvd": "2010-11-02"
+        },
+        "RATINGS": {
+            "critics_rating": "Certified Fresh",
+            "critics_score": 99,
+            "audience_rating": "Upright",
+            "audience_score": 91
+        },
+        "IMAGE": {
+            "thumbnail": "http:\/\/content6.flixster.com/movie/11/13/43/11134356_tmb.jpg",
+            "profile": "http:\/\/content6.flixster.com/movie/11/13/43/11134356_tmb.jpg",
+            "detailed": "http:\/\/content6.flixster.com/movie/11/13/43/11134356_tmb.jpg",
+            "original": "http:\/\/content6.flixster.com/movie/11/13/43/11134356_tmb.jpg"
+        },
+        "PERSON": {
+            "name": "Tom Hanks",
+            "characters": ["{string}"]
+        },
+        "LINKS": {
+            "self": "http:\/\/api.rottentomatoes.com/api/public/v1.0/movies/770672122.json",
+            "alternate": "http:\/\/www.rottentomatoes.com/m/toy_story_3/",
+            "cast": "http:\/\/api.rottentomatoes.com/api/public/v1.0/movies/770672122/cast.json",
+            "clips": "http:\/\/api.rottentomatoes.com/api/public/v1.0/movies/770672122/clips.json",
+            "reviews": "http:\/\/api.rottentomatoes.com/api/public/v1.0/movies/770672122/reviews.json",
+            "similar": "http:\/\/api.rottentomatoes.com/api/public/v1.0/movies/770672122/similar.json"
+        },
+        "IDS": {
+            "imdb": "0435761"
+        },
+        "MOVIE": {
+            "id": "770672122",
+            "title": "Toy Story 3",
+            "year": 2010,
+            "genres": ["{string}"],
+            "mpaa_rating": "G",
+            "runtime": 103,
+            "critics_consensus": "Deftly blending comedy, adventure, and honest emotion, Toy Story 3 is a rare second sequel that really works.",
+            "release_dates": "{DATES}",
+            "ratings": "{RATINGS}",
+            "synopsis": "Pixar returns to their first success with Toy Story 3. The movie begins with Andy leaving for college and donating his beloved toys -- including Woody (Tom Hanks) and Buzz (Tim Allen) -- to a daycare. While the crew meets new friends, including Ken (Michael Keaton), they soon grow to hate their new surroundings and plan an escape. The film was directed by Lee Unkrich from a script co-authored by Little Miss Sunshine scribe Michael Arndt. ~ Perry Seibert, Rovi",
+            "posters": "{IMAGE}",
+            "abridged_cast": ["{PERSON}"],
+            "abridged_directors": ["{PERSON}"],
+            "studio": "Walt Disney Pictures",
+            "alternate_ids": "{IDS}",
+            "links": "{LINKS}"
+        }
+    },
+    "controller": [{
+        "_name": "List movies",
+        "method": "GET",
+        "endpoint": "/lists/movies/opening.json",
+        "request": {
+            "apikey": "xxx",
+            "list": "animated",
+            "timeframe": "now",
+            "date": "{date}",
+            "sort": "popularity",
+            "page": 2,
+            "page_limit": 10
+        },
+        "response": {
+            "total": 1,
+            "movies": ["{MOVIE}"]
+        }
+    }, {
+        "_name": "Get a movie",
+        "method": "GET",
+        "endpoint": "movies/:id.json",
+        "request": {
+            "id": 123,
+            "apikey": "xxx"
+        },
+        "response": {
+            "message": "message",
+            "errors": ["{string}"],
+            "data": "{MOVIE}"
+        }
+    }]
+}
