@@ -161,6 +161,28 @@ handleSignal( switch_tab1 )
 @end
 ```
 
+## Easy to use API
+
+```objc
+
+@implementation MyViewController
+
+- (void)viewDidLoad
+{
+
+	[self loadViewTemplate:@"/www/html/dribbble-index.html"];
+//	[self loadViewTemplate:@"http://localhost:8000/html/dribbble-index.html"];
+
+}
+
+- (void)dealloc
+{
+	[self unloadViewTemplate];
+}
+
+@end
+```
+
 ## Extensibility
 
 SamuraiFramework is designed to be easily extended with custom native components, that means you can reuse anything you've already built, and can import and use your favorite native components.
@@ -214,4 +236,3 @@ Samurai is licensed under the MIT License.
 * [katana](https://github.com/): An CSS3 parsing library in pure C99
 * [fishhook](https://github.com/facebook/fishhook): A library that enables dynamically rebinding symbols in Mach-O binaries running on iOS.
 * [AFNetworking](https://github.com/AFNetworking/AFNetworking): A delightful iOS and OS X networking framework
-	
