@@ -3,6 +3,8 @@ Bring web standards to native platform
 
 SamuraiFramework enables you to build native apps using web technologies (HTML/CSS) based on its own Web-Core. Support iOS now, Android later.
 
+Check out demo at `samurai-examples/dribbble` and `samurai-examples/movie`.
+
 ## Native Components
 
 You can use the native components such as `UICollectionView` and `UICollectionViewCell` on iOS. This gives your app a consistent look and feel with the rest of the platform ecosystem, and keeps the quality bar high. These components are easily incorporated into your app using `<UICollectionView/>` and `<UICollectionViewCell/>` directly.
@@ -103,6 +105,13 @@ SamuraiFramework is designed to be easily extended with custom native components
 
 ```objc
 @implementation UILabel(Html)
+
+- (void)html_applyDom:(SamuraiHtmlDomNode *)dom
+{
+	[super html_applyDom:dom];
+
+	[self unserialize:[dom computeInnerText]];
+}
 
 - (void)html_applyStyle:(SamuraiHtmlRenderStyle *)style
 {
