@@ -181,7 +181,7 @@ handleSignal( switch_tab1 )
 @end
 ```
 
-## Data binding
+## Data Binding
 
 samurai-native provide a efficient way to binding native objects to HTML page through `name` property.
 
