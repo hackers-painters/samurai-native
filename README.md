@@ -152,6 +152,11 @@ We brought the css layout model from the web to samurai-native, css layout makes
 	[self unloadViewTemplate];
 }
 
+- (void)onTemplateLoading {}
+- (void)onTemplateLoaded {}
+- (void)onTemplateFailed {}
+- (void)onTemplateCancelled {}
+
 @end
 ```
 
