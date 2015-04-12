@@ -188,7 +188,7 @@ SamuraiFramework is designed to be easily extended with custom native components
 {
 	[super html_applyDom:dom];
 
-	[self unserialize:[dom computeInnerText]];
+	self.text = [dom computeInnerText];
 }
 
 - (void)html_applyStyle:(SamuraiHtmlRenderStyle *)style
