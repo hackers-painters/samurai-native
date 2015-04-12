@@ -1,7 +1,8 @@
 Bring web standards to native platform
 ======================================
 
-samurai-native enables you to build smooth user experience native apps using web technologies (HTML/CSS) based on its own Web-Core. Support iOS now, Android later.
+samurai-native enables you to build native apps using web technologies (HTML/CSS) based on its own Web-Core.<br/>
+Support iOS now, Android later.
 
 Check out demo at `samurai-examples/dribbble` and `samurai-examples/movie`.
 
