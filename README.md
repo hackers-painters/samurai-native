@@ -135,6 +135,26 @@ We brought the css layout model from the web to samurai-native, css layout makes
 </html>
 ```
 
+## Easy to Integration
+
+```objc
+
+@implementation MyViewController
+
+- (void)viewDidLoad
+{
+	[self loadViewTemplate:@"/www/html/dribbble-index.html"];
+//	[self loadViewTemplate:@"http://localhost:8000/html/dribbble-index.html"];
+}
+
+- (void)dealloc
+{
+	[self unloadViewTemplate];
+}
+
+@end
+```
+
 ## Signal Handling
 
 samurai-native provide a high level event system called `Signal`, you can interact with HTML page through signal system.
@@ -183,26 +203,6 @@ samurai-native is designed to be easily extended with custom native components, 
 	self.numberOfLines = 0;
 	
 	...
-}
-
-@end
-```
-
-## Local/Remote update
-
-```objc
-
-@implementation MyViewController
-
-- (void)viewDidLoad
-{
-	[self loadViewTemplate:@"/www/html/dribbble-index.html"];
-//	[self loadViewTemplate:@"http://localhost:8000/html/dribbble-index.html"];
-}
-
-- (void)dealloc
-{
-	[self unloadViewTemplate];
 }
 
 @end
