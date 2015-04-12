@@ -1,5 +1,5 @@
-Samurai: Bring web standards to native platform
-===============================================
+Bring web standards to native platform
+======================================
 
 SamuraiFramework enables you to build native apps using web technologies (HTML/CSS) based on its own Web-Core. Support iOS now, Android later.
 
