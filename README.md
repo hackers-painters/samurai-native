@@ -1,5 +1,5 @@
-Bring web standards to native platform
-======================================
+Samurai: Bring web standards to native platform
+===============================================
 
 SamuraiFramework enables you to build native apps using web technologies (HTML/CSS) based on its own Web-Core. Support iOS now, Android later.
 
@@ -54,9 +54,9 @@ You can use the standard HTML tags such as `div` and `img` on iOS. This gives yo
 </html>
 ```
 
-## CSS Fluid layout 
+## CSS Fluid layout	
 
-CSS layout makes it simple to build the most common UI layouts, such as stacked and nested boxes with margin and padding. SamuraiFramework also supports common web styles, such as `font-weight` and `border-radius`, and you can extend your style in `SamuraiHtmlRenderStyle` class.
+We brought the css layout model from the web to SamuraiFramework, css layout makes it simple to build the most common UI layouts, such as stacked and nested boxes with margin and padding. SamuraiFramework also supports common web styles, such as `font-weight` and `border-radius`, and you can extend your style in `SamuraiHtmlRenderStyle` class.
 
 ```html
 <html>
