@@ -7,110 +7,92 @@ SamuraiFramework enables you to build native apps using web technologies (HTML/C
 
 You can use the native components such as `UICollectionView` and `UICollectionViewCell` on iOS. This gives your app a consistent look and feel with the rest of the platform ecosystem, and keeps the quality bar high. These components are easily incorporated into your app using `<UICollectionView/>` and `<UICollectionViewCell/>` directly.
 
-```
-<body>
+```html
+<html>
+	<body>
+		
+		<UICollectionView class="list" is-vertical>
+			<UICollectionViewCell is-static is-row>
+				...
+			</UICollectionViewCell>
+		</UICollectionView>
 
-	...
-	
-	<UICollectionView class="list" is-vertical>
-		<UICollectionViewCell is-static is-row>
-			...
-		</UICollectionViewCell>
-	</UICollectionView>
-
-	...
-	
-</body>
+	</body>
+</html>
 ```
 
 ## HTML Components
 
 You can use the standard HTML tags such as `div` and `img` on iOS. This gives you ability to define your user interface using a hybrid way.
 
-```
-<body>
+```html
+<html>
+	<body>
 
-	...
-	
-	<UICollectionViewCell name="profile" is-static is-row>
-		<div class="profile-wrapper">
-			<div class="profile-attribution">
-				<div class="profile-segment no-wrap">
-					<div class="segment-wrapper">
-						<!-- <img class="segment-icon" src="icon-views.png"/> -->
-						<span class="segment-count" name="followers">10,875</span>
-						<span class="segment-suffix">Followers</span>
+		<UICollectionViewCell is-static is-row>
+			<div class="profile-wrapper">
+				<div class="profile-attribution">
+					<div class="profile-segment no-wrap">
+						<div class="segment-wrapper">
+							<span class="segment-count">10,875</span>
+							<span class="segment-suffix">Followers</span>
+						</div>
 					</div>
-				</div>
-				<div class="profile-segment no-wrap">
-					<div class="segment-wrapper">
-						<!-- <img class="segment-icon" src="icon-views.png"/> -->
-						<span class="segment-count" name="followings">199</span>
-						<span class="segment-suffix">Followers</span>
+					<div class="profile-segment no-wrap">
+						<div class="segment-wrapper">
+							<span class="segment-count">199</span>
+							<span class="segment-suffix">Followers</span>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</UICollectionViewCell>
+		</UICollectionViewCell>
 
-	...
-	
-</body>
+	</body>
+</html>
 ```
-
-
 
 ## CSS Fluid layout 
 
 CSS layout makes it simple to build the most common UI layouts, such as stacked and nested boxes with margin and padding. SamuraiFramework also supports common web styles, such as `font-weight` and `border-radius`, and you can extend your style in `SamuraiHtmlRenderStyle` class.
 
-```
+```html
 <html>
+<body>
+
+	<div class="tab-bar">
+		<div class="tab">Popular</div>
+		<div class="tab">Debuts</div>
+		<div class="tab">Everyone</div>
+	</div>
 	
-	<head>
-		<link rel="stylesheet" type="text/css" href="../css/normalize.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/main.css"/>
-	</head>
+</body>
+<style>
 
-	<body class="wrapper">
-		<div class="tab-bar">
-			<div class="tab">Popular</div>
-			<div class="tab">Debuts</div>
-			<div class="tab">Everyone</div>
-		</div>
-	</body>
+	.tab-bar {
+		display: block;
+		width: 100%;
+		height: 34px;
+		background-color: #e5508c;
+		/* box-shadow: 0px 0.5px 0.5px black; */
+		z-index: 2;
+	}
 
-	<style>
-		
-		.wrapper {
-			background-color: #e5508c;
-		}
-
-		.tab-bar {
-			display: block;
-			width: 100%;
-			height: 34px;
-			background-color: #e5508c;
-			/* box-shadow: 0px 0.5px 0.5px black; */
-			z-index: 2;
-		}
-
-		.tab {
-			float: left;
-			display: block;
-			width: 33.33%;
-			height: 34px;
-			font-size: 14px;
-			line-height: 34px;
-			color: #fff 0.75;
-			text-align: center;
-			font-weight: normal;
-		}
-		
-		...
-		
-	</style>
-
+	.tab {
+		float: left;
+		display: block;
+		width: 33.33%;
+		height: 34px;
+		font-size: 14px;
+		line-height: 34px;
+		color: #fff 0.75;
+		text-align: center;
+		font-weight: normal;
+	}
+	
+	...
+	
+</style>
 </html>
 
 ```
@@ -119,16 +101,8 @@ CSS layout makes it simple to build the most common UI layouts, such as stacked 
 
 SamuraiFramework is designed to be easily extended with custom native components, that means you can reuse anything you've already built, and can import and use your favorite native components.
 
-####Step 1
-```
+```objc
 @implementation UILabel(Html)
-
-- (void)html_applyDom:(SamuraiHtmlDomNode *)dom
-{
-	[super html_applyDom:dom];
-
-	[self unserialize:[dom computeInnerText]];
-}
 
 - (void)html_applyStyle:(SamuraiHtmlRenderStyle *)style
 {
@@ -145,19 +119,6 @@ SamuraiFramework is designed to be easily extended with custom native components
 }
 
 @end
-```
-
-####Step 2
-```
-<body class="wrapper">
-	
-	...
-	
-	<UILabel/>
-	
-	...
-	
-</body>
 ```
 
 ## Running the Examples
