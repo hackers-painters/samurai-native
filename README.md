@@ -183,7 +183,7 @@ handleSignal( switch_tab1 )
 
 ## Data Binding
 
-samurai-native provide a efficient way to binding native objects to HTML page through `name` property.
+samurai-native provide a efficient way to binding native objects to HTML page in single way through DOM's `name` property.
 
 ```html
 <html>
