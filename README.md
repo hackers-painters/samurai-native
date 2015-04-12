@@ -134,6 +134,27 @@ We brought the css layout model from the web to SamuraiFramework, css layout mak
 </html>
 ```
 
+## Easy to use API
+
+```objc
+
+@implementation MyViewController
+
+- (void)viewDidLoad
+{
+	[self loadViewTemplate:@"/www/html/dribbble-index.html"];
+//	[self loadViewTemplate:@"http://localhost:8000/html/dribbble-index.html"];
+
+}
+
+- (void)dealloc
+{
+	[self unloadViewTemplate];
+}
+
+@end
+```
+
 ## Signal Handling
 
 SamuraiFramework provide a high level event system called `Signal`, you can interact with HTML page through signal system.
@@ -156,28 +177,6 @@ SamuraiFramework provide a high level event system called `Signal`, you can inte
 handleSignal( switch_tab1 )
 {
 	[self something];
-}
-
-@end
-```
-
-## Easy to use API
-
-```objc
-
-@implementation MyViewController
-
-- (void)viewDidLoad
-{
-
-	[self loadViewTemplate:@"/www/html/dribbble-index.html"];
-//	[self loadViewTemplate:@"http://localhost:8000/html/dribbble-index.html"];
-
-}
-
-- (void)dealloc
-{
-	[self unloadViewTemplate];
 }
 
 @end
