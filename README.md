@@ -181,6 +181,49 @@ handleSignal( switch_tab1 )
 @end
 ```
 
+## Data binding
+
+samurai-native provide a efficient way to binding native objects to HTML page through `name` property.
+
+```html
+<html>
+	<body>
+	
+		...		
+	
+		<div name="author">
+			<img name="avatar"/>
+			<div>
+				<div name="title"/>
+				<div>by <span name="name"/></div>
+			</div>
+		</div>
+		
+		...
+		
+	</body>
+</html>
+```
+
+```objc
+
+@implementation MyViewController
+
+...
+
+- (void)reloadData
+{
+	self[@"author"] = @{			  
+		@"avatar" : "xxx.jpg",
+		@"title"  : @"Hello",
+		@"name"   : @"World"
+	};
+}
+
+@end
+
+```
+
 ## Extensibility
 
 samurai-native is designed to be easily extended with custom native components, that means you can reuse anything you've already built, and can import and use your favorite native components.
