@@ -215,7 +215,6 @@ Add lines below into your `main()` function, samurai-native will applies HTML/CS
 
 ```objc
 [[SamuraiWatcher sharedInstance] watch:@(__FILE__)];
-}
 ```
 
 ## Running the Examples
