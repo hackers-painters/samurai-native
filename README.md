@@ -160,15 +160,9 @@ We brought the css layout model from the web to SamuraiFramework, css layout mak
 SamuraiFramework provide a high level event system called `Signal`, you can interact with HTML page through signal system.
 
 ```html
-<html>
-
-	<body>
-
-		<div onclick="signal('switch-tab1')">Popular</div>
-		
-	</body>
-	
-</html>
+<div onclick="signal('switch-tab1')">
+	Popular
+</div>
 ```
 
 ```objc
