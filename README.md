@@ -161,18 +161,31 @@ We brought the css layout model from the web to samurai-native, css layout makes
 
 ## Signal Handling
 
-samurai-native provide a high level event system called `Signal`, you can interact with HTML page through signal system.
+samurai-native provide a high level event system called `Signal`, you can interact (gesture) with HTML page through signal system.
 
 ```html
-<div onclick="signal('switch-tab1')">
-	Popular
+<div onclick="signal('hello')">
+	Click here
+</div>
+<div onswipe-left="signal('next')" onswipe-right="signal('prev')">
+	Swipe left or right
 </div>
 ```
 
 ```objc
 @implementation MyViewController
 
-handleSignal( switch_tab1 )
+handleSignal( hello )
+{
+	[self something];
+}
+
+handleSignal( prev )
+{
+	[self something];
+}
+
+handleSignal( next )
 {
 	[self something];
 }
