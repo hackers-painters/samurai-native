@@ -94,15 +94,15 @@
 	fprintf( stderr, "  - version: %s\n", systemInfo.version );
 	fprintf( stderr, "  - machine: %s\n", systemInfo.machine );
 	fprintf( stderr, "                                                                                   \n" );
-	fprintf( stderr, "  +------------------------------------------------------------------+             \n" );
-	fprintf( stderr, "  |                                                                  |             \n" );
-	fprintf( stderr, "  |  1. Have a bug or a feature request?                             |             \n" );
-	fprintf( stderr, "  |     https://www.github.com/gavinkwoe/samurai/issues              |             \n" );
-	fprintf( stderr, "  |                                                                  |             \n" );
-	fprintf( stderr, "  |  2. Download lastest version?                                    |             \n" );
-	fprintf( stderr, "  |     https://www.github.com/gavinkwoe/samurai/archive/master.zip  |             \n" );
-	fprintf( stderr, "  |                                                                  |             \n" );
-	fprintf( stderr, "  +------------------------------------------------------------------+             \n" );
+	fprintf( stderr, "  +----------------------------------------------------------------------------+   \n" );
+	fprintf( stderr, "  |                                                                            |   \n" );
+	fprintf( stderr, "  |  1. Have a bug or a feature request?                                       |   \n" );
+	fprintf( stderr, "  |     https://github.com/hackers-painters/samurai-native/issues              |   \n" );
+	fprintf( stderr, "  |                                                                            |   \n" );
+	fprintf( stderr, "  |  2. Download lastest version?                                              |   \n" );
+	fprintf( stderr, "  |     https://github.com/hackers-painters/samurai-native/archive/master.zip  |   \n" );
+	fprintf( stderr, "  |                                                                            |   \n" );
+	fprintf( stderr, "  +----------------------------------------------------------------------------+   \n" );
 	fprintf( stderr, "                                                                                   \n" );
 	fprintf( stderr, "                                                                                   \n" );
 	
