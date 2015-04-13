@@ -7,7 +7,7 @@
 //
 
 #import "Samurai.h"
-#import "dribbble.h"
+#import "Dribbble.h"
 
 #pragma mark -
 

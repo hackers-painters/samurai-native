@@ -16,111 +16,111 @@
         <link rel="stylesheet" type="text/css" href="../css/normalize.css"/>
         <link rel="stylesheet" type="text/css" href="../css/main.css"/>
         <link rel="stylesheet" type="text/css" href="SDWebImageView.css"/>
-
+        
     </head>
     
     <body class="wrapper fill">
-
+        
         <RefreshCollectionView id="list" name="list" class="list" columns="1" is-vertical>
             
             <MovieListCell name="movies" class="list-item row" is-row>
-				<div class="item-wrapper" onclick="signal('view-cover')">
-					<!-- <div class="line"></div> -->
-					<img class="cover" name="cover"/>
-					<div class="info">
-						<label class="title" name="title">Movie Title</label>
-						<div class="misc">
-							<label class="text" data="year">2015</label>
-							<label class="sep">•</label>
-							<label class="text" id="critics-label" name="critics">Critics</label>
-						</div>
-					</div>
-				</div>
+                <div class="item-wrapper" onclick="signal('view-cover')">
+                    <!-- <div class="line"></div> -->
+                    <img class="cover" name="cover"/>
+                    <div class="info">
+                        <label class="title" name="title">Movie Title</label>
+                        <div class="misc">
+                            <label class="text" data="year">2015</label>
+                            <label class="sep">•</label>
+                            <label class="text" id="critics-label" name="critics">Critics</label>
+                        </div>
+                    </div>
+                </div>
             </MovieListCell>
-
+            
         </RefreshCollectionView>
         
         <style>
-			
+            
             .wrapper {
                 width: 100%;
                 height: 100%;
             }
-
-            .list {
-                display: block;
-                width: 100%;
-                height: 100%;
-                z-index: 1;
-            }
-            
-            .list-item {
-                width: 100%;
-                height: 100px;
-                background-color: #369;
-            }
-            
-            .line {
-                display: block;
-                width: 100%;
-                height: 1px;
-                background-color: red;
-                position: absolute;
-            }
-		
-			.item-wrapper {
-				display: block;
-				width: 100%;
-				height: auto;
-			}
-
-            .cover {
-				display: inline-block;
-                height: 80px;
-                width: 54px;
-                content-mode: fill;
-                background-color: #eee;
-                margin-left: 10px;
-                margin-top: 10px
-            }
-            
-            .info {
-				display: inline-block;
-                width: 100px;
-                height: 30px;
-                margin-left: 10px;
-                margin-top: 30px;
-                inset-bottom: 2px;
-            }
         
-			.title {
-				display: block;
-				width: 100%;
-				height: 20px;
-			}
-		
-			.misc {
-				display: block;
-				width: 100%;
-				height: 20px;
-			}
-		
-			.text {
-				display: inline-block;
-				width: auto;
-				height: 100%;
-			}
-		
-			.sep {
-				display: inline-block;
-				width: auto;
-				height: 100%;
-				margin-left: 3px;
-				margin-right: 3px;
-			}
-
-		</style>
-
+        .list {
+            display: block;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .list-item {
+            width: 100%;
+            height: 100px;
+            background-color: #369;
+        }
+        
+        .line {
+            display: block;
+            width: 100%;
+            height: 1px;
+            background-color: red;
+            position: absolute;
+        }
+        
+        .item-wrapper {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        
+        .cover {
+            display: inline-block;
+            height: 80px;
+            width: 54px;
+            content-mode: fill;
+            background-color: #eee;
+            margin-left: 10px;
+            margin-top: 10px
+        }
+        
+        .info {
+            display: inline-block;
+            width: 100px;
+            height: 30px;
+            margin-left: 10px;
+            margin-top: 30px;
+            inset-bottom: 2px;
+        }
+        
+        .title {
+            display: block;
+            width: 100%;
+            height: 20px;
+        }
+        
+        .misc {
+            display: block;
+            width: 100%;
+            height: 20px;
+        }
+        
+        .text {
+            display: inline-block;
+            width: auto;
+            height: 100%;
+        }
+        
+        .sep {
+            display: inline-block;
+            width: auto;
+            height: 100%;
+            margin-left: 3px;
+            margin-right: 3px;
+        }
+        
+            </style>
+        
         
     </body>
     

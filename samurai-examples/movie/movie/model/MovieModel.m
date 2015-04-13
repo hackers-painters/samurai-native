@@ -7,6 +7,7 @@
 //
 
 #import "MovieModel.h"
+#import "Movies.h"
 
 @implementation MovieModel
 

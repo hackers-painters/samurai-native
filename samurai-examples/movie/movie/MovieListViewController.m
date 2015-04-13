@@ -10,6 +10,7 @@
 #import "RefreshCollectionView.h"
 #import "MovieViewController.h"
 #import "Samurai.h"
+#import "Model.h"
 
 @interface MovieListViewController ()
 @property (nonatomic, strong) RefreshCollectionView * list;

@@ -7,7 +7,8 @@
 //
 
 #import "Samurai_ModelInstance.h"
-#import "Movies.h"
+
+@class MOVIE;
 
 @interface MovieModel : SamuraiModel
 

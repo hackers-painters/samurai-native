@@ -22,7 +22,7 @@
     <body class="wrapper fill">
         <UICollectionView id="list" name="list" class="list" columns="1" is-vertical>
             
-            <UICollectionViewCell name="movie" is-static is-row>
+            <MovieCell name="movie" is-static is-row>
                 <div class="movie-cell">
                     <div class="movie-header">
                         <img class="movie-cover" name="cover"/>
@@ -34,11 +34,11 @@
                             </div>
                             <div class="item">
                                 <label class="text-bold">Critics</label>
-                                <label class="text-large" name="critics">0</label>
+                                <label class="text-large" name="critics" id="critics-label">0</label>
                             </div>
                             <div class="item">
                                 <label class="text-bold">Audience</label>
-                                <label class="text-large" name="audience">0</label>
+                                <label class="text-large" name="audience" id="audience-label">0</label>
                             </div>
                         </div>
                     </div>
@@ -47,15 +47,22 @@
                     <!--                <div class="line"></div>-->
                     <span class="actor-title text-bold">Actors</span>
                 </div>
-            </UICollectionViewCell>
+            </MovieCell>
             <UICollectionViewCell name="actors" class="actor" is-row>
                 <p class="actor-indictor">🎩</p><p name="actor-name" class="actor-name">Actor name</p>
             </UICollectionViewCell>
         </UICollectionView>
         
         <style>
+            
             label {
                 color: black;
+            }
+
+            MovieCell {
+                width: 100%;
+                height: auto;
+                -samurai-render-model: 'container';
             }
         
             .wrapper {
@@ -97,7 +104,7 @@
             
             .movie-info {
                 display: inline-block;
-                width: 100px;
+                width: 200px;
                 height: 120px;
                 margin-left: 10px;
                 margin-top: 10px;
@@ -132,9 +139,9 @@
              * Actor
              **/
         
-        .actor-title {
-            margin-left: 10px;
-        }
+            .actor-title {
+                margin-left: 10px;
+            }
             
             .actor-cell {
                 width: 100%;

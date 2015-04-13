@@ -28,7 +28,13 @@
 //	THE SOFTWARE.
 //
 
-#define __SAMURAI_DEBUG__		(__ON__)	/// 是否开启调试模式
-#define __SAMURAI_LOGGING__		(__OFF__)	/// 是否开启日志记录
-#define __SAMURAI_TESTING__		(__OFF__)	/// 是否开启单元测试
-#define __SAMURAI_SERVICE__		(__ON__)	/// 是否开启后台服务
+#import "STIHTTPNetwork.h"
+#import "NSObject+AutoCoding.h"
+
+@interface DribbbleClient : STIHTTPSessionManager
++ (instancetype)authClient;
++ (instancetype)sharedClient;
+@end
+
+@interface NSObject (APIExtension) <AutoModelCoding>
+@end

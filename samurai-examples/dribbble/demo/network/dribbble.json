@@ -1,0 +1,194 @@
+{
+  "title"  : "Dribbble v1 API",
+  "author" : "Geek Zoo Studio",
+  "file" : "Dribbble",
+  "model": {
+    "LINKS": {
+        "web": "http:\/\/dribbble.com",
+        "twitter": "https:\/\/twitter.com/dribbble"
+    },
+    "SHOT": {
+      "id" : 471756,
+      "title" : "Sasquatch",
+      "description" : "Quick, messy, five minute",
+      "width" : 400,
+      "height" : 300,
+      "images" : "{IMAGE}",
+      "views_count" : 4372,
+      "likes_count" : 149,
+      "comments_count" : 27,
+      "attachments_count" : 0,
+      "rebounds_count" : 2,
+      "buckets_count" : 8,
+      "created_at" : "{date}",
+      "updated_at" : "{date}",
+      "html_url" : "https:\/\/dribbble.com/shots/471756-Sasquatch",
+      "attachments_url" : "https:\/\/api.dribbble.com/v1/shots/471756/attachments",
+      "buckets_url" : "https:\/\/api.dribbble.com/v1/shots/471756/buckets",
+      "comments_url" : "https:\/\/api.dribbble.com/v1/shots/471756/comments",
+      "likes_url" : "https:\/\/api.dribbble.com/v1/shots/471756/likes",
+      "projects_url" : "https:\/\/api.dribbble.com/v1/shots/471756/projects",
+      "rebounds_url" : "https:\/\/api.dribbble.com/v1/shots/471756/rebounds",
+      "tags" : ["{string}"],
+      "user" : "{USER}",
+      "team" : "{TEAM}"
+    },
+    "USER": {
+      "id": 1,
+      "name": "Dan Cederholm",
+      "username": "simplebits",
+      "html_url": "https:\/\/dribbble.com/simplebits",
+      "avatar_url": "https:\/\/d13yacurqjgara.cloudfront.net/users/1/avatars/normal/dc.jpg?1371679243",
+      "bio": "Co-founder &amp; designer of <a href=\"https:\/\/dribbble.com/dribbble\">@Dribbble</a>. Principal of SimpleBits. Aspiring clawhammer banjoist.",
+      "location": "Salem, MA",
+      "links": "{LINKS}",
+      "buckets_count": 10,
+      "comments_received_count": 3395,
+      "followers_count": 29262,
+      "followings_count": 1728,
+      "likes_count": 34954,
+      "likes_received_count": 27568,
+      "projects_count": 8,
+      "rebounds_received_count": 504,
+      "shots_count": 214,
+      "teams_count": 1,
+      "can_upload_shot": true,
+      "type": "Player",
+      "pro": true,
+      "buckets_url": "https:\/\/dribbble.com/v1/users/1/buckets",
+      "followers_url": "https:\/\/dribbble.com/v1/users/1/followers",
+      "following_url": "https:\/\/dribbble.com/v1/users/1/following",
+      "likes_url": "https:\/\/dribbble.com/v1/users/1/likes",
+      "shots_url": "https:\/\/dribbble.com/v1/users/1/shots",
+      "teams_url": "https:\/\/dribbble.com/v1/users/1/teams",
+      "created_at": "{date}",
+      "updated_at": "{date}"
+    },
+    "TEAM": {
+      "id": 39,
+      "name": "Dribbble",
+      "username": "dribbble",
+      "html_url": "https:\/\/dribbble.com/dribbble",
+      "avatar_url": "https:\/\/d13yacurqjgara.cloudfront.net/users/39/avatars/normal/apple-flat-precomposed.png?1388527574",
+      "bio": "Show and tell for designers. This is Dribbble on Dribbble.",
+      "location": "Salem, MA",
+      "links": "{LINKS}",
+      "buckets_count": 1,
+      "comments_received_count": 2037,
+      "followers_count": 25011,
+      "followings_count": 6120,
+      "likes_count": 44,
+      "likes_received_count": 15811,
+      "members_count": 7,
+      "projects_count": 4,
+      "rebounds_received_count": 416,
+      "shots_count": 91,
+      "can_upload_shot": true,
+      "type": "Team",
+      "pro": false,
+      "buckets_url": "https:\/\/dribbble.com/v1/users/39/buckets",
+      "followers_url": "https:\/\/dribbble.com/v1/users/39/followers",
+      "following_url": "https:\/\/dribbble.com/v1/users/39/following",
+      "likes_url": "https:\/\/dribbble.com/v1/users/39/likes",
+      "members_url": "https:\/\/dribbble.com/v1/teams/39/members",
+      "shots_url": "https:\/\/dribbble.com/v1/users/39/shots",
+      "team_shots_url": "https:\/\/dribbble.com/v1/users/39/teams",
+      "created_at": "{date}",
+      "updated_at": "{date}"
+    },
+    "IMAGE": {
+      "hidpi": "hidpi",
+      "normal": "https:\/\/d13yacurqjgara.cloudfront.net/users/1/screenshots/471756/sasquatch.png",
+      "teaser": "https:\/\/d13yacurqjgara.cloudfront.net/users/1/screenshots/471756/sasquatch_teaser.png"
+    },
+    "COMMENT": {
+      "id" : 1145736,
+      "body" : "Could he somehow make the shape of an \"S\" with his arms? I feel like i see potential for some hidden shapes",
+      "likes_count" : 1,
+      "likes_url" : "https:\/\/api.dribbble.com/v1/shots/471756/comments/1145736/likes",
+      "created_at" : "{date}",
+      "updated_at" : "{date}",
+      "user" : "{USER}"
+    }
+  },
+  "controller" :
+  [
+    {
+      "_name":"List shots",
+      "method": "GET",
+      "endpoint": "/shots",
+      "request": {
+        "list": "animated",
+        "timeframe": "now",
+        "date": "{date}",
+        "sort": "popularity",
+        "page": 2,
+        "per_page": 100
+      },
+      "response": {
+        "message":"message",
+        "errors": ["{string}"],
+        "data": ["{SHOT}"]
+      }
+    },
+    {
+      "_name":"Get a shot",
+      "method": "GET",
+      "endpoint": "/shots/:id",
+      "request": {
+        "id": 123
+      },
+      "response": {
+        "message":"message",
+        "errors": ["{string}"],
+        "data": "{SHOT}"
+      }
+    },
+    {
+      "_name":"List comments for a shot",
+      "_desc":"List comments for a shot",
+      "method": "GET",
+      "endpoint": "/shots/:shot/comments",
+      "request": {
+        "shot": 123,
+        "page": 2,
+        "per_page": 100
+      },
+      "response": {
+        "message":"message",
+        "errors": ["{string}"],
+        "data": ["{COMMENT}"]
+      }
+    },
+    {
+      "_name":"Get a single user",
+      "_desc":"Get a single user",
+      "method": "GET",
+      "endpoint": "/users/:user",
+      "request": {
+        "user": 123
+      },
+      "response": {
+        "message":"message",
+        "errors": ["{string}"],
+        "data": "{USER}"
+      }
+    },
+    {
+      "_name":"List shots for a user",
+      "_desc":"List shots for a user",
+      "method": "GET",
+      "endpoint": "/users/:user/shots",
+      "request": {
+        "user": 123,
+        "page": 2,
+        "per_page": 100
+      },
+      "response": {
+        "message":"message",
+        "errors": ["{string}"],
+        "data": ["{SHOT}"]
+      }
+    }
+  ]
+}
