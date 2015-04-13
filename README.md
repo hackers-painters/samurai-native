@@ -5,6 +5,8 @@ samurai-native enables you to build native apps using web technologies (HTML/CSS
 
 Check out demo at `samurai-examples/dribbble` and `samurai-examples/movie`.
 
+![gif](https://raw.githubusercontent.com/hackers-painters/samurai-native/master/samurai-native.gif)
+
 ## Native Components
 
 You can use the native components such as `UICollectionView` and `UICollectionViewCell` on iOS. This gives your app a consistent look and feel with the rest of the platform ecosystem, and keeps the quality bar high. These components are easily incorporated into your app using `<UICollectionView/>` and `<UICollectionViewCell/>` directly.
