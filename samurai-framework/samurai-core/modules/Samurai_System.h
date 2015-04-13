@@ -45,12 +45,14 @@ typedef enum
 
 #pragma mark -
 
+#define IOS9_OR_LATER		[[SamuraiSystem sharedInstance] isOsVersionOrLater:@"9.0"]
 #define IOS8_OR_LATER		[[SamuraiSystem sharedInstance] isOsVersionOrLater:@"8.0"]
 #define IOS7_OR_LATER		[[SamuraiSystem sharedInstance] isOsVersionOrLater:@"7.0"]
 #define IOS6_OR_LATER		[[SamuraiSystem sharedInstance] isOsVersionOrLater:@"6.0"]
 #define IOS5_OR_LATER		[[SamuraiSystem sharedInstance] isOsVersionOrLater:@"5.0"]
 #define IOS4_OR_LATER		[[SamuraiSystem sharedInstance] isOsVersionOrLater:@"4.0"]
 
+#define IOS9_OR_EARLIER		[[SamuraiSystem sharedInstance] isOsVersionOrEarlier:@"9.0"]
 #define IOS8_OR_EARLIER		[[SamuraiSystem sharedInstance] isOsVersionOrEarlier:@"8.0"]
 #define IOS7_OR_EARLIER		[[SamuraiSystem sharedInstance] isOsVersionOrEarlier:@"7.0"]
 #define IOS6_OR_EARLIER		[[SamuraiSystem sharedInstance] isOsVersionOrEarlier:@"6.0"]
@@ -78,12 +80,15 @@ typedef enum
 @prop_readonly( BOOL,				requiresPhoneOS );
 
 @prop_readonly( BOOL,				isScreenPhone );
-@prop_readonly( BOOL,				isScreen320x480 );
-@prop_readonly( BOOL,				isScreen640x960 );
-@prop_readonly( BOOL,				isScreen640x1136 );
+@prop_readonly( BOOL,				isScreen320x480 );      // history
+@prop_readonly( BOOL,				isScreen640x960 );      // ip4s
+@prop_readonly( BOOL,				isScreen640x1136 );     // ip5, ip5s, ip6 Zoom mode
+@prop_readonly( BOOL,				isScreen750x1334 );     // ip6
+@prop_readonly( BOOL,				isScreen1242x2208 );    // ip6p
+@prop_readonly( BOOL,				isScreen1125x2001 );    // ip6p Zoom mode
 
 @prop_readonly( BOOL,				isScreenPad );
-@prop_readonly( BOOL,				isScreen768x1024 );
+@prop_readonly( BOOL,				isScreen768x1024 );     // only ipad1, ipad2, ipad mini1
 @prop_readonly( BOOL,				isScreen1536x2048 );
 
 @prop_readonly( CGSize,				screenSize );
