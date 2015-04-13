@@ -285,7 +285,7 @@
 
 - (BOOL)isScreenPhone
 {
-	if ( [self isScreen320x480] || [self isScreen640x960] || [self isScreen640x1136] )
+	if ( [self isScreen320x480] || [self isScreen640x960] || [self isScreen640x1136] || [self isScreen750x1334] || [self isScreen1242x2208] || [self isScreen1125x2001] )
 	{
 		return YES;
 	}
@@ -355,6 +355,60 @@
 #endif
 	
 	return NO;
+}
+
+- (BOOL)isScreen750x1334
+{
+#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
+    
+    if ( [self runningOnPad] )
+    {
+        return NO;
+    }
+    else
+    {
+        return [self isScreenSizeEqualTo:CGSizeMake(750, 1334)];
+    }
+    
+#endif
+    
+    return NO;
+}
+
+- (BOOL)isScreen1242x2208
+{
+#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
+    
+    if ( [self runningOnPad] )
+    {
+        return NO;
+    }
+    else
+    {
+        return [self isScreenSizeEqualTo:CGSizeMake(1242, 2208)];
+    }
+    
+#endif
+    
+    return NO;
+}
+
+- (BOOL)isScreen1125x2001
+{
+#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
+    
+    if ( [self runningOnPad] )
+    {
+        return NO;
+    }
+    else
+    {
+        return [self isScreenSizeEqualTo:CGSizeMake(1125, 2001)];
+    }
+    
+#endif
+    
+    return NO;
 }
 
 - (BOOL)isScreenPad
