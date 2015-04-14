@@ -309,7 +309,7 @@ static void __NSLog( NSString * format, ... )
 
 				if ( LogLevel_Error == level )
 				{
-					fprintf( stderr, "    %s(#%d) %s\n", [[file lastPathComponent] UTF8String], line, [func UTF8String] );
+					fprintf( stderr, "    %s(#%lu) %s\n", [[file lastPathComponent] UTF8String], (unsigned long)line, [func UTF8String] );
 					
 					void *	stacks[MAX_CALLSTACK + 1];
 					

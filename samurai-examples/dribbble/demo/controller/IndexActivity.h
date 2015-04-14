@@ -28,7 +28,14 @@
 //	THE SOFTWARE.
 //
 
-#import "UIScrollView+INSPullToRefresh.h"
-#import "RefreshCollectionView.h"
-#import "RefreshTableView.h"
-#import "SDWebImageView.h"
+#import "model.h"
+
+#pragma mark -
+
+@interface IndexActivity : SamuraiActivity
+
+@model( PopularShotListModel *,		model1 );
+@model( DebutsShotListModel *,		model2 );
+@model( EveryoneShotListModel *,	model3 );
+
+@end

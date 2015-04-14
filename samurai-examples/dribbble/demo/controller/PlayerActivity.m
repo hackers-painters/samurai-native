@@ -29,6 +29,7 @@
 //
 
 #import "PlayerActivity.h"
+#import "RefreshCollectionView.h"
 
 #pragma mark -
 

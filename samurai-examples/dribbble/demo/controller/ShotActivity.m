@@ -30,6 +30,8 @@
 
 #import "ShotActivity.h"
 
+#import "RefreshCollectionView.h"
+
 #pragma mark -
 
 @implementation ShotActivity

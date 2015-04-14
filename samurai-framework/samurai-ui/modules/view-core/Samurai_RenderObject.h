@@ -38,7 +38,10 @@
 #pragma mark -
 
 #undef	INVALID_VALUE
-#define	INVALID_VALUE	(HUGE_VALF)
+#define	INVALID_VALUE			(HUGE_VALF)
+
+#undef	NORMALIZE_VALUE
+#define NORMALIZE_VALUE( __x )	((__x == INVALID_VALUE) ? 0.0f : __x)
 
 #pragma mark -
 

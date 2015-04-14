@@ -55,7 +55,7 @@
 // border:5px solid red
 
 	SamuraiHtmlObject * borderWidth = style.borderWidth ?: [style.border objectAtIndex:0];
-	SamuraiHtmlObject * borderStyle = style.borderStyle ?: [style.border objectAtIndex:1];
+//	SamuraiHtmlObject * borderStyle = style.borderStyle ?: [style.border objectAtIndex:1];
 	SamuraiHtmlObject * borderColor = style.borderColor ?: [style.border objectAtIndex:2];
 	SamuraiHtmlObject * borderRadius = style.borderRadius;
 
@@ -119,9 +119,9 @@
 
 - (void)html_applyBackground:(SamuraiHtmlRenderStyle *)style
 {
-	SamuraiHtmlObject * background = style.background;
+//	SamuraiHtmlObject * background = style.background;
 	SamuraiHtmlObject * backgroundColor = style.backgroundColor;
-	SamuraiHtmlObject * backgroundImage = style.backgroundImage;
+//	SamuraiHtmlObject * backgroundImage = style.backgroundImage;
 	
 	if ( backgroundColor )
 	{

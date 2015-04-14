@@ -89,8 +89,8 @@
 		
 		if ( KERN_SUCCESS == ret )
 		{
-			natural_t mem_used = (vm_stat.active_count + vm_stat.inactive_count + vm_stat.wire_count) * pagesize;
-			natural_t mem_free = vm_stat.free_count * pagesize;
+			natural_t mem_used = (natural_t)((vm_stat.active_count + vm_stat.inactive_count + vm_stat.wire_count) * pagesize);
+			natural_t mem_free = (natural_t)(vm_stat.free_count * pagesize);
 			natural_t mem_total = mem_used + mem_free;
 
 			self.usedBytes = mem_used;

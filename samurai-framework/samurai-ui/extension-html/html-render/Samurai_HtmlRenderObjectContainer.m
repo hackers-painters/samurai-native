@@ -373,25 +373,10 @@
 
 // normalize value
 	
-	if ( INVALID_VALUE == computedFrame.origin.x )
-	{
-		computedFrame.origin.x = 0.0f;
-	}
-	
-	if ( INVALID_VALUE == computedFrame.origin.y )
-	{
-		computedFrame.origin.y = 0.0f;
-	}
-	
-	if ( INVALID_VALUE == computedFrame.size.width )
-	{
-		computedFrame.size.width = 0.0f;
-	}
-	
-	if ( INVALID_VALUE == computedFrame.size.height )
-	{
-		computedFrame.size.height = 0.0f;
-	}
+	computedFrame.origin.x = NORMALIZE_VALUE( computedFrame.origin.x );
+	computedFrame.origin.y = NORMALIZE_VALUE( computedFrame.origin.y );
+	computedFrame.size.width = NORMALIZE_VALUE( computedFrame.size.width );
+	computedFrame.size.height = NORMALIZE_VALUE( computedFrame.size.height );
 	
 // compute min/max size
 	
@@ -455,6 +440,11 @@
 				UIEdgeInsets	childOffset = [child computeOffset:computedFrame.size];
 			//	UIEdgeInsets	childMargin = [child computeMargin:computedFrame.size];
 				
+				childOffset.top = NORMALIZE_VALUE( childOffset.top );
+				childOffset.left = NORMALIZE_VALUE( childOffset.left );
+				childOffset.right = NORMALIZE_VALUE( childOffset.right );
+				childOffset.bottom = NORMALIZE_VALUE( childOffset.bottom );
+
 				CGRect childBounds = child.frame;
 				
 				childBounds.origin.x += childOffset.left;
@@ -483,7 +473,22 @@
 				CGRect			childBounds = [child computeFrame:computedFrame.size origin:childOrigin];
 				UIEdgeInsets	childOffset = [child computeOffset:computedFrame.size];
 				UIEdgeInsets	childMargin = [child computeMargin:computedFrame.size];
-				
+
+				childBounds.origin.x = NORMALIZE_VALUE( childBounds.origin.x );
+				childBounds.origin.y = NORMALIZE_VALUE( childBounds.origin.y );
+				childBounds.size.width = NORMALIZE_VALUE( childBounds.size.width );
+				childBounds.size.height = NORMALIZE_VALUE( childBounds.size.height );
+
+				childOffset.top = NORMALIZE_VALUE( childOffset.top );
+				childOffset.left = NORMALIZE_VALUE( childOffset.left );
+				childOffset.right = NORMALIZE_VALUE( childOffset.right );
+				childOffset.bottom = NORMALIZE_VALUE( childOffset.bottom );
+
+				childMargin.top = NORMALIZE_VALUE( childMargin.top );
+				childMargin.left = NORMALIZE_VALUE( childMargin.left );
+				childMargin.right = NORMALIZE_VALUE( childMargin.right );
+				childMargin.bottom = NORMALIZE_VALUE( childMargin.bottom );
+
 				if ( child.style.left )
 				{
 					childBounds.origin.x = computedFrame.origin.x + childOffset.left;
@@ -528,7 +533,7 @@
 		floatingWindow.origin.y += computedPadding.top;
 		floatingWindow.origin.x += computedBorder.left;
 		floatingWindow.origin.y += computedBorder.top;
-		
+
 		CGFloat floatingLeft = floatingWindow.origin.x;
 		CGFloat floatingRight = floatingWindow.origin.x + floatingWindow.size.width;
 	 

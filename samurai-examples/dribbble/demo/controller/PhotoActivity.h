@@ -29,14 +29,11 @@
 //
 
 #import "model.h"
-#import "view.h"
 
 #pragma mark -
 
-@interface IndexActivity : SamuraiActivity
+@interface PhotoActivity : SamuraiActivity
 
-@model( PopularShotListModel *,		model1 );
-@model( DebutsShotListModel *,		model2 );
-@model( EveryoneShotListModel *,	model3 );
+@prop_strong( SHOT *,	shot );
 
 @end

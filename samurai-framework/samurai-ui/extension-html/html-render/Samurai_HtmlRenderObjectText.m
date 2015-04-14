@@ -213,26 +213,11 @@
 
 // normalize value
 
-	if ( INVALID_VALUE == computedFrame.origin.x )
-	{
-		computedFrame.origin.x = 0.0f;
-	}
-
-	if ( INVALID_VALUE == computedFrame.origin.y )
-	{
-		computedFrame.origin.y = 0.0f;
-	}
-
-	if ( INVALID_VALUE == computedFrame.size.width )
-	{
-		computedFrame.size.width = 0.0f;
-	}
-
-	if ( INVALID_VALUE == computedFrame.size.height )
-	{
-		computedFrame.size.height = 0.0f;
-	}
-
+	computedFrame.origin.x = NORMALIZE_VALUE( computedFrame.origin.x );
+	computedFrame.origin.y = NORMALIZE_VALUE( computedFrame.origin.y );
+	computedFrame.size.width = NORMALIZE_VALUE( computedFrame.size.width );
+	computedFrame.size.height = NORMALIZE_VALUE( computedFrame.size.height );
+	
 // compute min/max size
 	
 	if ( INVALID_VALUE != minWidth )

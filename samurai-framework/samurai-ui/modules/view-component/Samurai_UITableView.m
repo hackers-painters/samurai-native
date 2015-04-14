@@ -159,7 +159,7 @@
 	
 	ASSERT( indexPath );
 
-	NSString * cachedKey = [NSString stringWithFormat:@"%d-%d", indexPath.section, indexPath.row];
+	NSString * cachedKey = [NSString stringWithFormat:@"%ld-%ld", indexPath.section, indexPath.row];
 	NSNumber * cachedHeight = [_cachedHeight objectForKey:cachedKey];
 	
 	if ( cachedHeight )
@@ -367,7 +367,7 @@
 			}
 			else
 			{
-				sectionKey = [NSString stringWithFormat:@"%d", section.index];
+				sectionKey = [NSString stringWithFormat:@"%lu", section.index];
 			}
 			
 			sectionData = [section serialize];
@@ -404,7 +404,7 @@
 			}
 			else
 			{
-				sectionKey = [NSString stringWithFormat:@"%d", section.index];
+				sectionKey = [NSString stringWithFormat:@"%lu", section.index];
 			}
 			
 			if ( [obj isKindOfClass:[NSDictionary class]] || [obj conformsToProtocol:@protocol(NSDictionaryProtocol)] )

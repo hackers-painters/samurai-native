@@ -72,7 +72,7 @@
 		return [((SamuraiHtmlFunction *)self).param componentsSeparatedByString:@","];
 	}
 
-	return NO;
+	return nil;
 }
 
 @end

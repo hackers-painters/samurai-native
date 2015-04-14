@@ -30,10 +30,6 @@
 
 #import "DribbbleApp.h"
 
-#import "model.h"
-#import "view.h"
-#import "view-controller.h"
-
 #pragma mark -
 
 @implementation DribbbleApp

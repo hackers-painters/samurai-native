@@ -201,15 +201,15 @@ static NSMutableArray * __activities = nil;
 
 - (void)changeState:(ActivityState)newState
 {
-	static const char * __states[] = {
-		"!Inited",
-		"!Created",
-		"!Activating",
-		"!Activated",
-		"!Deactivating",
-		"!Deactivated",
-		"!Destroyed"
-	};
+//	static const char * __states[] = {
+//		"!Inited",
+//		"!Created",
+//		"!Activating",
+//		"!Activated",
+//		"!Deactivating",
+//		"!Deactivated",
+//		"!Destroyed"
+//	};
 
 	if ( _state == newState )
 		return;

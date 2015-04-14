@@ -29,12 +29,12 @@
 //
 
 #import "model.h"
-#import "view.h"
 
 #pragma mark -
 
-@interface PhotoActivity : SamuraiActivity
+@interface ShotActivity : SamuraiActivity
 
-@prop_strong( SHOT *,	shot );
+@prop_strong( SHOT *,					shot );
+@prop_strong( ShotCommentListModel *,	listModel );
 
 @end

@@ -569,13 +569,13 @@
 
 - (void)didClicked:(UITapGestureRecognizer *)tapGesture
 {
-	if ( UIGestureRecognizerStateEnded == tapGesture.state )
-	{
-		if ( tapGesture.view && [tapGesture.view isKindOfClass:[ServiceImageView class]] )
-		{
-			ServiceImageView * view = (ServiceImageView *)tapGesture.view;
-		}
-	}
+//	if ( UIGestureRecognizerStateEnded == tapGesture.state )
+//	{
+//		if ( tapGesture.view && [tapGesture.view isKindOfClass:[ServiceImageView class]] )
+//		{
+//			ServiceImageView * view = (ServiceImageView *)tapGesture.view;
+//		}
+//	}
 }
 
 - (void)didPan:(UIPanGestureRecognizer *)panGesture

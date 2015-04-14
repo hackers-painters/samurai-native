@@ -30,13 +30,20 @@
 
 #import "IndexActivity.h"
 
+#import "MBProgressHUD.h"
+#import "RefreshCollectionView.h"
+
 #pragma mark -
+
+@interface IndexActivity(Private)<MBProgressHUDDelegate>
+@end
 
 @implementation IndexActivity
 {
 	NSUInteger				_currentIndex;
 	ShotListModel *			_currentModel;
 	RefreshCollectionView *	_list;
+	MBProgressHUD *			_hud;
 }
 
 @def_model( PopularShotListModel *,		model1 );
@@ -354,10 +361,30 @@ handleSignal( RefreshCollectionView, eventLoadMore )
 
 handleSignal( ShotListModel, eventLoading )
 {
+	if ( 0 == [_currentModel.shots count] )
+	{
+		if ( nil == _hud )
+		{
+			_hud = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+			_hud.labelText = @"Loading...";
+			_hud.delegate = self;
+			_hud.removeFromSuperViewOnHide = YES;
+			
+			[self.navigationController.view addSubview:_hud];
+			
+			[_hud show:YES];
+		}
+	}
 }
 
 handleSignal( ShotListModel, eventLoaded )
 {
+	if ( _hud )
+	{
+		[_hud hide:YES];
+		_hud = nil;
+	}
+	
 	[_list stopLoading];
 	
 	[self reloadData];
@@ -365,6 +392,12 @@ handleSignal( ShotListModel, eventLoaded )
 
 handleSignal( ShotListModel, eventError )
 {
+	if ( _hud )
+	{
+		[_hud hide:YES];
+		_hud = nil;
+	}
+	
 	[_list stopLoading];
 }
 

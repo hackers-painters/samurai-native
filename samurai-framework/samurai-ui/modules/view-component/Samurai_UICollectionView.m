@@ -130,7 +130,7 @@
 		return CGSizeZero;
 	}
 	
-	NSString *	cachedKey = [NSString stringWithFormat:@"%d-%d", indexPath.section, indexPath.row];
+	NSString *	cachedKey = [NSString stringWithFormat:@"%ld-%ld", indexPath.section, indexPath.row];
 	NSValue *	cachedSize = [_cachedHeight objectForKey:cachedKey];
 
 	if ( cachedSize )
@@ -428,7 +428,7 @@
 			}
 			else
 			{
-				sectionKey = [NSString stringWithFormat:@"%d", section.index];
+				sectionKey = [NSString stringWithFormat:@"%lu", section.index];
 			}
 			
 			sectionData = [section serialize];
@@ -465,7 +465,7 @@
 			}
 			else
 			{
-				sectionKey = [NSString stringWithFormat:@"%d", section.index];
+				sectionKey = [NSString stringWithFormat:@"%lu", section.index];
 			}
 			
 			if ( [obj isKindOfClass:[NSDictionary class]] || [obj conformsToProtocol:@protocol(NSDictionaryProtocol)] )

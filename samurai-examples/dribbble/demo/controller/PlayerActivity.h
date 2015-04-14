@@ -29,7 +29,6 @@
 //
 
 #import "model.h"
-#import "view.h"
 
 #pragma mark -
 

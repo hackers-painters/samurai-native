@@ -425,12 +425,12 @@ BASE_CLASS( SamuraiSignal )
 
 - (BOOL)changeState:(SignalState)newState
 {
-	static const char * __states[] = {
-		"!Inited",
-		"!Sending",
-		"!Arrived",
-		"!Dead"
-	};
+//	static const char * __states[] = {
+//		"!Inited",
+//		"!Sending",
+//		"!Arrived",
+//		"!Dead"
+//	};
 	
 	if ( newState == _state )
 		return NO;
