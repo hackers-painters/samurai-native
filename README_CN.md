@@ -5,7 +5,7 @@ samurai-native 可以让你使用 web 技术 (HTML/CSS) 构建基于我们独立
 
 代码示例请参考 `samurai-examples/dribbble` 和 `samurai-examples/movie`目录。
 
-![gif](https://raw.githubusercontent.com/hackers-painters/samurai-native/master/samurai-native.gif)
+![gif](https://cloud.githubusercontent.com/assets/679824/7133416/ccdabe74-e2c5-11e4-8098-ef1bdf2d6248.gif)
 
 ## 原生控件
 

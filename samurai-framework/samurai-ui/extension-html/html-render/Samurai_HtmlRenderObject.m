@@ -52,6 +52,11 @@
 
 @implementation NSObject(HtmlSupport)
 
++ (HtmlRenderModel)html_defaultRenderModel
+{
+	return HtmlRenderModel_Unknown;
+}
+
 - (void)html_applyDom:(SamuraiHtmlDomNode *)dom
 {
 }

@@ -5,7 +5,7 @@ samurai-native enables you to build native apps using web technologies (HTML/CSS
 
 Check out demo at `samurai-examples/dribbble` and `samurai-examples/movie`.
 
-![gif](https://raw.githubusercontent.com/hackers-painters/samurai-native/master/samurai-native.gif)
+![gif](https://cloud.githubusercontent.com/assets/679824/7133416/ccdabe74-e2c5-11e4-8098-ef1bdf2d6248.gif)
 
 ## Native Components
 

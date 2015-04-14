@@ -55,8 +55,6 @@ typedef enum
 
 @interface NSObject(HtmlSupport)
 
-@prop_readonly( SamuraiHtmlRenderStyle *,	htmlStyle );
-
 + (HtmlRenderModel)html_defaultRenderModel;
 
 - (void)html_applyDom:(SamuraiHtmlDomNode *)dom;			// override point

@@ -1511,7 +1511,6 @@
 				CBD8D5B11ADAAFDE0017A6C4 /* view-component */,
 				CBD8D5D61ADAAFDE0017A6C4 /* view-controller */,
 				CBD8D5E51ADAAFDE0017A6C4 /* view-core */,
-				CBD8D6161ADAAFDE0017A6C4 /* view-template */,
 			);
 			path = modules;
 			sourceTree = "<group>";
@@ -1633,13 +1632,6 @@
 				CBD8D6151ADAAFDE0017A6C4 /* Samurai_ViewWorkflow.m */,
 			);
 			path = "view-core";
-			sourceTree = "<group>";
-		};
-		CBD8D6161ADAAFDE0017A6C4 /* view-template */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "view-template";
 			sourceTree = "<group>";
 		};
 		CBD8D6261ADAAFDE0017A6C4 /* vendor */ = {

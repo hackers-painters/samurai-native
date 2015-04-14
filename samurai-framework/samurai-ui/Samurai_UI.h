@@ -52,6 +52,5 @@
 #import "Samurai_ViewComponent.h"
 #import "Samurai_ViewController.h"
 #import "Samurai_ViewCore.h"
-#import "Samurai_ViewTemplate.h"
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
