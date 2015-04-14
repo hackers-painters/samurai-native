@@ -1,3 +1,5 @@
+![Logo](https://cloud.githubusercontent.com/assets/876707/7134537/54bc9696-e2d0-11e4-845f-d6f269e00441.png)
+
 从 web 开发到原生平台
 ======================================
 
