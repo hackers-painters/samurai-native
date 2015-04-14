@@ -1,17 +1,19 @@
-![Logo](https://cloud.githubusercontent.com/assets/876707/7134537/54bc9696-e2d0-11e4-845f-d6f269e00441.png)
+![samurai-native-logo](https://cloud.githubusercontent.com/assets/876707/7134843/77ebf2d0-e2d3-11e4-8977-e609139b1a92.png)
 
-从 web 开发到原生平台
-======================================
+将Web开发标准带到原生平台
+=======================
 
-samurai-native 可以让你使用 web 技术 (HTML/CSS) 构建基于我们独立研发的 Web-Core 的原生应用。 现已支持 iOS， Android 敬请期待。
+samurai-native 可以让您使用标准Web开发技术 (HTML+CSS) 构建基于私有浏览器内核的原生应用。现已支持 iOS，Android 敬请期待。
 
 代码示例请参考 `samurai-examples/dribbble` 和 `samurai-examples/movie`目录。
+
+## 快速预览
 
 ![gif](https://cloud.githubusercontent.com/assets/679824/7133416/ccdabe74-e2c5-11e4-8098-ef1bdf2d6248.gif)
 
 ## 原生控件
 
-你可以使用像 `UICollectionView` 和 `UICollectionViewCell` iOS上的原生控件。 让你的用户体验如系统原生般流畅和高质。 这些控件可以让你在代码中直接使用 `<UICollectionView/>` 和 `<UICollectionViewCell/>` 易如反掌。
+您可以使用如 `UICollectionView` 及 `UICollectionViewCell` 这样的iOS原生控件， 让您的产品用户体验如系统原生般流畅和高质。集成这些控件易如反掌，可以直接使用 `<UICollectionView/>` 和 `<UICollectionViewCell/>` 在您的代码中。
 
 ```html
 <html>
@@ -27,7 +29,7 @@ samurai-native 可以让你使用 web 技术 (HTML/CSS) 构建基于我们独立
 
 ## HTML控件
 
-你当然也可以在 iOS 上使用像 `div` 和 `img` 等标准的 HTML 标签。 多重选择， 让你更自由的来定制独有的用户界面。
+您当然也可以在 iOS 上使用如 `<div>` 和 `<img>` 这样的标准 HTML 标签。多重选择， 让你更自由的来定制独有的用户界面。
 
 ```html
 <html>
@@ -54,11 +56,11 @@ samurai-native 可以让你使用 web 技术 (HTML/CSS) 构建基于我们独立
 </html>
 ```
 
-## 动态CSS布局
+## 流式CSS布局
 
-我们的 samurai-native 为你带来了 css 样式布局， 让你容易的在 stacked 和 nested boxes 等常用控件中使用 margin 和 padding 等标准 css 样式属性。 samurai-native 同样支持常见的 web 样式， 例如： `font-weight` 和 `border-radius`等。 同时， 你可以轻易的在 `SamuraiHtmlRenderStyle` 类中扩展你特有的样式属性。
+samurai-native 为您带来了流式 CSS 样式及布局，通过层叠或嵌套盒模型及 margin 和  padding 等标准 CSS 样式属性来排版界面布局。samurai-native 同样支持常见的样式，例如： `font-weight` 和 `border-radius`等。 同时，你可以很容易的在 `SamuraiHtmlRenderStyle` 类中扩展你自己的样式属性。
 
-(TODO: Flex-Box)
+(待完成: Flex-Box)
 
 ```html
 <html>
@@ -113,7 +115,7 @@ samurai-native 可以让你使用 web 技术 (HTML/CSS) 构建基于我们独立
 </html>
 ```
 
-## 让集成如此简单
+## 集成如此简单
 
 ```objc
 
@@ -138,9 +140,9 @@ samurai-native 可以让你使用 web 技术 (HTML/CSS) 构建基于我们独立
 @end
 ```
 
-## 信号控制
+## 事件处理
 
-samurai-native 提供了一个叫做 `信号` 的高级事件系统， 你可以通过这个系统轻易的通过 HTML 页面进行交互(手势)。
+samurai-native 提供了一个叫做 `Signal` 的高阶事件系统，你可以通过这个系统更容易的在原生代码与HTML页面代码之间进行交互。
 
 ```html
 <div onclick="signal('hello')">
@@ -172,9 +174,9 @@ handleSignal( next )
 @end
 ```
 
-## 数据捆绑
+## 数据绑定
 
-samurai-native 提供了一个使用信号机制的高效方法， 通过 HTML上 每个节点的名字属性来绑定原生对象。
+samurai-native 提供了一种单向的高效的数据绑定方法，通过每个 DOM 节点的 `name` 属性与数据对应关系来绑定原生对象数据。
 
 ```html
 <html>
@@ -211,9 +213,12 @@ samurai-native 提供了一个使用信号机制的高效方法， 通过 HTML�
 
 ```
 
-## 可扩展性
+## 高度可扩展
 
-samurai-native 可以方便的让用户进行功能拓展， 这意味着你可以使用任何现有的功能插件， 或者你想使用的 iOS 原生的第三方控件加入到你的项目之中。
+samurai-native 的设计初衷是为了将自定义控件方便的扩展进来，这意味着你可以使用任何现有的原生界面组件，通过简单的扩展或者直接使用它们。
+
+samurai-native is designed to be easily extended with custom native components, that means you can reuse anything you've already built, and can import and use your favorite native components.
+
 
 ```objc
 
@@ -243,29 +248,28 @@ samurai-native 可以方便的让用户进行功能拓展， 这意味着你可�
 @end
 ```
 
-## 实时加载
+## 实时刷新
 
-只需你在 `main()` 函数中增加一行代码， 无需频繁的重新运行， samurai-native 会自动在你的 iPhone模拟器 或者 iPhone 上实时加载和更新你的应用界面。
+只需在 `main()` 函数中增加一行代码，无需重新编译并运行你的App，每当 HTML/CSS 有变化时，samurai-native 会自动在你的 iPhone 模拟器上实时更新您的用户界面。
 
 ```objc
 [[SamuraiWatcher sharedInstance] watch:@(__FILE__)];
 ```
 
-## 运行与例子
+## 运行例子
 
-在你的Mac上打开终端输入：
-- git clone `https://github.com/hackers-painters/samurai.git`
-- open `samurai-examples/dribbble/demo.xcodeproj`
-- build and run
+- 克隆 `https://github.com/hackers-painters/samurai.git`
+- 打开 `samurai-examples/dribbble/demo.xcodeproj`
+- 编译并运行
 
-## 许可
+## 开源许可
 
-samurai-native 使用 MIT 许可.
+samurai-native 使用 MIT 开源协议
 
 ## 贡献者
 
-* [Gavin.Kwoe](https://github.com/gavinkwoe): 主程
-* [QFish](https://github.com/qfish): 主程
+* [Gavin.Kwoe](https://github.com/gavinkwoe): 主要开发者
+* [QFish](https://github.com/qfish): 主要开发者
 
 ## 相关项目
 
