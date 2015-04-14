@@ -1,7 +1,7 @@
 ![Logo](https://cloud.githubusercontent.com/assets/876707/7134469/b7d8d98e-e2cf-11e4-8f8c-8bdd434f4a24.png)
 
-Samurai: Bring web standards to native platform
-===============================================
+Bring web standards to native platform
+======================================
 
 samurai-native enables you to build native apps using web technologies (HTML/CSS) based on its own Web-Core. Support iOS now, Android later.
 
