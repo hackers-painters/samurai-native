@@ -253,7 +253,6 @@ static NSString *const AutocodingException = @"AutocodingException";
 
         if (value) {
             Class clz = codableProperties[key][@"class"];
-            
             if ( [clz isSubclassOfClass:NSValue.class]
                  || [clz isSubclassOfClass:NSString.class]
                 || [clz isSubclassOfClass:NSDictionary.class]

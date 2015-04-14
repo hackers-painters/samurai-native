@@ -35,11 +35,11 @@
 		E918C7571ADD0A12005D184D /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E918C72E1ADD0A12005D184D /* UIView+WebCacheOperation.m */; };
 		E918C7581ADD0A12005D184D /* SDWebImageView.css in Resources */ = {isa = PBXBuildFile; fileRef = E918C7301ADD0A12005D184D /* SDWebImageView.css */; };
 		E918C7591ADD0A12005D184D /* SDWebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E918C7321ADD0A12005D184D /* SDWebImageView.m */; };
-		E918C75A1ADD0A12005D184D /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = E918C7371ADD0A12005D184D /* AutoCoding.m */; };
-		E918C75B1ADD0A12005D184D /* NSObject+AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = E918C7391ADD0A12005D184D /* NSObject+AutoCoding.m */; };
-		E918C75C1ADD0A12005D184D /* NSObject+AutoRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = E918C73B1ADD0A12005D184D /* NSObject+AutoRuntime.m */; };
-		E918C75D1ADD0A12005D184D /* STIHTTPNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = E918C73E1ADD0A12005D184D /* STIHTTPNetwork.m */; };
-		E918C75E1ADD0A12005D184D /* STIHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E918C7401ADD0A12005D184D /* STIHTTPSessionManager.m */; };
+		E918C76C1ADD197F005D184D /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = E918C7621ADD197F005D184D /* AutoCoding.m */; };
+		E918C76D1ADD197F005D184D /* NSObject+AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = E918C7641ADD197F005D184D /* NSObject+AutoCoding.m */; };
+		E918C76E1ADD197F005D184D /* NSObject+AutoRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = E918C7661ADD197F005D184D /* NSObject+AutoRuntime.m */; };
+		E918C76F1ADD197F005D184D /* STIHTTPNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = E918C7691ADD197F005D184D /* STIHTTPNetwork.m */; };
+		E918C7701ADD197F005D184D /* STIHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E918C76B1ADD197F005D184D /* STIHTTPSessionManager.m */; };
 		E9506FA91ADA7DA800906711 /* Samurai_Config(Phone).m in Sources */ = {isa = PBXBuildFile; fileRef = E9506DDE1ADA7DA800906711 /* Samurai_Config(Phone).m */; };
 		E9506FAA1ADA7DA800906711 /* Samurai_Config(Simulator).m in Sources */ = {isa = PBXBuildFile; fileRef = E9506DE01ADA7DA800906711 /* Samurai_Config(Simulator).m */; };
 		E9506FAB1ADA7DA800906711 /* Samurai_Config.m in Sources */ = {isa = PBXBuildFile; fileRef = E9506DE21ADA7DA800906711 /* Samurai_Config.m */; };
@@ -322,16 +322,16 @@
 		E918C7311ADD0A12005D184D /* SDWebImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWebImageView.h; sourceTree = "<group>"; };
 		E918C7321ADD0A12005D184D /* SDWebImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWebImageView.m; sourceTree = "<group>"; };
 		E918C7331ADD0A12005D184D /* view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = view.h; sourceTree = "<group>"; };
-		E918C7361ADD0A12005D184D /* AutoCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoCoding.h; sourceTree = "<group>"; };
-		E918C7371ADD0A12005D184D /* AutoCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoCoding.m; sourceTree = "<group>"; };
-		E918C7381ADD0A12005D184D /* NSObject+AutoCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AutoCoding.h"; sourceTree = "<group>"; };
-		E918C7391ADD0A12005D184D /* NSObject+AutoCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AutoCoding.m"; sourceTree = "<group>"; };
-		E918C73A1ADD0A12005D184D /* NSObject+AutoRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AutoRuntime.h"; sourceTree = "<group>"; };
-		E918C73B1ADD0A12005D184D /* NSObject+AutoRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AutoRuntime.m"; sourceTree = "<group>"; };
-		E918C73D1ADD0A12005D184D /* STIHTTPNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STIHTTPNetwork.h; sourceTree = "<group>"; };
-		E918C73E1ADD0A12005D184D /* STIHTTPNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STIHTTPNetwork.m; sourceTree = "<group>"; };
-		E918C73F1ADD0A12005D184D /* STIHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STIHTTPSessionManager.h; sourceTree = "<group>"; };
-		E918C7401ADD0A12005D184D /* STIHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STIHTTPSessionManager.m; sourceTree = "<group>"; };
+		E918C7611ADD197F005D184D /* AutoCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoCoding.h; sourceTree = "<group>"; };
+		E918C7621ADD197F005D184D /* AutoCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoCoding.m; sourceTree = "<group>"; };
+		E918C7631ADD197F005D184D /* NSObject+AutoCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AutoCoding.h"; sourceTree = "<group>"; };
+		E918C7641ADD197F005D184D /* NSObject+AutoCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AutoCoding.m"; sourceTree = "<group>"; };
+		E918C7651ADD197F005D184D /* NSObject+AutoRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AutoRuntime.h"; sourceTree = "<group>"; };
+		E918C7661ADD197F005D184D /* NSObject+AutoRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AutoRuntime.m"; sourceTree = "<group>"; };
+		E918C7681ADD197F005D184D /* STIHTTPNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STIHTTPNetwork.h; sourceTree = "<group>"; };
+		E918C7691ADD197F005D184D /* STIHTTPNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STIHTTPNetwork.m; sourceTree = "<group>"; };
+		E918C76A1ADD197F005D184D /* STIHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STIHTTPSessionManager.h; sourceTree = "<group>"; };
+		E918C76B1ADD197F005D184D /* STIHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STIHTTPSessionManager.m; sourceTree = "<group>"; };
 		E9506DDB1ADA7DA800906711 /* _pragma_pop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _pragma_pop.h; sourceTree = "<group>"; };
 		E9506DDC1ADA7DA800906711 /* _pragma_push.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _pragma_push.h; sourceTree = "<group>"; };
 		E9506DDD1ADA7DA800906711 /* Samurai_Config(Phone).h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Samurai_Config(Phone).h"; sourceTree = "<group>"; };
@@ -814,8 +814,8 @@
 		E918C6F81ADD0A12005D184D /* library */ = {
 			isa = PBXGroup;
 			children = (
+				E918C75F1ADD197F005D184D /* http */,
 				E918C6F91ADD0A12005D184D /* components */,
-				E918C7341ADD0A12005D184D /* http */,
 			);
 			name = library;
 			path = ../../library;
@@ -928,35 +928,35 @@
 			path = SDWebImageView;
 			sourceTree = "<group>";
 		};
-		E918C7341ADD0A12005D184D /* http */ = {
+		E918C75F1ADD197F005D184D /* http */ = {
 			isa = PBXGroup;
 			children = (
-				E918C7351ADD0A12005D184D /* AutoCoding */,
-				E918C73C1ADD0A12005D184D /* STIHTTPNetwork */,
+				E918C7601ADD197F005D184D /* AutoCoding */,
+				E918C7671ADD197F005D184D /* STIHTTPNetwork */,
 			);
 			path = http;
 			sourceTree = "<group>";
 		};
-		E918C7351ADD0A12005D184D /* AutoCoding */ = {
+		E918C7601ADD197F005D184D /* AutoCoding */ = {
 			isa = PBXGroup;
 			children = (
-				E918C7361ADD0A12005D184D /* AutoCoding.h */,
-				E918C7371ADD0A12005D184D /* AutoCoding.m */,
-				E918C7381ADD0A12005D184D /* NSObject+AutoCoding.h */,
-				E918C7391ADD0A12005D184D /* NSObject+AutoCoding.m */,
-				E918C73A1ADD0A12005D184D /* NSObject+AutoRuntime.h */,
-				E918C73B1ADD0A12005D184D /* NSObject+AutoRuntime.m */,
+				E918C7611ADD197F005D184D /* AutoCoding.h */,
+				E918C7621ADD197F005D184D /* AutoCoding.m */,
+				E918C7631ADD197F005D184D /* NSObject+AutoCoding.h */,
+				E918C7641ADD197F005D184D /* NSObject+AutoCoding.m */,
+				E918C7651ADD197F005D184D /* NSObject+AutoRuntime.h */,
+				E918C7661ADD197F005D184D /* NSObject+AutoRuntime.m */,
 			);
 			path = AutoCoding;
 			sourceTree = "<group>";
 		};
-		E918C73C1ADD0A12005D184D /* STIHTTPNetwork */ = {
+		E918C7671ADD197F005D184D /* STIHTTPNetwork */ = {
 			isa = PBXGroup;
 			children = (
-				E918C73D1ADD0A12005D184D /* STIHTTPNetwork.h */,
-				E918C73E1ADD0A12005D184D /* STIHTTPNetwork.m */,
-				E918C73F1ADD0A12005D184D /* STIHTTPSessionManager.h */,
-				E918C7401ADD0A12005D184D /* STIHTTPSessionManager.m */,
+				E918C7681ADD197F005D184D /* STIHTTPNetwork.h */,
+				E918C7691ADD197F005D184D /* STIHTTPNetwork.m */,
+				E918C76A1ADD197F005D184D /* STIHTTPSessionManager.h */,
+				E918C76B1ADD197F005D184D /* STIHTTPSessionManager.m */,
 			);
 			path = STIHTTPNetwork;
 			sourceTree = "<group>";
@@ -1894,7 +1894,7 @@
 				E95070711ADA7DA800906711 /* utf8.c in Sources */,
 				E9506FCE1ADA7DA800906711 /* Samurai_SignalKVO.m in Sources */,
 				E9506FB31ADA7DA800906711 /* NSMutableArray+Extension.m in Sources */,
-				E918C75D1ADD0A12005D184D /* STIHTTPNetwork.m in Sources */,
+				E918C76F1ADD197F005D184D /* STIHTTPNetwork.m in Sources */,
 				E9506FD11ADA7DA800906711 /* Signal+Model.m in Sources */,
 				E95070251ADA7DA800906711 /* Samurai_HtmlSupport.m in Sources */,
 				E967D67B1AD672E200BBD4FF /* MovieListViewController.m in Sources */,
@@ -1942,7 +1942,7 @@
 				E950700E1ADA7DA800906711 /* Samurai_HtmlDocumentWorklet_50MergeDomTree.m in Sources */,
 				E95070741ADA7DA800906711 /* foundation.c in Sources */,
 				E95070111ADA7DA800906711 /* Samurai_HtmlDocumentWorklet_80Finish.m in Sources */,
-				E918C75C1ADD0A12005D184D /* NSObject+AutoRuntime.m in Sources */,
+				E918C76E1ADD197F005D184D /* NSObject+AutoRuntime.m in Sources */,
 				E95070451ADA7DA800906711 /* Samurai_EventPanGesture.m in Sources */,
 				E95070531ADA7DA800906711 /* Samurai_StyleSheet.m in Sources */,
 				E95070411ADA7DA800906711 /* Samurai_Document.m in Sources */,
@@ -1997,7 +1997,7 @@
 				E95070211ADA7DA800906711 /* Samurai_CssProtocol.m in Sources */,
 				E95070281ADA7DA800906711 /* Samurai_UIButton.m in Sources */,
 				E95070101ADA7DA800906711 /* Samurai_HtmlDocumentWorklet_70BuildRenderTree.m in Sources */,
-				E918C75B1ADD0A12005D184D /* NSObject+AutoCoding.m in Sources */,
+				E918C76D1ADD197F005D184D /* NSObject+AutoCoding.m in Sources */,
 				E9506FE31ADA7DA800906711 /* ViewController+NavigationBar.m in Sources */,
 				E950702C1ADA7DA800906711 /* Samurai_UILabel.m in Sources */,
 				E950700D1ADA7DA800906711 /* Samurai_HtmlDocumentWorklet_40ParseStyleTree.m in Sources */,
@@ -2017,12 +2017,12 @@
 				E95070001ADA7DA800906711 /* UISlider+Html.m in Sources */,
 				E95070241ADA7DA800906711 /* Samurai_HtmlSharedResource.m in Sources */,
 				E95070621ADA7DA800906711 /* AFNetworkReachabilityManager.m in Sources */,
-				E918C75E1ADD0A12005D184D /* STIHTTPSessionManager.m in Sources */,
+				E918C7701ADD197F005D184D /* STIHTTPSessionManager.m in Sources */,
 				E9506FE61ADA7DA800906711 /* ViewController+Template.m in Sources */,
 				E9506FFC1ADA7DA800906711 /* UILabel+Html.m in Sources */,
 				E9506FCD1ADA7DA800906711 /* Samurai_SignalBus.m in Sources */,
 				E950701E1ADA7DA800906711 /* Samurai_HtmlRenderWorklet_40Finish.m in Sources */,
-				E918C75A1ADD0A12005D184D /* AutoCoding.m in Sources */,
+				E918C76C1ADD197F005D184D /* AutoCoding.m in Sources */,
 				E95070071ADA7DA800906711 /* UIWebView+Html.m in Sources */,
 				E9506FD81ADA7DA800906711 /* Samurai_DockerView.m in Sources */,
 				E95070591ADA7DA800906711 /* Samurai_UIConfig.m in Sources */,

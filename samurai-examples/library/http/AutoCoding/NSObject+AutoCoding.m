@@ -101,6 +101,7 @@
                 
                 if ( ![convertedValue isKindOfClass:clazz] )
                 {
+                    //                    @"Expected '%@' to be a %@, but was actually a %@"
                     NSLog( @"The type of '%@' in <%@> is <%@>, but not compatible with expected <%@>, please see detail in the <AutoModelCoding> protocol.", property, [self class], [value class], clazz );
                 }
             }
