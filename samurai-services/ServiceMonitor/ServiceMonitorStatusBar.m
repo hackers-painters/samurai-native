@@ -107,7 +107,7 @@
 		[_chart1 reloadData];
 		[_chart2 reloadData];
 
-		_label.text = [NSString stringWithFormat:@"CPU:%.2f%%   FPS:%d", _cpuModel.percent * 100.0f, _fpsModel.fps];
+		_label.text = [NSString stringWithFormat:@"CPU:%.2f%%   FPS:%lu", _cpuModel.percent * 100.0f, (unsigned long)_fpsModel.fps];
 	}
 }
 
