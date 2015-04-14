@@ -1,5 +1,3 @@
-![Logo](https://cloud.githubusercontent.com/assets/876707/7134469/b7d8d98e-e2cf-11e4-8f8c-8bdd434f4a24.png)
-
 Bring web standards to native platform
 ======================================
 
