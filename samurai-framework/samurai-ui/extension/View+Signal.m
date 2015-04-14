@@ -70,16 +70,7 @@
 
 - (id)signalResponders
 {
-	NSObject * nextResponder = [self nextResponder];
-
-	if ( nextResponder && [nextResponder isKindOfClass:[UIViewController class]] )
-	{
-		return nextResponder;
-	}
-	else
-	{
-		return self.superview;
-	}
+    return [self nextResponder];
 }
 
 - (id)signalAlias
