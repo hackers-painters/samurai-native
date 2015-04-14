@@ -1,3 +1,5 @@
+![samurai-native-logo](https://cloud.githubusercontent.com/assets/876707/7134808/05c1c446-e2d3-11e4-9a87-48af1077dae3.png)
+
 Bring web standards to native platform
 ======================================
 
