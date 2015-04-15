@@ -30,6 +30,7 @@
 
 #import "Samurai_Handler.h"
 #import "Samurai_Trigger.h"
+#import "Samurai_UnitTest.h"
 
 #import "_pragma_push.h"
 
