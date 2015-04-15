@@ -6,6 +6,7 @@ Bring web standards to native platform
 samurai-native enables you to build native apps using web technologies (HTML/CSS) based on its own Web-Core. Support iOS now, Android later.
 
 | 查看 [中文介绍](https://github.com/hackers-painters/samurai-native/blob/master/README_CN.md) 请点击这里 |
+| QQ群：79054681 |
 
 Check out demo at `samurai-examples/dribbble` and `samurai-examples/movie`.
 
