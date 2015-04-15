@@ -5,6 +5,8 @@
 
 samurai-native 可以让您使用标准Web开发技术 (HTML+CSS) 构建基于私有浏览器内核的原生应用。现已支持 iOS，Android 敬请期待。
 
+| 官方QQ群 [79054681]() |
+
 代码示例请参考 `samurai-examples/dribbble` 和 `samurai-examples/movie`目录。
 
 ## 快速预览
