@@ -70,10 +70,10 @@
 
 #undef	dispatch_after_background_serial
 #define dispatch_after_background_serial( seconds, block ) \
-    { \
-        dispatch_time_t __time = dispatch_time( DISPATCH_TIME_NOW, seconds * 1ull * NSEC_PER_SEC ); \
-        dispatch_after( __time, [SamuraiGCD sharedInstance].backSerialQueue, block ); \
-    }
+         { \
+            dispatch_time_t __time = dispatch_time( DISPATCH_TIME_NOW, seconds * 1ull * NSEC_PER_SEC ); \
+            dispatch_after( __time, [SamuraiGCD sharedInstance].backSerialQueue, block ); \
+          }
 
 // 自己建写的文件用的串行队列
 #undef	dispatch_async_background_writeFile
