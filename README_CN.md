@@ -270,8 +270,12 @@ samurai-native 使用 MIT 开源协议
 
 ## 贡献者
 
-* [Gavin.Kwoe](https://github.com/gavinkwoe): 主要开发者
-* [QFish](https://github.com/qfish): 主要开发者
+* [Gavin.Kwoe](https://github.com/gavinkwoe): 主开发者
+* [QFish](https://github.com/qfish): 主开发者
+
+## 特别感谢
+
+* [ZTDesign](https://dribbble.com/ZTDesign): 主设计师
 
 ## 相关项目
 
