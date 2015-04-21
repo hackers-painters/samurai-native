@@ -301,6 +301,10 @@ samurai-native is licensed under the MIT License.
 * [Gavin.Kwoe](https://github.com/gavinkwoe): Major developer
 * [QFish](https://github.com/qfish): Major developer
 
+## Special thanks
+
+* [ZTDesign](https://dribbble.com/ZTDesign): Major designer
+
 ## Related Projects
 
 * [gumbo](https://github.com/google/gumbo-parser): An HTML5 parsing library in pure C99
