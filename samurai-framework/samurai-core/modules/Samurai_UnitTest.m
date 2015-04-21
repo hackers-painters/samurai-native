@@ -54,7 +54,7 @@
 
 + (SamuraiTestFailure *)expr:(const char *)expr file:(const char *)file line:(int)line
 {
-	SamuraiTestFailure * failure = [[SamuraiTestFailure alloc] init];
+	SamuraiTestFailure * failure = [[SamuraiTestFailure alloc] initWithName:@"SamuraiUnitTest" reason:@(expr) userInfo:nil];
 	failure.expr = @(expr);
 	failure.file = [@(file) lastPathComponent];
 	failure.line = line;
