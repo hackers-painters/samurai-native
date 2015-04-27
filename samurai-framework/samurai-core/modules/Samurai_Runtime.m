@@ -188,25 +188,6 @@
 	return result;
 }
 
-<<<<<<< HEAD
-+ (NSArray *)classesWithProtocolName:(NSString *)protocolName
-{
-    NSMutableArray *results = [[NSMutableArray alloc] init];
-    Protocol * protocol = NSProtocolFromString(protocolName);
-    for ( NSString *className in [self loadedClassNames] )
-    {
-        Class classType = NSClassFromString( className );
-        if ( classType == self )
-            continue;
-        
-        if ( NO == [classType conformsToProtocol:protocol] )
-            continue;
-        
-        [results addObject:[classType description]];
-    }
-    
-    return results;
-=======
 + (NSArray *)properties
 {
 	return [self propertiesUntilClass:[self superclass]];
@@ -287,7 +268,25 @@
 	}];
 	
 	return result;
->>>>>>> hackers-painters/master
+}
+
++ (NSArray *)classesWithProtocolName:(NSString *)protocolName
+{
+    NSMutableArray *results = [[NSMutableArray alloc] init];
+    Protocol * protocol = NSProtocolFromString(protocolName);
+    for ( NSString *className in [self loadedClassNames] )
+    {
+        Class classType = NSClassFromString( className );
+        if ( classType == self )
+            continue;
+        
+        if ( NO == [classType conformsToProtocol:protocol] )
+            continue;
+        
+        [results addObject:[classType description]];
+    }
+    
+    return results;
 }
 
 + (void *)replaceSelector:(SEL)sel1 withSelector:(SEL)sel2
