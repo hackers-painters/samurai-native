@@ -78,6 +78,8 @@ typedef enum
 
 @interface SamuraiActivity : UIViewController
 
+@joint( stateChanged );
+
 @prop_strong( SamuraiIntent *,				intent );
 @prop_assign( BOOL,							animated );
 @prop_assign( UIInterfaceOrientation,		orientation );

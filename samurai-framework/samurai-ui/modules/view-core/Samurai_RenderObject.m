@@ -356,6 +356,17 @@ static NSUInteger __objectSeed = 0;
 			PERF( @"RenderObject '%p', create view '%@' for \"%@ ...\"", self, self.viewClass, self.dom.domText.length > 20 ? [self.dom.domText substringToIndex:20] : self.dom.domText );
 		}
 		
+		UIView * contentView = nil;
+
+		if ( [self.view respondsToSelector:@selector(contentView)] )
+		{
+			contentView = [self.view performSelector:@selector(contentView) withObject:nil];
+		}
+		else
+		{
+			contentView = self.view;
+		}
+		
 		for ( SamuraiRenderObject * child in self.childs )
 		{
 			if ( nil == child.view )
@@ -364,7 +375,7 @@ static NSUInteger __objectSeed = 0;
 				
 				if ( childView )
 				{
-					[self.view addSubview:childView];
+					[contentView addSubview:childView];
 				}
 				
 			//	[child bindOutletsTo:self.view];
@@ -375,6 +386,69 @@ static NSUInteger __objectSeed = 0;
 	}
 
 	return self.view;
+}
+
+- (void)bindView:(UIView *)view
+{
+	if ( nil == view )
+	{
+		[self unbindView];
+	}
+	else
+	{
+		self.view = view;
+		self.viewClass = [view class];
+		
+		if ( self.view )
+		{
+			if ( nil == self.view.renderer )
+			{
+				self.view.renderer = self;
+			}
+			
+			if ( self.dom.domTag )
+			{
+				PERF( @"RenderObject '%p', bind view '%@' for <%@/>", self, self.viewClass, self.dom.domTag );
+			}
+			else
+			{
+				PERF( @"RenderObject '%p', bind view '%@' for \"%@ ...\"", self, self.viewClass, self.dom.domText.length > 20 ? [self.dom.domText substringToIndex:20] : self.dom.domText );
+			}
+			
+			UIView * contentView = nil;
+			
+			if ( [self.view respondsToSelector:@selector(contentView)] )
+			{
+				contentView = [self.view performSelector:@selector(contentView) withObject:nil];
+			}
+			else
+			{
+				contentView = self.view;
+			}
+			
+			for ( SamuraiRenderObject * child in self.childs )
+			{
+				if ( nil == child.view )
+				{
+					UIView * childView = [child createViewWithIdentifier:nil];
+					
+					if ( childView )
+					{
+						[contentView addSubview:childView];
+					}
+					
+				//	[child bindOutletsTo:self.view];
+				}
+			}
+			
+			[self.view prepareForRendering];
+		}
+	}
+}
+
+- (void)unbindView
+{
+	self.view = nil;
 }
 
 #pragma mark -
@@ -472,50 +546,15 @@ static NSUInteger __objectSeed = 0;
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, RenderObject )
+
+DESCRIBE( before )
 {
-//	NSMutableDictionary *	storage = [[NSMutableDictionary alloc] init];
-//	NSMutableDictionary *	storage2 = [NSMutableDictionary dictionary];
-//	
-//	// 1. jQuery
-//	
-//	ASSERT( $(@"#label1").firstView == label1 );
-//	ASSERT( $(@"#label2").firstView == label2 );
-//	ASSERT( $(@"#label3").firstView == label3 );
-//	
-//	// 2. Outlet
-//	
-//	label1.text = @"Hello1";
-//	label2.text = @"Hello2";
-//	label3.text = @"Hello3";
-//	
-//	// 3. View storage, view tree => model
-//	
-//	NSDictionary * dict = [self serialize];
-//	
-//	ASSERT( [dict[@"values"][@"1"] isEqualToString:@"Hello1"] );
-//	ASSERT( [dict[@"values"][@"2"] isEqualToString:@"Hello2"] );
-//	ASSERT( [dict[@"values"][@"3"] isEqualToString:@"Hello3"] );
-//	
-//	storage[@"values"][@"1"] = @"World1";
-//	storage[@"values"][@"2"] = @"World2";
-//	storage[@"values"][@"3"] = @"World3";
-//	
-//	// 4. View storage, model => view tree
-//	
-//	[self unserialize:storage];
-//	
-//	// 5. View storage, view tree => dictionary
-//	
-//	NSDictionary * dict2 = [self serialize];
-//	
-//	ASSERT( [dict2[@"values"][@"1"] isEqualToString:@"World1"] );
-//	ASSERT( [dict2[@"values"][@"2"] isEqualToString:@"World2"] );
-//	ASSERT( [dict2[@"values"][@"3"] isEqualToString:@"World3"] );
-//	
-//	// 6. View storage, dictionary => view tree
-//	
-//	[self unserialize:dict2];
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

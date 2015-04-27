@@ -545,7 +545,7 @@
 
 - (BOOL)isNumber
 {
-	NSString *		regex = @"-?[0-9]+";
+	NSString *		regex = @"-?[0-9.]+";
 	NSPredicate *	pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
 	
 	return [pred evaluateWithObject:self];
@@ -727,8 +727,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( Core, NSString_Extension )
+
+DESCRIBE( before )
 {
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

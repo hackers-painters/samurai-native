@@ -7,9 +7,10 @@
 			"/index"	: "IndexActivity",
 			"/photo"	: "PhotoActivity",
 			"/shot"		: "ShotActivity",
-			"/player"	: "PlayerActivity"
+			"/player"	: "PlayerActivity",
+			"/welcome"	: "WelcomeActivity"
 		},
-		
+
 		"main" : [ "/" ]
 	},
 	"permissions" :

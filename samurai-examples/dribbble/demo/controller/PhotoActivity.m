@@ -29,12 +29,24 @@
 //
 
 #import "PhotoActivity.h"
+#import "ThemeConfig.h"
 
 #pragma mark -
 
 @implementation PhotoActivity
 
-@def_prop_strong( SHOT *,	shot );
+@def_model( SHOT *,				shot );
+
+@def_outlet( UIImageView *,		photo );
+
+#pragma mark -
+
+- (NSString *)templateName
+{
+	return @"dribbble-photo.html";
+}
+
+#pragma mark -
 
 - (void)onCreate
 {
@@ -42,14 +54,11 @@
 	self.navigationBarDoneButton = @"Save";
 	
 	self.shot = [self.intent.input objectForKey:@"shot"];
-	
-	[self loadViewTemplate:@"/www/html/dribbble-photo.html"];
-//	[self loadViewTemplate:@"http://localhost:8000/html/dribbble-photo.html"];
 }
 
 - (void)onDestroy
 {
-	[self unloadViewTemplate];
+	self.shot = nil;
 }
 
 - (void)onStart
@@ -70,7 +79,6 @@
 
 - (void)onLayout
 {
-	[self relayout];
 }
 
 #pragma mark -
@@ -82,11 +90,9 @@
 
 - (void)onDonePressed
 {
-	UIImageView * imageView = (UIImageView *)$(@".photo").firstView;
-	
-	if ( imageView.image )
+	if ( self.photo && self.photo.image )
 	{
-		UIImageWriteToSavedPhotosAlbum( imageView.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+		UIImageWriteToSavedPhotosAlbum( self.photo.image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
 	}
 }
 
@@ -139,7 +145,7 @@
 
 - (void)reloadData
 {
-    self[@"photo"] = self.shot.images.normal ?: @"";
+    self.viewStorage[@"photo"] = self.shot.images.normal ?: @"";
 }
 
 @end

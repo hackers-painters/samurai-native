@@ -98,6 +98,8 @@ hookBefore( unload, IntentResponder )
 
 @implementation SamuraiIntent
 
+@def_joint( stateChanged );
+
 @def_prop_strong( NSString *,					action );
 @def_prop_strong( NSMutableDictionary *,		input );
 @def_prop_strong( NSMutableDictionary *,		output );
@@ -357,8 +359,15 @@ hookBefore( unload, IntentResponder )
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, Intent )
+
+DESCRIBE( before )
 {
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

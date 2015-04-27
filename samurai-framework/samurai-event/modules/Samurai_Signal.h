@@ -105,6 +105,8 @@ typedef enum
 
 @interface SamuraiSignal : NSObject<NSDictionaryProtocol, NSMutableDictionaryProtocol>
 
+@joint( stateChanged );
+
 //@prop_unsafe( id,						foreign );
 //@prop_strong( NSString *,				prefix );
 

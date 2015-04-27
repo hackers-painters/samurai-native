@@ -58,38 +58,6 @@
 	return query;
 }
 
-- (SamuraiRenderObject *)first:(NSString *)expression
-{
-	if ( NO == [self isViewLoaded] )
-		return nil;
-	
-	if ( nil == expression )
-		return nil;
-	
-	SamuraiRenderQuery * query = [SamuraiRenderQuery renderQuery];
-	
-	[query input:[[self view] renderer]];
-	[query execute:expression];
-	
-	return [query.output firstObject];
-}
-
-- (SamuraiRenderObject *)last:(NSString *)expression
-{
-	if ( NO == [self isViewLoaded] )
-		return nil;
-	
-	if ( nil == expression )
-		return nil;
-	
-	SamuraiRenderQuery * query = [SamuraiRenderQuery renderQuery];
-	
-	[query input:[[self view] renderer]];
-	[query execute:expression];
-	
-	return [query.output lastObject];
-}
-
 @end
 
 // ----------------------------------
@@ -101,13 +69,13 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, ViewController_Query )
+
+DESCRIBE( before )
 {
-	// context
 }
 
-DESCRIBE( TODO )
+DESCRIBE( after )
 {
-	// codes
 }
 
 TEST_CASE_END

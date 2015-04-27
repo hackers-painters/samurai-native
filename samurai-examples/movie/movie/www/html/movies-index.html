@@ -19,33 +19,33 @@
         
     </head>
     
-    <body class="wrapper fill">
+    <body>
         
         <RefreshCollectionView id="list" name="list" class="list" columns="1" is-vertical>
             
-            <MovieListCell name="movies" class="list-item row" is-row>
-                <div class="item-wrapper" onclick="signal('view-cover')">
-                    <div class="line"></div>
-                    <img class="cover" name="cover"/>
-                    <div class="info">
-                        <label class="title" name="title">Movie Title</label>
-                        <div class="misc">
-                            <label class="text" data="year">2015</label>
-                            <label class="sep">•</label>
-                            <label class="text" id="critics-label" name="critics">Critics</label>
-                        </div>
-                    </div>
-                </div>
+            <MovieListCell name="movies" class="list-item" is-row onclick="signal('view-cover')">
+
+				<div class="line"></div>
+				<img class="cover" name="cover"/>
+				<div class="info">
+					<label class="title" name="title">Movie Title</label>
+					<div class="misc">
+						<label class="text" data="year">2015</label>
+						<label class="sep">•</label>
+						<label class="text" id="critics-label" name="critics">Critics</label>
+					</div>
+				</div>
+				
             </MovieListCell>
             
         </RefreshCollectionView>
-        
+
         <style>
             
-            .wrapper {
+            body {
                 width: 100%;
                 height: 100%;
-				background-color: white;
+				background-color: #e8e8e8;
             }
         
 			.list {
@@ -56,11 +56,11 @@
 			}
 			
 			.list-item {
+				display: block;
 				width: 100%;
 				height: 100px;
-				background-color: #369;
 			}
-			
+
 			.line {
 				display: block;
 				width: 100%;
@@ -68,13 +68,7 @@
 				background-color: #ddd;
 				position: absolute;
 			}
-			
-			.item-wrapper {
-				display: block;
-				width: 100%;
-				height: auto;
-			}
-			
+		
 			.cover {
 				display: inline-block;
 				height: 80px;

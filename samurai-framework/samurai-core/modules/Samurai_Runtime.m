@@ -29,6 +29,7 @@
 //
 
 #import "Samurai_Runtime.h"
+#import "Samurai_Encoding.h"
 #import "Samurai_Log.h"
 #import "Samurai_UnitTest.h"
 
@@ -101,12 +102,18 @@
 	return results;
 }
 
-
 + (NSArray *)methods
+{
+	return [self methodsUntilClass:[self superclass]];
+}
+
++ (NSArray *)methodsUntilClass:(Class)baseClass
 {
 	NSMutableArray * methodNames = [[NSMutableArray alloc] init];
 		
 	Class thisClass = self;
+
+	baseClass = baseClass ?: [NSObject class];
 	
 	while ( NULL != thisClass )
 	{
@@ -133,7 +140,8 @@
 		free( methodList );
 
 		thisClass = class_getSuperclass( thisClass );
-		if ( thisClass == [NSObject class] )
+
+		if ( nil == thisClass || baseClass == thisClass )
 		{
 			break;
 		}
@@ -144,8 +152,13 @@
 
 + (NSArray *)methodsWithPrefix:(NSString *)prefix
 {
-	NSArray * methods = [self methods];
-	
+	return [self methodsWithPrefix:prefix untilClass:[self superclass]];
+}
+
++ (NSArray *)methodsWithPrefix:(NSString *)prefix untilClass:(Class)baseClass
+{
+	NSArray * methods = [self methodsUntilClass:baseClass];
+
 	if ( nil == methods || 0 == methods.count )
 	{
 		return nil;
@@ -168,6 +181,88 @@
 		[result addObject:selectorName];
 	}
 	
+	[result sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+		return [obj1 compare:obj2];
+	}];
+	
+	return result;
+}
+
++ (NSArray *)properties
+{
+	return [self propertiesUntilClass:[self superclass]];
+}
+
++ (NSArray *)propertiesUntilClass:(Class)baseClass
+{
+	NSMutableArray * propertyNames = [[NSMutableArray alloc] init];
+
+	Class thisClass = self;
+
+	baseClass = baseClass ?: [NSObject class];
+
+	while ( NULL != thisClass )
+	{
+		unsigned int		propertyCount = 0;
+		objc_property_t *	propertyList = class_copyPropertyList( thisClass, &propertyCount );
+		
+		for ( unsigned int i = 0; i < propertyCount; ++i )
+		{
+			const char * cstrName = property_getName( propertyList[i] );
+			if ( NULL == cstrName )
+				continue;
+			
+			NSString * propName = [NSString stringWithUTF8String:cstrName];
+			if ( NULL == propName )
+				continue;
+
+			[propertyNames addObject:propName];
+		}
+		
+		free( propertyList );
+		
+		thisClass = class_getSuperclass( thisClass );
+		
+		if ( nil == thisClass || baseClass == thisClass )
+		{
+			break;
+		}
+	}
+
+	return propertyNames;
+}
+
++ (NSArray *)propertiesWithPrefix:(NSString *)prefix
+{
+	return [self propertiesWithPrefix:prefix untilClass:[self superclass]];
+}
+
++ (NSArray *)propertiesWithPrefix:(NSString *)prefix untilClass:(Class)baseClass
+{
+	NSArray * properties = [self propertiesUntilClass:baseClass];
+	
+	if ( nil == properties || 0 == properties.count )
+	{
+		return nil;
+	}
+	
+	if ( nil == prefix )
+	{
+		return properties;
+	}
+	
+	NSMutableArray * result = [[NSMutableArray alloc] init];
+	
+	for ( NSString * propName in properties )
+	{
+		if ( NO == [propName hasPrefix:prefix] )
+		{
+			continue;
+		}
+		
+		[result addObject:propName];
+	}
+
 	[result sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
 		return [obj1 compare:obj2];
 	}];
@@ -198,9 +293,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( Core, Runtime )
+
+DESCRIBE( before )
 {
-	
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

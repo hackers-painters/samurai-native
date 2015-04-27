@@ -29,30 +29,38 @@
 //
 
 #import "IndexActivity.h"
-
-#import "MBProgressHUD.h"
-#import "RefreshCollectionView.h"
+#import "ThemeConfig.h"
 
 #pragma mark -
-
-@interface IndexActivity(Private)<MBProgressHUDDelegate>
-@end
 
 @implementation IndexActivity
 {
 	NSUInteger				_currentIndex;
 	ShotListModel *			_currentModel;
-	RefreshCollectionView *	_list;
-	MBProgressHUD *			_hud;
 }
 
 @def_model( PopularShotListModel *,		model1 );
 @def_model( DebutsShotListModel *,		model2 );
 @def_model( EveryoneShotListModel *,	model3 );
 
+@def_outlet( RefreshCollectionView *,	list );
+@def_outlet( UIView *,					tab1 );
+@def_outlet( UIView *,					tab2 );
+@def_outlet( UIView *,					tab3 );
+
+#pragma mark -
+
+- (NSString *)templateName
+{
+	return @"dribbble-index.html";
+}
+
+#pragma mark -
+
 - (void)onCreate
 {
 	self.navigationBarTitle = [UIImage imageNamed:@"dribbble-logo.png"];
+	self.navigationBarDoneButton = @"Theme";
 
 	self.model1 = [PopularShotListModel new];
 	self.model2 = [DebutsShotListModel new];
@@ -68,15 +76,10 @@
 
 	_currentIndex = 0;
 	_currentModel = self.model1;
-
-	[self loadViewTemplate:@"/www/html/dribbble-index.html"];
-//	[self loadViewTemplate:@"http://localhost:8000/html/dribbble-index.html"];
 }
 
 - (void)onDestroy
 {
-	[self unloadViewTemplate];
-
 	[self.model1 removeSignalResponder:self];
 	[self.model1 modelSave];
 	
@@ -109,7 +112,6 @@
 
 - (void)onLayout
 {
-	[self relayout];
 }
 
 #pragma mark -
@@ -121,6 +123,28 @@
 
 - (void)onDonePressed
 {
+	UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose theme"
+															  delegate:self
+													 cancelButtonTitle:@"Cancel"
+												destructiveButtonTitle:nil
+													 otherButtonTitles:@"Pink", @"Blue", nil];
+	
+	[actionSheet showInView:self.view];
+}
+
+#pragma mark -
+
+// Called when a button is clicked. The view will be automatically dismissed after this call returns
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if ( 0 == buttonIndex )
+	{
+		[[ThemeConfig sharedInstance] changeTheme:@"pink"];
+	}
+	else if ( 1 == buttonIndex )
+	{
+		[[ThemeConfig sharedInstance] changeTheme:@"blue"];
+	}
 }
 
 #pragma mark -
@@ -166,8 +190,8 @@
 			{
 				[animation setSubtype:kCATransitionFromRight];
 			}
-			
-			[_list.layer addAnimation:animation forKey:@"push"];
+
+			[self.list.layer addAnimation:animation forKey:@"push"];
 		}
 		
 		_currentIndex = newIndex;
@@ -175,30 +199,39 @@
 	
 	if ( 0 == _currentIndex )
 	{
-		$(@"#tab1").ADD_CLASS( @"active" );
-		$(@"#tab2").REMOVE_CLASS( @"active" );
-		$(@"#tab3").REMOVE_CLASS( @"active" );
+//		$(@"#tab1").ADD_CLASS( @"active" );
+//		$(@"#tab2").REMOVE_CLASS( @"active" );
+//		$(@"#tab3").REMOVE_CLASS( @"active" );
 		
 		_currentModel = self.model1;
 	}
 	else if ( 1 == _currentIndex )
 	{
-		$(@"#tab1").REMOVE_CLASS( @"active" );
-		$(@"#tab2").ADD_CLASS( @"active" );
-		$(@"#tab3").REMOVE_CLASS( @"active" );
+//		$(@"#tab1").REMOVE_CLASS( @"active" );
+//		$(@"#tab2").ADD_CLASS( @"active" );
+//		$(@"#tab3").REMOVE_CLASS( @"active" );
 		
 		_currentModel = self.model2;
 	}
 	else if ( 2 == _currentIndex )
 	{
-		$(@"#tab1").REMOVE_CLASS( @"active" );
-		$(@"#tab2").REMOVE_CLASS( @"active" );
-		$(@"#tab3").ADD_CLASS( @"active" );
+//		$(@"#tab1").REMOVE_CLASS( @"active" );
+//		$(@"#tab2").REMOVE_CLASS( @"active" );
+//		$(@"#tab3").ADD_CLASS( @"active" );
 		
 		_currentModel = self.model3;
 	}
+
+	self.tab1.customStyleClasses = (0 == _currentIndex) ? @[@"tab", @"active"] : @[@"tab"];
+	self.tab2.customStyleClasses = (1 == _currentIndex) ? @[@"tab", @"active"] : @[@"tab"];
+	self.tab3.customStyleClasses = (2 == _currentIndex) ? @[@"tab", @"active"] : @[@"tab"];
+
+	[self.tab1 restyle];
+	[self.tab2 restyle];
+	[self.tab3 restyle];
+
+	[self.list setContentOffset:CGPointZero animated:NO];
 	
-	[_list setContentOffset:CGPointZero animated:NO];
 	[_currentModel refresh];
 	
 	[self reloadData];
@@ -219,14 +252,14 @@
 	}
 	else
 	{
-		[_list stopLoading];
+		[self.list stopLoading];
 	}
 }
 
 - (void)reloadData
 {
-	self[@"tabbar"] = @{
-						
+	self.viewStorage[ @"tabbar" ] = @{
+	
 		@"popular" : ({
 			
 			NSString * text = nil;
@@ -277,8 +310,8 @@
 		}),
 		
 	};
-	
-	self[@"list"] = @{
+
+	self.viewStorage[ @"list" ] = @{
 
 		@"shots" : ({
 			
@@ -342,7 +375,7 @@ handleSignal( view_shot )
 {
 	SHOT * shot = [_currentModel.shots objectAtIndex:signal.sourceIndexPath.row];
 	
-	[self openURL:@"/shot" params:@{ @"shot" : shot }];
+	[self startURL:@"/shot" params:@{ @"shot" : shot }];
 }
 
 #pragma mark -
@@ -363,42 +396,24 @@ handleSignal( ShotListModel, eventLoading )
 {
 	if ( 0 == [_currentModel.shots count] )
 	{
-		if ( nil == _hud )
-		{
-			_hud = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-			_hud.labelText = @"Loading...";
-			_hud.delegate = self;
-			_hud.removeFromSuperViewOnHide = YES;
-			
-			[self.navigationController.view addSubview:_hud];
-			
-			[_hud show:YES];
-		}
+		[self showLoading];
 	}
 }
 
 handleSignal( ShotListModel, eventLoaded )
 {
-	if ( _hud )
-	{
-		[_hud hide:YES];
-		_hud = nil;
-	}
+	[self hideLoading];
 	
-	[_list stopLoading];
+	[self.list stopLoading];
 	
 	[self reloadData];
 }
 
 handleSignal( ShotListModel, eventError )
 {
-	if ( _hud )
-	{
-		[_hud hide:YES];
-		_hud = nil;
-	}
+	[self hideLoading];
 	
-	[_list stopLoading];
+	[self.list stopLoading];
 }
 
 @end

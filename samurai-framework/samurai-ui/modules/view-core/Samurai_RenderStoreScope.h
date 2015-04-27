@@ -50,7 +50,7 @@
 
 #pragma mark -
 
-@interface SamuraiRenderStoreScope : NSObject
+@interface SamuraiRenderStoreScope : NSObject<NSDictionaryProtocol, NSMutableDictionaryProtocol>
 
 @prop_strong( SamuraiRenderStoreNode *,	storeTree );
 @prop_strong( NSString *,				storePath );

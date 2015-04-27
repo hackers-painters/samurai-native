@@ -28,12 +28,14 @@
 //	THE SOFTWARE.
 //
 
-#import "model.h"
+#import "BaseActivity.h"
 
 #pragma mark -
 
-@interface PhotoActivity : SamuraiActivity
+@interface PhotoActivity : BaseActivity
 
-@prop_strong( SHOT *,	shot );
+@model( SHOT *,				shot );
+
+@outlet( UIImageView *,		photo );
 
 @end

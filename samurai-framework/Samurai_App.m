@@ -150,7 +150,7 @@ static __strong id __applicationInstance = nil;
 	
 	INFO( @"Application '%p', create activity '%@'", self, string );
 
-	SamuraiActivity * activity = [[SamuraiActivityRouter sharedInstance] activityForKey:string];
+	SamuraiActivity * activity = [[SamuraiActivityRouter sharedInstance] activityForURL:string];
 	
 	if ( nil == activity )
 	{
@@ -260,7 +260,7 @@ static __strong id __applicationInstance = nil;
 					Class classType = NSClassFromString( [applicationRoutes objectForKey:key] );
 					if ( classType )
 					{
-						[[SamuraiActivityRouter sharedInstance] mapKey:key toActivityClass:classType];
+						[[SamuraiActivityRouter sharedInstance] mapURL:key toActivityClass:classType];
 					}
 				}
 			}

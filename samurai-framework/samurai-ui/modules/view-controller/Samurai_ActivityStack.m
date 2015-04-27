@@ -80,6 +80,8 @@
 	}
 }
 
+#pragma mark -
+
 - (void)startActivity:(SamuraiActivity *)activity
 {
 	if ( nil == activity )
@@ -88,10 +90,6 @@
 	if ( self.navigationController )
 	{
 		[self.navigationController pushViewController:activity animated:YES];
-	}
-	else
-	{
-		[self presentViewController:activity animated:YES completion:nil];
 	}
 }
 
@@ -111,10 +109,6 @@
 	{
 		[self.navigationController pushViewController:activity animated:YES];
 	}
-	else
-	{
-		[self presentViewController:activity animated:YES completion:nil];
-	}
 }
 
 - (void)startActivity:(SamuraiActivity *)activity intent:(SamuraiIntent *)intent
@@ -131,15 +125,49 @@
 	{
 		[self.navigationController pushViewController:activity animated:YES];
 	}
-	else
-	{
-		[self presentViewController:activity animated:YES completion:nil];
-	}
 }
 
 #pragma mark -
 
-- (void)openURL:(NSString *)url, ...
+- (void)presentActivity:(SamuraiActivity *)activity
+{
+	if ( nil == activity )
+		return;
+	
+	[self presentViewController:activity animated:YES completion:nil];
+}
+
+- (void)presentActivity:(SamuraiActivity *)activity params:(NSDictionary *)params
+{
+	if ( nil == activity )
+		return;
+	
+	if ( params && params.count )
+	{
+		SamuraiIntent * intent = [SamuraiIntent intent];
+		[intent.input setDictionary:params];
+		activity.intent = intent;
+	}
+	
+	[self presentViewController:activity animated:YES completion:nil];
+}
+
+- (void)presentActivity:(SamuraiActivity *)activity intent:(SamuraiIntent *)intent
+{
+	if ( nil == activity )
+		return;
+	
+	if ( intent )
+	{
+		activity.intent = intent;
+	}
+	
+	[self presentViewController:activity animated:YES completion:nil];
+}
+
+#pragma mark -
+
+- (void)startURL:(NSString *)url, ...
 {
 	if ( url && url.length )
 	{
@@ -151,65 +179,121 @@
 		va_end( args );
 	}
 	
-	[self openURL:url intent:nil callback:nil];
+	[self startURL:url intent:nil callback:nil];
 }
 
-- (void)openURL:(NSString *)url callback:(IntentCallback)callback
+- (void)startURL:(NSString *)url callback:(IntentCallback)callback
 {
-	[self openURL:url intent:nil callback:callback];
+	[self startURL:url intent:nil callback:callback];
 }
 
-- (void)openURL:(NSString *)url params:(NSDictionary *)params
+- (void)startURL:(NSString *)url params:(NSDictionary *)params
 {
 	SamuraiIntent * intent = [SamuraiIntent intent:nil params:params];
 	
-	[self openURL:url intent:intent callback:nil];
+	[self startURL:url intent:intent callback:nil];
 }
 
-- (void)openURL:(NSString *)url intent:(SamuraiIntent *)intent
+- (void)startURL:(NSString *)url intent:(SamuraiIntent *)intent
 {
-	[self openURL:url intent:intent callback:nil];
+	[self startURL:url intent:intent callback:nil];
 }
 
-- (void)openURL:(NSString *)urlString intent:(SamuraiIntent *)intent callback:(IntentCallback)callback
+- (void)startURL:(NSString *)urlString intent:(SamuraiIntent *)intent callback:(IntentCallback)callback
+{
+	SamuraiActivity * activity = [self makeActivityWithURL:urlString intent:intent callback:callback];
+	
+	if ( activity )
+	{
+		[self startActivity:activity intent:intent];
+	}
+}
+
+#pragma mark -
+
+- (void)presentURL:(NSString *)url, ...
+{
+	if ( url && url.length )
+	{
+		va_list args;
+		va_start( args, url );
+		
+		url = [[NSString alloc] initWithFormat:url arguments:args];
+		
+		va_end( args );
+	}
+	
+	[self presentURL:url intent:nil callback:nil];
+}
+
+- (void)presentURL:(NSString *)url params:(NSDictionary *)params
+{
+	SamuraiIntent * intent = [SamuraiIntent intent:nil params:params];
+	
+	[self presentURL:url intent:intent callback:nil];
+}
+
+- (void)presentURL:(NSString *)url intent:(SamuraiIntent *)intent
+{
+	[self presentURL:url intent:intent callback:nil];
+}
+
+- (void)presentURL:(NSString *)url callback:(IntentCallback)callback
+{
+	[self presentURL:url intent:nil callback:callback];
+}
+
+- (void)presentURL:(NSString *)urlString intent:(SamuraiIntent *)intent callback:(IntentCallback)callback
+{
+	SamuraiActivity * activity = [self makeActivityWithURL:urlString intent:intent callback:callback];
+	
+	if ( activity )
+	{
+		[self presentActivity:activity intent:intent];
+	}
+}
+
+#pragma mark -
+
+- (SamuraiActivity *)makeActivityWithURL:(NSString *)urlString intent:(SamuraiIntent *)intent callback:(IntentCallback)callback
 {
 	if ( nil == urlString || 0 == urlString.length )
 	{
-		ERROR( @"Activity router, empty url" );
-		return;
+		ERROR( @"Activity stack, empty url" );
+		return nil;
 	}
-
+	
 	NSURL * url = [NSURL URLWithString:urlString];
 	if ( nil == url )
 	{
-		ERROR( @"Activity router, invalid url '%@'", urlString );
-		return;
+		ERROR( @"Activity stack, invalid url '%@'", urlString );
+		return nil;
 	}
 	
 	NSString * resource = url.path;
 	NSString * fragment = url.fragment;
 	NSString * query = url.query;
-
+	
 	resource = [resource hasPrefix:@"/"] ? [resource substringFromIndex:1] : resource;
 	resource = [resource hasSuffix:@"/"] ? [resource substringToIndex:resource.length - 1] : resource;
-
-	SamuraiActivity * activity = [[SamuraiActivityRouter sharedInstance] activityForKey:resource];
+	
+	SamuraiActivity * activity = [[SamuraiActivityRouter sharedInstance] activityForURL:resource];
 	if ( nil == activity )
 	{
 		resource = [NSString stringWithFormat:@"/%@", resource];
-		activity = [[SamuraiActivityRouter sharedInstance] activityForKey:resource];
+		activity = [[SamuraiActivityRouter sharedInstance] activityForURL:resource];
 		
 		ERROR( @"Activity router, invalid url '%@'", url );
-		return;
+		return nil;
 	}
-
+	
 	if ( fragment )
 	{
 		if ( nil == intent )
 		{
 			intent = [SamuraiIntent intent];
 		}
-
+		
 		intent.action = fragment;
 	}
 	
@@ -219,7 +303,7 @@
 		{
 			intent = [SamuraiIntent intent];
 		}
-
+		
 		@weakify( intent );
 		
 		intent.stateChanged = ^
@@ -229,16 +313,16 @@
 			callback( intent );
 		};
 	}
-
+	
 	if ( query )
 	{
 		if ( nil == intent )
 		{
 			intent = [SamuraiIntent intent];
 		}
-
+		
 		NSArray * pairs = [query componentsSeparatedByString:@"&"];
-
+		
 		for ( NSString * string in pairs )
 		{
 			NSArray * pair = [string componentsSeparatedByString:@"="];
@@ -247,16 +331,13 @@
 			{
 				NSString * key = [pair safeObjectAtIndex:0];
 				NSString * value = [pair safeObjectAtIndex:1];
-
+				
 				[intent setObject:value forKey:key];
 			}
 		}
 	}
 	
-	if ( activity )
-	{
-		[self startActivity:activity intent:intent];
-	}
+	return activity;
 }
 
 @end
@@ -525,10 +606,10 @@ BASE_CLASS( SamuraiActivityStack )
 
 #pragma mark -
 
-- (void)handleSignal:(SamuraiSignal *)signal
-{
-	[signal forward:self.topViewController];
-}
+//- (void)handleSignal:(SamuraiSignal *)signal
+//{
+//	[signal forward:self.topViewController];
+//}
 
 @end
 
@@ -541,8 +622,15 @@ BASE_CLASS( SamuraiActivityStack )
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, ActivityStack )
+
+DESCRIBE( before )
 {
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

@@ -58,8 +58,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, ViewEventInput )
+
+DESCRIBE( before )
 {
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

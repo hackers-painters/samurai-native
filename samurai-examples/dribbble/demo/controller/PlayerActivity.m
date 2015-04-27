@@ -29,41 +29,43 @@
 //
 
 #import "PlayerActivity.h"
-#import "RefreshCollectionView.h"
+#import "ThemeConfig.h"
 
 #pragma mark -
 
 @implementation PlayerActivity
+
+@def_model( USER *,						player );
+@def_model( PlayerShotListModel *,		listModel );
+
+@def_outlet( RefreshCollectionView *,	list );
+
+#pragma mark -
+
+- (NSString *)templateName
 {
-	RefreshCollectionView *	_list;
+	return @"dribbble-player.html";
 }
 
-@def_prop_strong( USER *,					player );
-@def_prop_strong( PlayerShotListModel *,	listModel );
+#pragma mark -
 
 - (void)onCreate
 {
-//	self.navigationBarTitle = [UIImage imageNamed:@"dribbble-logo.png"];
-
 	self.player = self.intent.input[@"player"];
 	
 	self.listModel = [PlayerShotListModel new];
 	self.listModel.player_id = self.player.id;
-	
 	[self.listModel addSignalResponder:self];
 	[self.listModel modelLoad];
-
-	[self loadViewTemplate:@"/www/html/dribbble-player.html"];
-//	[self loadViewTemplate:@"http://localhost:8000/html/dribbble-player.html"];
 }
 
 - (void)onDestroy
 {
-	[self unloadViewTemplate];
-
 	[self.listModel modelSave];
 	[self.listModel removeSignalResponder:self];
 	self.listModel = nil;
+	
+	self.player = nil;
 }
 
 - (void)onStart
@@ -84,7 +86,6 @@
 
 - (void)onLayout
 {
-	[self relayout];
 }
 
 #pragma mark -
@@ -135,13 +136,13 @@
 	}
 	else
 	{
-		[_list stopLoading];
+		[self.list stopLoading];
 	}
 }
 
 - (void)reloadData
 {
-	self[@"player"] = @{
+	self.viewStorage[@"player"] = @{
 
 		@"author" : @{
 			@"avatar" : self.player.avatar_url ?: @"", // @"https://d13yacurqjgara.cloudfront.net/users/162360/avatars/normal/logo.png?1402322917",
@@ -182,7 +183,7 @@ handleSignal( view_shot )
 
     shot.user = self.player;
     
-	[self openURL:@"/shot" params:@{ @"shot" : shot }];
+	[self startURL:@"/shot" params:@{ @"shot" : shot }];
 }
 
 #pragma mark -
@@ -205,14 +206,14 @@ handleSignal( PlayerModel, eventLoading )
 
 handleSignal( PlayerModel, eventLoaded )
 {
-	[_list stopLoading];
+	[self.list stopLoading];
 	
 	[self reloadData];
 }
 
 handleSignal( PlayerModel, eventError )
 {
-	[_list stopLoading];
+	[self.list stopLoading];
 }
 
 #pragma mark -
@@ -223,14 +224,14 @@ handleSignal( PlayerShotListModel, eventLoading )
 
 handleSignal( PlayerShotListModel, eventLoaded )
 {
-	[_list stopLoading];
+	[self.list stopLoading];
 	
 	[self reloadData];
 }
 
 handleSignal( PlayerShotListModel, eventError )
 {
-	[_list stopLoading];
+	[self.list stopLoading];
 }
 
 @end

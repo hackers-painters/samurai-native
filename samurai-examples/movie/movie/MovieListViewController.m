@@ -87,7 +87,8 @@
 
 - (void)reloadData
 {
-    self[@"list"] = @{
+    self.viewStorage[@"list"] = @{
+								  
                       @"movies" : ({
                           
                           NSMutableArray * movies = [NSMutableArray array];
@@ -105,7 +106,7 @@
                           movies;
                       })
     };
-    
+
     [_list reloadData];
 }
 

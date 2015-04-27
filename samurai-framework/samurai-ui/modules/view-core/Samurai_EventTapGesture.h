@@ -49,13 +49,15 @@ typedef enum
 
 @interface UIView(EventTapGesture)
 
+@joint( tapStateChanged );
+
 @signal( eventTapPressing );	/// 按下
 @signal( eventTapMoving );		/// 移动
 @signal( eventTapRaised );		/// 抬起
 @signal( eventTapCancelled );	/// 取消
 
 @prop_strong( NSString *,	tapSignalName );
-
+@prop_readonly( TapState,	tapState );
 @prop_readonly( BOOL,		tapPressing );
 @prop_readonly( BOOL,		tapMoving );
 @prop_readonly( BOOL,		tapRaised );

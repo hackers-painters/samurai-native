@@ -465,9 +465,15 @@ BASE_CLASS( SamuraiResource )
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, Resource )
+
+DESCRIBE( before )
 {
-//	TODO( @"test case" )
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

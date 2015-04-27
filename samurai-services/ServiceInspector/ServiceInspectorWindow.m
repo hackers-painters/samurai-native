@@ -184,7 +184,7 @@
 	self = [super initWithFrame:screenBound];
 	if ( self )
 	{
-		self.backgroundColor = [UIColor whiteColor];
+		self.backgroundColor = [UIColor blackColor];
 		self.windowLevel = UIWindowLevelStatusBar + 1.0f;
 
 		_panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPan:)];

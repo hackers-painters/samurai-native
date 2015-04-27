@@ -36,73 +36,57 @@
 
 #pragma mark -
 
-// 主队列
+// main
+
 #undef	dispatch_async_foreground
 #define dispatch_async_foreground( block ) \
         dispatch_async( dispatch_get_main_queue(), block )
 
 #undef	dispatch_after_foreground
 #define dispatch_after_foreground( seconds, block ) \
-        { \
-            dispatch_time_t __time = dispatch_time( DISPATCH_TIME_NOW, seconds * 1ull * NSEC_PER_SEC ); \
-            dispatch_after( __time, dispatch_get_main_queue(), block ); \
-        }
+		dispatch_after( dispatch_time( DISPATCH_TIME_NOW, seconds * 1ull * NSEC_PER_SEC ), dispatch_get_main_queue(), block ); \
 
-// 自己建的后台并行队列
-#undef	dispatch_async_background
-#define dispatch_async_background( block )      dispatch_async_background_concurrent( block )
+#undef	dispatch_barrier_async_foreground
+#define dispatch_barrier_async_foreground( seconds, block ) \
+		dispatch_barrier_async( [SamuraiQueue sharedInstance].concurrent, ^{ \
+			dispatch_async_foreground( block ); \
+		});
+
+// concurrent
 
 #undef	dispatch_async_background_concurrent
 #define dispatch_async_background_concurrent( block ) \
-        dispatch_async( [SamuraiGCD sharedInstance].backConcurrentQueue, block )
+        dispatch_async( [SamuraiQueue sharedInstance].concurrent, block )
 
 #undef	dispatch_after_background_concurrent
 #define dispatch_after_background_concurrent( seconds, block ) \
-        { \
-            dispatch_time_t __time = dispatch_time( DISPATCH_TIME_NOW, seconds * 1ull * NSEC_PER_SEC ); \
-            dispatch_after( __time, [SamuraiGCD sharedInstance].backConcurrentQueue, block ); \
-        }
-
-// 自己建的后台串行队列
-#undef	dispatch_async_background_serial
-#define dispatch_async_background_serial( block ) \
-    dispatch_async( [SamuraiGCD sharedInstance].backSerialQueue, block )
-
-#undef	dispatch_after_background_serial
-#define dispatch_after_background_serial( seconds, block ) \
-         { \
-            dispatch_time_t __time = dispatch_time( DISPATCH_TIME_NOW, seconds * 1ull * NSEC_PER_SEC ); \
-            dispatch_after( __time, [SamuraiGCD sharedInstance].backSerialQueue, block ); \
-          }
-
-// 自己建写的文件用的串行队列
-#undef	dispatch_async_background_writeFile
-#define dispatch_async_background_writeFile( block ) \
-        dispatch_async( [SamuraiGCD sharedInstance].writeFileQueue, block )
-
-
-// barrier
-#undef	dispatch_barrier_async_foreground
-#define dispatch_barrier_async_foreground( seconds, block ) \
-        dispatch_barrier_async( [SamuraiGCD sharedInstance].backConcurrentQueue, ^{   \
-            dispatch_async_foreground( block );   \
-        });
+		dispatch_after( dispatch_time( DISPATCH_TIME_NOW, seconds * 1ull * NSEC_PER_SEC ), [SamuraiQueue sharedInstance].concurrent, block ); \
 
 #undef	dispatch_barrier_async_background_concurrent
 #define dispatch_barrier_async_background_concurrent( seconds, block ) \
-        dispatch_barrier_async( [SamuraiGCD sharedInstance].backConcurrentQueue, block )
+		dispatch_barrier_async( [SamuraiQueue sharedInstance].concurrent, block )
+
+// serial
+
+#undef	dispatch_async_background_serial
+#define dispatch_async_background_serial( block ) \
+		dispatch_async( [SamuraiQueue sharedInstance].serial, block )
+
+#undef	dispatch_after_background_serial
+#define dispatch_after_background_serial( seconds, block ) \
+		dispatch_after( dispatch_time( DISPATCH_TIME_NOW, seconds * 1ull * NSEC_PER_SEC ), [SamuraiQueue sharedInstance].serial, block ); \
 
 #pragma mark -
-@interface SamuraiGCD : NSObject
 
-@singleton( SamuraiGCD )
+@interface SamuraiQueue : NSObject
 
-@prop_readonly(dispatch_queue_t,			foreQueue );
-@prop_readonly(dispatch_queue_t,			backSerialQueue );
-@prop_readonly(dispatch_queue_t,			backConcurrentQueue );
-@prop_readonly(dispatch_queue_t,			writeFileQueue );
+@singleton( SamuraiQueue )
+
+@prop_readonly( dispatch_queue_t,	serial );
+@prop_readonly( dispatch_queue_t,	concurrent );
 
 @end
+
 #pragma mark -
 
 @protocol NSLockProtocol <NSObject>

@@ -28,14 +28,19 @@
 //	THE SOFTWARE.
 //
 
-#import "model.h"
+#import "BaseActivity.h"
 
 #pragma mark -
 
-@interface IndexActivity : SamuraiActivity
+@interface IndexActivity : BaseActivity<UIActionSheetDelegate>
 
 @model( PopularShotListModel *,		model1 );
 @model( DebutsShotListModel *,		model2 );
 @model( EveryoneShotListModel *,	model3 );
+
+@outlet( RefreshCollectionView *,	list );
+@outlet( UIView *,					tab1 );
+@outlet( UIView *,					tab2 );
+@outlet( UIView *,					tab3 );
 
 @end

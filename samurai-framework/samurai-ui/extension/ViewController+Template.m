@@ -42,14 +42,9 @@
 
 @implementation UIViewController(Template)
 
-- (SamuraiRenderStoreScope *)viewStore
+- (SamuraiRenderStoreScope *)viewStorage
 {
-	if ( [self isViewLoaded] )
-	{
-		return [SamuraiRenderStoreScope storeScope:[[self view] renderer]];
-	}
-	
-	return nil;
+	return [SamuraiRenderStoreScope storeScope:[[self view] renderer]];
 }
 
 #pragma mark -
@@ -92,7 +87,11 @@
 	
 	if ( viewTemplate.loading )
 	{
+	#if __SAMURAI_USE_UI_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onTemplateLoading) reversed:YES];
+	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+		[self onTemplateLoading];
+	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
 	}
 	else if ( viewTemplate.loaded )
 	{
@@ -147,23 +146,30 @@
 		
 		if ( self.viewTemplate )
 		{
-			NSString * documentTitle = [self.viewTemplate.document computeTitle];
-
-			if ( documentTitle )
-			{
-				self.title = documentTitle;
-			}
+			[self.viewTemplate.document configuringForViewController:self];
 		}
-		
+
+	#if __SAMURAI_USE_UI_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onTemplateLoaded) reversed:YES];
+	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+		[self onTemplateLoaded];
+	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
 	}
 	else if ( viewTemplate.failed )
 	{
+	#if __SAMURAI_USE_UI_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onTemplateFailed) reversed:YES];
+	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+		[self onTemplateFailed];
+	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
 	}
 	else if ( viewTemplate.cancelled )
 	{
+	#if __SAMURAI_USE_UI_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onTemplateCancelled) reversed:YES];
+	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+		[self onTemplateCancelled];
+	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
 	}
 }
 
@@ -175,46 +181,26 @@
 	{
 		if ( self.viewTemplate )
 		{
-			[self.viewTemplate relayout];
+			if ( self.viewTemplate.document && self.viewTemplate.document.renderTree )
+			{
+				[self.viewTemplate.document.renderTree relayout];
+			}
 		}
 	}
 }
 
-#pragma mark -
-
-- (id)objectForKey:(id)key
+- (void)restyle
 {
-	return [[self viewStore] getDataWithPath:key];
-}
-
-- (BOOL)hasObjectForKey:(id)key
-{
-	return [[self viewStore] getDataWithPath:key] ? YES : NO;
-}
-
-- (void)setObject:(id)value forKey:(id)key
-{
-	[[self viewStore] setData:value withPath:key];
-}
-
-- (void)removeObjectForKey:(id)key
-{
-	[[self viewStore] clearDataWithPath:key];
-}
-
-- (void)removeAllObjects
-{
-	[[self viewStore] clearData];
-}
-
-- (id)objectForKeyedSubscript:(id)key;
-{
-	return [self objectForKey:key];
-}
-
-- (void)setObject:(id)obj forKeyedSubscript:(id)key
-{
-	[self setObject:obj forKey:key];
+	if ( [self isViewLoaded] )
+	{
+		if ( self.viewTemplate )
+		{
+			if ( self.viewTemplate.document && self.viewTemplate.document.renderTree )
+			{
+				[self.viewTemplate.document.renderTree restyle];
+			}
+		}
+	}
 }
 
 #pragma mark -
@@ -230,10 +216,12 @@
 
 - (void)onTemplateFailed
 {
+	[self relayout];
 }
 
 - (void)onTemplateCancelled
 {
+	[self relayout];
 }
 
 @end
@@ -247,9 +235,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, ViewController_Template )
+
+DESCRIBE( before )
 {
-//	TODO( @"test case" )
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

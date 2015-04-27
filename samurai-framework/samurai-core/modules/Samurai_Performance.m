@@ -74,14 +74,18 @@
 	{
 		NSString * name1 = [NSString stringWithFormat:@"%@ enter", tag];
 		NSString * name2 = [NSString stringWithFormat:@"%@ leave", tag];
+	
+	#if __SAMURAI_LOGGING__
 		
 		CFTimeInterval time1 = [[_tags objectForKey:name1] doubleValue];
 		CFTimeInterval time2 = CACurrentMediaTime();
+		
+		PERF( @"Time '%@' = %.0f(ms)", tag, fabs(time2 - time1) );
+
+	#endif	// #if __SAMURAI_LOGGING__
 
 		[_tags removeObjectForKey:name1];
 		[_tags removeObjectForKey:name2];
-
-		PERF( @"Time '%@' = %.0f(ms)", tag, fabs(time2 - time1) );
 	}
 }
 
@@ -96,10 +100,12 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( Core, Performance )
+
+DESCRIBE( before )
 {
 }
 
-DESCRIBE()
+DESCRIBE( after )
 {
 }
 

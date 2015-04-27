@@ -73,9 +73,10 @@
 - (SamuraiDomNode *)getHead;
 - (SamuraiDomNode *)getBody;
 
-- (NSString *)computeTitle;
-
 - (BOOL)reflow;
+
+- (void)configuringForView:(UIView *)view;
+- (void)configuringForViewController:(UIViewController *)viewController;
 
 @end
 

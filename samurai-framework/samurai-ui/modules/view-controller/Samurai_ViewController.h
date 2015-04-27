@@ -28,6 +28,8 @@
 //	THE SOFTWARE.
 //
 
+#import "Samurai_Core.h"
+
 #import "Samurai_Activity.h"
 #import "Samurai_ActivityRouter.h"
 #import "Samurai_ActivityStack.h"

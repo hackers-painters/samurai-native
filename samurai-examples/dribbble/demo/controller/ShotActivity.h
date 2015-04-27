@@ -28,13 +28,15 @@
 //	THE SOFTWARE.
 //
 
-#import "model.h"
+#import "BaseActivity.h"
 
 #pragma mark -
 
-@interface ShotActivity : SamuraiActivity
+@interface ShotActivity : BaseActivity
 
-@prop_strong( SHOT *,					shot );
-@prop_strong( ShotCommentListModel *,	listModel );
+@model( SHOT *,						shot );
+@model( ShotCommentListModel *,		listModel );
+
+@outlet( RefreshCollectionView *,	list );
 
 @end

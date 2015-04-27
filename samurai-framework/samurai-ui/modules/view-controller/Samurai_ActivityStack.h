@@ -62,10 +62,19 @@ typedef void (^ IntentCallback )( SamuraiIntent * intent );
 - (void)startActivity:(SamuraiActivity *)activity params:(NSDictionary *)params;
 - (void)startActivity:(SamuraiActivity *)activity intent:(SamuraiIntent *)intent;
 
-- (void)openURL:(NSString *)url, ...;
-- (void)openURL:(NSString *)url params:(NSDictionary *)params;
-- (void)openURL:(NSString *)url intent:(SamuraiIntent *)intent;
-- (void)openURL:(NSString *)url callback:(IntentCallback)callback;
+- (void)presentActivity:(SamuraiActivity *)activity;
+- (void)presentActivity:(SamuraiActivity *)activity params:(NSDictionary *)params;
+- (void)presentActivity:(SamuraiActivity *)activity intent:(SamuraiIntent *)intent;
+
+- (void)startURL:(NSString *)url, ...;
+- (void)startURL:(NSString *)url params:(NSDictionary *)params;
+- (void)startURL:(NSString *)url intent:(SamuraiIntent *)intent;
+- (void)startURL:(NSString *)url callback:(IntentCallback)callback;
+
+- (void)presentURL:(NSString *)url, ...;
+- (void)presentURL:(NSString *)url params:(NSDictionary *)params;
+- (void)presentURL:(NSString *)url intent:(SamuraiIntent *)intent;
+- (void)presentURL:(NSString *)url callback:(IntentCallback)callback;
 
 @end
 

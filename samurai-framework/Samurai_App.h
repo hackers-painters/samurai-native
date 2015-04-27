@@ -33,6 +33,8 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_UI.h"
+
 #pragma mark -
 
 @interface SamuraiApp : UIResponder<UIApplicationDelegate>
@@ -64,6 +66,10 @@
 - (void)unload;
 
 - (void)main;
+
+- (SamuraiActivity *)activityFromString:(NSString *)string;
+- (SamuraiActivityStack *)activityStackFromArray:(NSArray *)array;
+- (SamuraiActivityStackGroup *)activityStackGroupFromDictionary:(NSDictionary *)dict;
 
 @end
 

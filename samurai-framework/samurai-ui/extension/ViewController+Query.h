@@ -45,9 +45,6 @@
 
 - (SamuraiRenderQuery *)query:(NSString *)expression;
 
-- (SamuraiRenderObject *)first:(NSString *)expression;
-- (SamuraiRenderObject *)last:(NSString *)expression;
-
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

@@ -49,9 +49,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, HtmlSupport )
+
+DESCRIBE( before )
 {
-	//	TODO( @"test case" )
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

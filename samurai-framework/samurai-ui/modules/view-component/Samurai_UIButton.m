@@ -46,24 +46,26 @@
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
-	return [super createInstanceWithRenderer:renderer identifier:identifier];
+	UIButton * button = [self buttonWithType:UIButtonTypeCustom];
+	button.renderer = renderer;
+	return button;
 }
 
 #pragma mark -
 
 - (id)serialize
 {
-	return [self titleForState:UIControlStateNormal];
+	return self.titleLabel.text;
 }
 
 - (void)unserialize:(id)obj
 {
-	[self setTitle:[obj toString] forState:UIControlStateNormal];
+	self.titleLabel.text = [obj toString];
 }
 
 - (void)zerolize
 {
-	[self setTitle:nil forState:UIControlStateNormal];
+	self.titleLabel.text = nil;
 }
 
 #pragma mark -
@@ -101,8 +103,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, UIButton )
+
+DESCRIBE( before )
 {
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

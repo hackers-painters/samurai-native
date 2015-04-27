@@ -30,8 +30,11 @@
 
 // Modules
 
+#import "Samurai_Core.h"
+
 #import "Samurai_Color.h"
 #import "Samurai_Font.h"
+#import "Samurai_Image.h"
 #import "Samurai_Metric.h"
 
 #import "Samurai_DomNode.h"

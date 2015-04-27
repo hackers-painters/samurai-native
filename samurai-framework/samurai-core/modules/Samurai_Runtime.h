@@ -48,7 +48,14 @@
 + (NSArray *)subClasses;
 
 + (NSArray *)methods;
++ (NSArray *)methodsUntilClass:(Class)baseClass;
 + (NSArray *)methodsWithPrefix:(NSString *)prefix;
++ (NSArray *)methodsWithPrefix:(NSString *)prefix untilClass:(Class)baseClass;
+
++ (NSArray *)properties;
++ (NSArray *)propertiesUntilClass:(Class)baseClass;
++ (NSArray *)propertiesWithPrefix:(NSString *)prefix;
++ (NSArray *)propertiesWithPrefix:(NSString *)prefix untilClass:(Class)baseClass;
 
 + (void *)replaceSelector:(SEL)sel1 withSelector:(SEL)sel2;
 

@@ -245,6 +245,8 @@ hookBefore( unload, SignalResponder )
 
 @implementation SamuraiSignal
 
+@def_joint( stateChanged );
+
 //@def_prop_unsafe( id,						foreign );
 //@def_prop_strong( NSString *,				prefix );
 

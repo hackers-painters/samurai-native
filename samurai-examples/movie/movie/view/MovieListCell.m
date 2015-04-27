@@ -24,8 +24,11 @@
     if ( obj )
     {
         NSInteger score = [obj[@"critics"] integerValue];
-        self.critics_label.textColor = [UIColor mv_colorWithScore:score];
+
+        self.critics_label.customStyle.color = makeColor( [UIColor mv_colorWithScore:score] );
         self.critics_label.text = [NSString stringWithFormat:@"critics %@%%", obj[@"critics"]];
+
+		[self.critics_label restyle];
     }
 }
 

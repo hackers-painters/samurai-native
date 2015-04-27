@@ -56,8 +56,6 @@
 #define EXPECTED( ... ) \
 		if ( !(__VA_ARGS__) ) \
 		{ \
-			[[SamuraiUnitTest sharedInstance] writeLog:@"✖ EXPECTED( %s )", #__VA_ARGS__]; \
-			[[SamuraiUnitTest sharedInstance] flushLog]; \
 			@throw [SamuraiTestFailure expr:#__VA_ARGS__ file:__FILE__ line:__LINE__]; \
 		}
 

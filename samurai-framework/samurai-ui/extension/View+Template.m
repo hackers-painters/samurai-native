@@ -42,7 +42,7 @@
 
 @implementation UIView(Template)
 
-@def_prop_dynamic( SamuraiRenderStoreScope *, viewStore );
+@def_prop_dynamic( SamuraiRenderStoreScope *, viewStorage );
 
 #pragma mark -
 
@@ -74,6 +74,11 @@
 	}
 	else if ( viewTemplate.loaded )
 	{
+		if ( viewTemplate.document )
+		{
+			[viewTemplate.document configuringForView:self];
+		}
+
 		SamuraiRenderObject * rootRender = viewTemplate.document.renderTree;
 		
 		if ( rootRender )
@@ -120,7 +125,7 @@
 
 #pragma mark -
 
-- (SamuraiRenderStoreScope *)viewStore
+- (SamuraiRenderStoreScope *)viewStorage
 {
 	return [SamuraiRenderStoreScope storeScope:[self renderer]];
 }
@@ -150,41 +155,12 @@
 	}
 }
 
-#pragma mark -
-
-- (id)objectForKey:(id)key
+- (void)restyle
 {
-	return [[self viewStore] getDataWithPath:key];
-}
-
-- (BOOL)hasObjectForKey:(id)key
-{
-	return [[self viewStore] getDataWithPath:key] ? YES : NO;
-}
-
-- (void)setObject:(id)value forKey:(id)key
-{
-	[[self viewStore] setData:value withPath:key];
-}
-
-- (void)removeObjectForKey:(id)key
-{
-	[[self viewStore] clearDataWithPath:key];
-}
-
-- (void)removeAllObjects
-{
-	[[self viewStore] clearData];
-}
-
-- (id)objectForKeyedSubscript:(id)key;
-{
-	return [self objectForKey:key];
-}
-
-- (void)setObject:(id)obj forKeyedSubscript:(id)key
-{
-	[self setObject:obj forKey:key];
+	if ( self.renderer )
+	{
+		[self.renderer restyle];
+	}
 }
 
 #pragma mark -
@@ -195,14 +171,17 @@
 
 - (void)onTemplateLoaded
 {
+	[self relayout];
 }
 
 - (void)onTemplateFailed
 {
+	[self relayout];
 }
 
 - (void)onTemplateCancelled
 {
+	[self relayout];
 }
 
 @end
@@ -216,9 +195,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, View_Template )
+
+DESCRIBE( before )
 {
-//	TODO( @"test case" )
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

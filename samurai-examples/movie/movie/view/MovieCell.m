@@ -24,8 +24,11 @@
     
     if ( obj )
     {
-        self.critics_label.textColor = [UIColor mv_colorWithScore:[obj[@"critics"] integerValue]];
-        self.audience_label.textColor = [UIColor mv_colorWithScore:[obj[@"audience"] integerValue]];
+        self.critics_label.customStyle.color = makeColor( [UIColor mv_colorWithScore:[obj[@"critics"] integerValue]] );
+        self.audience_label.customStyle.color = makeColor( [UIColor mv_colorWithScore:[obj[@"audience"] integerValue]] );
+
+		[self.critics_label restyle];
+		[self.audience_label restyle];
     }
 }
 

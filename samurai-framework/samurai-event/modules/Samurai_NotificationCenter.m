@@ -140,8 +140,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( Event, NotificationCenter )
+
+DESCRIBE( before )
 {
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

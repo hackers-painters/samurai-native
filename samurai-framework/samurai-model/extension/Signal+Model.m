@@ -64,8 +64,15 @@
 #pragma mark -
 
 TEST_CASE( Other, Signal_Model )
+
+DESCRIBE( before )
 {
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #import "_pragma_pop.h"

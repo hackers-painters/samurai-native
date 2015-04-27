@@ -76,18 +76,18 @@
 - (id)signalAlias
 {
 	NSMutableArray * array = [NSMutableArray nonRetainingArray];
-
+	
 	if ( self.renderer.dom.domId && self.renderer.dom.domTag )
 	{
 //		[array addObject:[NSString stringWithFormat:@"tag$$%@____id$$%@", self.renderer.dom.domTag, self.renderer.dom.domId]];
 		[array addObject:[NSString stringWithFormat:@"%@____%@", self.renderer.dom.domTag, self.renderer.dom.domId]];
 	}
 
-	if ( self.renderer.dom.domTag )
-	{
-//		[array addObject:[NSString stringWithFormat:@"tag$$%@", self.renderer.dom.domTag]];
-		[array addObject:self.renderer.dom.domTag];
-	}
+//	if ( self.renderer.dom.domTag )
+//	{
+////		[array addObject:[NSString stringWithFormat:@"tag$$%@", self.renderer.dom.domTag]];
+//		[array addObject:self.renderer.dom.domTag];
+//	}
 
 	if ( self.renderer.dom.domId )
 	{
@@ -109,9 +109,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, View_Signal )
+
+DESCRIBE( before )
 {
-	//	TODO( @"test case" )
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

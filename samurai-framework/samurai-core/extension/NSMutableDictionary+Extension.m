@@ -214,8 +214,15 @@ static void			__ReleaseFunc( CFAllocatorRef allocator, const void * value ) { }
 #if __SAMURAI_TESTING__
 
 TEST_CASE( Core, NSMutableDictionary_Extension )
+
+DESCRIBE( before )
 {
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

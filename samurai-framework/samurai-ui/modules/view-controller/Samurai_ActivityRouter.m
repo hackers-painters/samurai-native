@@ -68,67 +68,67 @@
 
 #pragma mark -
 
-- (NSString *)formatKey:(NSString *)key
+- (NSString *)formatURL:(NSString *)url
 {
-	NSString * formattedKey = key;
+	NSString * formattedURL = url;
 	
-	if ( NO == [formattedKey hasPrefix:@"/"] )
+	if ( NO == [formattedURL hasPrefix:@"/"] )
 	{
-		formattedKey = [@"/" stringByAppendingString:formattedKey];
+		formattedURL = [@"/" stringByAppendingString:formattedURL];
 	}
 	
-	if ( NO == [formattedKey hasPrefix:@"/"] )
+	if ( NO == [formattedURL hasPrefix:@"/"] )
 	{
-		formattedKey = [formattedKey stringByAppendingString:@"/"];
+		formattedURL = [formattedURL stringByAppendingString:@"/"];
 	}
 	
-	if ( formattedKey && formattedKey.length )
+	if ( formattedURL && formattedURL.length )
 	{
-		formattedKey = [formattedKey lowercaseString];
+		formattedURL = [formattedURL lowercaseString];
 	}
 	
-	return formattedKey;
+	return formattedURL;
 }
 
-- (void)mapKey:(NSString *)key toActivityClass:(Class)classType
+- (void)mapURL:(NSString *)url toActivityClass:(Class)classType
 {
-	key = [self formatKey:key];
+	url = [self formatURL:url];
 	
-	if ( key )
+	if ( url )
 	{
-		[_map setObject:[classType description] forKey:key];
-	}
-}
-
-- (void)mapKey:(NSString *)key toActivityInstance:(SamuraiActivity *)activity
-{
-	key = [self formatKey:key];
-	
-	if ( key )
-	{
-		[_map setObject:activity forKey:key];
+		[_map setObject:[classType description] forKey:url];
 	}
 }
 
-- (void)mapKey:(NSString *)key toBlock:(ActivityRouterBlock)block
+- (void)mapURL:(NSString *)url toActivityInstance:(SamuraiActivity *)activity
 {
-	key = [self formatKey:key];
+	url = [self formatURL:url];
 	
-	if ( key )
+	if ( url )
 	{
-		[_map setObject:[block copy] forKey:key];
+		[_map setObject:activity forKey:url];
 	}
 }
 
-- (id)activityForKey:(NSString *)key
+- (void)mapURL:(NSString *)url toBlock:(ActivityRouterBlock)block
 {
-	key = [self formatKey:key];
+	url = [self formatURL:url];
+	
+	if ( url )
+	{
+		[_map setObject:[block copy] forKey:url];
+	}
+}
+
+- (id)activityForURL:(NSString *)url
+{
+	url = [self formatURL:url];
 	
 	NSObject * obj = nil;
 	
-	if ( key && key.length )
+	if ( url && url.length )
 	{
-		obj = [_map objectForKey:key];
+		obj = [_map objectForKey:url];
 	}
 	
 	if ( nil == obj )
@@ -157,7 +157,7 @@
 			else
 			{
 				ActivityRouterBlock objBlock = (ActivityRouterBlock)obj;
-				activity = objBlock( key );
+				activity = objBlock( url );
 			}
 		}
 	}
@@ -182,8 +182,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, ActivityRouter )
+
+DESCRIBE( before )
 {
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

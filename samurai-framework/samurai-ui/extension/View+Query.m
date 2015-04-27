@@ -55,32 +55,6 @@
 	return query;
 }
 
-- (SamuraiRenderObject *)first:(NSString *)expression
-{
-	if ( nil == expression )
-		return nil;
-
-	SamuraiRenderQuery * query = [SamuraiRenderQuery renderQuery];
-	
-	[query input:[self renderer]];
-	[query execute:expression];
-
-	return [query.output firstObject];
-}
-
-- (SamuraiRenderObject *)last:(NSString *)expression
-{
-	if ( nil == expression )
-		return nil;
-
-	SamuraiRenderQuery * query = [SamuraiRenderQuery renderQuery];
-	
-	[query input:[self renderer]];
-	[query execute:expression];
-
-	return [query.output lastObject];
-}
-
 @end
 
 // ----------------------------------
@@ -92,9 +66,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, View_Query )
+
+DESCRIBE( before )
 {
-//	TODO( @"test case" )
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__
