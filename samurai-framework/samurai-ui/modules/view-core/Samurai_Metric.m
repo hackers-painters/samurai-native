@@ -356,9 +356,15 @@ CGSize CGRectGetDistance( CGRect rect1, CGRect rect2 )
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, Metric )
+
+DESCRIBE( before )
 {
-//	TODO( @"test case" )
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

@@ -5,7 +5,7 @@
     
     <head>
         
-        <title>Home</title>
+        <title>Detail</title>
         
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -13,64 +13,71 @@
         <meta name="description" content=""/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         
-<!--        <link rel="stylesheet" type="text/css" href="../css/normalize.css"/>-->
+		<link rel="stylesheet" type="text/css" href="../css/normalize.css"/>
         <link rel="stylesheet" type="text/css" href="../css/main.css"/>
         <link rel="stylesheet" type="text/css" href="SDWebImageView.css"/>
         
     </head>
     
-    <body class="wrapper fill">
+    <body>
+		
         <UICollectionView id="list" name="list" class="list" columns="1" is-vertical>
             
-            <UICollectionViewCell name="movie" is-static is-row>
-                <div class="movie-cell">
-                    <div class="movie-header">
-                        <img class="movie-cover" name="cover"/>
-                        <div class="movie-info">
-                            <div class="item">
-                                <span class="text-bold" name="title">Movie Title</span>
-                                <p class="movie-year" name="year">2015</p>
-                                <label class="movie-det" name="det">none</label>
-                            </div>
-                            <div class="item">
-                                <label class="text-bold">Critics</label>
-                                <label class="text-large" name="critics">0</label>
-                            </div>
-                            <div class="item">
-                                <label class="text-bold">Audience</label>
-                                <label class="text-large" name="audience">0</label>
-                            </div>
-                        </div>
-                    </div>
-                    <!--                <div class="line"></div>-->
-                    <p class="text-small movie-synopsis" name="synopsis">No synopsis.</p>
-                    <!--                <div class="line"></div>-->
-                    <span class="actor-title text-bold">Actors</span>
-                </div>
-            </UICollectionViewCell>
+            <MovieCell name="movie" class="movie-cell" is-static is-row>
+				
+				<div class="movie-header">
+					<img class="movie-cover" name="cover"/>
+					<div class="movie-info">
+						<div class="item">
+							<label class="text-bold" name="title">Movie Title</label>
+							<label class="movie-year" name="year">2015</label>
+							<label class="movie-det" name="det">none</label>
+						</div>
+						<div class="item">
+							<label class="text-bold">Critics</label>
+							<label class="text-large" name="critics" id="critics-label">0</label>
+						</div>
+						<div class="item">
+							<label class="text-bold">Audience</label>
+							<label class="text-large" name="audience" id="audience-label">0</label>
+						</div>
+					</div>
+				</div>
+				<div class="line"></div>
+				<label class="text-small movie-synopsis" name="synopsis">No synopsis.</label>
+				<div class="line"></div>
+				<label class="actor-title text-bold">Actors</label>
+				
+            </MovieCell>
+			
             <UICollectionViewCell name="actors" class="actor" is-row>
-                <p class="actor-indictor">🎩</p><p name="actor-name" class="actor-name">Actor name</p>
+                <label class="actor-indictor">🎩</label><label name="actor-name" class="actor-name">Actor name</label>
             </UICollectionViewCell>
+
         </UICollectionView>
         
         <style>
-            label {
-                color: black;
-            }
-        
-            .wrapper {
-                width: 100%;
-                height: 100%;
-                background-color: white;
-            }
-        
+			
+			body {
+				width: 100%;
+				height: 100%;
+				background-color: #e8e8e8;
+			}
+		
             .list {
                 display: block;
                 width: 100%;
                 height: 100%;
                 z-index: 1;
             }
-            
+		
+			.line {
+				display: block;
+				width: 100%;
+				height: 1px;
+				background-color: #ddd;
+			}
+
             .movie-header {
                 width: 100%;
                 height: 180px;
@@ -97,7 +104,7 @@
             
             .movie-info {
                 display: inline-block;
-                width: 100px;
+                width: 200px;
                 height: 120px;
                 margin-left: 10px;
                 margin-top: 10px;
@@ -132,9 +139,9 @@
              * Actor
              **/
         
-        .actor-title {
-            margin-left: 10px;
-        }
+            .actor-title {
+                margin-left: 10px;
+            }
             
             .actor-cell {
                 width: 100%;

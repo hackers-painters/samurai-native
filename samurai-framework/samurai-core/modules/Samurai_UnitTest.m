@@ -54,7 +54,7 @@
 
 + (SamuraiTestFailure *)expr:(const char *)expr file:(const char *)file line:(int)line
 {
-	SamuraiTestFailure * failure = [[SamuraiTestFailure alloc] initWithName:@"SamuraiUnitTest" reason:@(expr) userInfo:nil];
+	SamuraiTestFailure * failure = [[SamuraiTestFailure alloc] initWithName:@"UnitTest" reason:nil userInfo:nil];
 	failure.expr = @(expr);
 	failure.file = [@(file) lastPathComponent];
 	failure.line = line;
@@ -137,7 +137,7 @@
 			{
 				SamuraiTestCase * testCase = [[classType alloc] init];
 
-				NSArray * selectorNames = [classType methodsWithPrefix:@"runTest_"];
+				NSArray * selectorNames = [classType methodsWithPrefix:@"runTest_" untilClass:[SamuraiTestCase class]];
 				
 				if ( selectorNames && [selectorNames count] )
 				{
@@ -161,11 +161,21 @@
 				if ( [e isKindOfClass:[SamuraiTestFailure class]] )
 				{
 					SamuraiTestFailure * failure = (SamuraiTestFailure *)e;
-					[self writeLog:@"%@ @ %@ (#%d)", failure.expr, failure.file, failure.line];
+					
+					[self writeLog:
+						   @"                        \n"
+							"    %@ (#%lu)           \n"
+							"                        \n"
+							"    {                   \n"
+							"        EXPECTED( %@ ); \n"
+							"                  ^^^^^^          \n"
+							"                  Assertion failed\n"
+							"    }                   \n"
+							"                        \n", failure.file, failure.line, failure.expr];
 				}
 				else
 				{
-					[self writeLog:@"Unknown exception '%@'", e.reason];
+					[self writeLog:@"\nUnknown exception '%@'", e.reason];
 					[self writeLog:@"%@", e.callStackSymbols];
 				}
 
@@ -263,9 +273,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( Core, UnitTest )
+
+DESCRIBE( before )
 {
-//	TODO( "test case" )
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

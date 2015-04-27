@@ -62,6 +62,16 @@ typedef void ( *ImpFuncType )( id a, SEL b, void * c );
 
 #pragma mark -
 
+#undef	joint
+#define joint( name ) \
+		property (nonatomic, readonly) NSString * __name
+
+#undef	def_joint
+#define def_joint( name ) \
+		dynamic __name
+
+#pragma mark -
+
 @protocol ManagedObject <NSObject>
 @optional
 - (void)load;

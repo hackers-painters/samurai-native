@@ -38,7 +38,34 @@
 #pragma mark -
 
 #undef	INVALID_VALUE
-#define	INVALID_VALUE	(HUGE_VALF)
+#define	INVALID_VALUE			(HUGE_VALF)
+
+#undef	NORMALIZE_VALUE
+#define NORMALIZE_VALUE( __x )	((__x == INVALID_VALUE) ? 0.0f : __x)
+
+#pragma mark -
+
+#if __has_feature(objc_arc)
+
+#undef	outlet
+#define	outlet( type, name ) \
+		property (nonatomic, unsafe_unretained) type name
+
+#undef	def_outlet
+#define	def_outlet( type, name, ... ) \
+		synthesize name = _##name;
+
+#else
+
+#undef	outlet
+#define	outlet( type, name ) \
+		property (nonatomic, assign) type name
+
+#undef	def_outlet
+#define	def_outlet( type, name, ... ) \
+		synthesize name = _##name;
+
+#endif
 
 #pragma mark -
 
@@ -104,6 +131,9 @@
 - (CGRect)computeFrame:(CGSize)bound origin:(CGPoint)origin;	// override point
 
 - (UIView *)createViewWithIdentifier:(NSString *)identifier;	// override point
+
+- (void)bindView:(UIView *)view;	// override point
+- (void)unbindView;					// override point
 
 - (void)relayout;	// override point
 - (void)restyle;	// override point

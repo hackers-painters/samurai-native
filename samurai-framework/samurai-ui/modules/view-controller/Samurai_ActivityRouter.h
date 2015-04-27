@@ -48,11 +48,11 @@ typedef id	(^ActivityRouterBlock)( NSString * key );
 
 @singleton( SamuraiActivityRouter )
 
-- (void)mapKey:(NSString *)key toActivityClass:(Class)classType;
-- (void)mapKey:(NSString *)key toActivityInstance:(SamuraiActivity *)activity;
-- (void)mapKey:(NSString *)key toBlock:(ActivityRouterBlock)block;
+- (void)mapURL:(NSString *)url toActivityClass:(Class)classType;
+- (void)mapURL:(NSString *)url toActivityInstance:(SamuraiActivity *)activity;
+- (void)mapURL:(NSString *)url toBlock:(ActivityRouterBlock)block;
 
-- (id)activityForKey:(NSString *)key;
+- (id)activityForURL:(NSString *)key;
 
 @end
 

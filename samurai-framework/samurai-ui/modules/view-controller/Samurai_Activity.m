@@ -75,6 +75,8 @@
 
 BASE_CLASS( SamuraiActivity )
 
+@def_joint( stateChanged );
+
 @def_prop_strong( SamuraiIntent *,				intent );
 @def_prop_assign( BOOL,							animated );
 @def_prop_assign( UIInterfaceOrientation,		orientation );
@@ -201,15 +203,15 @@ static NSMutableArray * __activities = nil;
 
 - (void)changeState:(ActivityState)newState
 {
-	static const char * __states[] = {
-		"!Inited",
-		"!Created",
-		"!Activating",
-		"!Activated",
-		"!Deactivating",
-		"!Deactivated",
-		"!Destroyed"
-	};
+//	static const char * __states[] = {
+//		"!Inited",
+//		"!Created",
+//		"!Activating",
+//		"!Activated",
+//		"!Deactivating",
+//		"!Deactivated",
+//		"!Destroyed"
+//	};
 
 	if ( _state == newState )
 		return;
@@ -227,27 +229,51 @@ static NSMutableArray * __activities = nil;
 
 	if ( ActivityState_Created == _state )
 	{
+	#if __SAMURAI_USE_UI_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onCreate) reversed:YES];
+	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+		[self onCreate];
+	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
 	}
 	else if ( ActivityState_Activating == _state )
 	{
+	#if __SAMURAI_USE_UI_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onStart) reversed:YES];
+	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+		[self onStart];
+	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
 	}
 	else if ( ActivityState_Activated == _state )
 	{
+	#if __SAMURAI_USE_UI_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onResume) reversed:YES];
+	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+		[self onResume];
+	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
 	}
 	else if ( ActivityState_Deactivating == _state )
 	{
+	#if __SAMURAI_USE_UI_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onPause) reversed:YES];
+	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+		[self onPause];
+	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
 	}
 	else if ( ActivityState_Deactivated == _state )
 	{
+	#if __SAMURAI_USE_UI_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onStop) reversed:YES];
+	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+		[self onStop];
+	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
 	}
 	else if ( ActivityState_Destroyed == _state )
 	{
+	#if __SAMURAI_USE_UI_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onDestroy) reversed:NO];
+	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+		[self onDestroy];
+	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
 	}
 
 	triggerAfter( self, stateChanged );
@@ -466,7 +492,11 @@ static NSMutableArray * __activities = nil;
 	{
 		_animated = YES;
 
+	#if __SAMURAI_USE_UI_CALLCHAIN__
+		[self performCallChainWithSelector:@selector(onLayout) reversed:YES];
+	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
 		[self onLayout];
+	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
 		
 		_animated = NO;
 		
@@ -554,8 +584,15 @@ static NSMutableArray * __activities = nil;
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, Activity )
+
+DESCRIBE( before )
 {
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

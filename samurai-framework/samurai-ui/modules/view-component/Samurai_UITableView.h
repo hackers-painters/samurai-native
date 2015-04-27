@@ -40,7 +40,7 @@
 
 @interface SamuraiUITableViewSection : NSObject
 
-@prop_unsafe( UITableView *,		owner );
+@prop_unsafe( UITableView *,		tableView );
 @prop_assign( NSUInteger,			index );
 @prop_strong( SamuraiDocument *,	document );
 
@@ -57,7 +57,7 @@
 
 @interface SamuraiUITableViewAgent : NSObject<UITableViewDelegate, UITableViewDataSource>
 
-@prop_unsafe( UITableView *,		owner );
+@prop_unsafe( UITableView *,		tableView );
 @prop_strong( NSMutableArray *,		sections );
 
 - (void)constructSections:(SamuraiRenderObject *)renderObject;

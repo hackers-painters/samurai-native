@@ -28,6 +28,8 @@
 //	THE SOFTWARE.
 //
 
+#import "Samurai_Core.h"
+
 #import "Samurai_UIActivityIndicatorView.h"
 #import "Samurai_UIButton.h"
 #import "Samurai_UICollectionView.h"

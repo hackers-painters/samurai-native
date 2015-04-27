@@ -38,30 +38,29 @@
 // ----------------------------------
 #pragma mark -
 
-@interface SamuraiGCD()
-@end
+@implementation SamuraiQueue
 
-@implementation SamuraiGCD
+@def_singleton( SamuraiQueue )
 
-@def_singleton( SamuraiGCD )
-
-@def_prop_strong(dispatch_queue_t,			foreQueue );
-@def_prop_strong(dispatch_queue_t,			backSerialQueue );
-@def_prop_strong(dispatch_queue_t,			backConcurrentQueue );
-@def_prop_strong(dispatch_queue_t,			writeFileQueue );
+@def_prop_strong( dispatch_queue_t,	serial );
+@def_prop_strong( dispatch_queue_t,	concurrent );
 
 - (id)init
 {
     self = [super init];
     if ( self )
     {
-        _foreQueue           = dispatch_get_main_queue();
-        _backSerialQueue     = dispatch_queue_create( "com.samurai.backSerialQueue", DISPATCH_QUEUE_SERIAL );
-        _backConcurrentQueue = dispatch_queue_create( "com.samurai.backConcurrentQueue", DISPATCH_QUEUE_CONCURRENT );
-        _writeFileQueue      = dispatch_queue_create( "com.samurai.writeFileQueue", DISPATCH_QUEUE_SERIAL );
+        _serial = dispatch_queue_create( "com.samurai.serial", DISPATCH_QUEUE_SERIAL );
+        _concurrent = dispatch_queue_create( "com.samurai.concurrent", DISPATCH_QUEUE_CONCURRENT );
     }
-    
+
     return self;
+}
+
+- (void)dealloc
+{
+	_serial = nil;
+	_concurrent = nil;
 }
 
 @end
@@ -77,26 +76,14 @@ TEST_CASE( Core, Thread )
 {
 }
 
-DESCRIBE( thread )
+DESCRIBE( before )
 {
-//	__block int __flag = 0;
-//
-//	dispatch_async_background( ^{
-//		
-//		EXPECTED( NO == [NSThread isMainThread] );
-//		EXPECTED( 0 == __flag );
-//		
-//		__flag = 1;
-//
-//		dispatch_async_foreground( ^{
-//
-//			EXPECTED( YES == [NSThread isMainThread] );
-//			EXPECTED( 1 == __flag );
-//			
-//			__flag = 0;
-//		});
-//	});
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

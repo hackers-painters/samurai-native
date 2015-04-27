@@ -128,24 +128,47 @@
 
 		if ( TapState_Pressing == self.tapState )
 		{
-			[self.view sendSignal:UIView.eventTapPressing];
+//			if ( self.view.tapSignalName )
+//			{
+//				[self.view sendSignal:self.view.tapSignalName];
+//			}
+//			else
+			{
+				[self.view sendSignal:UIView.eventTapPressing];
+			}
 		}
 		else if ( TapState_Moving == self.tapState )
 		{
-			[self.view sendSignal:UIView.eventTapMoving];
+//			if ( self.view.tapSignalName )
+//			{
+//				[self.view sendSignal:self.view.tapSignalName];
+//			}
+//			else
+			{
+				[self.view sendSignal:UIView.eventTapMoving];
+			}
 		}
 		else if ( TapState_Raised == self.tapState )
 		{
-			[self.view sendSignal:UIView.eventTapRaised];
-			
 			if ( self.view.tapSignalName )
 			{
 				[self.view sendSignal:self.view.tapSignalName];
 			}
+			else
+			{
+				[self.view sendSignal:UIView.eventTapRaised];
+			}
 		}
 		else if ( TapState_Cancelled == self.tapState )
 		{
-			[self.view sendSignal:UIView.eventTapCancelled];
+//			if ( self.view.tapSignalName )
+//			{
+//				[self.view sendSignal:self.view.tapSignalName];
+//			}
+//			else
+			{
+				[self.view sendSignal:UIView.eventTapCancelled];
+			}
 		}
 
 		triggerAfter( self.view, tapStateChanged );
@@ -158,6 +181,8 @@
 
 @implementation UIView(EventTapGesture)
 
+@def_joint( tapStateChanged );
+
 @def_signal( eventTapPressing );	/// 按下
 @def_signal( eventTapMoving );		/// 移动
 @def_signal( eventTapRaised );		/// 抬起
@@ -165,17 +190,31 @@
 
 @def_prop_dynamic_strong( NSString *,	tapSignalName, setTapSignalName );
 
-@def_prop_dynamic( BOOL,	tapPressing );
-@def_prop_dynamic( BOOL,	tapMoving );
-@def_prop_dynamic( BOOL,	tapRaised );
-@def_prop_dynamic( BOOL,	tapCancelled );
+@def_prop_dynamic( TapState,	tapState );
+@def_prop_dynamic( BOOL,		tapPressing );
+@def_prop_dynamic( BOOL,		tapMoving );
+@def_prop_dynamic( BOOL,		tapRaised );
+@def_prop_dynamic( BOOL,		tapCancelled );
 
 #pragma mark -
+
+- (TapState)tapState
+{
+	__TapGestureRecognizer * gesture = [self tapGesture];
+	
+	if ( nil == gesture )
+		return TapState_Idle;
+
+	return gesture.tapState;
+}
 
 - (BOOL)tapPressing
 {
 	__TapGestureRecognizer * gesture = [self tapGesture];
 
+	if ( nil == gesture )
+		return NO;
+	
 	return (TapState_Pressing == gesture.tapState) ? YES : NO;
 }
 
@@ -183,20 +222,29 @@
 {
 	__TapGestureRecognizer * gesture = [self tapGesture];
 	
+	if ( nil == gesture )
+		return NO;
+
 	return (TapState_Moving == gesture.tapState) ? YES : NO;
 }
 
 - (BOOL)tapRaised
 {
 	__TapGestureRecognizer * gesture = [self tapGesture];
-	
+
+	if ( nil == gesture )
+		return NO;
+
 	return (TapState_Raised == gesture.tapState) ? YES : NO;
 }
 
 - (BOOL)tapCancelled
 {
 	__TapGestureRecognizer * gesture = [self tapGesture];
-	
+
+	if ( nil == gesture )
+		return NO;
+
 	return (TapState_Cancelled == gesture.tapState) ? YES : NO;
 }
 
@@ -276,8 +324,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, EventTapGesture )
+
+DESCRIBE( before )
 {
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

@@ -336,7 +336,9 @@
 	
 	for ( Class targetClass in classes )
 	{
-		NSString * cacheName = nil;
+		NSString *	cacheName = nil;
+		NSString *	cachedSelectorName = nil;
+		SEL			cachedSelector = nil;
 
 		if ( prioSelector )
 		{
@@ -347,10 +349,12 @@
 			cacheName = [NSString stringWithFormat:@"%@/%@", signal.name, [targetClass description]];
 		}
 		
-		NSString * cachedSelectorName = [_handlers objectForKey:cacheName];
+		cachedSelectorName = [_handlers objectForKey:cacheName];
+
 		if ( cachedSelectorName )
 		{
-			SEL cachedSelector = NSSelectorFromString( cachedSelectorName );
+			cachedSelector = NSSelectorFromString( cachedSelectorName );
+
 			if ( cachedSelector )
 			{
 				BOOL hit = [self signal:signal perform:cachedSelector class:targetClass target:target];
@@ -576,21 +580,6 @@
 						break;
 					}
 				}
-
-				// eg. handleSignal( Class, Signal )
-				
-				if ( signalMethod && signalMethod.length )
-				{
-					selectorName = [NSString stringWithFormat:@"handleSignal____%@____%@:", [rtti description], signalMethod];
-					selector = NSSelectorFromString( selectorName );
-					
-					performed = [self signal:signal perform:selector class:targetClass target:target];
-					if ( performed )
-					{
-						[_handlers setObject:selectorName forKey:cacheName];
-						break;
-					}
-				}
 				
 				// eg. handleSignal( Class, tag )
 				
@@ -740,9 +729,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( Event, SignalBus )
+
+DESCRIBE( before )
 {
-//	TODO( "test case" )
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

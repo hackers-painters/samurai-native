@@ -138,11 +138,6 @@ BASE_CLASS( SamuraiDocument )
 	return [self.domTree getFirstElementByTagName:self.bodyTag];
 }
 
-- (NSString *)computeTitle
-{
-	return nil;
-}
-
 #pragma mark -
 
 - (void)clear
@@ -161,6 +156,18 @@ BASE_CLASS( SamuraiDocument )
 	return YES;
 }
 
+#pragma mark -
+
+- (void)configuringForView:(UIView *)view
+{
+	
+}
+
+- (void)configuringForViewController:(UIViewController *)viewController
+{
+	
+}
+
 @end
 
 // ----------------------------------
@@ -172,9 +179,15 @@ BASE_CLASS( SamuraiDocument )
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, Document )
+
+DESCRIBE( before )
 {
-//	TODO( @"test case" )
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

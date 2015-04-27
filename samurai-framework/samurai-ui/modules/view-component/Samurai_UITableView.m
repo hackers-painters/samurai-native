@@ -47,7 +47,7 @@
 	NSMutableDictionary *	_cachedHeight;
 }
 
-@def_prop_unsafe( UITableView *,		owner );
+@def_prop_unsafe( UITableView *,		tableView );
 @def_prop_assign( NSUInteger,			index );
 @def_prop_strong( SamuraiDocument *,	document );
 
@@ -66,7 +66,7 @@
 	_cachedHeight = nil;
 	_cachedData = nil;
 	
-	self.owner = nil;
+	self.tableView = nil;
 	self.document = nil;
 }
 
@@ -152,14 +152,14 @@
 
 - (CGFloat)getHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if ( CGRectEqualToRect( self.owner.frame, CGRectZero ) )
+	if ( CGRectEqualToRect( self.tableView.frame, CGRectZero ) )
 	{
 		return 0.0f;
 	}
 	
 	ASSERT( indexPath );
 
-	NSString * cachedKey = [NSString stringWithFormat:@"%d-%d", indexPath.section, indexPath.row];
+	NSString * cachedKey = [NSString stringWithFormat:@"%ld-%ld", indexPath.section, indexPath.row];
 	NSNumber * cachedHeight = [_cachedHeight objectForKey:cachedKey];
 	
 	if ( cachedHeight )
@@ -172,13 +172,13 @@
 	if ( nil == reuseCell )
 	{
 		reuseCell = (UITableViewCell *)[self.document.renderTree createViewWithIdentifier:nil];
+		[reuseCell.renderer bindOutletsTo:reuseCell];
 	}
 	
 	if ( nil == reuseCell )
 	{
 		reuseCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-
-		ASSERT( reuseCell );
+		[reuseCell.renderer bindOutletsTo:reuseCell];
 	}
 	
 	NSObject * reuseData = [self getDataForRowAtIndexPath:indexPath];
@@ -192,13 +192,13 @@
 //		[reuseCell zerolize];
 //	}
 
-	CGFloat cellHeight = [reuseCell.renderer computeHeight:self.owner.frame.size.width];
+	CGFloat cellHeight = [reuseCell.renderer computeHeight:self.tableView.frame.size.width];
 	
 // use default height
 	
 	if ( INVALID_VALUE == cellHeight )
 	{
-		cellHeight = self.owner.rowHeight;
+		cellHeight = self.tableView.rowHeight;
 	}
 
 	[_cachedHeight setObject:@(cellHeight) forKey:cachedKey];
@@ -211,15 +211,13 @@
 	ASSERT( indexPath );
 
 	NSString *			reuseIdentifier = [NSString stringWithFormat:@"%@-%@", self.document.domTree.domTag, self.document.renderTree.id];
-	UITableViewCell *	reuseCell = [self.owner dequeueReusableCellWithIdentifier:reuseIdentifier];
+	UITableViewCell *	reuseCell = [self.tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
 
 	if ( nil == reuseCell )
 	{
 		PERF( @"UITableView '%p', creating cell '%@' for row #%d", self, reuseIdentifier, indexPath.row );
 		
 		SamuraiRenderObject * reuseRenderer = [self.document.renderTree clone];
-
-		[self.owner.renderer appendNode:reuseRenderer];
 
 		reuseCell = (UITableViewCell *)[reuseRenderer createViewWithIdentifier:reuseIdentifier];
 
@@ -229,6 +227,8 @@
 		}
 
 		[reuseRenderer bindOutletsTo:reuseCell];
+
+		[self.tableView.renderer appendNode:reuseRenderer];
 	}
 	else
 	{
@@ -257,7 +257,7 @@
 
 @implementation SamuraiUITableViewAgent
 
-@def_prop_unsafe( UITableView *,		owner );
+@def_prop_unsafe( UITableView *,		tableView );
 @def_prop_strong( NSMutableArray *,		sections );
 
 - (id)init
@@ -292,7 +292,7 @@
 		[section clearCache];
 	}
 	
-	[self.owner reloadData];
+	[self.tableView reloadData];
 }
 
 #pragma mark -
@@ -323,8 +323,8 @@
 						SamuraiUITableViewSection * section = [[SamuraiUITableViewSection alloc] init];
 						
 						section.index = index++;
-						section.owner = self.owner;
 						section.document = childDoc;
+						section.tableView = self.tableView;
 						
 						[self.sections addObject:section];
 					}
@@ -367,7 +367,7 @@
 			}
 			else
 			{
-				sectionKey = [NSString stringWithFormat:@"%d", section.index];
+				sectionKey = [NSString stringWithFormat:@"%lu", section.index];
 			}
 			
 			sectionData = [section serialize];
@@ -404,7 +404,7 @@
 			}
 			else
 			{
-				sectionKey = [NSString stringWithFormat:@"%d", section.index];
+				sectionKey = [NSString stringWithFormat:@"%lu", section.index];
 			}
 			
 			if ( [obj isKindOfClass:[NSDictionary class]] || [obj conformsToProtocol:@protocol(NSDictionaryProtocol)] )
@@ -806,7 +806,7 @@
 	if ( nil == agent )
 	{
 		agent = [[SamuraiUITableViewAgent alloc] init];
-		agent.owner = self;
+		agent.tableView = self;
 
 		[self retainAssociatedObject:agent forKey:"UITableView.agent"];
 	}
@@ -884,8 +884,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, UITableView )
+
+DESCRIBE( before )
 {
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

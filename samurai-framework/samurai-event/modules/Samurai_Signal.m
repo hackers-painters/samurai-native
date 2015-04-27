@@ -245,6 +245,8 @@ hookBefore( unload, SignalResponder )
 
 @implementation SamuraiSignal
 
+@def_joint( stateChanged );
+
 //@def_prop_unsafe( id,						foreign );
 //@def_prop_strong( NSString *,				prefix );
 
@@ -425,12 +427,12 @@ BASE_CLASS( SamuraiSignal )
 
 - (BOOL)changeState:(SignalState)newState
 {
-	static const char * __states[] = {
-		"!Inited",
-		"!Sending",
-		"!Arrived",
-		"!Dead"
-	};
+//	static const char * __states[] = {
+//		"!Inited",
+//		"!Sending",
+//		"!Arrived",
+//		"!Dead"
+//	};
 	
 	if ( newState == _state )
 		return NO;

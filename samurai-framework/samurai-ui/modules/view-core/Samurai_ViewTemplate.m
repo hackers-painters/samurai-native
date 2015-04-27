@@ -105,8 +105,9 @@
 	SamuraiResourceFetcher *	_resourceFetcher;
 }
 
-@def_prop_strong( SamuraiDocument *,		document );
+@def_joint( stateChanged );
 
+@def_prop_strong( SamuraiDocument *,		document );
 @def_prop_assign( BOOL,						responderDisabled );
 @def_prop_unsafe( id,						responder );
 
@@ -474,16 +475,6 @@
 	}
 }
 
-#pragma mark -
-
-- (void)relayout
-{
-	if ( self.document && self.document.renderTree )
-	{
-		[self.document.renderTree relayout];
-	}
-}
-
 @end
 
 // ----------------------------------
@@ -495,9 +486,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, ViewTemplate )
+
+DESCRIBE( before )
 {
-	//	TODO( @"test case" )
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

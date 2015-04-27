@@ -788,7 +788,7 @@ static void foster_parent_element(GumboParser* parser, GumboNode* node) {
       assert(foster_parent_element->v.element.children.data[
              table_element->index_within_parent] == table_element);
       insert_node(parser, foster_parent_element,
-                  table_element->index_within_parent, node);
+                  (int)table_element->index_within_parent, node);
       return;
     }
   }
@@ -2737,7 +2737,7 @@ static bool handle_in_body(GumboParser* parser, GumboToken* token) {
     text_state->_start_position = token->position;
     text_state->_type = GUMBO_NODE_TEXT;
     if (prompt_attr) {
-      int prompt_attr_length = strlen(prompt_attr->value);
+      int prompt_attr_length = (int)strlen(prompt_attr->value);
       gumbo_string_buffer_destroy(parser, &text_state->_buffer);
       text_state->_buffer.data = gumbo_copy_stringz(parser, prompt_attr->value);
       text_state->_buffer.length = prompt_attr_length;

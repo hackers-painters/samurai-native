@@ -184,7 +184,7 @@
 	self = [super initWithFrame:screenBound];
 	if ( self )
 	{
-		self.backgroundColor = [UIColor whiteColor];
+		self.backgroundColor = [UIColor blackColor];
 		self.windowLevel = UIWindowLevelStatusBar + 1.0f;
 
 		_panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPan:)];
@@ -569,13 +569,13 @@
 
 - (void)didClicked:(UITapGestureRecognizer *)tapGesture
 {
-	if ( UIGestureRecognizerStateEnded == tapGesture.state )
-	{
-		if ( tapGesture.view && [tapGesture.view isKindOfClass:[ServiceImageView class]] )
-		{
-			ServiceImageView * view = (ServiceImageView *)tapGesture.view;
-		}
-	}
+//	if ( UIGestureRecognizerStateEnded == tapGesture.state )
+//	{
+//		if ( tapGesture.view && [tapGesture.view isKindOfClass:[ServiceImageView class]] )
+//		{
+//			ServiceImageView * view = (ServiceImageView *)tapGesture.view;
+//		}
+//	}
 }
 
 - (void)didPan:(UIPanGestureRecognizer *)panGesture

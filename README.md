@@ -1,9 +1,19 @@
+![samurai-native-logo](https://cloud.githubusercontent.com/assets/876707/7134843/77ebf2d0-e2d3-11e4-8977-e609139b1a92.png)
+
 Bring web standards to native platform
 ======================================
 
 samurai-native enables you to build native apps using web technologies (HTML/CSS) based on its own Web-Core. Support iOS now, Android later.
 
+| [Roadmap](https://github.com/hackers-painters/samurai-native/wiki/TodoList) | [开发路线](https://github.com/hackers-painters/samurai-native/wiki/TodoList) |
+
+| [中文介绍](https://github.com/hackers-painters/samurai-native/blob/master/README_CN.md) | 官方QQ群 [79054681]() |
+
 Check out demo at `samurai-examples/dribbble` and `samurai-examples/movie`.
+
+## Quick preview
+
+![gif](https://cloud.githubusercontent.com/assets/679824/7133416/ccdabe74-e2c5-11e4-8098-ef1bdf2d6248.gif)
 
 ## Native Components
 
@@ -290,6 +300,10 @@ samurai-native is licensed under the MIT License.
 
 * [Gavin.Kwoe](https://github.com/gavinkwoe): Major developer
 * [QFish](https://github.com/qfish): Major developer
+
+## Special thanks
+
+* [ZTDesign](https://dribbble.com/ZTDesign): Major designer
 
 ## Related Projects
 

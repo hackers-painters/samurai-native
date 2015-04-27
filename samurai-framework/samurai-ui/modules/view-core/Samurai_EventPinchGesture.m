@@ -70,44 +70,52 @@
 	{
 		// the recognizer has received touches recognized as the gesture. the action method will be called at the next turn of the run loop
 
-		[self sendSignal:UIView.eventPinchBegin];
-
 		if ( self.pinchSignalName )
 		{
 			[self sendSignal:self.pinchSignalName];
+		}
+		else
+		{
+			[self sendSignal:UIView.eventPinchBegin];
 		}
 	}
 	else if ( UIGestureRecognizerStateChanged == gesture.state )
 	{
 		// the recognizer has received touches recognized as a change to the gesture. the action method will be called at the next turn of the run loop
 
-		[self sendSignal:UIView.eventPinchChanged];
-
 		if ( self.pinchSignalName )
 		{
 			[self sendSignal:self.pinchSignalName];
+		}
+		else
+		{
+			[self sendSignal:UIView.eventPinchChanged];
 		}
 	}
 	else if ( UIGestureRecognizerStateEnded == gesture.state )
 	{
 		// the recognizer has received touches recognized as the end of the gesture. the action method will be called at the next turn of the run loop and the recognizer will be reset to UIGestureRecognizerStatePossible
 
-		[self sendSignal:UIView.eventPinchEnded];
-
 		if ( self.pinchSignalName )
 		{
 			[self sendSignal:self.pinchSignalName];
+		}
+		else
+		{
+			[self sendSignal:UIView.eventPinchEnded];
 		}
 	}
 	else if ( UIGestureRecognizerStateCancelled == gesture.state )
 	{
 		// the recognizer has received touches resulting in the cancellation of the gesture. the action method will be called at the next turn of the run loop. the recognizer will be reset to UIGestureRecognizerStatePossible
 
-		[self sendSignal:UIView.eventPinchCancelled];
-
 		if ( self.pinchSignalName )
 		{
 			[self sendSignal:self.pinchSignalName];
+		}
+		else
+		{
+			[self sendSignal:UIView.eventPinchCancelled];
 		}
 	}
 	else if ( UIGestureRecognizerStateFailed == gesture.state )
@@ -203,8 +211,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, EventPinchGesture )
+
+DESCRIBE( before )
 {
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

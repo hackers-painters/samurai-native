@@ -101,7 +101,7 @@
 	uint32_t wwanIBytes = 0;
 	uint32_t wwanOBytes = 0;
 
-	struct timeval time = { 0 };
+	struct IF_DATA_TIMEVAL time = { 0 };
 	
 	for ( ifa = ifa_list; ifa; ifa = ifa->ifa_next )
 	{

@@ -129,7 +129,7 @@ hookBefore( unload, Notification )
 
 - (void)observeAllNotifications
 {
-	NSArray * methods = [[self class] methodsWithPrefix:@"handleNotification____"];
+	NSArray * methods = [[self class] methodsWithPrefix:@"handleNotification____" untilClass:[NSObject class]];
 	
 	if ( methods && methods.count )
 	{

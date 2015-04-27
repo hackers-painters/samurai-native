@@ -29,10 +29,7 @@
 //
 
 #import "DribbbleApp.h"
-
-#import "model.h"
-#import "view.h"
-#import "view-controller.h"
+#import "ThemeConfig.h"
 
 #pragma mark -
 
@@ -48,32 +45,12 @@
 
 - (void)main
 {
-	if ( [UINavigationBar instancesRespondToSelector:@selector(setShadowImage:)] )
-	{
-		CGRect rect = CGRectMake( 0, 0, [UIScreen mainScreen].bounds.size.width, 1.0f );
-		
-		UIGraphicsBeginImageContext(rect.size);
-		
-		CGContextRef context = UIGraphicsGetCurrentContext();
-		
-		CGContextSetFillColorWithColor( context, [[UIColor clearColor] CGColor] );
-		CGContextFillRect( context, rect );
-		
-		UIImage * shadowImage = UIGraphicsGetImageFromCurrentImageContext();
-		
-		UIGraphicsEndImageContext();
-		
-		[[UINavigationBar appearance] setShadowImage:shadowImage];
-	}
+	CGSize		shadowSize = CGSizeMake( [UIScreen mainScreen].bounds.size.width, 1.0f );
+	UIImage *	shadowImage = [UIImage imageWithColor:[UIColor clearColor] size:shadowSize];
 	
-	UINavigationBar * navigationBar = self.window.rootStack.navigationBar;
-	
-	[navigationBar setTintColor:[UIColor whiteColor]];
-	[navigationBar setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] }];
-	[navigationBar setBackgroundColor:[UIColor whiteColor]];
-	[navigationBar setBackgroundImage:[UIImage imageNamed:@"navbar.png"] forBarPosition:UIBarPositionTopAttached barMetrics:UIBarMetricsDefault];
+	[[UINavigationBar appearance] setShadowImage:shadowImage];
 
-//	[self.window.rootStackGroup open:@"tab1"];
+//	[self.window.rootStack presentURL:@"/welcome"];
 }
 
 @end

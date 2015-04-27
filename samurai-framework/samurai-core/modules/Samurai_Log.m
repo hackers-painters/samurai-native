@@ -49,6 +49,7 @@
 #undef	MAX_BACKLOG
 #define MAX_BACKLOG		(64)
 
+#if __SAMURAI_LOGGING__
 static const char * __prefix[] =
 {
 #if TARGET_IPHONE_SIMULATOR
@@ -62,8 +63,11 @@ static const char * __prefix[] =
 	"[P]",
 	"",
 };
+#endif	// #if __SAMURAI_LOGGING__
 
 #pragma mark -
+
+#if __SAMURAI_DEBUG__
 
 static void __NSLogv( NSString * format, va_list args )
 {
@@ -83,6 +87,8 @@ static void __NSLog( NSString * format, ... )
 	
 	va_end( args );
 }
+
+#endif	// #if __SAMURAI_DEBUG__
 
 #pragma mark -
 
@@ -309,7 +315,7 @@ static void __NSLog( NSString * format, ... )
 
 				if ( LogLevel_Error == level )
 				{
-					fprintf( stderr, "    %s(#%d) %s\n", [[file lastPathComponent] UTF8String], line, [func UTF8String] );
+					fprintf( stderr, "    %s(#%lu) %s\n", [[file lastPathComponent] UTF8String], (unsigned long)line, [func UTF8String] );
 					
 					void *	stacks[MAX_CALLSTACK + 1];
 					
@@ -379,9 +385,9 @@ DESCRIBE( info )
 	INFO( nil, @"" );
 	INFO( nil, @"format %@", @"" );
 	
-//	INFO( @"a", nil );
-//	INFO( @"a", @"" );
-//	INFO( @"a", @"format %@", @"" );
+	INFO( @"a", nil );
+	INFO( @"a", @"" );
+	INFO( @"a", @"format %@", @"" );
 }
 
 DESCRIBE( warn )
@@ -393,9 +399,9 @@ DESCRIBE( warn )
 	WARN( nil, @"" );
 	WARN( nil, @"format %@", @"" );
 
-//	WARN( @"a", nil );
-//	WARN( @"a", @"" );
-//	WARN( @"a", @"format %@", @"" );
+	WARN( @"a", nil );
+	WARN( @"a", @"" );
+	WARN( @"a", @"format %@", @"" );
 }
 
 DESCRIBE( error )
@@ -407,9 +413,9 @@ DESCRIBE( error )
 	ERROR( nil, @"" );
 	ERROR( nil, @"format %@", @"" );
 	
-//	ERROR( @"a", nil );
-//	ERROR( @"a", @"" );
-//	ERROR( @"a", @"format %@", @"" );
+	ERROR( @"a", nil );
+	ERROR( @"a", @"" );
+	ERROR( @"a", @"format %@", @"" );
 }
 
 TEST_CASE_END

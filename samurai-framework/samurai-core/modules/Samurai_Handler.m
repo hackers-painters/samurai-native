@@ -180,9 +180,16 @@ hookBefore( unload, blockHandler )
 
 #if __SAMURAI_TESTING__
 
-TEST_CASE( Core, BlockHandler )
+TEST_CASE( Core, Handler )
+
+DESCRIBE( before )
 {
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

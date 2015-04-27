@@ -10,6 +10,7 @@
 #import "RefreshCollectionView.h"
 #import "MovieViewController.h"
 #import "Samurai.h"
+#import "Model.h"
 
 @interface MovieListViewController ()
 @property (nonatomic, strong) RefreshCollectionView * list;
@@ -86,7 +87,8 @@
 
 - (void)reloadData
 {
-    self[@"list"] = @{
+    self.viewStorage[@"list"] = @{
+								  
                       @"movies" : ({
                           
                           NSMutableArray * movies = [NSMutableArray array];
@@ -104,7 +106,7 @@
                           movies;
                       })
     };
-    
+
     [_list reloadData];
 }
 

@@ -73,6 +73,8 @@ typedef enum
 
 @interface SamuraiViewTemplate : NSObject
 
+@joint( stateChanged );
+
 @prop_strong( SamuraiDocument *,		document );
 
 @prop_assign( NSTimeInterval,			timeoutSeconds );
@@ -94,9 +96,8 @@ typedef enum
 - (void)loadClass:(Class)clazz;
 - (void)loadFile:(NSString *)file;
 - (void)loadURL:(NSString *)url type:(NSString *)type;
-- (void)stopLoading;
 
-- (void)relayout;
+- (void)stopLoading;
 
 @end
 

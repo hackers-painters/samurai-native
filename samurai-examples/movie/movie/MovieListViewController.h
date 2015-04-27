@@ -7,8 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Model.h"
-#import "Samurai.h"
 
 @interface MovieListViewController : UIViewController
 @end

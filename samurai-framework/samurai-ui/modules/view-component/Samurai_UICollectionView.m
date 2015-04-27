@@ -130,7 +130,7 @@
 		return CGSizeZero;
 	}
 	
-	NSString *	cachedKey = [NSString stringWithFormat:@"%d-%d", indexPath.section, indexPath.row];
+	NSString *	cachedKey = [NSString stringWithFormat:@"%ld-%ld", indexPath.section, indexPath.row];
 	NSValue *	cachedSize = [_cachedHeight objectForKey:cachedKey];
 
 	if ( cachedSize )
@@ -143,13 +143,13 @@
 	if ( nil == reuseCell )
 	{
 		reuseCell = (UICollectionViewCell *)[self.document.renderTree createViewWithIdentifier:nil];
+		[reuseCell.renderer bindOutletsTo:reuseCell];
 	}
 	
 	if ( nil == reuseCell )
 	{
 		reuseCell = [[UICollectionViewCell alloc] initWithFrame:CGRectZero];
-
-		ASSERT( reuseCell );
+		[reuseCell.renderer bindOutletsTo:reuseCell];
 	}
 	
 	NSObject * reuseData = [self getDataForRowAtIndexPath:indexPath];
@@ -262,24 +262,13 @@
 		if ( nil == reuseRenderer )
 		{
 			reuseRenderer = [self.document.renderTree clone];
-			reuseRenderer.view = reuseCell;
-			reuseRenderer.viewClass = [reuseCell class];
 			
-			for ( SamuraiRenderObject * childRender in reuseRenderer.childs )
-			{
-				UIView * subview = [childRender createViewWithIdentifier:nil];
-				if ( subview )
-				{
-					[reuseCell.contentView addSubview:subview];
-				}
-			}
-
-		//	[reuseRenderer restyle];
+			[reuseRenderer bindView:reuseCell];
 			[reuseRenderer bindOutletsTo:reuseCell];
 
-			[self.collectionView.renderer appendNode:reuseRenderer];
+		//	[reuseRenderer restyle];
 
-			reuseCell.renderer = reuseRenderer;
+			[self.collectionView.renderer appendNode:reuseRenderer];
 		}
 		
 		reuseData = [self getDataForRowAtIndexPath:indexPath];
@@ -428,7 +417,7 @@
 			}
 			else
 			{
-				sectionKey = [NSString stringWithFormat:@"%d", section.index];
+				sectionKey = [NSString stringWithFormat:@"%lu", section.index];
 			}
 			
 			sectionData = [section serialize];
@@ -465,7 +454,7 @@
 			}
 			else
 			{
-				sectionKey = [NSString stringWithFormat:@"%d", section.index];
+				sectionKey = [NSString stringWithFormat:@"%lu", section.index];
 			}
 			
 			if ( [obj isKindOfClass:[NSDictionary class]] || [obj conformsToProtocol:@protocol(NSDictionaryProtocol)] )
@@ -727,8 +716,15 @@
 #if __SAMURAI_TESTING__
 
 TEST_CASE( UI, UICollectionView )
+
+DESCRIBE( before )
 {
 }
+
+DESCRIBE( after )
+{
+}
+
 TEST_CASE_END
 
 #endif	// #if __SAMURAI_TESTING__

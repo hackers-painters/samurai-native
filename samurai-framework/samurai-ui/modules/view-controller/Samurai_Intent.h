@@ -89,6 +89,8 @@ typedef enum
 
 @interface SamuraiIntent : NSObject<NSDictionaryProtocol, NSMutableDictionaryProtocol>
 
+@joint( stateChanged );
+
 @prop_strong( NSString *,					action );
 @prop_strong( NSMutableDictionary *,		input );
 @prop_strong( NSMutableDictionary *,		output );
