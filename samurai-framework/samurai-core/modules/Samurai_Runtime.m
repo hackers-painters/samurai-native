@@ -175,6 +175,25 @@
 	return result;
 }
 
++ (NSArray *)classesWithProtocolName:(NSString *)protocolName
+{
+    NSMutableArray *results = [[NSMutableArray alloc] init];
+    Protocol * protocol = NSProtocolFromString(protocolName);
+    for ( NSString *className in [self loadedClassNames] )
+    {
+        Class classType = NSClassFromString( className );
+        if ( classType == self )
+            continue;
+        
+        if ( NO == [classType conformsToProtocol:protocol] )
+            continue;
+        
+        [results addObject:[classType description]];
+    }
+    
+    return results;
+}
+
 + (void *)replaceSelector:(SEL)sel1 withSelector:(SEL)sel2
 {
 	Method method = class_getInstanceMethod( self, sel1 );

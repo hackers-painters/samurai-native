@@ -50,6 +50,8 @@
 + (NSArray *)methods;
 + (NSArray *)methodsWithPrefix:(NSString *)prefix;
 
++ (NSArray *)classesWithProtocolName:(NSString *)protocolName;
+
 + (void *)replaceSelector:(SEL)sel1 withSelector:(SEL)sel2;
 
 @end
