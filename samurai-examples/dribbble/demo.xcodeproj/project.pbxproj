@@ -54,7 +54,7 @@
 		CB1C88E21ADD5823006172BD /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB1C88E01ADD5823006172BD /* Info.plist */; };
 		CB1C88E31ADD5823006172BD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CB1C88E11ADD5823006172BD /* main.m */; };
 		CB1C8CCB1ADFB0C9006172BD /* WelcomeActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CB1C8CCA1ADFB0C9006172BD /* WelcomeActivity.m */; };
-		CB758CA31A2B87970066A11D /* www in Resources */ = {isa = PBXBuildFile; fileRef = CB758CA21A2B87970066A11D /* www */; };
+		CB68B7601AEFA8D900C30C40 /* www in Resources */ = {isa = PBXBuildFile; fileRef = CB68B75F1AEFA8D900C30C40 /* www */; };
 		CBA2879E1AEBC69F00ADD6F5 /* Samurai_CssParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CBA2871E1AEBC69E00ADD6F5 /* Samurai_CssParser.m */; };
 		CBA2879F1AEBC69F00ADD6F5 /* Samurai_CssProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = CBA287201AEBC69E00ADD6F5 /* Samurai_CssProtocol.m */; };
 		CBA287A01AEBC69F00ADD6F5 /* Samurai_CssStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = CBA287221AEBC69E00ADD6F5 /* Samurai_CssStyleSheet.m */; };
@@ -410,7 +410,7 @@
 		CB1C88E11ADD5823006172BD /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CB1C8CC91ADFB0C9006172BD /* WelcomeActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeActivity.h; sourceTree = "<group>"; };
 		CB1C8CCA1ADFB0C9006172BD /* WelcomeActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeActivity.m; sourceTree = "<group>"; };
-		CB758CA21A2B87970066A11D /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+		CB68B75F1AEFA8D900C30C40 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		CB9472FC1963EEFB007EBA35 /* demo_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = demo_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBA2871D1AEBC69E00ADD6F5 /* Samurai_CssParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CssParser.h; sourceTree = "<group>"; };
 		CBA2871E1AEBC69E00ADD6F5 /* Samurai_CssParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CssParser.m; sourceTree = "<group>"; };
@@ -1139,12 +1139,12 @@
 				CBD8D44B1AD7FFC20017A6C4 /* DribbbleApp.manifest.json */,
 				CB1C88E01ADD5823006172BD /* Info.plist */,
 				CB1C88E11ADD5823006172BD /* main.m */,
+				CB68B75F1AEFA8D900C30C40 /* www */,
 				CB1C88691ADD546B006172BD /* shared_library */,
 				CBB2F2221AEE2D0000D9B962 /* config */,
 				CB1C883D1ADD543D006172BD /* controller */,
 				CB1C88491ADD543D006172BD /* library */,
 				CB1C884E1ADD543D006172BD /* model */,
-				CB758CA21A2B87970066A11D /* www */,
 			);
 			path = demo;
 			sourceTree = "<group>";
@@ -2086,9 +2086,9 @@
 				CBD8D7931ADAAFDF0017A6C4 /* ServiceGesture.bundle in Resources */,
 				CBA287ED1AEBC6FF00ADD6F5 /* html.css in Resources */,
 				CBA287EC1AEBC6FF00ADD6F5 /* html+ios.css in Resources */,
+				CB68B7601AEFA8D900C30C40 /* www in Resources */,
 				CB1C88E21ADD5823006172BD /* Info.plist in Resources */,
 				CB1C88C81ADD546B006172BD /* SDWebImageView.css in Resources */,
-				CB758CA31A2B87970066A11D /* www in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -233,7 +233,7 @@ BASE_CLASS( SamuraiResource )
 		NSString * srcPath = [[[SamuraiWatcher sharedInstance].sourcePath stringByAppendingPathComponent:path] stringByStandardizingPath];
 	#endif	// #if TARGET_IPHONE_SIMULATOR
 		
-		NSString * docPath = path;
+		NSString * docPath = [[[NSBundle mainBundle] pathForResource:fileName ofType:fileExt inDirectory:[path stringByDeletingLastPathComponent]] stringByStandardizingPath];
 		NSString * resPath = [[[NSBundle mainBundle] pathForResource:fileName ofType:fileExt] stringByStandardizingPath];
 		NSString * wwwPath = [[[NSBundle mainBundle] pathForResource:fileName ofType:fileExt inDirectory:[[resource class] baseDirectory]] stringByStandardizingPath];
 
