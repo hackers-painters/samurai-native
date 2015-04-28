@@ -39,17 +39,11 @@
 #pragma mark -
 
 @interface SamuraiUITableViewCellAgent : NSObject
-
-@prop_assign( BOOL,					dirty );
-@prop_unsafe( UITableViewCell *,	owner );
-
 @end
 
 #pragma mark -
 
 @interface UITableViewCell(Samurai)
-
-- (SamuraiUITableViewCellAgent *)tableViewCellAgent;
 
 - (void)dataWillChange;
 - (void)dataDidChanged;

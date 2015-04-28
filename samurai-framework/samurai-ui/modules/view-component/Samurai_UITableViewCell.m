@@ -41,58 +41,6 @@
 
 #pragma mark -
 
-@implementation SamuraiUITableViewCellAgent
-
-@def_prop_assign( BOOL,					dirty );
-@def_prop_unsafe( UITableViewCell *,	owner );
-
-- (id)init
-{
-	self = [super init];
-	if ( self )
-	{
-		self.dirty = YES;
-	}
-	return self;
-}
-
-- (void)dealloc
-{
-}
-
-- (void)addObserver
-{
-	if ( self.owner )
-	{
-		[self.owner addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew context:nil];
-	}
-}
-
-- (void)removeObserver
-{
-	if ( self.owner )
-	{
-		[self.owner removeObserver:self forKeyPath:@"frame"];
-	}
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-	if ( [keyPath isEqualToString:@"frame"] )
-	{
-		if ( self.dirty )
-		{
-			[self.owner.renderer relayout];
-			
-			self.dirty = NO;
-		}
-	}
-}
-
-@end
-
-#pragma mark -
-
 @implementation UITableViewCell(Samurai)
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
@@ -103,24 +51,7 @@
 	tableViewCell.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 	tableViewCell.userInteractionEnabled = YES;
 	
-	[[tableViewCell tableViewCellAgent] addObserver];
-	
 	return tableViewCell;
-}
-
-#pragma mark -
-
-- (SamuraiUITableViewCellAgent *)tableViewCellAgent
-{
-	SamuraiUITableViewCellAgent * agent = [self getAssociatedObjectForKey:"UITableViewCell.agent"];
-	if ( nil == agent )
-	{
-		agent = [[SamuraiUITableViewCellAgent alloc] init];
-		agent.owner = self;
-
-		[self retainAssociatedObject:agent forKey:"UITableViewCell.agent"];
-	}
-	return agent;
 }
 
 #pragma mark -
@@ -137,7 +68,11 @@
 
 - (id)serialize
 {
-	return [[SamuraiRenderStoreScope storeScope:[self renderer]] getData];
+	SamuraiRenderObject * renderObject = [self renderer];
+	if ( nil == renderObject )
+		return nil;
+	
+	return [[SamuraiRenderStoreScope storeScope:renderObject] getData];
 }
 
 - (void)unserialize:(id)obj
@@ -158,9 +93,13 @@
 
 - (void)zerolize
 {
+	SamuraiRenderObject * renderObject = [self renderer];
+	if ( nil == renderObject )
+		return;
+	
 	[self dataWillChange];
 	
-	[[SamuraiRenderStoreScope storeScope:[self renderer]] clearData];
+	[[SamuraiRenderStoreScope storeScope:renderObject] clearData];
 	
 	[self dataDidChanged];
 }

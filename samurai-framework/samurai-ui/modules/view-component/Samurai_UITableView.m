@@ -246,8 +246,9 @@
 //		[reuseCell zerolize];
 //	}
 	
-	[reuseCell tableViewCellAgent].dirty = YES;
-	
+	[reuseCell.renderer relayout];
+//	[reuseCell tableViewCellAgent].dirty = YES;
+
 	return reuseCell;
 }
 
@@ -442,22 +443,21 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	
+	[cell.renderer relayout];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section NS_AVAILABLE_IOS(6_0)
 {
-	
+	[view.renderer relayout];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section NS_AVAILABLE_IOS(6_0)
 {
-	
+	[view.renderer relayout];
 }
 
 - (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath NS_AVAILABLE_IOS(6_0)
 {
-	
 }
 
 - (void)tableView:(UITableView *)tableView didEndDisplayingHeaderView:(UIView *)view forSection:(NSInteger)section NS_AVAILABLE_IOS(6_0)

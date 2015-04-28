@@ -73,7 +73,11 @@
 
 - (id)serialize
 {
-	return [[SamuraiRenderStoreScope storeScope:[self renderer]] getData];
+	SamuraiRenderObject * renderObject = [self renderer];
+	if ( nil == renderObject )
+		return nil;
+
+	return [[SamuraiRenderStoreScope storeScope:renderObject] getData];
 }
 
 - (void)unserialize:(id)obj
@@ -94,9 +98,13 @@
 
 - (void)zerolize
 {
+	SamuraiRenderObject * renderObject = [self renderer];
+	if ( nil == renderObject )
+		return;
+
 	[self dataWillChange];
 
-	[[SamuraiRenderStoreScope storeScope:[self renderer]] clearData];
+	[[SamuraiRenderStoreScope storeScope:renderObject] clearData];
 	
 	[self dataDidChanged];
 }
