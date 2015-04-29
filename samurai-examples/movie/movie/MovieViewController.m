@@ -75,7 +75,7 @@
 
 - (void)reloadData
 {
-    self.viewStorage[@"list"] = @{
+    self[@"list"] = @{
 								  
                       @"movie": @{
                               @"cover" : _model.movie.posters.thumbnail ?: @"",

@@ -1,0 +1,9 @@
+PASS getComputedValue(".int", "tabSize") is "8"
+PASS getComputedValue(".int-non-neg-invalid", "tabSize") is "12345"
+PASS getComputedValue(".float", "opacity") is "0.5"
+PASS getComputedValue(".float-invalid", "tabSize") is "12345"
+PASS getComputedValue(".px-invalid", "tabSize") is "12345"
+PASS successfullyParsed is true
+
+TEST COMPLETE
+

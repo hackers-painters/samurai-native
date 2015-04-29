@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+    div {
+        width: 10px;
+        height: 10px;
+        background: green;
+        isolation:isolate;
+    }
+</style>
+<!-- Isolation should create a stacking context. Test if "isolation:isolate" sets the zIndex to 0, instead of the default "auto" value. -->
+<body>
+    <div id="isolator"></div>
+    <div id="isolator_accelerated" style="transform: translateZ(0)"></div>
+
+    <script src="../../resources/js-test.js"></script>
+    <script>
+        // Software path.
+        var zIndex = getComputedStyle(document.getElementById("isolator")).zIndex;
+        shouldBeZero(zIndex);
+
+        // Hardware path.
+        zIndex = getComputedStyle(document.getElementById("isolator_accelerated")).zIndex;
+        shouldBeZero(zIndex);
+    </script>
+</body>
+</html>

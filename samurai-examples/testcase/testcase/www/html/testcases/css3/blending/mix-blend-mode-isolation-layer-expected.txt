@@ -1,0 +1,36 @@
+{
+  "bounds": [800, 600],
+  "children": [
+    {
+      "bounds": [800, 600],
+      "contentsOpaque": true,
+      "children": [
+        {
+          "bounds": [800, 600],
+          "drawsContent": true,
+          "children": [
+            {
+              "position": [8, 8],
+              "bounds": [160, 90],
+              "isolate": true,
+              "contentsOpaque": true,
+              "drawsContent": true,
+              "backgroundColor": "#008000",
+              "children": [
+                {
+                  "bounds": [160, 90],
+                  "blendMode": "multiply"
+                }
+              ]
+            },
+            {
+              "bounds": [800, 600],
+              "drawsContent": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+

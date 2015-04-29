@@ -194,10 +194,12 @@ static NSUInteger __objectSeed = 0;
 	
 	if ( source.dom.domId && source.dom.domId.length )
 	{
-		NSString * ivarName = [NSString stringWithFormat:@"_%@", source.dom.domId];
+		NSString * ivarName = source.dom.domId;
+		NSString * ivarName2 = [NSString stringWithFormat:@"_%@", source.dom.domId];
 		NSString * propName = source.dom.domId;
-		
+	
 		[self assignValue:source.view toObject:container forProperty:ivarName];
+		[self assignValue:source.view toObject:container forProperty:ivarName2];
 		[self assignValue:source.view toObject:container forProperty:propName];
 	}
 	else

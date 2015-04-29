@@ -1,0 +1,26 @@
+layer at (0,0) size 800x600
+  RenderView at (0,0) size 800x600
+layer at (0,0) size 800x600
+  RenderBlock {HTML} at (0,0) size 800x600
+    RenderBody {BODY} at (8,8) size 784x584
+      RenderBlock {DIV} at (0,0) size 784x90
+      RenderBlock {DIV} at (0,90) size 784x90
+      RenderBlock {DIV} at (0,180) size 784x90
+      RenderBlock (anonymous) at (0,270) size 784x0
+        RenderSVGRoot {svg} at (8,278) size 0x0
+          RenderSVGResourceFilter {filter} [id="cut1"] [filterUnits=objectBoundingBox] [primitiveUnits=userSpaceOnUse]
+            [feOffset dx="0.00" dy="0.00"]
+              [SourceGraphic]
+          RenderSVGResourceFilter {filter} [id="cut2"] [filterUnits=objectBoundingBox] [primitiveUnits=userSpaceOnUse]
+            [feOffset dx="0.00" dy="0.00"]
+              [SourceGraphic]
+          RenderSVGResourceFilter {filter} [id="cut3"] [filterUnits=objectBoundingBox] [primitiveUnits=userSpaceOnUse]
+            [feOffset dx="0.00" dy="0.00"]
+              [SourceGraphic]
+        RenderText {#text} at (0,0) size 0x0
+layer at (8,8) size 160x90
+  RenderImage {IMG} at (0,0) size 160x90
+layer at (8,98) size 160x90
+  RenderImage {IMG} at (0,0) size 160x90
+layer at (8,188) size 160x90
+  RenderImage {IMG} at (0,0) size 160x90

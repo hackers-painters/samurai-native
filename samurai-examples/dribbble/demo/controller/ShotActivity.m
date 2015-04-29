@@ -141,7 +141,7 @@
 
 - (void)reloadData
 {
-	self.viewStorage[@"shot"] = @{
+	self[@"shot"] = @{
 					  
 		@"author" : @{
 			@"avatar" : self.shot.user.avatar_url ?: @"", // @"https://d13yacurqjgara.cloudfront.net/users/162360/avatars/normal/logo.png?1402322917",

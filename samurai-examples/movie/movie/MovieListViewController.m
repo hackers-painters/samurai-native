@@ -87,7 +87,7 @@
 
 - (void)reloadData
 {
-    self.viewStorage[@"list"] = @{
+    self[@"list"] = @{
 								  
                       @"movies" : ({
                           

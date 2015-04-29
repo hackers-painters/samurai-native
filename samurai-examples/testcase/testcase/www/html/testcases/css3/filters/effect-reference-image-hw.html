@@ -1,0 +1,15 @@
+<style>
+  #filtered {
+    width: 160px;
+    height: 90px;
+    -webkit-filter: url(#imagereplace);
+    filter: url(#imagereplace);
+    transform: translateZ(0);
+  }
+</style>
+<div id="filtered"></div>
+<svg xmlns="http://www.w3.org/3000/svg" width="0" height="0" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <filter id="imagereplace" color-interpolation-filters="sRGB">
+     <feimage xlink:href="resources/reference.png"/>
+  </filter>
+</svg>

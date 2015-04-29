@@ -248,7 +248,7 @@ BASE_CLASS( SamuraiResource )
 			}
 		}
 	#endif	// #if TARGET_IPHONE_SIMULATOR
-		
+
 		if ( docPath )
 		{
 			fileContent = [NSString stringWithContentsOfFile:docPath encoding:NSUTF8StringEncoding error:NULL];
@@ -275,6 +275,16 @@ BASE_CLASS( SamuraiResource )
 			if ( fileContent )
 			{
 				filePath = wwwPath;
+				break;
+			}
+		}
+		
+		if ( path )
+		{
+			fileContent = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];
+			if ( fileContent )
+			{
+				filePath = path;
 				break;
 			}
 		}

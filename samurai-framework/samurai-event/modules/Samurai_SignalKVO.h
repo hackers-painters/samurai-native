@@ -59,6 +59,7 @@ typedef NSObject *	(^ SamuraiKVOBlock )( id nameOrObject, id propertyOrBlock, ..
 
 - (void)observeProperty:(NSString *)property;
 - (void)unobserveProperty:(NSString *)property;
+- (void)unobserveAllProperties;
 
 - (void)signalValueChanging:(NSString *)property;
 - (void)signalValueChanging:(NSString *)property value:(id)value;

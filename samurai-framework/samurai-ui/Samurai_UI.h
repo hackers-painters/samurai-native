@@ -39,9 +39,13 @@
 
 #import "Signal+View.h"
 #import "Signal+ViewController.h"
+
+#import "View+Binding.h"
 #import "View+Query.h"
 #import "View+Signal.h"
 #import "View+Template.h"
+
+#import "ViewController+Binding.h"
 #import "ViewController+NavigationBar.h"
 #import "ViewController+Query.h"
 #import "ViewController+Signal.h"

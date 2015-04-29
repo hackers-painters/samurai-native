@@ -46,22 +46,6 @@ typedef void (^ __handlerBlockType )( id object );
 
 @implementation NSObject(BlockHandler)
 
-hookAfter( load, blockHandler )
-{
-}
-
-hookBefore( unload, blockHandler )
-{
-	SamuraiHandler * handler = [self getAssociatedObjectForKey:"blockHandler"];
-
-	if ( handler )
-	{
-		[handler removeAllHandlers];
-
-		[self removeAssociatedObjectForKey:"blockHandler"];
-	}
-}
-
 - (SamuraiHandler *)blockHandlerOrCreate
 {
 	SamuraiHandler * handler = [self getAssociatedObjectForKey:"blockHandler"];
@@ -84,6 +68,7 @@ hookBefore( unload, blockHandler )
 - (void)addBlock:(id)block forName:(NSString *)name
 {
 	SamuraiHandler * handler = [self blockHandlerOrCreate];
+	
 	if ( handler )
 	{
 		[handler addHandler:block forName:name];
@@ -93,10 +78,23 @@ hookBefore( unload, blockHandler )
 - (void)removeBlockForName:(NSString *)name
 {
 	SamuraiHandler * handler = [self blockHandler];
+	
 	if ( handler )
 	{
 		[handler removeHandlerForName:name];
 	}
+}
+
+- (void)removeAllBlocks
+{
+	SamuraiHandler * handler = [self blockHandler];
+	
+	if ( handler )
+	{
+		[handler removeAllHandlers];
+	}
+	
+	[self removeAssociatedObjectForKey:"blockHandler"];
 }
 
 @end

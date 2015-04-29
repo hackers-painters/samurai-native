@@ -54,7 +54,7 @@
 {
 	[super html_applyDom:dom];
 	
-	[self unserialize:[dom computeInnerText]];
+	self.text = [[dom computeInnerText] normalize];
 }
 
 - (void)html_applyStyle:(SamuraiHtmlStyle *)style

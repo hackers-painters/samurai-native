@@ -38,6 +38,8 @@
 		CB1C89491ADD5942006172BD /* SDWebImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = CB1C89271ADD5942006172BD /* SDWebImageView.m */; };
 		CB1C894A1ADD5942006172BD /* STIHTTPNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = CB1C892A1ADD5942006172BD /* STIHTTPNetwork.m */; };
 		CB1C894B1ADD5942006172BD /* STIHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CB1C892C1ADD5942006172BD /* STIHTTPSessionManager.m */; };
+		CB56B1811AF0F17A0028CC35 /* View+Binding.m in Sources */ = {isa = PBXBuildFile; fileRef = CB56B1801AF0F17A0028CC35 /* View+Binding.m */; };
+		CB56B1841AF0F1810028CC35 /* ViewController+Binding.m in Sources */ = {isa = PBXBuildFile; fileRef = CB56B1831AF0F1810028CC35 /* ViewController+Binding.m */; };
 		CBB2F3FB1AEE502300D9B962 /* Samurai_Config(Phone).m in Sources */ = {isa = PBXBuildFile; fileRef = CBB2F2311AEE502300D9B962 /* Samurai_Config(Phone).m */; };
 		CBB2F3FC1AEE502300D9B962 /* Samurai_Config(Simulator).m in Sources */ = {isa = PBXBuildFile; fileRef = CBB2F2331AEE502300D9B962 /* Samurai_Config(Simulator).m */; };
 		CBB2F3FD1AEE502300D9B962 /* Samurai_Config.m in Sources */ = {isa = PBXBuildFile; fileRef = CBB2F2351AEE502300D9B962 /* Samurai_Config.m */; };
@@ -330,6 +332,10 @@
 		CB1C892A1ADD5942006172BD /* STIHTTPNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STIHTTPNetwork.m; sourceTree = "<group>"; };
 		CB1C892B1ADD5942006172BD /* STIHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STIHTTPSessionManager.h; sourceTree = "<group>"; };
 		CB1C892C1ADD5942006172BD /* STIHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STIHTTPSessionManager.m; sourceTree = "<group>"; };
+		CB56B17F1AF0F17A0028CC35 /* View+Binding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+Binding.h"; sourceTree = "<group>"; };
+		CB56B1801AF0F17A0028CC35 /* View+Binding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "View+Binding.m"; sourceTree = "<group>"; };
+		CB56B1821AF0F1810028CC35 /* ViewController+Binding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+Binding.h"; sourceTree = "<group>"; };
+		CB56B1831AF0F1810028CC35 /* ViewController+Binding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+Binding.m"; sourceTree = "<group>"; };
 		CBB2F22E1AEE502300D9B962 /* _pragma_pop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _pragma_pop.h; sourceTree = "<group>"; };
 		CBB2F22F1AEE502300D9B962 /* _pragma_push.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _pragma_push.h; sourceTree = "<group>"; };
 		CBB2F2301AEE502300D9B962 /* Samurai_Config(Phone).h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Samurai_Config(Phone).h"; sourceTree = "<group>"; };
@@ -1197,12 +1203,16 @@
 				CBB2F2A91AEE502300D9B962 /* Signal+View.m */,
 				CBB2F2AA1AEE502300D9B962 /* Signal+ViewController.h */,
 				CBB2F2AB1AEE502300D9B962 /* Signal+ViewController.m */,
+				CB56B17F1AF0F17A0028CC35 /* View+Binding.h */,
+				CB56B1801AF0F17A0028CC35 /* View+Binding.m */,
 				CBB2F2AC1AEE502300D9B962 /* View+Query.h */,
 				CBB2F2AD1AEE502300D9B962 /* View+Query.m */,
 				CBB2F2AE1AEE502300D9B962 /* View+Signal.h */,
 				CBB2F2AF1AEE502300D9B962 /* View+Signal.m */,
 				CBB2F2B01AEE502300D9B962 /* View+Template.h */,
 				CBB2F2B11AEE502300D9B962 /* View+Template.m */,
+				CB56B1821AF0F1810028CC35 /* ViewController+Binding.h */,
+				CB56B1831AF0F1810028CC35 /* ViewController+Binding.m */,
 				CBB2F2B21AEE502300D9B962 /* ViewController+NavigationBar.h */,
 				CBB2F2B31AEE502300D9B962 /* ViewController+NavigationBar.m */,
 				CBB2F2B41AEE502300D9B962 /* ViewController+Query.h */,
@@ -1821,6 +1831,7 @@
 				CB1C893B1ADD5942006172BD /* SDWebImageCompat.m in Sources */,
 				CBB2F4111AEE502300D9B962 /* Samurai_Runtime.m in Sources */,
 				CBB2F4331AEE502300D9B962 /* View+Signal.m in Sources */,
+				CB56B1811AF0F17A0028CC35 /* View+Binding.m in Sources */,
 				CBB2F4751AEE502300D9B962 /* UITextField+Html.m in Sources */,
 				CBB2F4AE1AEE502300D9B962 /* Samurai.m in Sources */,
 				CBB2F4A61AEE502300D9B962 /* Samurai_Script.m in Sources */,
@@ -2051,6 +2062,7 @@
 				CBB2F4A31AEE502300D9B962 /* Samurai_RenderStyle.m in Sources */,
 				CBB2F4501AEE502300D9B962 /* Samurai_HtmlRenderWorklet_20UpdateStyle.m in Sources */,
 				CBB2F4711AEE502300D9B962 /* UISlider+Html.m in Sources */,
+				CB56B1841AF0F1810028CC35 /* ViewController+Binding.m in Sources */,
 				CBB2F4671AEE502300D9B962 /* Samurai_HtmlUserAgent.m in Sources */,
 				E918C6E01ADB9DC8005D184D /* MovieCell.m in Sources */,
 				CBB2F4CD1AEE502300D9B962 /* tokenizer.c in Sources */,
