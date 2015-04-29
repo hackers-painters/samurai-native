@@ -28,16 +28,16 @@
 //	THE SOFTWARE.
 //
 
-#import "Samurai_CssParser.h"
+#import "Samurai_CSSParser.h"
 #import "_pragma_push.h"
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
 #pragma mark -
 
-@implementation SamuraiCssParser
+@implementation SamuraiCSSParser
 
-@def_singleton( SamuraiCssParser )
+@def_singleton( SamuraiCSSParser )
 
 - (id)init
 {
@@ -94,7 +94,7 @@
                 
                 if ( decl->property )
                 {
-                    SamuraiCssValueWrapper * wrapper = [SamuraiCssValueWrapper new];
+                    SamuraiCSSValueWrapper * wrapper = [SamuraiCSSValueWrapper new];
 					
                     // TODO: @(QFish) copy values, but no need for right now.
                     // wrapper.values = decl->values;
@@ -125,7 +125,7 @@
 
 #if __SAMURAI_TESTING__
 
-TEST_CASE( UI, CssParser )
+TEST_CASE( UI, CSSParser )
 
 DESCRIBE( before )
 {

@@ -40,7 +40,7 @@
 @interface SamuraiHtmlUserAgent : NSObject
 
 @prop_strong( NSMutableArray *,		defaultStyleSheets );
-@prop_strong( NSMutableArray *,		defaultCssInherition );
+@prop_strong( NSMutableArray *,		defaultCSSInherition );
 
 @singleton( SamuraiHtmlUserAgent )
 

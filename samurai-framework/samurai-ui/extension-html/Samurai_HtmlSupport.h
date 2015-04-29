@@ -44,6 +44,6 @@
 #import "Samurai_HtmlRenderObject.h"
 #import "Samurai_HtmlRenderWorkflow.h"
 
-#import "Samurai_CssParser.h"
-#import "Samurai_CssProtocol.h"
-#import "Samurai_CssStyleSheet.h"
+#import "Samurai_CSSParser.h"
+#import "Samurai_CSSProtocol.h"
+#import "Samurai_CSSStyleSheet.h"

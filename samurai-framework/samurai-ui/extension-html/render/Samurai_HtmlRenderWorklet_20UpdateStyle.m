@@ -39,8 +39,8 @@
 
 #import "Samurai_HtmlUserAgent.h"
 
-#import "Samurai_CssParser.h"
-#import "Samurai_CssStyleSheet.h"
+#import "Samurai_CSSParser.h"
+#import "Samurai_CSSStyleSheet.h"
 
 // ----------------------------------
 // Source code
@@ -91,7 +91,7 @@
 
 	if ( renderObject.parent )
 	{
-		for ( NSString * key in [SamuraiHtmlUserAgent sharedInstance].defaultCssInherition )
+		for ( NSString * key in [SamuraiHtmlUserAgent sharedInstance].defaultCSSInherition )
 		{
 			NSString * value = [renderObject.parent.customStyleComputed objectForKey:key];
 			

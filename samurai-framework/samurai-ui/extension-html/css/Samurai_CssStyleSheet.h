@@ -30,12 +30,12 @@
 
 #import "Samurai_UIConfig.h"
 #import "Samurai_ViewCore.h"
-#import "Samurai_CssProtocol.h"
+#import "Samurai_CSSProtocol.h"
 #import "katana.h"
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
-@protocol SamuraiCssMediaQueryChecker <NSObject>
+@protocol SamuraiCSSMediaQueryChecker <NSObject>
 
 - (BOOL)testMediaQueries:(KatanaArray *)medias;
 
@@ -43,7 +43,7 @@
 
 #pragma mark -
 
-@interface SamuraiCssValueWrapper : NSObject
+@interface SamuraiCSSValueWrapper : NSObject
 
 @prop_unsafe( KatanaArray *, values);
 @prop_strong( NSString *,  rawValue);
@@ -52,11 +52,11 @@
 
 #pragma mark -
 
-@class SamuraiCssRuleSet;
+@class SamuraiCSSRuleSet;
 
-@interface SamuraiCssStyleSheet : SamuraiStyleSheet
+@interface SamuraiCSSStyleSheet : SamuraiStyleSheet
 
-@prop_strong( SamuraiCssRuleSet *, ruleSet );
+@prop_strong( SamuraiCSSRuleSet *, ruleSet );
 
 @end
 

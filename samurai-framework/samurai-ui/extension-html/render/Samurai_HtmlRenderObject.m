@@ -489,22 +489,22 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 	return nil;
 }
 
-- (id<SamuraiCssProtocol>)cssParent
+- (id<SamuraiCSSProtocol>)cssParent
 {
 	return self.parent;
 }
 
-- (id<SamuraiCssProtocol>)cssPreviousSibling
+- (id<SamuraiCSSProtocol>)cssPreviousSibling
 {
 	return self.prev;
 }
 
-- (id<SamuraiCssProtocol>)cssFollowingSibling
+- (id<SamuraiCSSProtocol>)cssFollowingSibling
 {
 	return self.next;
 }
 
-- (id<SamuraiCssProtocol>)cssSiblingAtIndex:(NSInteger)index
+- (id<SamuraiCSSProtocol>)cssSiblingAtIndex:(NSInteger)index
 {
 	if ( nil == self.parent )
 	{

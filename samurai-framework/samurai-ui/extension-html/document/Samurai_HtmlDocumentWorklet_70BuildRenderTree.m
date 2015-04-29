@@ -43,8 +43,8 @@
 #import "Samurai_HtmlStyle.h"
 #import "Samurai_HtmlMediaQuery.h"
 
-#import "Samurai_CssParser.h"
-#import "Samurai_CssStyleSheet.h"
+#import "Samurai_CSSParser.h"
+#import "Samurai_CSSStyleSheet.h"
 
 // ----------------------------------
 // Source code

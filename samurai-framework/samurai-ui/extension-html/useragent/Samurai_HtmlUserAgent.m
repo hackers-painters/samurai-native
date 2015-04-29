@@ -43,8 +43,8 @@
 #import "Samurai_HtmlStyle.h"
 #import "Samurai_HtmlMediaQuery.h"
 
-#import "Samurai_CssParser.h"
-#import "Samurai_CssStyleSheet.h"
+#import "Samurai_CSSParser.h"
+#import "Samurai_CSSStyleSheet.h"
 
 // ----------------------------------
 // Source code
@@ -55,7 +55,7 @@
 @implementation SamuraiHtmlUserAgent
 
 @def_prop_strong( NSMutableArray *,		defaultStyleSheets );
-@def_prop_strong( NSMutableArray *,		defaultCssInherition );
+@def_prop_strong( NSMutableArray *,		defaultCSSInherition );
 
 @def_singleton( SamuraiHtmlUserAgent )
 
@@ -65,7 +65,7 @@
 	if ( self )
 	{
 		[self loadStyleSheets];
-		[self loadCssInheration];
+		[self loadCSSInheration];
 	}
 	return self;
 }
@@ -73,23 +73,23 @@
 - (void)dealloc
 {
 	self.defaultStyleSheets = nil;
-	self.defaultCssInherition = nil;
+	self.defaultCSSInherition = nil;
 }
 
 - (void)loadStyleSheets
 {
 	self.defaultStyleSheets = [NSMutableArray array];
 	
-	SamuraiCssStyleSheet * styleSheet;
+	SamuraiCSSStyleSheet * styleSheet;
  
-	styleSheet = [SamuraiCssStyleSheet resourceAtPath:@"html.css"];
+	styleSheet = [SamuraiCSSStyleSheet resourceAtPath:@"html.css"];
 	
 	if ( styleSheet && [styleSheet parse] )
 	{
 		[self.defaultStyleSheets addObject:styleSheet];
 	}
 
-	styleSheet = [SamuraiCssStyleSheet resourceAtPath:@"html+ios.css"];
+	styleSheet = [SamuraiCSSStyleSheet resourceAtPath:@"html+ios.css"];
 	
 	if ( styleSheet && [styleSheet parse] )
 	{
@@ -97,9 +97,9 @@
 	}
 }
 
-- (void)loadCssInheration
+- (void)loadCSSInheration
 {
-	self.defaultCssInherition = [NSMutableArray arrayWithObjects:
+	self.defaultCSSInherition = [NSMutableArray arrayWithObjects:
 
 		@"border-collapse",
 		@"border-spacing",

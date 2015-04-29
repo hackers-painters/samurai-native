@@ -35,16 +35,16 @@
 
 #pragma mark -
 
-@protocol SamuraiCssProtocol
+@protocol SamuraiCSSProtocol
 
 - (NSString *)cssId;								// override point
 - (NSString *)cssTag;								// override point
 - (NSArray *)cssClasses;							// override point
 - (NSArray *)cssPseudos;							// override point
-- (id<SamuraiCssProtocol>)cssParent;							// override point
-- (id<SamuraiCssProtocol>)cssPreviousSibling;					// override point
-- (id<SamuraiCssProtocol>)cssFollowingSibling;					// override point
-- (id<SamuraiCssProtocol>)cssSiblingAtIndex:(NSInteger)index;	// override point
+- (id<SamuraiCSSProtocol>)cssParent;							// override point
+- (id<SamuraiCSSProtocol>)cssPreviousSibling;					// override point
+- (id<SamuraiCSSProtocol>)cssFollowingSibling;					// override point
+- (id<SamuraiCSSProtocol>)cssSiblingAtIndex:(NSInteger)index;	// override point
 - (NSArray *)cssChildren;							// override point
 - (NSArray *)cssPreviousSiblings;					// override point
 - (NSArray *)cssFollowingSiblings;					// override point

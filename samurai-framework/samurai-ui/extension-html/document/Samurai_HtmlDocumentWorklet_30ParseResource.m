@@ -35,7 +35,7 @@
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
 #import "Samurai_HtmlDomNode.h"
-#import "Samurai_CssStyleSheet.h"
+#import "Samurai_CSSStyleSheet.h"
 
 // ----------------------------------
 // Source code
@@ -200,7 +200,7 @@ typedef enum
 		type = @"text/css";
 	}
 
-	SamuraiCssStyleSheet * styleSheet = nil;
+	SamuraiCSSStyleSheet * styleSheet = nil;
 	
 	if ( [type isEqualToString:@"text/css"] )
 	{
@@ -212,21 +212,21 @@ typedef enum
 				
 			if ( filePath && [[NSFileManager defaultManager] fileExistsAtPath:filePath] )
 			{
-				styleSheet = [SamuraiCssStyleSheet resourceAtPath:filePath];
+				styleSheet = [SamuraiCSSStyleSheet resourceAtPath:filePath];
 			}
 			else if ( [href hasPrefix:@"http://"] || [href hasPrefix:@"https://"] )
 			{
-				styleSheet = [SamuraiCssStyleSheet resourceWithURL:href];
+				styleSheet = [SamuraiCSSStyleSheet resourceWithURL:href];
 			}
 			else if ( [href hasPrefix:@"//"] )
 			{
-				styleSheet = [SamuraiCssStyleSheet resourceWithURL:[@"http:" stringByAppendingString:href]];
+				styleSheet = [SamuraiCSSStyleSheet resourceWithURL:[@"http:" stringByAppendingString:href]];
 			}
 			else if ( [basePath hasPrefix:@"http://"] || [basePath hasPrefix:@"https://"] )
 			{
 				NSURL * url = [NSURL URLWithString:href relativeToURL:[NSURL URLWithString:basePath]];
 				
-				styleSheet = [SamuraiCssStyleSheet resourceWithURL:[url absoluteString]];
+				styleSheet = [SamuraiCSSStyleSheet resourceWithURL:[url absoluteString]];
 			}
 			else
 			{
@@ -235,12 +235,12 @@ typedef enum
 				cssPath = [cssPath stringByAppendingPathComponent:href];
 				cssPath = [cssPath stringByStandardizingPath];
 				
-				styleSheet = [SamuraiCssStyleSheet resourceAtPath:cssPath];
+				styleSheet = [SamuraiCSSStyleSheet resourceAtPath:cssPath];
 			}
 		}
 		else if ( content && content.length )
 		{
-			styleSheet = [SamuraiCssStyleSheet resourceWithString:content type:type baseURL:nil/*basePath*/];
+			styleSheet = [SamuraiCSSStyleSheet resourceWithString:content type:type baseURL:nil/*basePath*/];
 		}
 		else
 		{

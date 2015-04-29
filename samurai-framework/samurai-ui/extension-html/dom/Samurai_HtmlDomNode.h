@@ -33,11 +33,11 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
-#import "Samurai_CssProtocol.h"
+#import "Samurai_CSSProtocol.h"
 
 #pragma mark -
 
-@interface SamuraiHtmlDomNode : SamuraiDomNode<SamuraiCssProtocol>
+@interface SamuraiHtmlDomNode : SamuraiDomNode<SamuraiCSSProtocol>
 
 @prop_assign( BOOL,	implied );
 

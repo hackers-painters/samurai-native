@@ -36,8 +36,8 @@
 
 #import "Samurai_HtmlDocument.h"
 
-#import "Samurai_CssParser.h"
-#import "Samurai_CssStyleSheet.h"
+#import "Samurai_CSSParser.h"
+#import "Samurai_CSSStyleSheet.h"
 
 // ----------------------------------
 // Source code
@@ -89,17 +89,17 @@
 	return self.parent;
 }
 
-- (id<SamuraiCssProtocol>)cssPreviousSibling
+- (id<SamuraiCSSProtocol>)cssPreviousSibling
 {
 	return nil;
 }
 
-- (id<SamuraiCssProtocol>)cssFollowingSibling
+- (id<SamuraiCSSProtocol>)cssFollowingSibling
 {
 	return nil;
 }
 
-- (id<SamuraiCssProtocol>)cssSiblingAtIndex:(NSInteger)index
+- (id<SamuraiCSSProtocol>)cssSiblingAtIndex:(NSInteger)index
 {
 	if ( nil == self.parent )
 	{

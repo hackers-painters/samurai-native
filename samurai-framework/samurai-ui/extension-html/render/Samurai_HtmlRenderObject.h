@@ -33,7 +33,7 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
-#import "Samurai_CssProtocol.h"
+#import "Samurai_CSSProtocol.h"
 
 #import "Samurai_HtmlDomNode.h"
 #import "Samurai_HtmlStyle.h"
@@ -74,7 +74,7 @@ typedef enum
 
 #pragma mark -
 
-@interface SamuraiHtmlRenderObject : SamuraiRenderObject<SamuraiCssProtocol>
+@interface SamuraiHtmlRenderObject : SamuraiRenderObject<SamuraiCSSProtocol>
 
 @prop_strong( NSMutableArray *,				customStyleClasses );
 @prop_strong( NSMutableDictionary *,		customStyleComputed );

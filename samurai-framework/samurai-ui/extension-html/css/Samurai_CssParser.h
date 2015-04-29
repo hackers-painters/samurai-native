@@ -30,15 +30,15 @@
 
 #import "Samurai_UIConfig.h"
 #import "Samurai_ViewCore.h"
-#import "Samurai_CssStyleSheet.h"
+#import "Samurai_CSSStyleSheet.h"
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
 #pragma mark -
 
-@interface SamuraiCssParser : NSObject
+@interface SamuraiCSSParser : NSObject
 
-@singleton( SamuraiCssParser )
+@singleton( SamuraiCSSParser )
 
 - (KatanaOutput *)parseStylesheet:(NSString *)text; // css
 - (KatanaOutput *)parseMedia:(NSString *)text; // screen and (device-width:320px)

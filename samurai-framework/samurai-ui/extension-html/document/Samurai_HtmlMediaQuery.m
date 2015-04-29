@@ -30,7 +30,7 @@
 
 #import "Samurai_HtmlMediaQuery.h"
 #import "Samurai_HtmlStyle.h"
-#import "Samurai_CssParser.h"
+#import "Samurai_CSSParser.h"
 #import "_pragma_push.h"
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
@@ -47,7 +47,7 @@
 
 - (BOOL)test:(NSString *)condition
 {
-    KatanaOutput * output = [[SamuraiCssParser sharedInstance] parseMedia:condition];
+    KatanaOutput * output = [[SamuraiCSSParser sharedInstance] parseMedia:condition];
     
     if ( NULL != output )
     {

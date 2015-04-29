@@ -45,8 +45,8 @@
 
 #import "Samurai_HtmlUserAgent.h"
 
-#import "Samurai_CssParser.h"
-#import "Samurai_CssStyleSheet.h"
+#import "Samurai_CSSParser.h"
+#import "Samurai_CSSStyleSheet.h"
 
 // ----------------------------------
 // Source code
@@ -68,7 +68,7 @@
 
 - (void)parseDocument:(SamuraiDocument *)document
 {
-	document.styleTree = [SamuraiCssStyleSheet styleSheet];
+	document.styleTree = [SamuraiCSSStyleSheet styleSheet];
 	
 // load default stylesheets
 	

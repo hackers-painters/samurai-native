@@ -30,13 +30,13 @@
 
 #import "Samurai_UIConfig.h"
 #import "Samurai_ViewCore.h"
-#import "Samurai_CssStyleSheet.h"
+#import "Samurai_CSSStyleSheet.h"
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
 #pragma mark -
 
-@interface SamuraiHtmlMediaQuery : NSObject <SamuraiCssMediaQueryChecker>
+@interface SamuraiHtmlMediaQuery : NSObject <SamuraiCSSMediaQueryChecker>
 
 @singleton( SamuraiHtmlMediaQuery )
 

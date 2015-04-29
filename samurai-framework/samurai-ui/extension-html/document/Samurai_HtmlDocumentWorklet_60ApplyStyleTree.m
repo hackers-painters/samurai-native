@@ -45,8 +45,8 @@
 
 #import "Samurai_HtmlUserAgent.h"
 
-#import "Samurai_CssParser.h"
-#import "Samurai_CssStyleSheet.h"
+#import "Samurai_CSSParser.h"
+#import "Samurai_CSSStyleSheet.h"
 
 // ----------------------------------
 // Source code
@@ -74,7 +74,7 @@
 
 	if ( domNode.parent )
 	{
-		for ( NSString * key in [SamuraiHtmlUserAgent sharedInstance].defaultCssInherition )
+		for ( NSString * key in [SamuraiHtmlUserAgent sharedInstance].defaultCSSInherition )
 		{
 			NSString * value = [domNode.parent.domStyleComputed objectForKey:key];
 
@@ -98,7 +98,7 @@
 	
 	if ( domNode.domStyleInline && domNode.domStyleInline.length )
 	{
-		NSDictionary * inlineStyle = [[SamuraiCssParser sharedInstance] parseDeclaration:domNode.domStyleInline];
+		NSDictionary * inlineStyle = [[SamuraiCSSParser sharedInstance] parseDeclaration:domNode.domStyleInline];
 		
 		if ( inlineStyle && [inlineStyle count] )
 		{

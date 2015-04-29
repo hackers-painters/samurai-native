@@ -28,7 +28,7 @@
 //	THE SOFTWARE.
 //
 
-#import "Samurai_CssProtocol.h"
+#import "Samurai_CSSProtocol.h"
 
 #import "_pragma_push.h"
 
@@ -48,7 +48,7 @@
 
 #if __SAMURAI_TESTING__
 
-TEST_CASE( UI, CssProtocol )
+TEST_CASE( UI, CSSProtocol )
 
 DESCRIBE( before )
 {

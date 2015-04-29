@@ -28,8 +28,8 @@
 //	THE SOFTWARE.
 //
 
-#import "Samurai_CssProtocol.h"
-#import "Samurai_CssParser.h"
+#import "Samurai_CSSProtocol.h"
+#import "Samurai_CSSParser.h"
 #import "Samurai_HtmlMediaQuery.h"
 
 #import "_pragma_push.h"
@@ -42,21 +42,21 @@
 // Source code
 // ----------------------------------
 
-typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
-    SamuraiCssSelectorMatches,
-    SamuraiCssSelectorFailsLocally,
-    SamuraiCssSelectorFailsAllSiblings,
-    SamuraiCssSelectorFailsCompletely,
+typedef NS_ENUM(NSUInteger, SamuraiCSSSelectorMatch) {
+    SamuraiCSSSelectorMatches,
+    SamuraiCSSSelectorFailsLocally,
+    SamuraiCSSSelectorFailsAllSiblings,
+    SamuraiCSSSelectorFailsCompletely,
 };
 
-@class SamuraiCssRuleData;
-@class SamuraiCssRuleCollector;
-@class SamuraiCssRuleSet;
-@class SamuraiCssSelectorChecker;
+@class SamuraiCSSRuleData;
+@class SamuraiCSSRuleCollector;
+@class SamuraiCSSRuleSet;
+@class SamuraiCSSSelectorChecker;
 
-#pragma mark - SamuraiCssRuleData
+#pragma mark - SamuraiCSSRuleData
 
-@interface SamuraiCssRuleData : NSObject
+@interface SamuraiCSSRuleData : NSObject
 @property (nonatomic, assign, readonly) NSUInteger      position;
 @property (nonatomic, assign, readonly) NSUInteger      specificity;
 @property (nonatomic, assign, readonly) KatanaStyleRule * rule;
@@ -64,9 +64,9 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
 - (instancetype)initWithRule:(KatanaStyleRule *)rule selector:(KatanaSelector *)selector position:(NSUInteger)position;
 @end
 
-#pragma mark - SamuraiCssValueWrapper
+#pragma mark - SamuraiCSSValueWrapper
 
-@implementation SamuraiCssValueWrapper
+@implementation SamuraiCSSValueWrapper
 
 - (NSString *)description
 {
@@ -75,13 +75,13 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
 
 @end
 
-#pragma mark - SamuraiCssRuleData
+#pragma mark - SamuraiCSSRuleData
 
-@interface SamuraiCssRuleData ()
+@interface SamuraiCSSRuleData ()
 @property (nonatomic, readwrite) NSUInteger specificity;
 @end
 
-@implementation SamuraiCssRuleData
+@implementation SamuraiCSSRuleData
 
 - (instancetype)initWithRule:(KatanaStyleRule *)rule
                     selector:(KatanaSelector *)selector
@@ -108,11 +108,11 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
 @end
 
 
-#pragma mark - SamuraiCssRuleSet
+#pragma mark - SamuraiCSSRuleSet
 
-@interface SamuraiCssRuleSet : NSObject
+@interface SamuraiCSSRuleSet : NSObject
 
-@property (nonatomic, strong) id<SamuraiCssMediaQueryChecker> mediaQueryChecker;
+@property (nonatomic, strong) id<SamuraiCSSMediaQueryChecker> mediaQueryChecker;
 
 - (NSArray *)universalRules;
 - (NSArray *)idRulesWithKey:(NSString *)key;
@@ -123,11 +123,11 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
 - (void)clear;
 
 - (void)addRulesFromSheet:(KatanaStylesheet *)sheet;
-- (void)mergeWithRuleSet:(SamuraiCssRuleSet *)ruleSet;
+- (void)mergeWithRuleSet:(SamuraiCSSRuleSet *)ruleSet;
 
 @end
 
-@interface SamuraiCssRuleSet()
+@interface SamuraiCSSRuleSet()
 @property (nonatomic, assign) NSUInteger ruleCount;
 @property (nonatomic, strong) NSMutableDictionary * idRules;
 @property (nonatomic, strong) NSMutableDictionary * classRules;
@@ -142,7 +142,7 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
 
 @end
 
-@implementation SamuraiCssRuleSet
+@implementation SamuraiCSSRuleSet
 
 - (id)init
 {
@@ -210,7 +210,7 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
     return self.pseudoRules[key];
 }
 
-- (void)mergeWithRuleSet:(SamuraiCssRuleSet *)ruleSet
+- (void)mergeWithRuleSet:(SamuraiCSSRuleSet *)ruleSet
 {
     [self.idRules addEntriesFromDictionary:ruleSet.idRules];
     [self.tagRules addEntriesFromDictionary:ruleSet.tagRules];
@@ -288,7 +288,7 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
     {
         KatanaSelector * selector = rule->selectors->data[i];
         
-        SamuraiCssRuleData * data = [[SamuraiCssRuleData alloc] initWithRule:rule
+        SamuraiCSSRuleData * data = [[SamuraiCSSRuleData alloc] initWithRule:rule
                                                                     selector:selector position:(self.ruleCount++)];
         
         [self collectFeaturesFromRuleData];
@@ -305,7 +305,7 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
     
 }
 
-- (BOOL)findBestRuleSetAndAddWithSelector:(KatanaSelector *)selector ruleData:(SamuraiCssRuleData *)ruleData
+- (BOOL)findBestRuleSetAndAddWithSelector:(KatanaSelector *)selector ruleData:(SamuraiCSSRuleData *)ruleData
 {
     if ( selector->match == KatanaSelectorMatchId )
     {
@@ -372,7 +372,7 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
 
 - (void)addToRuleSet:(NSMutableDictionary *)map
                  key:(const char*)key
-            ruleData:(SamuraiCssRuleData *)ruleData
+            ruleData:(SamuraiCSSRuleData *)ruleData
             selector:(KatanaSelector *)selector
 {
     if (!key || !map || !ruleData)
@@ -393,19 +393,19 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
 
 @end
 
-#pragma mark - SamuraiCssSelectorChecker
+#pragma mark - SamuraiCSSSelectorChecker
 
-@interface SamuraiCssSelectorChecker : NSObject
+@interface SamuraiCSSSelectorChecker : NSObject
 
-+ (SamuraiCssSelectorMatch)checkSelector:(KatanaSelector *)selector
-                                 element:(id<SamuraiCssProtocol>)elment
++ (SamuraiCSSSelectorMatch)checkSelector:(KatanaSelector *)selector
+                                 element:(id<SamuraiCSSProtocol>)elment
                                    attrs:(NSSet *)attrs;
 
 @end
 
-@implementation SamuraiCssSelectorChecker
+@implementation SamuraiCSSSelectorChecker
 
-+ (BOOL)selectorTagMatches:(id<SamuraiCssProtocol>)element selector:(KatanaSelector *)selector
++ (BOOL)selectorTagMatches:(id<SamuraiCSSProtocol>)element selector:(KatanaSelector *)selector
 {
     if ( !selector->tag )
         return true;
@@ -420,7 +420,7 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
     return false;
 }
 
-+ (BOOL)checkOneSelector:(KatanaSelector *)selector element:(id<SamuraiCssProtocol>)element attrs:(NSSet *)attrs
++ (BOOL)checkOneSelector:(KatanaSelector *)selector element:(id<SamuraiCSSProtocol>)element attrs:(NSSet *)attrs
 {
     if ( nil == element )
         return false;
@@ -484,15 +484,15 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
 // * SelectorFailsLocally     - the selector fails for the element e
 // * SelectorFailsAllSiblings - the selector fails for e and any sibling of e
 // * SelectorFailsCompletely  - the selector fails for e and any sibling or ancestor of e
-+ (SamuraiCssSelectorMatch)checkSelector:(KatanaSelector*)selector element:(id<SamuraiCssProtocol>)element attrs:(NSSet *)attrs
++ (SamuraiCSSSelectorMatch)checkSelector:(KatanaSelector*)selector element:(id<SamuraiCSSProtocol>)element attrs:(NSSet *)attrs
 {
     if ( !element || ![element cssIsElement] )
-        return SamuraiCssSelectorFailsCompletely;
+        return SamuraiCSSSelectorFailsCompletely;
     
     // first selector has to match
     BOOL checked = [self checkOneSelector:selector element:element attrs:attrs];
     if ( !checked )
-        return SamuraiCssSelectorFailsLocally;
+        return SamuraiCSSSelectorFailsLocally;
     
     // The rest of the selectors has to match
     NSUInteger relation = selector->relation;
@@ -500,17 +500,17 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
     // Prepare next sel
     selector = selector->tagHistory;
     if ( !selector )
-        return SamuraiCssSelectorMatches;
+        return SamuraiCSSSelectorMatches;
     
     // get the elment shadow pointer
-    id<SamuraiCssProtocol> shadow = element;
+    id<SamuraiCSSProtocol> shadow = element;
     
     switch (relation) {
         case KatanaSelectorRelationDescendant: // selector1 selector2, 1 is 2's ancestor
             while (true)
             {
-                SamuraiCssSelectorMatch match = [self checkSelector:selector element:shadow attrs:attrs];
-                if ( match != SamuraiCssSelectorFailsLocally )
+                SamuraiCSSSelectorMatch match = [self checkSelector:selector element:shadow attrs:attrs];
+                if ( match != SamuraiCSSSelectorFailsLocally )
                     return match;
                 shadow = [shadow cssParent];
             }
@@ -529,12 +529,12 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
         {
             NSArray * siblings = [shadow cssPreviousSiblings];
             
-            for ( id<SamuraiCssProtocol> brother in siblings )
+            for ( id<SamuraiCSSProtocol> brother in siblings )
             {
-                if ( SamuraiCssSelectorMatches == [self checkSelector:selector element:brother attrs:attrs] )
-                    return SamuraiCssSelectorMatches;
+                if ( SamuraiCSSSelectorMatches == [self checkSelector:selector element:brother attrs:attrs] )
+                    return SamuraiCSSSelectorMatches;
             }
-            return SamuraiCssSelectorFailsLocally;
+            return SamuraiCSSSelectorFailsLocally;
         }
         case KatanaSelectorRelationSubSelector:       // selector:pseudo
         case KatanaSelectorRelationShadowPseudo:      // selector::pseudo
@@ -544,32 +544,32 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
         }
     }
     
-    return SamuraiCssSelectorFailsCompletely;
+    return SamuraiCSSSelectorFailsCompletely;
 }
 
 @end
 
-#pragma mark - SamuraiCssRuleCollector
+#pragma mark - SamuraiCSSRuleCollector
 
-@interface SamuraiCssRuleCollector : NSObject
+@interface SamuraiCSSRuleCollector : NSObject
 
-- (instancetype)initWithRuleSet:(SamuraiCssRuleSet *)ruleSet;
-- (NSDictionary *)styleForElement:(id<SamuraiCssProtocol>)element;
+- (instancetype)initWithRuleSet:(SamuraiCSSRuleSet *)ruleSet;
+- (NSDictionary *)styleForElement:(id<SamuraiCSSProtocol>)element;
 
 @end
 
 
-@interface SamuraiCssRuleCollector()
+@interface SamuraiCSSRuleCollector()
 
-@property (nonatomic, strong, readonly) SamuraiCssRuleSet * ruleSet;
-@property (nonatomic, strong, readonly) id<SamuraiCssProtocol> element;
+@property (nonatomic, strong, readonly) SamuraiCSSRuleSet * ruleSet;
+@property (nonatomic, strong, readonly) id<SamuraiCSSProtocol> element;
 @property (nonatomic, strong) NSMutableArray * matchedRules;
 @property (nonatomic, strong) NSMutableDictionary * style;
 @end
 
-@implementation SamuraiCssRuleCollector
+@implementation SamuraiCSSRuleCollector
 
-- (instancetype)initWithRuleSet:(SamuraiCssRuleSet *)ruleSet;
+- (instancetype)initWithRuleSet:(SamuraiCSSRuleSet *)ruleSet;
 {
     self = [super init];
     if (self) {
@@ -578,7 +578,7 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
     return self;
 }
 
-- (NSDictionary *)styleForElement:(id<SamuraiCssProtocol>)element
+- (NSDictionary *)styleForElement:(id<SamuraiCSSProtocol>)element
 {
     if ( _element != element )
     {
@@ -608,7 +608,7 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
         _style = [NSMutableDictionary dictionary];
     }
     
-    for ( SamuraiCssRuleData * ruleData in self.matchedRules )
+    for ( SamuraiCSSRuleData * ruleData in self.matchedRules )
     {
         KatanaStyleRule * rule = ruleData.rule;
         
@@ -618,7 +618,7 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
             
             if ( decl->property )
             {
-                SamuraiCssValueWrapper * wrapper = [SamuraiCssValueWrapper new];
+                SamuraiCSSValueWrapper * wrapper = [SamuraiCSSValueWrapper new];
                 // TODO: @(QFish) copy values, but no need for right now.
                 // wrapper.values = decl->values;
                 wrapper.rawValue = [NSString stringWithUTF8String:decl->raw];
@@ -631,7 +631,7 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
 
 - (void)sortAndTransferMatchedRules
 {
-    [_matchedRules sortUsingComparator:^NSComparisonResult(SamuraiCssRuleData * obj1, SamuraiCssRuleData * obj2) {
+    [_matchedRules sortUsingComparator:^NSComparisonResult(SamuraiCSSRuleData * obj1, SamuraiCSSRuleData * obj2) {
         NSUInteger specificity1 = obj1.specificity;
         NSUInteger specificity2 = obj2.specificity;
         // TODO: @(QFish) should consider position
@@ -648,7 +648,7 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
     [_matchedRules removeAllObjects];
 }
 
-- (void)collectRulesForStyleable:(id<SamuraiCssProtocol>)element ruleSet:(SamuraiCssRuleSet *)ruleSet
+- (void)collectRulesForStyleable:(id<SamuraiCSSProtocol>)element ruleSet:(SamuraiCSSRuleSet *)ruleSet
 {
     // #id
     if ( [element cssId] )
@@ -686,7 +686,7 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
     if ( !rules )
         return;
     
-    for ( SamuraiCssRuleData * ruleData in rules )
+    for ( SamuraiCSSRuleData * ruleData in rules )
     {
         if ( [self ruleMatchesStylable:self.element ruleData:ruleData] )
         {
@@ -695,14 +695,14 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
     }
 }
 
-- (BOOL)ruleMatchesStylable:(id<SamuraiCssProtocol>)element ruleData:(SamuraiCssRuleData *)ruleData
+- (BOOL)ruleMatchesStylable:(id<SamuraiCSSProtocol>)element ruleData:(SamuraiCSSRuleData *)ruleData
 {
-    SamuraiCssSelectorMatch matches = \
-    [SamuraiCssSelectorChecker checkSelector:ruleData.selector
+    SamuraiCSSSelectorMatch matches = \
+    [SamuraiCSSSelectorChecker checkSelector:ruleData.selector
                                      element:self.element
                                        attrs:nil];
     
-    return matches == SamuraiCssSelectorMatches;
+    return matches == SamuraiCSSSelectorMatches;
 }
 
 - (NSMutableArray *)matchedRules
@@ -716,17 +716,17 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
 @end
 
 #pragma mark - 
-#pragma mark - SamuraiCssStyleSheet
+#pragma mark - SamuraiCSSStyleSheet
 
-@interface SamuraiCssStyleSheet()
+@interface SamuraiCSSStyleSheet()
 @prop_unsafe( KatanaOutput *, output );
-@prop_strong( SamuraiCssRuleCollector*, styleCollector );
+@prop_strong( SamuraiCSSRuleCollector*, styleCollector );
 @end
 
-@implementation SamuraiCssStyleSheet
+@implementation SamuraiCSSStyleSheet
 
-@def_prop_strong( SamuraiCssRuleSet *, ruleSet );
-@def_prop_strong( SamuraiCssRuleCollector*, styleCollector );
+@def_prop_strong( SamuraiCSSRuleSet *, ruleSet );
+@def_prop_strong( SamuraiCSSRuleCollector*, styleCollector );
 @def_prop_unsafe( KatanaOutput *, output)
 
 - (id)init
@@ -734,7 +734,7 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
 	self = [super init];
 	if ( self )
 	{
-        _ruleSet = [SamuraiCssRuleSet new];
+        _ruleSet = [SamuraiCSSRuleSet new];
         _ruleSet.mediaQueryChecker = [SamuraiHtmlMediaQuery sharedInstance];
 	}
 	return self;
@@ -768,7 +768,7 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
 
 #pragma mark -
 
-- (NSDictionary *)queryForObject:(NSObject<SamuraiCssProtocol> *)object
+- (NSDictionary *)queryForObject:(NSObject<SamuraiCSSProtocol> *)object
 {
     return [self.styleCollector styleForElement:object];
 }
@@ -792,7 +792,7 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
 		return YES;
 	}
 
-	self.output = [[SamuraiCssParser sharedInstance] parseStylesheet:self.resContent];
+	self.output = [[SamuraiCSSParser sharedInstance] parseStylesheet:self.resContent];
 
 	if ( self.output )
 	{
@@ -807,12 +807,12 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
 	return YES;
 }
 
-- (void)merge:(SamuraiCssStyleSheet *)styleSheet
+- (void)merge:(SamuraiCSSStyleSheet *)styleSheet
 {
 	if ( nil == styleSheet )
 		return;
 	
-	if ( NO == [styleSheet isKindOfClass:[SamuraiCssStyleSheet class]] )
+	if ( NO == [styleSheet isKindOfClass:[SamuraiCSSStyleSheet class]] )
 		return;
     
     [self.ruleSet mergeWithRuleSet:styleSheet.ruleSet];
@@ -823,10 +823,10 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
     [self.ruleSet clear];
 }
 
-- (SamuraiCssRuleCollector *)styleCollector
+- (SamuraiCSSRuleCollector *)styleCollector
 {
     if ( _styleCollector == nil ) {
-         _styleCollector = [[SamuraiCssRuleCollector alloc] initWithRuleSet:self.ruleSet];
+         _styleCollector = [[SamuraiCSSRuleCollector alloc] initWithRuleSet:self.ruleSet];
     }
 	
     return _styleCollector;
@@ -842,7 +842,7 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
 
 #if __SAMURAI_TESTING__
 
-TEST_CASE( UI, CssStyleSheet )
+TEST_CASE( UI, CSSStyleSheet )
 
 DESCRIBE( before )
 {

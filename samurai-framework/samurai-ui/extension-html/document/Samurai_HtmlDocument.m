@@ -37,8 +37,8 @@
 #import "Samurai_HtmlDocumentWorkflow.h"
 #import "Samurai_HtmlMediaQuery.h"
 
-#import "Samurai_CssParser.h"
-#import "Samurai_CssStyleSheet.h"
+#import "Samurai_CSSParser.h"
+#import "Samurai_CSSStyleSheet.h"
 
 #import "Samurai_HtmlRenderObject.h"
 #import "Samurai_HtmlRenderObjectContainer.h"

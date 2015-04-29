@@ -29,7 +29,7 @@
 //
 
 #import "Samurai_HtmlStyle.h"
-#import "Samurai_CssStyleSheet.h"
+#import "Samurai_CSSStyleSheet.h"
 
 #import "_pragma_push.h"
 
@@ -237,9 +237,9 @@
 
 		return result;
 	}
-	else if ( [value isKindOfClass:[SamuraiCssValueWrapper class]] )
+	else if ( [value isKindOfClass:[SamuraiCSSValueWrapper class]] )
 	{
-		NSString * string = [(SamuraiCssValueWrapper *)value rawValue];
+		NSString * string = [(SamuraiCSSValueWrapper *)value rawValue];
 		NSString * cacheKey = [NSString stringWithFormat:@"%@: %@", key, string];
 		
 		id result = [__cache objectForKey:cacheKey];
@@ -286,9 +286,9 @@
 		{
 			result = [classType object:value];
 		}
-		else if ( [value isKindOfClass:[SamuraiCssValueWrapper class]] )
+		else if ( [value isKindOfClass:[SamuraiCSSValueWrapper class]] )
 		{
-			result = [classType object:[(SamuraiCssValueWrapper *)value rawValue]];
+			result = [classType object:[(SamuraiCSSValueWrapper *)value rawValue]];
 		}
 		else if ( [value isKindOfClass:[SamuraiHtmlStyleObject class]] )
 		{
