@@ -43,8 +43,6 @@
 
 @interface UIView(Template)
 
-@prop_readonly( SamuraiRenderStoreScope *, viewStorage );
-
 - (void)relayout;
 - (void)restyle;
 

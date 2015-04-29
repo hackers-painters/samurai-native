@@ -98,10 +98,13 @@ script {
 
 body {
 	display: block;
-	margin: 0;
+	margin: 8px;
 	padding: 0;
 	width: 100%;
 	height: auto;
+	color: #606c71;
+	background-color: white;
+	font-size: 16px;
 
 	-samurai-render-model: 'container';
 	-samurai-render-class: 'UIView';
@@ -266,36 +269,66 @@ dir {
 ul {
 	display: block;
 	list-style-type: disc;
-	margin: 0;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: 0;
+	margin-right: 0;
 	padding: 0;
 	width: auto;
 	height: auto;
+	max-width: 100%;
+	font-size: 14px;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElementUl';
 }
 
 ol {
 	display: block;
 	list-style-type: decimal;
-	margin: 0;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: 0;
+	margin-right: 0;
 	padding: 0;
 	width: auto;
 	height: auto;
+	max-width: 100%;
+	font-size: 14px;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElementOl';
+}
+
+ul ul,
+ol ul {
+	list-style-type: circle
+}
+
+ol ol ul,
+ol ul ul,
+ul ol ul,
+ul ul ul {
+	list-style-type: square
 }
 
 li {
 	display: block;
-	margin: 0;
-	padding: 0;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: 8px;
+	padding-right: 0px;
+	padding-top: 0;
+	padding-bottom: 0;
 	width: auto;
 	height: auto;
+	max-width: 100%;
+	font-size: 14px;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElementLi';
 }
 
 /*************************
@@ -486,7 +519,7 @@ button {
 	width: 44px;
 	height: 44px;
 	color: black;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: normal;
 	text-align: center;
 	
@@ -596,7 +629,7 @@ select
 	width: 44px;
 	height: 44px;
 	color: black;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: normal;
 	text-align: center;
 
@@ -709,13 +742,15 @@ h6 {
 hr {
 	display: block;
 	margin: 0;
+	margin-top: 4px;
+	margin-bottom: 4px;
 	padding: 0;
 	width: 100%;
 	height: 1px;
 	background-color: #333;
-	
+
 	-samurai-render-model: 'element';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElementHr';
 }
 
 /*************************
@@ -775,6 +810,19 @@ u {
 	width: auto;
 	height: auto;
 	text-decoration: underline;
+	
+	-samurai-render-model: 'inline';
+}
+
+tt {
+	display: inline;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	color: blue;
+	
+	font-weight: bold;
 	
 	-samurai-render-model: 'inline';
 }
@@ -958,24 +1006,34 @@ blockquote {
 
 p {
 	display: block;
-	margin: 0;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: 0;
+	margin-right: 0;
 	padding: 0;
 	width: auto;
 	height: auto;
-	
+	max-width: 100%;
+	font-size: 14px;
+
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElementP';
 }
 
 pre {
-	display: inline;
+	display: block;
+	margin-top: 4px;
+	margin-bottom: 4px;
 	margin: 0;
 	padding: 0;
 	width: auto;
 	height: auto;
-	
+	max-width: 100%;
+	font-size: 14px;
+	white-space: pre;
+
 	-samurai-render-model: 'element';
-	-samurai-render-class: 'UILabel';
+	-samurai-render-class: 'HtmlElementPre';
 }
 
 /* Figure / Caption */

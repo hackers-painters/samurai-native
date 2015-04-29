@@ -111,7 +111,7 @@
 		@"text-align",
 		@"text-indent",
 		@"text-transform",
-		
+								 
 		@"empty-cells",
 		
 		@"color",

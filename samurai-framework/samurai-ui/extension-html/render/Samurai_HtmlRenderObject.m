@@ -620,10 +620,6 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (void)applyStyle
 {
-#if __SAMURAI_DEBUG__
-	[self debug];
-#endif	// #if __SAMURAI_DEBUG__
-
 	Class classType = nil;
 	
 	classType = classType ?: NSClassFromString( self.style.renderClass.value );

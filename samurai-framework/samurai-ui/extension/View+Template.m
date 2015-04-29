@@ -42,8 +42,6 @@
 
 @implementation UIView(Template)
 
-@def_prop_dynamic( SamuraiRenderStoreScope *, viewStorage );
-
 #pragma mark -
 
 - (void)loadViewTemplate
@@ -125,24 +123,23 @@
 
 #pragma mark -
 
-- (SamuraiRenderStoreScope *)viewStorage
-{
-	return [SamuraiRenderStoreScope storeScope:[self renderer]];
-}
-
-#pragma mark -
-
-- (id)serialize
-{
-	return nil;
-}
-
-- (void)unserialize:(id)obj
+- (void)onTemplateLoading
 {
 }
 
-- (void)zerolize
+- (void)onTemplateLoaded
 {
+	[self relayout];
+}
+
+- (void)onTemplateFailed
+{
+	[self relayout];
+}
+
+- (void)onTemplateCancelled
+{
+	[self relayout];
 }
 
 #pragma mark -
@@ -161,27 +158,6 @@
 	{
 		[self.renderer restyle];
 	}
-}
-
-#pragma mark -
-
-- (void)onTemplateLoading
-{
-}
-
-- (void)onTemplateLoaded
-{
-	[self relayout];
-}
-
-- (void)onTemplateFailed
-{
-	[self relayout];
-}
-
-- (void)onTemplateCancelled
-{
-	[self relayout];
 }
 
 @end

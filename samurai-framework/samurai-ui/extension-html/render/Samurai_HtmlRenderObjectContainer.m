@@ -218,7 +218,12 @@
 				childOrigin.x += computedPadding.left;
 				childOrigin.y += computedPadding.top;
 
-				childWindow = [child computeFrame:relWindow.size origin:childOrigin];
+				CGSize childBoundSize;
+				
+				childBoundSize.width = self.style.maxWidth ? maxWidth : relWindow.size.width;
+				childBoundSize.height = self.style.maxHeight ? maxHeight : relWindow.size.height;
+				
+				childWindow = [child computeFrame:childBoundSize origin:childOrigin];
 
 				if ( [child layoutShouldWrapLine] )
 				{

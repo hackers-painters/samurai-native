@@ -47,16 +47,6 @@
 
 #pragma mark -
 
-hookAfter( load, IntentResponder )
-{
-}
-
-hookBefore( unload, IntentResponder )
-{
-}
-
-#pragma mark -
-
 - (SamuraiIntentObserverBlock)onIntent
 {
 	@weakify( self );

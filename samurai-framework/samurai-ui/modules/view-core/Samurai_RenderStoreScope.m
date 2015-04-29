@@ -536,43 +536,6 @@ BASE_CLASS( SamuraiRenderStoreScope )
 
 #pragma mark -
 
-- (id)objectForKey:(id)key
-{
-	return [self getDataWithPath:key];
-}
-
-- (BOOL)hasObjectForKey:(id)key
-{
-	return [self getDataWithPath:key] ? YES : NO;
-}
-
-- (void)setObject:(id)value forKey:(id)key
-{
-	[self setData:value withPath:key];
-}
-
-- (void)removeObjectForKey:(id)key
-{
-	[self clearDataWithPath:key];
-}
-
-- (void)removeAllObjects
-{
-	[self clearData];
-}
-
-- (id)objectForKeyedSubscript:(id)key;
-{
-	return [self objectForKey:key];
-}
-
-- (void)setObject:(id)obj forKeyedSubscript:(id)key
-{
-	[self setObject:obj forKey:key];
-}
-
-#pragma mark -
-
 - (void)dump
 {
 #if __SAMURAI_DEBUG__

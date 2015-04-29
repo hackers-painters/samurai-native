@@ -59,7 +59,6 @@
 	[SamuraiSandbox classAutoLoad];
 	[SamuraiSystem classAutoLoad];
 	[SamuraiValidator classAutoLoad];
-	[SamuraiManagedContext classAutoLoad];
 }
 
 @end

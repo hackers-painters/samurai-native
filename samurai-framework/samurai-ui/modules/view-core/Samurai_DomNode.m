@@ -249,7 +249,7 @@ static NSUInteger __domSeed = 0;
 	{
 		if ( DomNodeType_Text == self.type )
 		{
-			return [self.domText normalize];
+			return self.domText;
 		}
 		else
 		{
@@ -262,7 +262,7 @@ static NSUInteger __domSeed = 0;
 		
 		if ( DomNodeType_Text == childNode.type )
 		{
-			return [childNode.domText normalize];
+			return childNode.domText;
 		}
 		else
 		{
@@ -277,7 +277,7 @@ static NSUInteger __domSeed = 0;
 		{
 			if ( DomNodeType_Text == childNode.type )
 			{
-				[innerText appendString:[childNode.domText normalize]];
+				[innerText appendString:childNode.domText];
 			}
 		}
 		

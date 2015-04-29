@@ -54,9 +54,8 @@
 {
 	[super html_applyDom:dom];
 	
-	[self unserialize:[dom computeInnerText]];
-	
-	self.placeholder = [dom.domAttributes objectForKey:@"placeholder"];
+	self.text = [[dom computeInnerText] normalize];
+	self.placeholder = [[dom.domAttributes objectForKey:@"placeholder"] normalize];
 }
 
 - (void)html_applyStyle:(SamuraiHtmlStyle *)style

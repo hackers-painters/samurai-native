@@ -1,0 +1,8 @@
+Test for crbug.com/362848: Flex box word-wrap is not adhering to spec
+
+PASS
+PASS
+PASS
+PASS
+PASS
+PASS

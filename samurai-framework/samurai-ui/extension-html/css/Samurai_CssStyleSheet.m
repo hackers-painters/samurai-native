@@ -742,7 +742,8 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
 
 - (void)dealloc
 {
-    if ( self.output != NULL ) {
+    if ( self.output != NULL )
+	{
         katana_destroy_output(self.output);
         self.output = NULL;
     }
@@ -786,19 +787,22 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
 - (BOOL)parse
 {
 	if ( nil == self.resContent || 0 == [self.resContent length] )
-		return NO;
+	{
+	//	return NO;
+		return YES;
+	}
 
 	self.output = [[SamuraiCssParser sharedInstance] parseStylesheet:self.resContent];
-    
-	if ( NULL == self.output )
-		return NO;
-    
-    KatanaStylesheet * stylesheet = self.output->stylesheet;
-    
-    if ( stylesheet->rules.length )
-    {
-        [self.ruleSet addRulesFromSheet:stylesheet];
-    }
+
+	if ( self.output )
+	{
+		KatanaStylesheet * stylesheet = self.output->stylesheet;
+		
+		if ( stylesheet->rules.length )
+		{
+			[self.ruleSet addRulesFromSheet:stylesheet];
+		}
+	}
 
 	return YES;
 }
@@ -824,6 +828,7 @@ typedef NS_ENUM(NSUInteger, SamuraiCssSelectorMatch) {
     if ( _styleCollector == nil ) {
          _styleCollector = [[SamuraiCssRuleCollector alloc] initWithRuleSet:self.ruleSet];
     }
+	
     return _styleCollector;
 }
 

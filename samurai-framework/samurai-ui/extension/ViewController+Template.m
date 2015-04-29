@@ -42,28 +42,6 @@
 
 @implementation UIViewController(Template)
 
-- (SamuraiRenderStoreScope *)viewStorage
-{
-	return [SamuraiRenderStoreScope storeScope:[[self view] renderer]];
-}
-
-#pragma mark -
-
-- (id)serialize
-{
-	return nil;
-}
-
-- (void)unserialize:(id)obj
-{
-}
-
-- (void)zerolize
-{
-}
-
-#pragma mark -
-
 - (void)loadViewTemplate
 {
 	self.viewTemplate = [[SamuraiViewTemplate alloc] init];
@@ -175,6 +153,27 @@
 
 #pragma mark -
 
+- (void)onTemplateLoading
+{
+}
+
+- (void)onTemplateLoaded
+{
+	[self relayout];
+}
+
+- (void)onTemplateFailed
+{
+	[self relayout];
+}
+
+- (void)onTemplateCancelled
+{
+	[self relayout];
+}
+
+#pragma mark -
+
 - (void)relayout
 {
 	if ( [self isViewLoaded] )
@@ -201,27 +200,6 @@
 			}
 		}
 	}
-}
-
-#pragma mark -
-
-- (void)onTemplateLoading
-{
-}
-
-- (void)onTemplateLoaded
-{
-	[self relayout];
-}
-
-- (void)onTemplateFailed
-{
-	[self relayout];
-}
-
-- (void)onTemplateCancelled
-{
-	[self relayout];
 }
 
 @end

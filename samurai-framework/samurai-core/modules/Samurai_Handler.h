@@ -45,6 +45,7 @@
 
 - (void)addBlock:(id)block forName:(NSString *)name;
 - (void)removeBlockForName:(NSString *)name;
+- (void)removeAllBlocks;
 
 @end
 

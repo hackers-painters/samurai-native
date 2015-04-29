@@ -76,6 +76,7 @@
 	NSKeyValueObservingOptions options = 0;
 
 	NSArray * observerValues = [self.source extentionForProperty:property arrayValueWithKey:@"Observer"];
+	
 	if ( observerValues )
 	{
 		for ( NSString * value in observerValues )
@@ -161,23 +162,6 @@
 
 @def_prop_dynamic( SamuraiKVOBlock, onValueChanging );
 @def_prop_dynamic( SamuraiKVOBlock, onValueChanged );
-
-hookAfter( load, KVObserver )
-{
-	
-}
-
-hookBefore( unload, KVObserver )
-{
-	SamuraiKVObserver * observer = [self getAssociatedObjectForKey:"KVObserver"];
-
-	if ( observer )
-	{
-		[observer unobserveAllProperties];
-		
-		[self removeAssociatedObjectForKey:"KVObserver"];
-	}
-}
 
 - (SamuraiKVObserver *)KVObserverOrCreate
 {
@@ -350,6 +334,18 @@ hookBefore( unload, KVObserver )
 	}
 }
 
+- (void)unobserveAllProperties
+{
+	SamuraiKVObserver * observer = [self getAssociatedObjectForKey:"KVObserver"];
+	
+	if ( observer )
+	{
+		[observer unobserveAllProperties];
+		
+		[self removeAssociatedObjectForKey:"KVObserver"];
+	}
+}
+
 - (void)signalValueChanging:(NSString *)property
 {
 	[self signalValueChanging:property value:nil];
@@ -397,19 +393,23 @@ hookBefore( unload, KVObserver )
 static int __value = 0;
 static int __value2 = 0;
 
-@interface __TestKVObject : NSObject<ManagedObject>
+@interface __TestKVObject : NSObject
+
 @prop_strong( NSString *,			text );
 @prop_strong( NSArray *,			array );
 @prop_strong( NSDictionary *,		dict );
+
 @end
 
 @implementation __TestKVObject
+
 @def_prop_strong( NSString *,		text );
 @def_prop_strong( NSArray *,		array );
 @def_prop_strong( NSDictionary *,	dict );
+
 @end
 
-@interface __TestKVObserver : NSObject<ManagedObject>
+@interface __TestKVObserver : NSObject
 @end
 
 @implementation __TestKVObserver
@@ -436,9 +436,11 @@ DESCRIBE( Manually )
 		[object addSignalResponder:observer];
 		
 		observer
+		
 		.onValueChanging( makeSignal(__TestKVObject, text),	^{ __value += 1; })
 		.onValueChanging( makeSignal(__TestKVObject, array),	^{ __value += 1; })
 		.onValueChanging( makeSignal(__TestKVObject, dict),	^{ __value += 1; })
+		
 		.onValueChanged( makeSignal(__TestKVObject, text),	^{ __value += 1; })
 		.onValueChanged( makeSignal(__TestKVObject, array),	^{ __value += 1; })
 		.onValueChanged( makeSignal(__TestKVObject, dict),	^{ __value += 1; });
@@ -448,12 +450,8 @@ DESCRIBE( Manually )
 		object.dict = @{};
 		
 		EXPECTED( 6 == __value );
-		
-//		[kvo removeSignalResponder:self];
-//		
-//		[kvo unobserveProperty:@"text"];
-//		[kvo unobserveProperty:@"array"];
-//		[kvo unobserveProperty:@"dict"];
+
+		[object unobserveAllProperties];
 	};
 }
 
@@ -465,9 +463,11 @@ DESCRIBE( Automatic )
 		__TestKVObserver *	observer = [[__TestKVObserver alloc] init];
 
 		observer
+		
 		.onValueChanging( object, @"text",	^{ __value2 += 1; })
 		.onValueChanging( object, @"array",	^{ __value2 += 1; })
 		.onValueChanging( object, @"dict",	^{ __value2 += 1; })
+		
 		.onValueChanged( object, @"text",	^{ __value2 += 1; })
 		.onValueChanged( object, @"array",	^{ __value2 += 1; })
 		.onValueChanged( object, @"dict",	^{ __value2 += 1; });
@@ -477,6 +477,8 @@ DESCRIBE( Automatic )
 		object.dict = @{};
 		
 		EXPECTED( 6 == __value2 );
+		
+		[object unobserveAllProperties];
 	};
 }
 
