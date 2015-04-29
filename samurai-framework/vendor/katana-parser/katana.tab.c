@@ -622,39 +622,39 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   342,   342,   343,   344,   345,   346,   347,   348,   349,
-     354,   360,   366,   372,   379,   385,   391,   403,   404,   408,
-     409,   412,   414,   415,   419,   420,   424,   425,   429,   430,
-     434,   435,   438,   440,   444,   447,   449,   456,   457,   459,
-     460,   461,   462,   463,   468,   474,   479,   486,   487,   491,
-     492,   498,   504,   506,   507,   508,   509,   511,   515,   519,
-     526,   532,   539,   542,   548,   555,   556,   560,   561,   565,
-     568,   574,   580,   586,   590,   597,   600,   606,   609,   612,
-     618,   621,   628,   629,   633,   640,   643,   647,   651,   655,
-     663,   667,   674,   680,   686,   692,   695,   700,   704,   710,
-     717,   724,   725,   726,   727,   731,   737,   740,   746,   749,
-     755,   758,   759,   766,   780,   787,   793,   802,   808,   809,
-     813,   814,   820,   824,   828,   836,   842,   846,   853,   856,
-     876,   989,   995,  1017,  1018,  1019,  1020,  1029,  1030,  1034,
-    1035,  1039,  1045,  1052,  1058,  1064,  1070,  1075,  1080,  1087,
-    1088,  1089,  1102,  1117,  1120,  1123,  1127,  1132,  1137,  1142,
-    1147,  1152,  1171,  1177,  1183,  1184,  1190,  1197,  1208,  1209,
-    1210,  1214,  1224,  1232,  1241,  1242,  1246,  1252,  1259,  1264,
-    1270,  1276,  1279,  1282,  1285,  1288,  1291,  1297,  1298,  1315,
-    1328,  1369,  1373,  1385,  1400,  1420,  1424,  1440,  1453,  1467,
-    1473,  1476,  1477,  1478,  1481,  1485,  1489,  1496,  1510,  1517,
-    1523,  1529,  1536,  1547,  1548,  1552,  1556,  1563,  1566,  1569,
-    1575,  1579,  1584,  1591,  1597,  1600,  1603,  1609,  1610,  1616,
-    1617,  1619,  1620,  1621,  1622,  1623,  1624,  1626,  1627,  1628,
-    1629,  1633,  1634,  1635,  1636,  1637,  1638,  1639,  1640,  1641,
-    1642,  1643,  1644,  1645,  1646,  1647,  1648,  1649,  1650,  1651,
-    1652,  1653,  1654,  1655,  1656,  1657,  1658,  1659,  1660,  1661,
-    1662,  1666,  1669,  1672,  1678,  1679,  1683,  1686,  1689,  1692,
-    1697,  1699,  1703,  1709,  1715,  1719,  1724,  1729,  1733,  1736,
-    1742,  1746,  1750,  1756,  1757,  1761,  1763,  1764,  1771,  1773,
-    1780,  1783,  1784,  1785,  1789,  1792,  1793,  1797,  1803,  1809,
-    1813,  1816,  1816,  1819,  1824,  1829,  1831,  1832,  1833,  1834,
-    1837,  1839,  1840,  1841
+       0,   344,   344,   345,   346,   347,   348,   349,   350,   351,
+     356,   362,   368,   374,   381,   387,   393,   405,   406,   410,
+     411,   414,   416,   417,   421,   422,   426,   427,   431,   432,
+     436,   437,   440,   442,   446,   449,   451,   458,   459,   461,
+     462,   463,   464,   465,   470,   476,   481,   488,   489,   493,
+     494,   500,   506,   508,   509,   510,   511,   513,   517,   521,
+     528,   534,   541,   544,   550,   557,   558,   562,   563,   567,
+     570,   576,   582,   588,   592,   599,   602,   608,   611,   614,
+     620,   623,   630,   631,   635,   642,   645,   649,   653,   657,
+     665,   669,   676,   682,   688,   694,   697,   702,   706,   712,
+     719,   726,   727,   728,   729,   733,   739,   742,   748,   751,
+     757,   760,   761,   768,   782,   789,   795,   804,   810,   811,
+     815,   816,   822,   826,   830,   838,   844,   848,   855,   858,
+     878,   991,   997,  1019,  1020,  1021,  1022,  1031,  1032,  1036,
+    1037,  1041,  1047,  1054,  1060,  1066,  1072,  1077,  1082,  1089,
+    1090,  1091,  1104,  1119,  1122,  1125,  1129,  1134,  1139,  1144,
+    1149,  1154,  1173,  1179,  1185,  1186,  1192,  1199,  1210,  1211,
+    1212,  1216,  1226,  1234,  1243,  1244,  1248,  1254,  1261,  1266,
+    1272,  1278,  1281,  1284,  1287,  1290,  1293,  1299,  1300,  1317,
+    1329,  1371,  1375,  1387,  1402,  1421,  1425,  1441,  1454,  1468,
+    1474,  1477,  1478,  1479,  1482,  1486,  1490,  1497,  1511,  1518,
+    1524,  1530,  1537,  1548,  1549,  1553,  1557,  1564,  1567,  1570,
+    1576,  1580,  1585,  1592,  1598,  1601,  1604,  1610,  1611,  1617,
+    1618,  1620,  1621,  1622,  1623,  1624,  1625,  1627,  1628,  1629,
+    1630,  1634,  1635,  1636,  1637,  1638,  1639,  1640,  1641,  1642,
+    1643,  1644,  1645,  1646,  1647,  1648,  1649,  1650,  1651,  1652,
+    1653,  1654,  1655,  1656,  1657,  1658,  1659,  1660,  1661,  1662,
+    1663,  1667,  1670,  1673,  1679,  1680,  1684,  1687,  1690,  1693,
+    1698,  1700,  1704,  1710,  1716,  1720,  1725,  1730,  1734,  1737,
+    1743,  1747,  1751,  1757,  1758,  1762,  1764,  1765,  1772,  1774,
+    1781,  1784,  1785,  1786,  1790,  1793,  1794,  1798,  1804,  1810,
+    1814,  1817,  1817,  1820,  1825,  1830,  1832,  1833,  1834,  1835,
+    1838,  1840,  1841,  1842
 };
 #endif
 
@@ -3165,7 +3165,7 @@ yyreduce:
         (yyval.selector) = katana_new_selector(parser);
         (yyval.selector)->data->attribute = katana_new_qualified_name(parser, NULL, &(yyvsp[-1].string), NULL);
         (yyval.selector)->data->bits.attributeMatchType = KatanaAttributeMatchTypeCaseSensitive;
-        (yyval.selector)->match = KatanaSelectorMatchSet;
+        (yyval.selector)->match = KatanaSelectorMatchAttributeSet;
     }
 
     break;
@@ -3214,7 +3214,7 @@ yyreduce:
   case 181:
 
     {
-        (yyval.integer) = KatanaSelectorMatchExact;
+        (yyval.integer) = KatanaSelectorMatchAttributeExact;
     }
 
     break;
@@ -3222,7 +3222,7 @@ yyreduce:
   case 182:
 
     {
-        (yyval.integer) = KatanaSelectorMatchList;
+        (yyval.integer) = KatanaSelectorMatchAttributeList;
     }
 
     break;
@@ -3230,7 +3230,7 @@ yyreduce:
   case 183:
 
     {
-        (yyval.integer) = KatanaSelectorMatchHyphen;
+        (yyval.integer) = KatanaSelectorMatchAttributeHyphen;
     }
 
     break;
@@ -3238,7 +3238,7 @@ yyreduce:
   case 184:
 
     {
-        (yyval.integer) = KatanaSelectorMatchBegin;
+        (yyval.integer) = KatanaSelectorMatchAttributeBegin;
     }
 
     break;
@@ -3246,7 +3246,7 @@ yyreduce:
   case 185:
 
     {
-        (yyval.integer) = KatanaSelectorMatchEnd;
+        (yyval.integer) = KatanaSelectorMatchAttributeEnd;
     }
 
     break;
@@ -3254,7 +3254,7 @@ yyreduce:
   case 186:
 
     {
-        (yyval.integer) = KatanaSelectorMatchContain;
+        (yyval.integer) = KatanaSelectorMatchAttributeContain;
     }
 
     break;
@@ -3266,11 +3266,10 @@ yyreduce:
             YYERROR;
         (yyval.selector) = katana_new_selector(parser);
         (yyval.selector)->match = KatanaSelectorMatchPseudoClass;
-        (yyval.selector)->pseudo = KatanaSelectorPseudoString;
         katana_string_to_lowercase(parser, &(yyvsp[0].string));
         katana_selector_set_value(parser, (yyval.selector), &(yyvsp[0].string));
-        // KatanaSelectorMatchPseudoType type = $$->pseudoType();
-        // if (type == KatanaSelectorMatchPseudoUnknown) {
+        katana_selector_extract_pseudo_type((yyval.selector));
+        // if ($$->pseudo == KatanaSelectorPseudoUnknown) {
         //     katana_parser_report_error(parser, $2, InvalidSelectorPseudoCSSError);
         //     YYERROR;
     }
@@ -3286,6 +3285,7 @@ yyreduce:
         (yyval.selector)->match = KatanaSelectorMatchPseudoElement;
         katana_string_to_lowercase(parser, &(yyvsp[0].string));
         katana_selector_set_value(parser, (yyval.selector), &(yyvsp[0].string));
+        katana_selector_extract_pseudo_type((yyval.selector));
         // FIXME: This call is needed to force selector to compute the pseudoType early enough.
         // CSSSelector::PseudoType type = $$->pseudoType();
         // if (type == CSSSelector::PseudoUnknown) {
@@ -3308,10 +3308,9 @@ yyreduce:
     {
         (yyval.selector) = katana_new_selector(parser);
         (yyval.selector)->match = KatanaSelectorMatchPseudoClass;
-        (yyval.selector)->pseudo = KatanaSelectorPseudoFunction;
         katana_selector_set_argument(parser, (yyval.selector), &(yyvsp[-2].string));
         katana_selector_set_value(parser, (yyval.selector), &(yyvsp[-4].string));
-
+        katana_selector_extract_pseudo_type((yyval.selector));
         // CSSSelector::PseudoType type = $$->pseudoType();
         // if (type == CSSSelector::PseudoUnknown)
         //     YYERROR;
@@ -3324,9 +3323,9 @@ yyreduce:
     {
         (yyval.selector) = katana_new_selector(parser);
         (yyval.selector)->match = KatanaSelectorMatchPseudoClass;
-        (yyval.selector)->pseudo = KatanaSelectorPseudoFunction;
         katana_selector_set_argument_with_number(parser, (yyval.selector), (yyvsp[-3].integer), &(yyvsp[-2].number));
         katana_selector_set_value(parser, (yyval.selector), &(yyvsp[-5].string));
+        katana_selector_extract_pseudo_type((yyval.selector));
     //     $$ = parser->createFloatingSelector();
     //     $$->setMatch(CSSSelector::PseudoClass);
     //     $$->setArgument(AtomicString::number($4 * $5));
@@ -3343,12 +3342,11 @@ yyreduce:
     {
         (yyval.selector) = katana_new_selector(parser);
         (yyval.selector)->match = KatanaSelectorMatchPseudoClass;
-        (yyval.selector)->pseudo = KatanaSelectorPseudoFunction;
         katana_selector_set_argument(parser, (yyval.selector), &(yyvsp[-2].string));
         
         katana_string_to_lowercase(parser, &(yyvsp[-4].string));
         katana_selector_set_value(parser, (yyval.selector), &(yyvsp[-4].string));
-
+        katana_selector_extract_pseudo_type((yyval.selector));
         // CSSSelector::PseudoType type = $$->pseudoType();
         // if (type == CSSSelector::PseudoUnknown)
         //     YYERROR;
@@ -3379,7 +3377,7 @@ yyreduce:
         else {
             (yyval.selector) = katana_new_selector(parser);
             (yyval.selector)->match = KatanaSelectorMatchPseudoClass;
-            (yyval.selector)->pseudo = KatanaSelectorPseudoNot;
+            (yyval.selector)->pseudo = KatanaPseudoNot;
 
             KatanaArray* array = katana_new_array(parser);
             katana_selector_list_add(parser, katana_sink_floating_selector(parser, (yyvsp[-2].selector)), array);

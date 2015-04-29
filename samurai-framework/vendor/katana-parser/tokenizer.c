@@ -20,9 +20,6 @@
  * THE SOFTWARE.
  */
 
-// flex -P katana -o katana.lex.c katana.l
-// bison katana.y
-
 #include <assert.h>
 
 #include "tokenizer.h"
@@ -42,15 +39,13 @@ static char * katana_token_string(int tok);
 #endif // #ifdef KATANA_FELX_DEBUG
 
 /**
- *  词法分析器的 hook
+ *  A hook function of flex, processing tokens which will be passed to bison
  *
- *  在这里处理每一个token，把处理完的值传递给语法分析器
+ *  @param yylval    the medium for flex and bison
+ *  @param yyscanner flex state
+ *  @param tok       the type of token
  *
- *  @param yylval    flex 与 bison 的中间人，用来传递值到语法分析器
- *  @param yyscanner flex 保存当前词法分析器的扫描信息
- *  @param tok       当前 token 的类型
- *
- *  @return 当前 token 的类型
+ *  @return the type of token
  */
 int katana_tokenize(KATANASTYPE* lval , KATANALTYPE* loc, yyscan_t scanner, KatanaParser* parser, int tok)
 {
@@ -164,14 +159,14 @@ int katana_tokenize(KATANASTYPE* lval , KATANALTYPE* loc, yyscan_t scanner, Kata
 }
 
 /**
- *  格式化每一个 token 的字符串成有效的值
+ *  Format token
  *
- *  @param length        有效值的长度
- *  @param origin_text   token 字符串
- *  @param origin_length token 字符串的原始长度
- *  @param tok           当前 token 的类型
+ *  @param length
+ *  @param origin_text   original text from the flex
+ *  @param origin_length formatted length
+ *  @param tok
  *
- *  @return 处理后的有效字符串
+ *  @return normalized text
  */
 static inline char* katana_normalize_text(yy_size_t* length, char *origin_text, yy_size_t origin_length, int tok)
 {

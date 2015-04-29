@@ -816,7 +816,7 @@ void katana_parser_reset_declarations(KatanaParser* parser)
 
 KatanaRule* katana_new_media_rule(KatanaParser* parser, KatanaArray* medias, KatanaArray* rules)
 {
-//    assert(NULL != medias && NULL != rules);
+    assert(NULL != medias && NULL != rules);
     
     if ( medias == NULL || rules == NULL )
         return NULL;
@@ -1268,19 +1268,24 @@ void katana_string_clear(KatanaParser* parser, KatanaParserString* string)
 
 void katanaerror(YYLTYPE* yyloc, void* scanner, struct KatanaInternalParser * parser, char* error)
 {
-//    printf("[Error] %d.%d - %d.%d: %s at %s\n",
-//           yyloc->first_line,
-//           yyloc->first_column,
-//           yyloc->last_line,
-//           yyloc->last_column,
-//           error,
-//           katanaget_text(parser->scanner));
+#ifdef KATANA_PARSER_DEBUG
+#if KATANA_PARSER_DEBUG
+    katana_print("[Error] %d.%d - %d.%d: %s at %s\n",
+           yyloc->first_line,
+           yyloc->first_column,
+           yyloc->last_line,
+           yyloc->last_column,
+           error,
+           katanaget_text(parser->scanner));
 
-//    YYSTYPE * s = katanaget_lval(parser->scanner);
-//    struct yy_buffer_state state = katana_get_previous_state(parser->scanner);
-//    s, (*yy_buffer_stack[0]).yy_ch_buf);
-//    
-//    printf("%s", s->);
+    YYSTYPE * s = katanaget_lval(parser->scanner);
+    struct yy_buffer_state state = katana_get_previous_state(parser->scanner);
+    s, (*yy_buffer_stack[0]).yy_ch_buf);
+    
+    katana_print("%s", s->);
+#endif // #if KATANA_PARSER_DEBUG
+#endif // #ifdef KATANA_PARSER_DEBUG
+
 }
 
 void katana_parser_log(KatanaParser* parser, const char * format, ...)
@@ -1354,6 +1359,9 @@ void katana_print_stylesheet(KatanaParser* parser, KatanaStylesheet* sheet)
 {
     katana_print("stylesheet with ");
     katana_print("%d rules.\n", sheet->rules.length);
+    for (size_t i = 0; i < sheet->imports.length; ++i) {
+        katana_print_rule(parser, sheet->imports.data[i]);
+    }
     for (size_t i = 0; i < sheet->rules.length; ++i) {
         katana_print_rule(parser, sheet->rules.data[i]);
     }
@@ -1397,7 +1405,7 @@ void katana_print_import_rule(KatanaParser* parser, KatanaImportRule* rule)
 {
     katana_print("@%s ", rule->base.name);
     katana_print("url(%s)", rule->href);
-    katana_print(";");
+    katana_print(";\n");
 }
 
 void katana_print_keyframes_rule(KatanaParser* parser, KatanaKeyframesRule* rule)

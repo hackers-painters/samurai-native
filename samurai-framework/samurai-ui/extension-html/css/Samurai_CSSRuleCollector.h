@@ -28,31 +28,22 @@
 //	THE SOFTWARE.
 //
 
-#import "Samurai_UIConfig.h"
-#import "Samurai_ViewCore.h"
+#import "Samurai_CSSProtocol.h"
+#import "Samurai_CSSStyleSheet.h"
+
+@interface SamuraiCSSRuleData : NSObject
+@property (nonatomic, assign, readonly) NSUInteger      position;
+@property (nonatomic, assign, readonly) NSUInteger      specificity;
+@property (nonatomic, assign, readonly) KatanaStyleRule * rule;
+@property (nonatomic, assign, readonly) KatanaSelector  * selector;
+- (instancetype)initWithRule:(KatanaStyleRule *)rule selector:(KatanaSelector *)selector position:(NSUInteger)position;
+@end
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
-#pragma mark -
-
-@protocol SamuraiCSSProtocol
-
-- (NSString *)cssId;								// override point
-- (NSString *)cssTag;								// override point
-- (NSArray *)cssClasses;							// override point
-- (NSArray *)cssPseudos;							// override point
-- (id<SamuraiCSSProtocol>)cssParent;							// override point
-- (id<SamuraiCSSProtocol>)cssPreviousSibling;					// override point
-- (id<SamuraiCSSProtocol>)cssFollowingSibling;					// override point
-- (id<SamuraiCSSProtocol>)cssSiblingAtIndex:(NSInteger)index;	// override point
-- (NSArray *)cssChildren;							// override point
-- (NSArray *)cssPreviousSiblings;					// override point
-- (NSArray *)cssFollowingSiblings;					// override point
-- (BOOL)cssIsElement;								// override point
-- (BOOL)cssIsFirstChild;							// override point
-- (BOOL)cssIsLastChild;								// override point
-- (BOOL)cssIsNthChild:(NSUInteger)index;			// override point
-
+@interface SamuraiCSSRuleCollector : NSObject
+- (instancetype)initWithRuleSet:(SamuraiCSSRuleSet *)ruleSet;
+- (NSDictionary *)styleForElement:(id<SamuraiCSSProtocol>)element;
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

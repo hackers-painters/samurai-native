@@ -35,13 +35,13 @@ extern "C" {
 
 typedef enum {
     KatanaRuleUnkown,
-    KatanaRuleStyle,        // 普通单条样式
-    KatanaRuleImport,       // 导入外部样式
-    KatanaRuleMedia,        // 条件判断样式:根据媒体属性区分样式表
-    KatanaRuleFontFace,     // 字体样式
-    KatanaRuleSupports,     // 条件判断样式:根据是否支持属性区分样式表
-    KatanaRuleKeyframes,    // 动画样式
-    KatanaRuleCharset,      // 字符集
+    KatanaRuleStyle,
+    KatanaRuleImport,
+    KatanaRuleMedia,
+    KatanaRuleFontFace,
+    KatanaRuleSupports,
+    KatanaRuleKeyframes,
+    KatanaRuleCharset,
     KatanaRuleHost,
 } KatanaRuleType;
 
@@ -50,44 +50,124 @@ typedef enum {
     KatanaMediaQueryRestrictorOnly,
     KatanaMediaQueryRestrictorNot,
 } KatanaMediaQueryRestrictor;
-    
-typedef enum {
-    KatanaSelectorRelationDescendant = 0,   // "Space" combinator
-    KatanaSelectorRelationChild,            // > combinator
-    KatanaSelectorRelationDirectAdjacent,   // + combinator
-    KatanaSelectorRelationIndirectAdjacent, // ~ combinator
-    KatanaSelectorRelationSubSelector,      // "No space" combinator
-    KatanaSelectorRelationShadowPseudo,     // Special case of shadow DOM pseudo elements / shadow pseudo element
-    KatanaSelectorRelationShadowDeep        // /shadow-deep/ combinator
-} KatanaSelectorRelation;
 
 typedef enum {
     KatanaSelectorMatchUnknown = 0,
     KatanaSelectorMatchTag,                 // Example: div
     KatanaSelectorMatchId,                  // Example: #id
     KatanaSelectorMatchClass,               // example: .class
-    KatanaSelectorMatchExact,               // Example: E[foo="bar"]
-    KatanaSelectorMatchSet,                 // Example: E[foo]
-    KatanaSelectorMatchList,                // Example: E[foo~="bar"]
-    KatanaSelectorMatchHyphen,              // Example: E[foo|="bar"]
     KatanaSelectorMatchPseudoClass,         // Example:  :nth-child(2)
     KatanaSelectorMatchPseudoElement,       // Example: ::first-line
-    KatanaSelectorMatchContain,             // css3: E[foo*="bar"]
-    KatanaSelectorMatchBegin,               // css3: E[foo^="bar"]
-    KatanaSelectorMatchEnd,                 // css3: E[foo$="bar"]
-    KatanaSelectorMatchPagePseudoClass      // ??
+    KatanaSelectorMatchPagePseudoClass,     // ??
+    KatanaSelectorMatchAttributeExact,      // Example: E[foo="bar"]
+    KatanaSelectorMatchAttributeSet,        // Example: E[foo]
+    KatanaSelectorMatchAttributeList,       // Example: E[foo~="bar"]
+    KatanaSelectorMatchAttributeHyphen,     // Example: E[foo|="bar"]
+    KatanaSelectorMatchAttributeContain,    // css3: E[foo*="bar"]
+    KatanaSelectorMatchAttributeBegin,      // css3: E[foo^="bar"]
+    KatanaSelectorMatchAttributeEnd,        // css3: E[foo$="bar"]
+    KatanaSelectorMatchFirstAttribute = KatanaSelectorMatchAttributeExact,
 } KatanaSelectorMatch;
+
+typedef enum {
+    KatanaSelectorRelationSubSelector,      // "No space" combinator
+    KatanaSelectorRelationDescendant,       // "Space" combinator
+    KatanaSelectorRelationChild,            // > combinator
+    KatanaSelectorRelationDirectAdjacent,   // + combinator
+    KatanaSelectorRelationIndirectAdjacent, // ~ combinator
+    KatanaSelectorRelationShadowPseudo,     // Special case of shadow DOM pseudo elements / shadow pseudo element
+    KatanaSelectorRelationShadowDeep        // /shadow-deep/ combinator
+} KatanaSelectorRelation;
     
+typedef enum {
+    KatanaPseudoNotParsed,
+    KatanaPseudoUnknown,
+    KatanaPseudoEmpty,
+    KatanaPseudoFirstChild,
+    KatanaPseudoFirstOfType,
+    KatanaPseudoLastChild,
+    KatanaPseudoLastOfType,
+    KatanaPseudoOnlyChild,
+    KatanaPseudoOnlyOfType,
+    KatanaPseudoFirstLine,
+    KatanaPseudoFirstLetter,
+    KatanaPseudoNthChild,
+    KatanaPseudoNthOfType,
+    KatanaPseudoNthLastChild,
+    KatanaPseudoNthLastOfType,
+    KatanaPseudoLink,
+    KatanaPseudoVisited,
+    KatanaPseudoAny,
+    KatanaPseudoAnyLink,
+    KatanaPseudoAutofill,
+    KatanaPseudoHover,
+    KatanaPseudoDrag,
+    KatanaPseudoFocus,
+    KatanaPseudoActive,
+    KatanaPseudoChecked,
+    KatanaPseudoEnabled,
+    KatanaPseudoFullPageMedia,
+    KatanaPseudoDefault,
+    KatanaPseudoDisabled,
+    KatanaPseudoOptional,
+    KatanaPseudoRequired,
+    KatanaPseudoReadOnly,
+    KatanaPseudoReadWrite,
+    KatanaPseudoValid,
+    KatanaPseudoInvalid,
+    KatanaPseudoIndeterminate,
+    KatanaPseudoTarget,
+    KatanaPseudoBefore,
+    KatanaPseudoAfter,
+    KatanaPseudoBackdrop,
+    KatanaPseudoLang,
+    KatanaPseudoNot, // :not(selector), selector is Kind of KatanaSelector
+    KatanaPseudoResizer,
+    KatanaPseudoRoot,
+    KatanaPseudoScope,
+    KatanaPseudoScrollbar,
+    KatanaPseudoScrollbarButton,
+    KatanaPseudoScrollbarCorner,
+    KatanaPseudoScrollbarThumb,
+    KatanaPseudoScrollbarTrack,
+    KatanaPseudoScrollbarTrackPiece,
+    KatanaPseudoWindowInactive,
+    KatanaPseudoCornerPresent,
+    KatanaPseudoDecrement,
+    KatanaPseudoIncrement,
+    KatanaPseudoHorizontal,
+    KatanaPseudoVertical,
+    KatanaPseudoStart,
+    KatanaPseudoEnd,
+    KatanaPseudoDoubleButton,
+    KatanaPseudoSingleButton,
+    KatanaPseudoNoButton,
+    KatanaPseudoSelection,
+    KatanaPseudoLeftPage,
+    KatanaPseudoRightPage,
+    KatanaPseudoFirstPage,
+    KatanaPseudoFullScreen,
+    KatanaPseudoFullScreenDocument,
+    KatanaPseudoFullScreenAncestor,
+    KatanaPseudoInRange,
+    KatanaPseudoOutOfRange,
+    KatanaPseudoWebKitCustomElement,
+    KatanaPseudoCue,
+    KatanaPseudoFutureCue,
+    KatanaPseudoPastCue,
+    KatanaPseudoUnresolved,
+    KatanaPseudoContent,
+    KatanaPseudoHost,
+    KatanaPseudoHostContext,
+    KatanaPseudoShadow,
+    KatanaPseudoSpatialNavigationFocus,
+    KatanaPseudoListBox
+} KatanaPseudoType;
+
 typedef enum {
     KatanaAttributeMatchTypeCaseSensitive,
     KatanaAttributeMatchTypeCaseInsensitive,
 } KatanaAttributeMatchType;
-
-typedef enum {
-    KatanaSelectorPseudoString, // :pseudo, pseudo is kind of char*
-    KatanaSelectorPseudoFunction, // :func(args), args is kind of char*
-    KatanaSelectorPseudoNot, // :not(selector), selector is Kind of KatanaSelector
-} KatanaSelectorPseudo;
 
 typedef enum {
     KATANA_VALUE_UNKNOWN = 0,
@@ -311,7 +391,7 @@ typedef struct {
 typedef struct KatanaSelector {
     size_t specificity;
     KatanaSelectorMatch match;
-    KatanaSelectorPseudo pseudo;
+    KatanaPseudoType pseudo;
     KatanaSelectorRelation relation;
     KatanaQualifiedName* tag;
     KatanaSelectorRareData* data;
@@ -381,7 +461,7 @@ typedef enum KatanaParserMode {
     KatanaParserModeSelector,
     KatanaParserModeDeclarationList,
 } KatanaParserMode;
-
+    
 typedef struct KatanaInternalOutput {
     // Complete CSS string
     KatanaStylesheet* stylesheet;

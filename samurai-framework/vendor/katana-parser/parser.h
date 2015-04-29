@@ -31,10 +31,10 @@
 extern "C" {
 #endif
     
-#define KATANA_FELX_DEBUG            0 // 打印单词解析过程
-#define KATANA_BISON_DEBUG           0 // 打印语法解析过程
-#define KATANA_PARSER_DEBUG          0 // PARSRE DEBUG
-#define KATANA_PARSER_LOG_ENABLE     0 // 打印解析日志
+#define KATANA_FELX_DEBUG            0
+#define KATANA_BISON_DEBUG           0
+#define KATANA_PARSER_DEBUG          0
+#define KATANA_PARSER_LOG_ENABLE     0
     
 #pragma mark - Parser
 
@@ -198,10 +198,11 @@ void katana_selector_set_argument_with_number(KatanaParser* parser, KatanaSelect
 bool katana_parse_attribute_match_type(KatanaParser* parser, KatanaAttributeMatchType, KatanaParserString* attr);
 
 bool katana_selector_crosses_tree_scopes(const KatanaSelector* selector);
-bool katana_selector_is_shadow_pseudo_element(const KatanaSelector* selector);
-bool katana_selector_is_content_pseudo_element(const KatanaSelector* selector);
+bool katana_selector_is_shadow_pseudo_element(KatanaSelector* selector);
+bool katana_selector_is_content_pseudo_element(KatanaSelector* selector);
 bool katana_selector_is_simple(KatanaParser* parser, KatanaSelector* selector);
-
+void katana_selector_extract_pseudo_type(KatanaSelector* selector);
+    
 #pragma mark - Universal rule parse flow
 
 void katana_add_rule(KatanaParser* parser, KatanaRule* rule);

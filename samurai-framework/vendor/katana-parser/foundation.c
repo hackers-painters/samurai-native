@@ -77,6 +77,13 @@ void katana_string_append_string(struct KatanaInternalParser* parser,
     output->length += str->length;
 }
 
+bool katana_string_has_prefix(const char* str, const char* prefix)
+{
+    size_t pre_len = strlen(prefix);
+    size_t str_len = strlen(str);
+    return pre_len <= str_len && strncasecmp(prefix, str, pre_len);
+}
+
 void katana_string_to_lowercase(struct KatanaInternalParser* parser,
                                 KatanaParserString* str)
 {

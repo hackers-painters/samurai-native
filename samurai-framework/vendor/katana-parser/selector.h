@@ -32,7 +32,7 @@ extern "C" {
 #endif
 
 KatanaParserString* katana_selector_to_string(KatanaParser* parser, KatanaSelector* selector, KatanaParserString* next);
-
+    
 #ifdef __cplusplus
 }
 #endif

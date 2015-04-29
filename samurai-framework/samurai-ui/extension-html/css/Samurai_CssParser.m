@@ -76,7 +76,7 @@
 
 - (NSDictionary *)parseDeclaration:(NSString *)text
 {
-    KatanaOutput * output = katana_parse(text.UTF8String, text.length, KatanaParserModeValue);
+    KatanaOutput * output = katana_parse(text.UTF8String, text.length, KatanaParserModeDeclarationList);
     
     if ( NULL != output )
     {

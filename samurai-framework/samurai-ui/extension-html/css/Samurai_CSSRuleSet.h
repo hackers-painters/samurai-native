@@ -28,30 +28,25 @@
 //	THE SOFTWARE.
 //
 
-#import "Samurai_UIConfig.h"
-#import "Samurai_ViewCore.h"
+#import "Samurai_CSSStyleSheet.h"
+#import "katana.h"
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
-#pragma mark -
+@interface SamuraiCSSRuleSet : NSObject
 
-@protocol SamuraiCSSProtocol
+@property (nonatomic, strong) id<SamuraiCSSMediaQueryChecker> mediaQueryChecker;
 
-- (NSString *)cssId;								// override point
-- (NSString *)cssTag;								// override point
-- (NSArray *)cssClasses;							// override point
-- (NSArray *)cssPseudos;							// override point
-- (id<SamuraiCSSProtocol>)cssParent;							// override point
-- (id<SamuraiCSSProtocol>)cssPreviousSibling;					// override point
-- (id<SamuraiCSSProtocol>)cssFollowingSibling;					// override point
-- (id<SamuraiCSSProtocol>)cssSiblingAtIndex:(NSInteger)index;	// override point
-- (NSArray *)cssChildren;							// override point
-- (NSArray *)cssPreviousSiblings;					// override point
-- (NSArray *)cssFollowingSiblings;					// override point
-- (BOOL)cssIsElement;								// override point
-- (BOOL)cssIsFirstChild;							// override point
-- (BOOL)cssIsLastChild;								// override point
-- (BOOL)cssIsNthChild:(NSUInteger)index;			// override point
+- (NSArray *)universalRules;
+- (NSArray *)idRulesWithKey:(NSString *)key;
+- (NSArray *)tagRulesWithKey:(NSString *)key;
+- (NSArray *)classRulesWithKey:(NSString *)key;
+- (NSArray *)pseudoRulesWithKey:(NSString *)key;
+
+- (void)clear;
+
+- (void)addRulesFromSheet:(KatanaStylesheet *)sheet;
+- (void)mergeWithRuleSet:(SamuraiCSSRuleSet *)ruleSet;
 
 @end
 
