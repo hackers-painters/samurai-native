@@ -1,1 +1,311 @@
-Under construction
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Cayman</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/cayman.css">
+    <link rel="stylesheet" href="css/github-light.css">
+  </head>
+  <body>
+    <section class="page-header">
+      <h2><img src="https://cloud.githubusercontent.com/assets/876707/7384698/c509c360-ee6a-11e4-94ec-e8ff5774ce14.png" alt="Samurai-Native" style="max-width:100%;"/></h2>
+      <a href="https://github.com/hackers-painters/samurai-native" class="btn">View on GitHub</a>
+      <a href="https://github.com/hackers-painters/samurai-native/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/hackers-painters/samurai-native/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>Samurai: Bring web standards to native platform</h1>
+      <p>
+            Samurai-Native enables you to build native apps using web technologies based on its own Web-Core.<br/>
+            Support iOS now, Android later.
+      </p>
+
+      <h2>
+      <a id="user-content-native-components" class="anchor" href="#native-components" aria-hidden="true"><span class="octicon octicon-link"></span></a>Native Components</h2>
+
+      <p>You can use the native components such as <code>UICollectionView</code> and <code>UICollectionViewCell</code> on iOS. This gives your app a consistent look and feel with the rest of the platform ecosystem, and keeps the quality bar high. These components are easily incorporated into your app using <code>&lt;UICollectionView/&gt;</code> and <code>&lt;UICollectionViewCell/&gt;</code> directly.</p>
+
+      <div class="highlight highlight-html"><pre>
+&lt;<span class="pl-ent">html</span>&gt;
+&lt;<span class="pl-ent">body</span>&gt;
+  &lt;<span class="pl-ent">UICollectionView</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>list<span class="pl-pds">"</span></span> <span class="pl-e">is-vertical</span>&gt;
+      &lt;<span class="pl-ent">UICollectionViewCell</span> <span class="pl-e">is-static</span> <span class="pl-e">is-row</span>&gt;
+          ...
+      &lt;/<span class="pl-ent">UICollectionViewCell</span>&gt;
+  &lt;/<span class="pl-ent">UICollectionView</span>&gt;
+&lt;/<span class="pl-ent">body</span>&gt;
+&lt;/<span class="pl-ent">html</span>&gt;</pre></div>
+
+      <h2>
+      <a id="user-content-html-components" class="anchor" href="#html-components" aria-hidden="true"><span class="octicon octicon-link"></span></a>HTML Components</h2>
+
+      <p>You can use the standard HTML tags such as <code>div</code> and <code>img</code> on iOS. This gives you ability to define your user interface using a hybrid way.</p>
+
+      <div class="highlight highlight-html"><pre>
+&lt;<span class="pl-ent">html</span>&gt;
+&lt;<span class="pl-ent">body</span>&gt;
+  &lt;<span class="pl-ent">UICollectionViewCell</span> <span class="pl-e">is-static</span> <span class="pl-e">is-row</span>&gt;
+      &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>profile-wrapper<span class="pl-pds">"</span></span>&gt;
+          &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>profile-attribution<span class="pl-pds">"</span></span>&gt;
+              &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>profile-segment no-wrap<span class="pl-pds">"</span></span>&gt;
+                  &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>segment-wrapper<span class="pl-pds">"</span></span>&gt;
+                      &lt;<span class="pl-ent">span</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>segment-count<span class="pl-pds">"</span></span>&gt;10,875&lt;/<span class="pl-ent">span</span>&gt;
+                      &lt;<span class="pl-ent">span</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>segment-suffix<span class="pl-pds">"</span></span>&gt;Followers&lt;/<span class="pl-ent">span</span>&gt;
+                  &lt;/<span class="pl-ent">div</span>&gt;
+              &lt;/<span class="pl-ent">div</span>&gt;
+              &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>profile-segment no-wrap<span class="pl-pds">"</span></span>&gt;
+                  &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>segment-wrapper<span class="pl-pds">"</span></span>&gt;
+                      &lt;<span class="pl-ent">span</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>segment-count<span class="pl-pds">"</span></span>&gt;199&lt;/<span class="pl-ent">span</span>&gt;
+                      &lt;<span class="pl-ent">span</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>segment-suffix<span class="pl-pds">"</span></span>&gt;Followers&lt;/<span class="pl-ent">span</span>&gt;
+                  &lt;/<span class="pl-ent">div</span>&gt;
+              &lt;/<span class="pl-ent">div</span>&gt;
+          &lt;/<span class="pl-ent">div</span>&gt;
+      &lt;/<span class="pl-ent">div</span>&gt;
+  &lt;/<span class="pl-ent">UICollectionViewCell</span>&gt;
+&lt;/<span class="pl-ent">body</span>&gt;
+&lt;/<span class="pl-ent">html</span>&gt;</pre></div>
+
+      <h2>
+      <a id="user-content-css-fluid-layout" class="anchor" href="#css-fluid-layout" aria-hidden="true"><span class="octicon octicon-link"></span></a>CSS Fluid layout</h2>
+
+      <p>We brought the css layout model from the web to samurai-native, css layout makes it simple to build the most common UI layouts, such as stacked and nested boxes with margin and padding. samurai-native also supports common web styles, such as <code>font-weight</code> and <code>border-radius</code>, and you can extend your style in <code>SamuraiHtmlRenderStyle</code> class.</p>
+
+      <div class="highlight highlight-html"><pre>
+&lt;<span class="pl-ent">html</span>&gt;
+&lt;<span class="pl-ent">head</span>&gt;
+  &lt;<span class="pl-ent">link</span> <span class="pl-e">rel</span>=<span class="pl-s"><span class="pl-pds">"</span>stylesheet<span class="pl-pds">"</span></span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/css<span class="pl-pds">"</span></span> <span class="pl-e">href</span>=<span class="pl-s"><span class="pl-pds">"</span>../css/normalize.css<span class="pl-pds">"</span></span>/&gt;
+  &lt;<span class="pl-ent">link</span> <span class="pl-e">rel</span>=<span class="pl-s"><span class="pl-pds">"</span>stylesheet<span class="pl-pds">"</span></span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/css<span class="pl-pds">"</span></span> <span class="pl-e">href</span>=<span class="pl-s"><span class="pl-pds">"</span>../css/main.css<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">head</span>&gt;
+&lt;/<span class="pl-ent">html</span>&gt;
+</pre></div>
+
+      <div class="highlight highlight-html"><pre>
+&lt;<span class="pl-ent">html</span>&gt;
+    &lt;<span class="pl-ent">body</span>&gt;
+        &lt;<span class="pl-ent">p</span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>color: red;<span class="pl-pds">"</span></span>&gt;
+            Hello, world!
+        &lt;/<span class="pl-ent">p</span>&gt;
+    &lt;/<span class="pl-ent">body</span>&gt;
+&lt;/<span class="pl-ent">html</span>&gt;
+</pre></div>
+
+      <div class="highlight highlight-html"><pre>
+&lt;<span class="pl-ent">html</span>&gt;
+&lt;<span class="pl-ent">body</span>&gt;
+  &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>tab-bar<span class="pl-pds">"</span></span>&gt;
+      &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>tab<span class="pl-pds">"</span></span>&gt;Popular&lt;/<span class="pl-ent">div</span>&gt;
+      &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>tab<span class="pl-pds">"</span></span>&gt;Debuts&lt;/<span class="pl-ent">div</span>&gt;
+      &lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>tab<span class="pl-pds">"</span></span>&gt;Everyone&lt;/<span class="pl-ent">div</span>&gt;
+  &lt;/<span class="pl-ent">div</span>&gt;
+<span class="pl-s1">  &lt;<span class="pl-ent">style</span>&gt;</span>
+<span class="pl-s1">    <span class="pl-e">.tab-bar</span> {</span>
+<span class="pl-s1">          <span class="pl-c1"><span class="pl-c1">display</span></span>: <span class="pl-c1">block</span>;</span>
+<span class="pl-s1">          <span class="pl-c1"><span class="pl-c1">width</span></span>: <span class="pl-c1">100<span class="pl-k">%</span></span>;</span>
+<span class="pl-s1">          <span class="pl-c1"><span class="pl-c1">height</span></span>: <span class="pl-c1">34<span class="pl-k">px</span></span>;</span>
+<span class="pl-s1">          <span class="pl-c1"><span class="pl-c1">background-color</span></span>: <span class="pl-c1">#e5508c</span>;</span>
+<span class="pl-s1">          <span class="pl-c">/* box-shadow: 0px 0.5px 0.5px black; */</span></span>
+<span class="pl-s1">          <span class="pl-c1"><span class="pl-c1">z-index</span></span>: <span class="pl-c1">2</span>;</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1">    <span class="pl-e">.tab</span> {</span>
+<span class="pl-s1">          <span class="pl-c1"><span class="pl-c1">float</span></span>: <span class="pl-c1">left</span>;</span>
+<span class="pl-s1">          <span class="pl-c1"><span class="pl-c1">display</span></span>: <span class="pl-c1">block</span>;</span>
+<span class="pl-s1">          <span class="pl-c1"><span class="pl-c1">width</span></span>: <span class="pl-c1">33.33<span class="pl-k">%</span></span>;</span>
+<span class="pl-s1">          <span class="pl-c1"><span class="pl-c1">height</span></span>: <span class="pl-c1">34<span class="pl-k">px</span></span>;</span>
+<span class="pl-s1">          <span class="pl-c1"><span class="pl-c1">font-size</span></span>: <span class="pl-c1">14<span class="pl-k">px</span></span>;</span>
+<span class="pl-s1">          <span class="pl-c1"><span class="pl-c1">line-height</span></span>: <span class="pl-c1">34<span class="pl-k">px</span></span>;</span>
+<span class="pl-s1">          <span class="pl-c1"><span class="pl-c1">color</span></span>: <span class="pl-c1">#fff</span> <span class="pl-c1">0.75</span>;</span>
+<span class="pl-s1">          <span class="pl-c1"><span class="pl-c1">text-align</span></span>: <span class="pl-c1">center</span>;</span>
+<span class="pl-s1">          <span class="pl-c1"><span class="pl-c1">font-weight</span></span>: <span class="pl-c1">normal</span>;</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1">  &lt;/<span class="pl-ent">style</span>&gt;</span>
+<span class="pl-s1">&lt;/<span class="pl-ent">body</span>&gt;</span>
+<span class="pl-s1">&lt;/<span class="pl-ent">html</span>&gt;</span>
+</pre></div>
+
+      <h2>
+      <a id="user-content-easy-to-integration" class="anchor" href="#easy-to-integration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Easy to Integration</h2>
+
+      <div class="highlight highlight-objc"><pre>
+<span class="pl-k">@implementation</span> <span class="pl-en">MyViewController</span>
+
+- (<span class="pl-k">void</span>)<span class="pl-en">viewDidLoad</span>
+{
+    [<span class="pl-v">self</span> <span class="pl-c1">loadViewTemplate:</span><span class="pl-s"><span class="pl-pds">@"</span>/www/html/dribbble-index.html<span class="pl-pds">"</span></span>];
+<span class="pl-c">//  [self loadViewTemplate:@"http://localhost:8000/html/dribbble-index.html"];</span>
+}
+
+- (<span class="pl-k">void</span>)<span class="pl-en">dealloc</span>
+{
+    [<span class="pl-v">self</span> <span class="pl-c1">unloadViewTemplate</span>];
+}
+
+- (<span class="pl-k">void</span>)<span class="pl-en">onTemplateLoading</span> {}
+- (<span class="pl-k">void</span>)<span class="pl-en">onTemplateLoaded</span> {}
+- (<span class="pl-k">void</span>)<span class="pl-en">onTemplateFailed</span> {}
+- (<span class="pl-k">void</span>)<span class="pl-en">onTemplateCancelled</span> {}
+
+<span class="pl-k">@end</span>
+</pre></div>
+
+      <h2>
+      <a id="user-content-signal-handling" class="anchor" href="#signal-handling" aria-hidden="true"><span class="octicon octicon-link"></span></a>Signal Handling</h2>
+
+      <p>samurai-native provide a high level event system called <code>Signal</code>, you can interact (gesture) with HTML page through signal system.</p>
+
+      <div class="highlight highlight-html"><pre>
+&lt;<span class="pl-ent">div</span> <span class="pl-e">onclick</span>=<span class="pl-s"><span class="pl-pds">"</span>signal('hello')<span class="pl-pds">"</span></span>&gt;
+    Click here
+&lt;/<span class="pl-ent">div</span>&gt;
+
+&lt;<span class="pl-ent">div</span> <span class="pl-e">onswipe-left</span>=<span class="pl-s"><span class="pl-pds">"</span>signal('next')<span class="pl-pds">"</span></span> <span class="pl-e">onswipe-right</span>=<span class="pl-s"><span class="pl-pds">"</span>signal('prev')<span class="pl-pds">"</span></span>&gt;
+    Swipe left or right
+&lt;/<span class="pl-ent">div</span>&gt;
+</pre></div>
+
+      <div class="highlight highlight-objc"><pre>
+<span class="pl-k">@implementation</span> <span class="pl-en">MyViewController</span>
+
+<span class="pl-en">handleSignal</span>( hello )
+{
+    [<span class="pl-v">self</span> <span class="pl-c1">doSomething</span>];
+}
+
+<span class="pl-en">handleSignal</span>( prev )
+{
+    [<span class="pl-v">self</span> <span class="pl-c1">doSomething</span>];
+}
+
+<span class="pl-en">handleSignal</span>( next )
+{
+    [<span class="pl-v">self</span> <span class="pl-c1">doSomething</span>];
+}
+
+<span class="pl-k">@end</span>
+</pre></div>
+
+      <h2>
+      <a id="user-content-data-binding" class="anchor" href="#data-binding" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data Binding</h2>
+
+      <p>samurai-native provide a efficient way to binding native objects to HTML page in single way through DOM's <code>name</code> property.</p>
+
+      <div class="highlight highlight-html"><pre>
+&lt;<span class="pl-ent">html</span>&gt;
+&lt;<span class="pl-ent">body</span>&gt;
+  &lt;<span class="pl-ent">div</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>author<span class="pl-pds">"</span></span>&gt;
+      &lt;<span class="pl-ent">img</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>avatar<span class="pl-pds">"</span></span>/&gt;
+      &lt;<span class="pl-ent">div</span>&gt;
+          &lt;<span class="pl-ent">div</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>title<span class="pl-pds">"</span></span>/&gt;
+          &lt;<span class="pl-ent">div</span>&gt;by &lt;<span class="pl-ent">span</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span>/&gt;&lt;/<span class="pl-ent">div</span>&gt;
+      &lt;/<span class="pl-ent">div</span>&gt;
+  &lt;/<span class="pl-ent">div</span>&gt;
+&lt;/<span class="pl-ent">body</span>&gt;
+&lt;/<span class="pl-ent">html</span>&gt;
+</pre></div>
+
+      <div class="highlight highlight-objc"><pre>
+<span class="pl-k">@implementation</span> <span class="pl-en">MyViewController</span>
+
+- (<span class="pl-k">void</span>)<span class="pl-en">reloadData</span>
+{
+    self[<span class="pl-s"><span class="pl-pds">@"</span>author<span class="pl-pds">"</span></span>] = @{              
+        <span class="pl-s"><span class="pl-pds">@"</span>avatar<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>xxx.jpg<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">@"</span>title<span class="pl-pds">"</span></span>  : <span class="pl-s"><span class="pl-pds">@"</span>Hello<span class="pl-pds">"</span></span>,
+        <span class="pl-s"><span class="pl-pds">@"</span>name<span class="pl-pds">"</span></span>   : <span class="pl-s"><span class="pl-pds">@"</span>World<span class="pl-pds">"</span></span>
+    };
+}
+
+<span class="pl-k">@end</span>
+</pre></div>
+
+      <h2>
+      <a id="user-content-extensibility" class="anchor" href="#extensibility" aria-hidden="true"><span class="octicon octicon-link"></span></a>Extensibility</h2>
+
+      <p>samurai-native is designed to be easily extended with custom native components, that means you can reuse anything you've already built, and can import and use your favorite native components.</p>
+
+      <div class="highlight highlight-objc"><pre>
+<span class="pl-k">@implementation</span> <span class="pl-en">UILabel</span>(Html)
+
+- (<span class="pl-k">void</span>)<span class="pl-en">html_applyDom</span><span class="pl-en">:</span>(SamuraiHtmlDomNode *)<span class="pl-smi">dom</span>
+{
+    [<span class="pl-v">super</span> <span class="pl-c1">html_applyDom:</span>dom];
+
+    self.<span class="pl-smi">text</span> = [dom <span class="pl-c1">computeInnerText</span>];
+}
+
+- (<span class="pl-k">void</span>)<span class="pl-en">html_applyStyle</span><span class="pl-en">:</span>(SamuraiHtmlRenderStyle *)<span class="pl-smi">style</span>
+{
+    [<span class="pl-v">super</span> <span class="pl-c1">html_applyStyle:</span>style];
+
+    self.<span class="pl-smi">font</span> = [style <span class="pl-c1">computeFont:</span><span class="pl-v">self</span>.font];
+    self.<span class="pl-smi">textColor</span> = [style <span class="pl-c1">computeColor:</span><span class="pl-v">self</span>.textColor];
+    self.<span class="pl-smi">textAlignment</span> = [style <span class="pl-c1">computeTextAlignment:</span><span class="pl-v">self</span>.textAlignment];
+    self.<span class="pl-smi">baselineAdjustment</span> = [style <span class="pl-c1">computeBaselineAdjustment:</span><span class="pl-v">self</span>.baselineAdjustment];
+    self.<span class="pl-smi">lineBreakMode</span> = [style <span class="pl-c1">computeLineBreakMode:</span><span class="pl-v">self</span>.lineBreakMode];
+    self.<span class="pl-smi">numberOfLines</span> = <span class="pl-c1">0</span>;
+
+    ...
+}
+
+<span class="pl-k">@end</span>
+</pre></div>
+
+      <h2>
+      <a id="user-content-live-reload" class="anchor" href="#live-reload" aria-hidden="true"><span class="octicon octicon-link"></span></a>Live reload</h2>
+
+      <p>Add lines below into your <code>main()</code> function, samurai-native will applies HTML/CSS changes to iPhoneSimulator without rebuild and run the app.</p>
+
+      <div class="highlight highlight-objc"><pre>[[SamuraiWatcher <span class="pl-c1">sharedInstance</span>] <span class="pl-c1">watch:</span>@(__FILE__)];</pre></div>
+
+      <h2>
+      <a id="user-content-running-the-examples" class="anchor" href="#running-the-examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Running the Examples</h2>
+
+      <ul>
+      <li>clone <code>https://github.com/hackers-painters/samurai.git</code>
+      </li>
+      <li>open <code>samurai-examples/dribbble/demo.xcodeproj</code>
+      </li>
+      <li>build and run</li>
+      </ul>
+
+      <h2>
+      <a id="user-content-licensing" class="anchor" href="#licensing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Licensing</h2>
+
+      <p>samurai-native is licensed under the MIT License.</p>
+
+      <h2>
+      <a id="user-content-contributors" class="anchor" href="#contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributors</h2>
+
+      <ul>
+      <li>
+      <a href="https://github.com/gavinkwoe">Gavin.Kwoe</a>: Major developer</li>
+      <li>
+      <a href="https://github.com/qfish">QFish</a>: Major developer</li>
+      <li>
+      <a href="https://dribbble.com/ZTDesign">ZTDesign</a>: Logo designer</li>
+      </ul>
+
+      <h2>
+      <a id="user-content-related-projects" class="anchor" href="#related-projects" aria-hidden="true"><span class="octicon octicon-link"></span></a>Related Projects</h2>
+
+      <ul>
+      <li>
+      <a href="https://github.com/google/gumbo-parser">gumbo</a>: An HTML5 parsing library in pure C99</li>
+      <li>
+      <a href="https://github.com/hackers-painters/katana-parser">katana</a>: An CSS3 parsing library in pure C99</li>
+      <li>
+      <a href="https://github.com/facebook/fishhook">fishhook</a>: A library that enables dynamically rebinding symbols in Mach-O binaries running on iOS.</li>
+      <li>
+      <a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a>: A delightful iOS and OS X networking framework</li>
+      </ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  </body>
+</html>
