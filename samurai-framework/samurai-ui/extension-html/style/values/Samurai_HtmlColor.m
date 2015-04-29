@@ -135,7 +135,7 @@
 			[namedColors setObject:[UIColor lightGrayColor]	forKey:@"lightgray"];
 			[namedColors setObject:[UIColor whiteColor]		forKey:@"white"];
 			[namedColors setObject:[UIColor grayColor]		forKey:@"gray"];
-			[namedColors setObject:[UIColor greenColor]		forKey:@"green"];
+			[namedColors setObject:HEX_RGB( 0x00a651 )		forKey:@"green"];
 			[namedColors setObject:[UIColor blueColor]		forKey:@"blue"];
 			[namedColors setObject:[UIColor cyanColor]		forKey:@"cyan"];
 			[namedColors setObject:[UIColor yellowColor]	forKey:@"yellow"];

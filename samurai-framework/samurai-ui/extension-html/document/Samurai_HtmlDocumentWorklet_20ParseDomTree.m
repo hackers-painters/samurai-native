@@ -65,7 +65,7 @@
 - (SamuraiHtmlDomNode *)parseHtml:(NSString *)html
 {
 	if ( nil == html || 0 == html.length )
-		return NO;
+		return nil;
 	
 	SamuraiHtmlDomNode *	domTree = nil;
 	GumboOptions			options = kGumboDefaultOptions;
@@ -249,6 +249,8 @@
 			[domNode.domAttributes setObject:value forKey:name];
 		}
 	}
+
+//	domNode.domName = domNode.domName ?: domNode.domId;
 }
 
 - (void)parseChildren:(GumboNode *)node forParentNode:(SamuraiHtmlDomNode *)domNode

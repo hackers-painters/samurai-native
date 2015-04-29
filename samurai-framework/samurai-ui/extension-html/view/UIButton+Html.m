@@ -54,7 +54,7 @@
 {
 	[super html_applyDom:dom];
 	
-	self.titleLabel.text = [dom computeInnerText];
+	self.titleLabel.text = [[dom computeInnerText] normalize];
 	self.titleLabel.hidden = NO;
 }
 

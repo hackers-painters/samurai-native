@@ -41,143 +41,6 @@
 
 #pragma mark -
 
-@implementation NSObject(Model)
-
-hookBefore( load, Model )
-{
-	if ( [self conformsToProtocol:@protocol(ManagedModel)] )
-	{
-		Class baseClass = [[self class] baseClass];
-		if ( nil == baseClass )
-		{
-			baseClass = [NSObject class];
-		}
-
-		for ( Class clazzType = [self class]; clazzType != baseClass; )
-		{
-			unsigned int		propertyCount = 0;
-			objc_property_t *	properties = class_copyPropertyList( clazzType, &propertyCount );
-			
-			for ( NSUInteger i = 0; i < propertyCount; i++ )
-			{
-				const char *	name = property_getName(properties[i]);
-				const char *	attr = property_getAttributes(properties[i]);
-				NSString *		propertyName = [NSString stringWithCString:name encoding:NSUTF8StringEncoding];
-
-				if ( [SamuraiEncoding isReadOnly:attr] )
-					continue;
-
-				Class fieldClass = [SamuraiEncoding classOfAttribute:attr];
-				if ( [fieldClass isSubclassOfClass:[SamuraiModel class]] )
-				{
-					SamuraiModel * instance = nil;
-					
-					BOOL isNewInstance = NO;
-					BOOL isSharedInstance = NO;
-
-					NSArray * policyValues = [clazzType extentionForProperty:propertyName arrayValueWithKey:@"Policy"];
-					
-					if ( policyValues )
-					{
-						for ( NSString * policyValue in policyValues )
-						{
-							if ( NSOrderedSame == [policyValue compare:@"new" options:NSCaseInsensitiveSearch] )
-							{
-								isNewInstance = YES;
-							}
-							else if ( NSOrderedSame == [policyValue compare:@"share" options:NSCaseInsensitiveSearch] )
-							{
-								isSharedInstance = YES;
-							}
-						}
-					}
-					
-					if ( isNewInstance )
-					{
-						instance = [[fieldClass alloc] init];
-					}
-					else if ( isSharedInstance )
-					{
-						instance = [fieldClass sharedInstance];
-					}
-					else
-					{
-						instance = [fieldClass sharedInstance];
-
-						if ( nil == instance )
-						{
-							instance = [[fieldClass alloc] init];
-						}
-					}
-
-					if ( instance )
-					{
-						[self setValue:instance forKey:propertyName];
-
-						[instance addSignalResponder:self];
-					}
-				}
-			}
-			
-			free( properties );
-			
-			clazzType = class_getSuperclass( clazzType );
-			if ( nil == clazzType )
-				break;
-		}
-	}
-}
-
-hookAfter( unload, Model )
-{
-	if ( [self conformsToProtocol:@protocol(ManagedModel)] )
-	{
-		Class baseClass = [[self class] baseClass];
-		if ( nil == baseClass )
-		{
-			baseClass = [NSObject class];
-		}
-
-		for ( Class clazzType = [self class]; clazzType != baseClass; )
-		{
-			unsigned int		propertyCount = 0;
-			objc_property_t *	properties = class_copyPropertyList( clazzType, &propertyCount );
-			
-			for ( NSUInteger i = 0; i < propertyCount; i++ )
-			{
-				const char *	name = property_getName(properties[i]);
-				const char *	attr = property_getAttributes(properties[i]);
-				NSString *		propertyName = [NSString stringWithCString:name encoding:NSUTF8StringEncoding];
-				
-				if ( [SamuraiEncoding isReadOnly:attr] )
-					continue;
-
-				Class fieldClass = [SamuraiEncoding classOfAttribute:attr];
-				if ( [fieldClass isSubclassOfClass:[SamuraiModel class]] )
-				{
-					SamuraiModel * instance = [self valueForKey:propertyName];
-					if ( instance )
-					{
-						[instance removeSignalResponder:self];
-
-						[self setValue:nil forKey:propertyName];
-					}
-				}
-			}
-
-			free( properties );
-
-			clazzType = class_getSuperclass( clazzType );
-			if ( nil == clazzType )
-				break;
-		}
-	}
-}
-
-@end
-
-#pragma mark -
-
 @implementation SamuraiModel
 
 BASE_CLASS( SamuraiModel )
@@ -193,7 +56,7 @@ BASE_CLASS( SamuraiModel )
 	if ( self )
 	{
 		[[SamuraiModelManager sharedInstance] addModel:self];
-		
+
 	//	[self modelLoad];
 	}
 	return self;
@@ -398,41 +261,13 @@ BASE_CLASS( SamuraiModel )
 
 @end
 
-@interface __TestMyClass : NSObject<ManagedObject, ManagedModel>
-
-@model( __TestModel *, model1 );
-@model( __TestModel *, model2 );
-
-@end
-
-@implementation __TestMyClass
-
-@def_model( __TestModel *, model1, Policy => new );
-@def_model( __TestModel *, model2, Policy => share );
-
-@end
-
 TEST_CASE( Model, ModelInstance )
+
+DESCRIBE( becore )
 {
-	
 }
 
-DESCRIBE( test1 )
-{
-	@autoreleasepool
-	{
-		__TestMyClass * test = [[__TestMyClass alloc] init];
-		
-		EXPECTED( nil != test.model1 );
-		EXPECTED( nil != test.model2 );
-		EXPECTED( YES == [test.model1 hasSignalResponder:test] );
-		EXPECTED( YES == [test.model2 hasSignalResponder:test] );
-		
-		EXPECTED( test.model1 != test.model2 );
-	}
-}
-
-DESCRIBE( test2 )
+DESCRIBE( test )
 {
 	@autoreleasepool
 	{
@@ -448,29 +283,8 @@ DESCRIBE( test2 )
 	}
 }
 	
-DESCRIBE( test3 )
+DESCRIBE( after )
 {
-//	__TestModel * model = [[__TestModel alloc] init];
-//	
-//	[model modelLoad];
-//	
-//	EXPECTED( [model.number isEqualToNumber:@1] );
-//	EXPECTED( [model.array[0] isEqualToNumber:@1] );
-//	EXPECTED( [model.array[1] isEqualToNumber:@2] );
-//	EXPECTED( [model.array[2] isEqualToNumber:@3] );
-//	EXPECTED( [model.dict[@"hello"] isEqualToString:@"world"] );
-//	
-//	[model modelClear];
-//	
-//	EXPECTED( nil == model.number );
-//	EXPECTED( nil == model.array );
-//	EXPECTED( nil == model.dict );
-//	
-//	[model modelLoad];
-//	
-//	EXPECTED( nil == model.number );
-//	EXPECTED( nil == model.array );
-//	EXPECTED( nil == model.dict );
 }
 
 TEST_CASE_END

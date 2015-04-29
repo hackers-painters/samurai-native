@@ -151,7 +151,7 @@
 	UIEdgeInsets computedBorder = [self computeBorder:computedFrame.size];
 	UIEdgeInsets computedMargin = [self computeMargin:computedFrame.size];
 	UIEdgeInsets computedPadding = [self computePadding:computedFrame.size];
-	
+
 // compute size
 	
 	if ( [self.style isAutoWidth] && [self.style isAutoHeight] )

@@ -91,7 +91,7 @@
 
 - (BOOL)match:(NSString *)dataPath
 {
-	NSString * leftDataPath = self.target.dom.domName;
+	NSString * leftDataPath = self.target.dom.domName ?: self.target.dom.domTag;
 	NSString * rightDataPath = dataPath;
 	
 	if ( [leftDataPath hasSuffix:@"[]"] )

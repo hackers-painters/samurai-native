@@ -45,24 +45,6 @@
 
 #pragma mark -
 
-hookAfter( load, SignalResponder )
-{
-}
-
-hookBefore( unload, SignalResponder )
-{
-	NSMutableArray * responders = [self getAssociatedObjectForKey:"signalResponders"];
-
-	if ( responders )
-	{
-		[responders removeAllObjects];
-		
-		[self removeAssociatedObjectForKey:"signalResponders"];
-	}
-}
-
-#pragma mark -
-
 - (SamuraiSignalBlock)onSignal
 {
 	@weakify( self );
@@ -95,17 +77,26 @@ hookBefore( unload, SignalResponder )
 
 #pragma mark -
 
-- (id)signalResponders
+- (id)signalRespondersOrCreate
 {
 	const char * storeKey = "signalResponders";
 	
 	NSMutableArray * responders = [self getAssociatedObjectForKey:storeKey];
+	
 	if ( nil == responders )
 	{
 		responders = [NSMutableArray nonRetainingArray];
+		
 		[self retainAssociatedObject:responders forKey:storeKey];
 	}
 	return responders;
+}
+
+- (id)signalResponders
+{
+	const char * storeKey = "signalResponders";
+	
+	return [self getAssociatedObjectForKey:storeKey];
 }
 
 - (id)signalAlias
@@ -115,8 +106,7 @@ hookBefore( unload, SignalResponder )
 
 - (BOOL)hasSignalResponder:(id)obj
 {
-	NSObject *		object = [self signalResponders];
-	EncodingType	objectType = [SamuraiEncoding typeOfObject:object];
+	NSObject * object = [self signalResponders];
 	
 	if ( nil == object )
 	{
@@ -124,6 +114,8 @@ hookBefore( unload, SignalResponder )
 	}
 	else
 	{
+		EncodingType objectType = [SamuraiEncoding typeOfObject:object];
+
 		if ( EncodingType_Array == objectType )
 		{
 			NSArray * responders = (NSArray *)object;
@@ -150,10 +142,12 @@ hookBefore( unload, SignalResponder )
 
 - (void)addSignalResponder:(id)obj
 {
-	NSObject * object = [self signalResponders];
+	NSObject * object = [self signalRespondersOrCreate];
+	
 	if ( object && [object isKindOfClass:[NSMutableArray class]] )
 	{
 		NSMutableArray * responders = (NSMutableArray *)object;
+		
 		if ( NO == [responders containsObject:obj] )
 		{
 			[responders addObject:obj];
@@ -164,9 +158,11 @@ hookBefore( unload, SignalResponder )
 - (void)removeSignalResponder:(id)obj
 {
 	NSObject * object = [self signalResponders];
+	
 	if ( object && [object isKindOfClass:[NSMutableArray class]] )
 	{
 		NSMutableArray * responders = (NSMutableArray *)object;
+		
 		if ( [responders containsObject:obj] )
 		{
 			[responders removeObject:obj];
@@ -177,11 +173,15 @@ hookBefore( unload, SignalResponder )
 - (void)removeAllSignalResponders
 {
 	NSObject * object = [self signalResponders];
+	
 	if ( object && [object isKindOfClass:[NSMutableArray class]] )
 	{
 		NSMutableArray * responders = (NSMutableArray *)object;
+
 		[responders removeAllObjects];
 	}
+
+	[self removeAssociatedObjectForKey:"signalResponders"];
 }
 
 - (NSString *)signalNamespace

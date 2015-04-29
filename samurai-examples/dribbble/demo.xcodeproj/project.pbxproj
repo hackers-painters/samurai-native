@@ -54,6 +54,8 @@
 		CB1C88E21ADD5823006172BD /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB1C88E01ADD5823006172BD /* Info.plist */; };
 		CB1C88E31ADD5823006172BD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CB1C88E11ADD5823006172BD /* main.m */; };
 		CB1C8CCB1ADFB0C9006172BD /* WelcomeActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = CB1C8CCA1ADFB0C9006172BD /* WelcomeActivity.m */; };
+		CB56B15B1AF0C5DF0028CC35 /* View+Binding.m in Sources */ = {isa = PBXBuildFile; fileRef = CB56B15A1AF0C5DF0028CC35 /* View+Binding.m */; };
+		CB56B15E1AF0C5E40028CC35 /* ViewController+Binding.m in Sources */ = {isa = PBXBuildFile; fileRef = CB56B15D1AF0C5E40028CC35 /* ViewController+Binding.m */; };
 		CB68B7601AEFA8D900C30C40 /* www in Resources */ = {isa = PBXBuildFile; fileRef = CB68B75F1AEFA8D900C30C40 /* www */; };
 		CBA2879E1AEBC69F00ADD6F5 /* Samurai_CssParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CBA2871E1AEBC69E00ADD6F5 /* Samurai_CssParser.m */; };
 		CBA2879F1AEBC69F00ADD6F5 /* Samurai_CssProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = CBA287201AEBC69E00ADD6F5 /* Samurai_CssProtocol.m */; };
@@ -410,6 +412,10 @@
 		CB1C88E11ADD5823006172BD /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CB1C8CC91ADFB0C9006172BD /* WelcomeActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeActivity.h; sourceTree = "<group>"; };
 		CB1C8CCA1ADFB0C9006172BD /* WelcomeActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeActivity.m; sourceTree = "<group>"; };
+		CB56B1591AF0C5DF0028CC35 /* View+Binding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+Binding.h"; sourceTree = "<group>"; };
+		CB56B15A1AF0C5DF0028CC35 /* View+Binding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "View+Binding.m"; sourceTree = "<group>"; };
+		CB56B15C1AF0C5E40028CC35 /* ViewController+Binding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+Binding.h"; sourceTree = "<group>"; };
+		CB56B15D1AF0C5E40028CC35 /* ViewController+Binding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+Binding.m"; sourceTree = "<group>"; };
 		CB68B75F1AEFA8D900C30C40 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		CB9472FC1963EEFB007EBA35 /* demo_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = demo_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBA2871D1AEBC69E00ADD6F5 /* Samurai_CssParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CssParser.h; sourceTree = "<group>"; };
@@ -1610,12 +1616,16 @@
 				CBD8D5141ADAAFDE0017A6C4 /* Signal+View.m */,
 				CBD8D5151ADAAFDE0017A6C4 /* Signal+ViewController.h */,
 				CBD8D5161ADAAFDE0017A6C4 /* Signal+ViewController.m */,
+				CB56B1591AF0C5DF0028CC35 /* View+Binding.h */,
+				CB56B15A1AF0C5DF0028CC35 /* View+Binding.m */,
 				CBD8D5171ADAAFDE0017A6C4 /* View+Query.h */,
 				CBD8D5181ADAAFDE0017A6C4 /* View+Query.m */,
 				CBD8D5191ADAAFDE0017A6C4 /* View+Signal.h */,
 				CBD8D51A1ADAAFDE0017A6C4 /* View+Signal.m */,
 				CBD8D51B1ADAAFDE0017A6C4 /* View+Template.h */,
 				CBD8D51C1ADAAFDE0017A6C4 /* View+Template.m */,
+				CB56B15C1AF0C5E40028CC35 /* ViewController+Binding.h */,
+				CB56B15D1AF0C5E40028CC35 /* ViewController+Binding.m */,
 				CBD8D51D1ADAAFDE0017A6C4 /* ViewController+NavigationBar.h */,
 				CBD8D51E1ADAAFDE0017A6C4 /* ViewController+NavigationBar.m */,
 				CBD8D51F1ADAAFDE0017A6C4 /* ViewController+Query.h */,
@@ -2143,6 +2153,7 @@
 				CBD8D7361ADAAFDF0017A6C4 /* Samurai_XmlSupport.m in Sources */,
 				CBD8D7611ADAAFDF0017A6C4 /* Samurai_ResourceFetcher.m in Sources */,
 				CBD8D7561ADAAFDF0017A6C4 /* Samurai_EventPinchGesture.m in Sources */,
+				CB56B15E1AF0C5E40028CC35 /* ViewController+Binding.m in Sources */,
 				CBA287A11AEBC69F00ADD6F5 /* Samurai_HtmlDocument.m in Sources */,
 				CBD8D7451ADAAFDF0017A6C4 /* Samurai_UITextView.m in Sources */,
 				CBD8D73E1ADAAFDF0017A6C4 /* Samurai_UIProgressView.m in Sources */,
@@ -2186,6 +2197,7 @@
 				CBD8D74C1ADAAFDF0017A6C4 /* Samurai_ActivityStackGroup.m in Sources */,
 				CBA288431AEBC7DE00ADD6F5 /* Samurai_HtmlNumber.m in Sources */,
 				CBD8D76B1ADAAFDF0017A6C4 /* Samurai_App.m in Sources */,
+				CB56B15B1AF0C5DF0028CC35 /* View+Binding.m in Sources */,
 				CBA287B71AEBC69F00ADD6F5 /* Samurai_HtmlRenderWorklet_40Finish.m in Sources */,
 				CBD8D79F1ADAAFDF0017A6C4 /* ServiceInspector.m in Sources */,
 				CBA288461AEBC7DE00ADD6F5 /* Samurai_HtmlNumberEm.m in Sources */,

@@ -163,7 +163,7 @@
 			}
 			else if ( NSOrderedSame == [child.domTag compare:@"title" options:NSCaseInsensitiveSearch] )
 			{
-				navbarTitle = [child computeInnerText];
+				navbarTitle = [[child computeInnerText] normalize];
 			}
 		}
 	}

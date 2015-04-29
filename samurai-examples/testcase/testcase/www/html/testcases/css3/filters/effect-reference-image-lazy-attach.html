@@ -1,0 +1,28 @@
+<body>
+
+<style>
+  #filtered {
+    width: 160px;
+    height: 90px;
+    -webkit-filter: url(#imagereplace);
+    filter: url(#imagereplace);
+  }
+</style>
+
+<script type="text/html" id="source">
+    <div id="filtered"></div>
+    <svg xmlns="http://www.w3.org/3000/svg" width="0" height="0" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <filter id="imagereplace">
+         <feimage xlink:href="resources/reference.png"/>
+      </filter>
+    </svg>
+</script>
+
+<script>
+    document.body.offsetLeft;
+    var div = document.createElement('div');
+    div.innerHTML = document.getElementById('source').textContent;
+    document.body.appendChild(div);
+</script>
+
+</body>

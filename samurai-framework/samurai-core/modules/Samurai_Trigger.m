@@ -51,33 +51,7 @@
 
 #pragma mark -
 
-@implementation NSObject(Trigger)
-
-typedef id		( * InitFunc )( id, SEL );
-typedef void	( * DeallocFunc )( id, SEL );
-
-static InitFunc					__origInit = nil;
-static DeallocFunc				__origDealloc = nil;
-
-+ (void)hookInit
-{
-	Method origMethod	= class_getInstanceMethod( [NSObject class], NSSelectorFromString(@"init")/*@selector(init)*/ );
-	Method newMethod	= class_getInstanceMethod( [NSObject class], NSSelectorFromString(@"managedInit")/*@selector(managedInit)*/ );
-
-	__origInit = (InitFunc)method_getImplementation( origMethod );
-	
-	method_exchangeImplementations( origMethod, newMethod );
-}
-
-+ (void)hookDealloc
-{
-	Method origMethod	= class_getInstanceMethod( [NSObject class], NSSelectorFromString(@"dealloc")/*@selector(dealloc)*/ );
-	Method newMethod	= class_getInstanceMethod( [NSObject class], NSSelectorFromString(@"managedDealloc")/*@selector(managedDealloc)*/ );
-	
-	__origDealloc = (DeallocFunc)method_getImplementation( origMethod );
-	
-	method_exchangeImplementations( origMethod, newMethod );
-}
+@implementation NSObject(Loader)
 
 - (void)load
 {
@@ -85,36 +59,6 @@ static DeallocFunc				__origDealloc = nil;
 
 - (void)unload
 {
-}
-
-- (id)managedInit
-{
-	if ( self )
-	{
-		__origInit( self, _cmd );
-		
-		BOOL managed = [self conformsToProtocol:@protocol(ManagedObject)];
-		if ( managed )
-		{
-			[self performLoad];
-		}
-	}
-	
-	return (id)self;
-}
-
-- (void)managedDealloc
-{
-	if ( self )
-	{
-		BOOL managed = [self conformsToProtocol:@protocol(ManagedObject)];
-		if ( managed )
-		{
-			[self performUnload];
-		}
-		
-		__origDealloc( self, _cmd );
-	}
 }
 
 - (void)performLoad
@@ -130,6 +74,12 @@ static DeallocFunc				__origDealloc = nil;
 	[self performCallChainWithSelector:@selector(unload) reversed:YES];
 	[self performCallChainWithPrefix:@"after_unload" reversed:YES];	
 }
+
+@end
+
+#pragma mark -
+
+@implementation NSObject(Trigger)
 
 + (void)performSelectorWithPrefix:(NSString *)prefixName
 {
@@ -322,38 +272,6 @@ static DeallocFunc				__origDealloc = nil;
 
 @end
 
-#pragma mark -
-
-@implementation SamuraiManagedContext
-
-@def_singleton( SamuraiManagedContext )
-
-+ (void)classAutoLoad
-{
-	[SamuraiManagedContext sharedInstance];
-}
-
-- (id)init
-{
-	self = [super init];
-	if ( self )
-	{
-	#if __ENABLE_MANAGED_OBJECT__
-		
-		[NSObject hookInit];
-		[NSObject hookDealloc];
-		
-	#endif
-	}
-	return self;
-}
-
-- (void)dealloc
-{
-}
-
-@end
-
 // ----------------------------------
 // Unit test
 // ----------------------------------
@@ -362,96 +280,16 @@ static DeallocFunc				__origDealloc = nil;
 
 #if __SAMURAI_TESTING__
 
-static NSInteger __before = 0;
-static NSInteger __value = 0;
-static NSInteger __after = 0;
-
-// Non-Managed Class
-
-@interface __TestClass1 : NSObject
-@end
-
-@implementation __TestClass1
-- (void)load { __value += 1; }
-- (void)unload { __value -= 1; }
-@end
-
-// Managed Class
-
-@interface __TestClass2 : __TestClass1<ManagedObject>
-@end
-
-@implementation __TestClass2
-- (void)load { __value += 1; }
-- (void)unload { __value -= 1; }
-@end
-
-// Hook 1
-
-@implementation __TestClass1(Hook)
-
-hookBefore( load ) { __before += 1; }
-hookAfter( load ) { __after += 1; }
-
-hookBefore( unload ) { __before -= 1; }
-hookAfter( unload ) { __after -= 1; }
-
-@end
-
-// Hook 2
-
-@implementation __TestClass2(Hook)
-
-hookBefore( load ) { __before += 1; }
-hookAfter( load ) { __after += 1; }
-
-hookBefore( unload ) { __before -= 1; }
-hookAfter( unload ) { __after -= 1; }
-
-@end
-
 TEST_CASE( Core, Object )
 {
 }
 
 DESCRIBE( before )
 {
-	EXPECTED( 0 == __value );
-	EXPECTED( 0 == __before );
-	EXPECTED( 0 == __after );
-}
-
-DESCRIBE( test1 )
-{
-	@autoreleasepool
-	{
-		__TestClass1 * obj1 = [[__TestClass1 alloc] init];
-		UNUSED( obj1 )
-		
-		EXPECTED( 0 == __value );
-		EXPECTED( 0 == __before );
-		EXPECTED( 0 == __after );
-	}
-}
-
-DESCRIBE( test2 )
-{
-	@autoreleasepool
-	{
-		__TestClass2 * obj2 = [[__TestClass2 alloc] init];
-		UNUSED( obj2 )
-
-		EXPECTED( 2 == __value );
-		EXPECTED( 2 == __before );
-		EXPECTED( 2 == __after );
-	}
 }
 
 DESCRIBE( after )
 {
-	EXPECTED( 0 == __value );
-	EXPECTED( 0 == __before );
-	EXPECTED( 0 == __after );
 }
 
 TEST_CASE_END

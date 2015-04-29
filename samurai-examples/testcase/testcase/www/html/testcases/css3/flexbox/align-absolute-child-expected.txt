@@ -1,0 +1,18 @@
+PASS beforePosition[key] is afterPosition[key]
+PASS beforePosition[key] is afterPosition[key]
+PASS beforePosition[key] is afterPosition[key]
+PASS beforePosition[key] is afterPosition[key]
+PASS beforePosition[key] is afterPosition[key]
+PASS beforePosition[key] is afterPosition[key]
+PASS successfullyParsed is true
+
+TEST COMPLETE
+PASS
+PASS
+PASS
+PASS
+PASS
+PASS
+PASS
+PASS
+PASS

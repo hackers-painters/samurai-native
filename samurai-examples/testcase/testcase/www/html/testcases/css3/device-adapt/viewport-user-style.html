@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User stylesheet containing an @viewport rule</title>
+    <script src="../../resources/testharness.js"></script>
+    <script src="../../resources/testharnessreport.js"></script>
+    <style>
+        html, body { width: 100%; height: 100%; margin: 0 }
+
+        @viewport {
+            height: 2000px;
+        }
+    </style>
+    <script>
+        test(function(){
+            assert_own_property(window, "testRunner");
+        }, "Check that window.testRunner is present. Required to add a user stylesheet.");
+
+        if (window.testRunner) {
+            testRunner.injectStyleSheet("@viewport { width: 450px; height: auto; zoom: auto; min-zoom: auto; max-zoom: auto }", true);
+        }
+    </script>
+</head>
+<body>
+    <div id="log"></div>
+    <script>
+        test(function(){
+            assert_own_property(window, "internals");
+        }, "Check that window.internals is present. Required to call viewportAsText.");
+
+        var actualWidth;
+        var actualHeight;
+
+        document.body.offsetHeight;
+
+        var vpString = internals.viewportAsText(document, 1, 320, 352);
+        var match = /viewport size (.+)x(.+) scale (.+ )/.exec(vpString);
+
+        if (match) {
+            actualWidth = parseFloat(match[1]);
+            actualHeight = parseFloat(match[2]);
+        }
+
+        test(function(){
+            assert_equals(actualWidth, 450);
+        }, "Check that we get the viewport width from the user stylesheet.");
+
+        test(function(){
+            assert_equals(actualHeight, 2000);
+        }, "Check that we get the viewport height from the author stylesheet.");
+    </script>
+</body>
+</html>

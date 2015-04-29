@@ -258,7 +258,7 @@
 
 - (void)reloadData
 {
-	self.viewStorage[ @"tabbar" ] = @{
+	self[ @"tabbar" ] = @{
 	
 		@"popular" : ({
 			
@@ -311,7 +311,7 @@
 		
 	};
 
-	self.viewStorage[ @"list" ] = @{
+	self[ @"list" ] = @{
 
 		@"shots" : ({
 			

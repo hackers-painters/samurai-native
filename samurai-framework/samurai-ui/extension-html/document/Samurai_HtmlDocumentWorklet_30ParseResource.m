@@ -193,7 +193,7 @@ typedef enum
 	NSString * type = [node.domAttributes objectForKey:@"type"];
 	NSString * href = [node.domAttributes objectForKey:@"href"];
 	NSString * media = [node.domAttributes objectForKey:@"media"];
-	NSString * content = [[node computeInnerText] trim];
+	NSString * content = [node computeInnerText];
 	
 	if ( nil == type || 0 == [type length] )
 	{

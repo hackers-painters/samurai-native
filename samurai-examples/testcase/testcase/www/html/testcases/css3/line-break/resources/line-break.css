@@ -1,0 +1,12 @@
+div > div {
+  font-family: 'Lucida Grande';
+  font-size: 12px;
+  width: 4.1em;
+  float: left;
+}
+div > p {
+  border: solid blue 1px;
+}
+br.clear {
+  clear: left;
+}

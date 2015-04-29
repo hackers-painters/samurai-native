@@ -40,6 +40,12 @@ typedef void ( *ImpFuncType )( id a, SEL b, void * c );
 
 #pragma mark -
 
+#undef	joint
+#define joint( name )						property (nonatomic, readonly) NSString * __name
+
+#undef	def_joint
+#define def_joint( name	)					dynamic __name
+
 #define	hookBefore( name, ... )				hookBefore_( macro_concat(before_, name), __VA_ARGS__)
 #define	hookBefore_( name, ... )			- (void) macro_join(name, __VA_ARGS__)
 
@@ -47,9 +53,6 @@ typedef void ( *ImpFuncType )( id a, SEL b, void * c );
 #define	hookAfter_( name, ... )				- (void) macro_join(name, __VA_ARGS__)
 
 #pragma mark -
-
-#define	callChain( target, name )			[target performCallChainWithName:@(#name) reversed:NO]
-#define	callChainR( target, name )			[target performCallChainWithName:@(#name) reversed:YES]
 
 #define trigger( target, prefix, name )		[target performCallChainWithPrefix:macro_string(macro_concat(prefix, name)) reversed:NO]
 #define triggerR( target, prefix, name )	[target performCallChainWithPrefix:macro_string(macro_concat(prefix, name)) reversed:YES]
@@ -60,36 +63,24 @@ typedef void ( *ImpFuncType )( id a, SEL b, void * c );
 #define triggerAfter( target, name )		[target performCallChainWithPrefix:macro_string(macro_concat(after_, name)) reversed:NO]
 #define triggerAfterR( target, name )		[target performCallChainWithPrefix:macro_string(macro_concat(after_, name)) reversed:YES]
 
-#pragma mark -
-
-#undef	joint
-#define joint( name ) \
-		property (nonatomic, readonly) NSString * __name
-
-#undef	def_joint
-#define def_joint( name ) \
-		dynamic __name
+#define	callChain( target, name )			[target performCallChainWithName:@(#name) reversed:NO]
+#define	callChainR( target, name )			[target performCallChainWithName:@(#name) reversed:YES]
 
 #pragma mark -
 
-@protocol ManagedObject <NSObject>
-@optional
-- (void)load;
-- (void)unload;
-@end
-
-#pragma mark -
-
-@interface NSObject(Trigger)
-
-+ (void)hookInit;
-+ (void)hookDealloc;
+@interface NSObject(Loader)
 
 - (void)load;
 - (void)unload;
 
 - (void)performLoad;
 - (void)performUnload;
+
+@end
+
+#pragma mark -
+
+@interface NSObject(Trigger)
 
 + (void)performSelectorWithPrefix:(NSString *)prefix;
 - (void)performSelectorWithPrefix:(NSString *)prefix;
@@ -102,13 +93,5 @@ typedef void ( *ImpFuncType )( id a, SEL b, void * c );
 
 - (id)performCallChainWithName:(NSString *)name;
 - (id)performCallChainWithName:(NSString *)name reversed:(BOOL)flag;
-
-@end
-
-#pragma mark -
-
-@interface SamuraiManagedContext : NSObject
-
-@singleton( SamuraiManagedContext )
 
 @end

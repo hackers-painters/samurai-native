@@ -104,19 +104,6 @@
 	return [block copy];
 }
 
-hookAfter( load, Notification )
-{
-	if ( [self conformsToProtocol:@protocol(ManagedNotification)] )
-	{
-		[self observeAllNotifications];
-	}
-}
-
-hookBefore( unload, Notification )
-{
-	[self unobserveAllNotifications];
-}
-
 - (void)observeNotification:(NSString *)name
 {
 	[[SamuraiNotificationCenter sharedInstance] addObserver:self forNotification:name];
@@ -159,6 +146,7 @@ hookBefore( unload, Notification )
 - (void)unobserveAllNotifications
 {
 	NSArray * names = [self getAssociatedObjectForKey:"notificationNames"];
+	
 	if ( names && names.count )
 	{
 		for ( NSString * name in names )
@@ -215,22 +203,15 @@ hookBefore( unload, Notification )
 
 static NSInteger __value = 0;
 
-@interface __TestNotification : NSObject<ManagedObject, ManagedNotification>
+@interface __TestNotification : NSObject
+
 @notification( TEST )
+
 @end
 
 @implementation __TestNotification
 
 @def_notification( TEST )
-//@def_notification_alias( TEST2, __TestNotification.TEST )
-
-handleNotification( __TestNotification, TEST )
-{
-	EXPECTED( [notification.name isEqualToString:__TestNotification.TEST] );
-	EXPECTED( [notification.name isEqualToString:self.TEST] );
-
-	__value += 1;
-}
 
 @end
 
@@ -241,6 +222,8 @@ TEST_CASE( Event, Notification )
 
 DESCRIBE( before )
 {
+	[self observeAllNotifications];
+	
 	EXPECTED( 0 == __value );
 }
 
@@ -265,13 +248,20 @@ DESCRIBE( Send notification )
 	EXPECTED( 200 == __value );
 }
 
+handleNotification( __TestNotification, TEST )
+{
+	EXPECTED( [notification.name isEqualToString:__TestNotification.TEST] );
+	
+	__value += 1;
+}
+
 DESCRIBE( Handle notification )
 {
 	TIMES( 100 )
 	{
 		__block BOOL block1Executed = NO;
 		__block BOOL block2Executed = NO;
-		
+
 		self.onNotification( __TestNotification.TEST, ^( SamuraiNotification * notification ){
 			UNUSED( notification );
 			block1Executed = YES;
@@ -292,6 +282,7 @@ DESCRIBE( Handle notification )
 
 DESCRIBE( after )
 {
+	[self unobserveAllNotifications];
 }
 
 TEST_CASE_END

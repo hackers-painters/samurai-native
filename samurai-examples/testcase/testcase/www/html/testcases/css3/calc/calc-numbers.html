@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<style>
+.int {
+    tab-size: calc(2 * 4);
+}
+.int-non-neg-invalid {
+    tab-size: 12345;
+    tab-size: calc(2 * -4);
+}
+.float {
+    opacity: calc(2 / 4);
+}
+.float-invalid {
+    tab-size: 12345;
+    tab-size: calc(2 / 4);
+}
+.px-invalid {
+    tab-size: 12345;
+    tab-size: calc((2 + 4) * 1px);
+}
+</style>
+<div class="default int"></div>
+<div class="default int-non-neg-invalid"></div>
+<div class="default float"></div>
+<div class="default float-invalid"></div>
+<div class="default px-invalid"></div>
+<script src="../../resources/js-test.js"></script>
+<script>
+if (window.testRunner)
+    testRunner.dumpAsText();
+
+function getComputedValue(selector, property) {
+    return getComputedStyle(document.querySelector(selector))[property];
+}
+
+shouldBe('getComputedValue(".int", "tabSize")', '"8"');
+shouldBe('getComputedValue(".int-non-neg-invalid", "tabSize")', '"12345"');
+shouldBe('getComputedValue(".float", "opacity")', '"0.5"');
+shouldBe('getComputedValue(".float-invalid", "tabSize")', '"12345"');
+shouldBe('getComputedValue(".px-invalid", "tabSize")', '"12345"');
+</script>

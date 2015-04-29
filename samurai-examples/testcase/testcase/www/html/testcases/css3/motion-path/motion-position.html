@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="../../resources/testharness.js"></script>
+<script src="../../resources/testharnessreport.js"></script>
+<style>
+#div2 {
+    motion-position: 0;
+}
+#div3 {
+    motion-position: 100px;
+}
+#div4 {
+    motion-position: -200px;
+}
+#div5 {
+    motion-position: 50%;
+}
+#div6 {
+    motion-position: inherit;
+}
+</style>
+</head>
+<body>
+<div id="div1"></div>
+<div id="div2"></div>
+<div id="div3"></div>
+<div id="div4"></div>
+<div id="div5">
+    <div id="div6"></div>
+    <div id="div7"></div>
+</div>
+<span id="span1" style="motion-position: 25%"></span>
+<script>
+"use strict";
+
+test(function() {
+    assert_equals(getComputedStyle(div1, null).motionPosition, '0px');
+}, 'motion-position default is 0px');
+
+test(function() {
+    assert_equals(getComputedStyle(div2, null).motionPosition, '0px');
+}, 'motion-position 0 is 0px');
+
+test(function() {
+    assert_equals(getComputedStyle(div3, null).motionPosition, '100px');
+}, 'motion-position can be positive');
+
+test(function() {
+    assert_equals(getComputedStyle(div4, null).motionPosition, '0px');
+}, 'motion-position does not allow negative values');
+
+test(function() {
+    assert_equals(getComputedStyle(div5, null).motionPosition, '50%');
+}, 'motion-position can be a percentage');
+
+test(function() {
+    assert_equals(getComputedStyle(div6, null).motionPosition, '50%');
+}, 'motion-position can be explicitly inherited');
+
+test(function() {
+    assert_equals(getComputedStyle(div7, null).motionPosition, '0px');
+}, 'motion-position is not inherited by default');
+
+test(function() {
+    assert_equals(span1.style.motionPosition, '25%');
+}, 'motion-position style can be set inline');
+
+</script>
+</body>
+</html>

@@ -39,32 +39,6 @@
 
 #pragma mark -
 
-@implementation SamuraiModel(Hook)
-
-hookBefore( load, ModelManager )
-{
-	[[SamuraiModelManager sharedInstance] addModel:self];
-}
-
-hookAfter( load, ModelManager )
-{
-//	[self loadCache];
-}
-
-hookBefore( unload, ModelManager )
-{
-//	[self saveCache];
-}
-
-hookAfter( unload, ModelManager )
-{
-	[[SamuraiModelManager sharedInstance] removeModel:self];
-}
-
-@end
-
-#pragma mark -
-
 @implementation SamuraiModelManager
 {
 	NSMutableArray * _models;
@@ -79,6 +53,7 @@ hookAfter( unload, ModelManager )
 	for ( NSString * className in [SamuraiModel subClasses] )
 	{
 		Class classType = NSClassFromString( className );
+
 		if ( nil == classType )
 			continue;
 

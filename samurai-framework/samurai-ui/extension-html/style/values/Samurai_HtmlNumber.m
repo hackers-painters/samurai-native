@@ -177,7 +177,7 @@
 
 - (CGFloat)computeValue:(CGFloat)value
 {
-	return 0.0f;
+	return INVALID_VALUE;
 }
 
 @end
