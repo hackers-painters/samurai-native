@@ -11,8 +11,8 @@ samurai-native enables you to build native apps using web technologies (HTML/CSS
 
 * [Testcase](https://github.com/hackers-painters/samurai-native/tree/master/samurai-examples/testcase): Web-Core compatibility test.
 * [UICatalog](https://github.com/hackers-painters/samurai-native/tree/master/samurai-examples/catalog): UIKit components usage.
-* [Movie app](https://github.com/hackers-painters/samurai-native/tree/master/samurai-examples/movie): Demo app using `api.rottentomatoes.com`
-* [Dribbble app](https://github.com/hackers-painters/samurai-native/tree/master/samurai-examples/demo): Demo app using `api.dribbble.com`
+* [Movie app](https://github.com/hackers-painters/samurai-native/tree/master/samurai-examples/movie): A demo app using `api.rottentomatoes.com`
+* [Dribbble app](https://github.com/hackers-painters/samurai-native/tree/master/samurai-examples/demo): A demo app using `api.dribbble.com`
 
 ## Quick preview
 
