@@ -74,6 +74,7 @@ typedef enum
 @interface NSObject(SignalResponder)
 
 @prop_readonly( SamuraiSignalBlock, onSignal );
+@prop_readonly( NSMutableArray *,	userResponders );
 
 - (id)signalResponders;				// override point
 - (id)signalAlias;					// override point

@@ -36,9 +36,38 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_UIView.h"
+
+#pragma mark -
+
+@interface SamuraiUIScrollViewAgent : NSObject<UIScrollViewDelegate>
+
+@prop_assign( BOOL,				scrollEventsEnabled )
+@prop_unsafe( UIScrollView *,	scrollView )
+
+@end
+
 #pragma mark -
 
 @interface UIScrollView(Samurai)
+
+@signal( eventDidScroll );
+@signal( eventDidZoom );
+
+@signal( eventWillBeginDragging );
+@signal( eventWillEndDragging );
+@signal( eventDidEndDragging );
+
+@signal( eventWillBeginDecelerating );
+@signal( eventDidEndDecelerating );
+@signal( eventDidEndScrolling );
+
+@signal( eventWillBeginZooming );
+@signal( eventDidEndZooming );
+@signal( eventDidScrollToTop );
+
+- (SamuraiUIScrollViewAgent *)scrollViewAgent;
+
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

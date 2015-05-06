@@ -36,6 +36,9 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_UIView.h"
+#import "Samurai_UIScrollView.h"
+
 #pragma mark -
 
 @interface SamuraiUICollectionViewSection : NSObject
@@ -72,7 +75,7 @@
 
 #pragma mark -
 
-@interface SamuraiUICollectionViewAgent : NSObject<UICollectionViewDelegate, UICollectionViewDataSource>
+@interface SamuraiUICollectionViewAgent : SamuraiUIScrollViewAgent<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @prop_strong( NSMutableArray *,		sections );
 @prop_unsafe( UICollectionView *,	collectionView );

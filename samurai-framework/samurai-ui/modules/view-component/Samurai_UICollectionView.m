@@ -54,6 +54,8 @@
 @def_prop_unsafe( UICollectionView *,		collectionView );
 @def_prop_strong( NSString *,				reuseIdentifier );
 
+#pragma mark -
+
 - (id)init
 {
 	self = [super init];
@@ -282,6 +284,7 @@
 //			[reuseCell zerolize];
 //		}
 
+		[reuseRenderer rechain];
 		[reuseRenderer relayout];
 	}
 	
@@ -619,16 +622,33 @@
 {
 	UICollectionViewLayout *	collectionLayout = [[UICollectionViewLayout alloc] init];
 	UICollectionView *			collectionView = [[self alloc] initWithFrame:CGRectZero collectionViewLayout:collectionLayout];
-
-	SamuraiUICollectionViewAgent * agent = [collectionView collectionViewAgent];
 	
 	collectionView.renderer = renderer;
-	collectionView.delegate = agent;
-	collectionView.dataSource = agent;
-	
-	[agent constructSections:renderer];
+	[[collectionView collectionViewAgent] constructSections:renderer];
 
 	return collectionView;
+}
+
+#pragma mark -
+
++ (BOOL)supportTapGesture
+{
+	return YES;
+}
+
++ (BOOL)supportSwipeGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPinchGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPanGesture
+{
+	return YES;
 }
 
 #pragma mark -
@@ -640,7 +660,11 @@
 	if ( nil == agent )
 	{
 		agent = [[SamuraiUICollectionViewAgent alloc] init];
+		agent.scrollView = self;
 		agent.collectionView = self;
+
+		self.delegate = agent;
+		self.dataSource = agent;
 
 		[self retainAssociatedObject:agent forKey:"UICollectionView.agent"];
 	}

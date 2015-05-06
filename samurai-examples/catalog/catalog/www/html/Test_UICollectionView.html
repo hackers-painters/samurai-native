@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+
+<html class="no-js no-scroll" lang="">
+	
+	<head>
+		
+		<title>UICollectionView</title>
+		
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		
+		<meta name="description" content=""/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<link rel="stylesheet" type="text/css" href="../css/normalize.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/main.css"/>
+		
+	</head>
+	
+	<body>
+
+		<UICollectionView name="sections" columns="2" is-vertical>
+
+			<UICollectionViewCell name="section0" class="cell0" is-static is-row onclick="signal('test')">
+				
+				<UICollectionView id="banners" class="scroller" is-horizontal is-paging>
+					<UICollectionViewCell class="banner1" is-static is-row>
+						Banner 1
+					</UICollectionViewCell>
+					<UICollectionViewCell class="banner2" is-static is-row>
+						Banner 2
+					</UICollectionViewCell>
+					<UICollectionViewCell class="banner3" is-static is-row>
+						Banner 3
+					</UICollectionViewCell>
+				</UICollectionView>
+				
+				<UIPageControl class="pager" for="banners"></UIPageControl>
+				
+			</UICollectionViewCell>
+
+			<UICollectionViewCell name="section1" class="cell1" is-static is-row stick-top onclick="signal('test')">
+				<p>Section 1 - Static row</p>
+			</UICollectionViewCell>
+
+			<UICollectionViewCell name="section2" class="cell2" is-dynamic is-row onclick="signal('test')">
+				<p>Section 2 - Dynamic row</p>
+			</UICollectionViewCell>
+
+			<UICollectionViewCell name="section3" class="cell3" is-static is-column onclick="signal('test')">
+				<p>Section 3 - Static column</p>
+			</UICollectionViewCell>
+
+			<UICollectionViewCell name="section4" class="cell4" is-dynamic is-column onclick="signal('test')">
+				<p>Section 4 - Dynamic column</p>
+			</UICollectionViewCell>
+
+			<UICollectionViewCell name="section5" class="cell5" is-dynamic is-row stick-top onclick="signal('test')">
+				<p>Section 5 - Dynamic row - Stick top</p>
+			</UICollectionViewCell>
+
+			<UICollectionViewCell name="section6" class="cell6" is-dynamic is-column onclick="signal('test')">
+				<p>Section 6 - Dynamic column</p>
+			</UICollectionViewCell>
+
+		</UICollectionView>
+
+		<style>
+			
+			body {
+				width: 100%;
+				height: 100%;
+				background-color: white;
+			}
+		
+			UICollectionView {
+				width: 100%;
+				height: 100%;
+				background-color: white;
+			}
+		
+			UICollectionViewCell {
+				border-radius: 4px;
+				border-color: darkgray;
+				border-width: 2px;
+			}
+
+			.cell0 {
+				width: 100%;
+				height: 140px;
+			}
+			
+			.scroller {
+				width: 100%;
+				height: 100%;
+			}
+			
+			.pager {
+				position: absolute;
+				display: block;
+				width: 100%;
+				height: 44px;
+				left: 0px;
+				bottom: 0px;
+				color: white;
+			}
+			
+			.banner1 {
+				width: 100%;
+				height: 100%;
+				color: white;
+				text-align: center;
+				background-color: red;
+			}
+			
+			.banner2 {
+				width: 100%;
+				height: 100%;
+				color: white;
+				text-align: center;
+				background-color: blue;
+			}
+			
+			.banner3 {
+				width: 100%;
+				height: 100%;
+				color: white;
+				text-align: center;
+				background-color: green;
+			}
+
+			p {
+				width: 100%;
+				height: 100%;
+				text-align: center;
+				font-size: 12px;
+			}
+
+			.cell1 {
+				height: 40px;
+				color: red;
+				background-color: #ccc;
+			}
+
+			.cell2 {
+				height: 40px;
+				color: green;
+			}
+
+			.cell3 {
+				height: 80px;
+				color: blue;
+			}
+
+			.cell4 {
+				height: 80px;
+				color: orange;
+			}
+
+			.cell5 {
+				height: 40px;
+				color: purple;
+				background-color: #ccc;
+			}
+
+			.cell6 {
+				height: 80px;
+				color: black;
+			}
+
+		</style>
+		
+	</body>
+	
+</html>

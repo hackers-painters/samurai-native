@@ -36,9 +36,27 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_UIView.h"
+
+#pragma mark -
+
+@interface SamuraiUISwitchAgent : NSObject
+
+@prop_unsafe( UISwitch *,	switchh );
+
+- (void)enableEvents;
+- (void)disableEvents;
+
+@end
+
 #pragma mark -
 
 @interface UISwitch(Samurai)
+
+@signal( eventValueChanged )
+
+- (SamuraiUISwitchAgent *)switchAgent;
+
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

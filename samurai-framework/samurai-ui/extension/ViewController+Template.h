@@ -43,6 +43,7 @@
 
 @interface UIViewController(Template)
 
+- (void)rechain;
 - (void)relayout;
 - (void)restyle;
 

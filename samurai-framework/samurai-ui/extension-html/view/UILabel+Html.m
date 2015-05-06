@@ -54,7 +54,7 @@
 {
 	[super html_applyDom:dom];
 	
-	self.text = [[dom computeInnerText] normalize];
+	self.text = [[[dom computeInnerText] normalize] trim];
 }
 
 - (void)html_applyStyle:(SamuraiHtmlStyle *)style
@@ -72,6 +72,38 @@
 - (void)html_applyFrame:(CGRect)newFrame
 {
 	[super html_applyFrame:newFrame];
+}
+
+- (void)html_forView:(UIView *)hostView
+{
+	if ( [hostView isKindOfClass:[UISlider class]] )
+	{
+		UISlider * control = (UISlider *)hostView;
+		
+		[control addTarget:self action:@selector(UISlider_valueChanged:) forControlEvents:UIControlEventValueChanged];
+	}
+	else if ( [hostView isKindOfClass:[UISwitch class]] )
+	{
+		UISwitch * control = (UISwitch *)hostView;
+		
+		[control addTarget:self action:@selector(UISwitch_valueChanged:) forControlEvents:UIControlEventValueChanged];
+	}
+}
+
+#pragma mark -
+
+- (void)UISlider_valueChanged:(UIView *)hostView;
+{
+	UISlider * control = (UISlider *)hostView;
+	
+	self.text = [NSString stringWithFormat:@"%f", control.value];
+}
+
+- (void)UISwitch_valueChanged:(UIView *)hostView;
+{
+	UISwitch * control = (UISwitch *)hostView;
+	
+	self.text = control.on ? @"On" : @"Off";
 }
 
 @end

@@ -60,6 +60,15 @@
 @def_signal( eventSwipeUp );
 @def_signal( eventSwipeDown );
 
+#pragma mark -
+
++ (BOOL)supportSwipeGesture
+{
+	return YES;
+}
+
+#pragma mark -
+
 - (void)__swipeGestureInternalCallback:(__SwipeGestureRecognizer *)gesture
 {
 	if ( UIGestureRecognizerStatePossible == gesture.state )

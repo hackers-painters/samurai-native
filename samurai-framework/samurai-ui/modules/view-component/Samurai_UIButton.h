@@ -36,9 +36,25 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_UIView.h"
+
+#pragma mark -
+
+@interface SamuraiUIButtonAgent : NSObject
+
+@prop_unsafe( UIButton *,	button );
+
+- (void)enableEvents;
+- (void)disableEvents;
+
+@end
+
 #pragma mark -
 
 @interface UIButton(Samurai)
+
+- (SamuraiUIButtonAgent *)buttonAgent;
+
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

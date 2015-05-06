@@ -48,6 +48,8 @@
 @prop_readonly( CGFloat,	pinchScale );
 @prop_readonly( CGFloat,	pinchVelocity );
 
++ (BOOL)supportPinchGesture;
+
 - (void)enablePinchGesture;
 - (void)enablePinchGestureWithSignal:(NSString *)signal;
 

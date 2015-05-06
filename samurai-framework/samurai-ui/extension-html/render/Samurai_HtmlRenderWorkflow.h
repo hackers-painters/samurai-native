@@ -55,4 +55,9 @@
 @interface SamuraiHtmlRenderWorkflow_UpdateFrame : SamuraiViewWorkflow
 @end
 
+#pragma mark -
+
+@interface SamuraiHtmlRenderWorkflow_UpdateChain : SamuraiViewWorkflow
+@end
+
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

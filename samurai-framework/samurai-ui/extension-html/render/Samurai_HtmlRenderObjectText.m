@@ -34,32 +34,11 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "HtmlText.h"
+
 // ----------------------------------
 // Source code
 // ----------------------------------
-
-#pragma mark -
-
-@interface __HtmlTextView : UILabel
-@end
-@implementation __HtmlTextView
-
-- (id)initWithFrame:(CGRect)frame
-{
-	self = [super initWithFrame:frame];
-	if ( self )
-	{
-		self.textAlignment = NSTextAlignmentLeft;
-		self.lineBreakMode = NSLineBreakByCharWrapping;
-	}
-	return self;
-}
-
-- (void)dealloc
-{
-}
-
-@end
 
 #pragma mark -
 
@@ -67,7 +46,7 @@
 
 + (Class)defaultViewClass
 {
-	return [__HtmlTextView class];
+	return [HtmlText class];
 }
 
 #pragma mark -
@@ -111,7 +90,7 @@
 	{
 		minHeight = [self.style.minHeight computeValue:bound.height];
 	}
-	
+
 	if ( self.style.maxWidth )
 	{
 		maxWidth = [self.style.maxWidth computeValue:bound.width];
@@ -125,7 +104,7 @@
 // compute width/height
 	
 	CGRect computedFrame;
- 
+
 	computedFrame.origin = CGPointZero; // bound.origin;
 	computedFrame.size = bound;
 
@@ -138,7 +117,7 @@
 	{
 		computedFrame.size.height = [self.style.height computeValue:bound.height];
 	}
-	
+
 // compute function
 	
 	if ( [self.style.width isFunction:@"equals"] )
@@ -186,7 +165,14 @@
 	}
 	else
 	{
-		computedFrame.size = bound;
+		if ( 1 == [self.parent.childs count] )
+		{
+			computedFrame.size = bound;
+		}
+		else
+		{
+			computedFrame.size = [self.view computeSizeBySize:bound];
+		}
 	}
 	
 // compute function
@@ -283,11 +269,11 @@
 	
 	CGRect outerBound;
 	
-	outerBound.origin = CGPointZero;
+	outerBound.origin = origin;
 	
 	outerBound.size.width = computedFrame.origin.x + computedFrame.size.width;
 	outerBound.size.height = computedFrame.origin.y + computedFrame.size.height;
-	
+
 	outerBound.size.width += computedPadding.left;
 	outerBound.size.width += computedPadding.right;
 	outerBound.size.height += computedPadding.top;
@@ -303,6 +289,21 @@
 	outerBound.size.height += computedMargin.top;
 	outerBound.size.height += computedMargin.bottom;
 
+// compute edge insets
+
+//	if ( self.view )
+//	{
+//		UIEdgeInsets edgeInsets = [self.view html_edgeInsets];
+//		
+//		innerBound.origin.x += edgeInsets.left;
+//		innerBound.origin.y += edgeInsets.top;
+//		
+//		outerBound.size.width += edgeInsets.left;
+//		outerBound.size.width += edgeInsets.right;
+//		outerBound.size.height += edgeInsets.top;
+//		outerBound.size.height += edgeInsets.bottom;
+//	}
+
 	self.frame = innerBound;
 	self.offset = origin;
 	
@@ -310,7 +311,7 @@
 	self.margin = computedMargin;
 	self.padding = computedPadding;
 	self.border = computedBorder;
-
+	
 	return outerBound;
 }
 

@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="">
+	
+	<head>
+		
+		<title>UIPageControl</title>
+		
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		
+		<meta name="description" content=""/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<link rel="stylesheet" type="text/css" href="../css/normalize.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/main.css"/>
+		
+	</head>
+	
+	<body>
+
+		<UICollectionView name="banners" id="list" class="list" is-horizontal is-paging>
+
+			<UICollectionViewCell name="banner1" class="cell1" is-static is-row>
+				Banner 1
+			</UICollectionViewCell>
+			
+			<UICollectionViewCell name="banner2" class="cell2" is-static is-row>
+				Banner 2
+			</UICollectionViewCell>
+			
+			<UICollectionViewCell name="banner3" class="cell3" is-static is-row>
+				Banner 3
+			</UICollectionViewCell>
+
+		</UICollectionView>
+
+		<UIPageControl class="pager" for="list"></UIPageControl>
+
+		<style>
+
+			body {
+				width: 100%;
+				height: auto;
+				background-color: white;
+				color: #999;
+				font-size: 14px;
+				text-align: left;
+			}
+		
+			.list {
+				width: 100%;
+				height: 300px;
+			}
+		
+			.cell1 {
+				width: 100%;
+				height: 100%;
+				color: white;
+				text-align: center;
+				background-color: red;
+			}
+
+			.cell2 {
+				width: 100%;
+				height: 100%;
+				color: white;
+				text-align: center;
+				background-color: blue;
+			}
+
+			.cell3 {
+				width: 100%;
+				height: 100%;
+				color: white;
+				text-align: center;
+				background-color: green;
+			}
+
+			.pager {
+				position: absolute;
+				display: block;
+				width: 100%;
+				height: 44px;
+				left: 0px;
+				bottom: 0px;
+				color: white;
+			}
+
+		</style>
+		
+	</body>
+	
+</html>

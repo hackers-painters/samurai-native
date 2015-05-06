@@ -41,23 +41,17 @@
 #pragma mark -
 
 @interface __TapGestureRecognizer : UITapGestureRecognizer
-
-@prop_assign( TapState,	tapState );
-
 @end
 
 #pragma mark -
 
 @implementation __TapGestureRecognizer
 
-@def_prop_assign( TapState,	tapState );
-
 - (id)initWithTarget:(id)target action:(SEL)action
 {
 	self = [super initWithTarget:target action:action];
 	if ( self )
 	{
-		self.tapState = TapState_Idle;
 	}
 	return self;
 }
@@ -70,41 +64,52 @@
 
 - (void)reset
 {
-	if ( TapState_Pressing == self.tapState || TapState_Moving == self.tapState )
+	TapState currState = [self.view tapState];
+	
+	if ( TapState_Pressing == currState )
 	{
-		[self changeState:TapState_Cancelled];
+		[self.view setTapState:TapState_Cancelled];
 	}
 
-	[self changeState:TapState_Idle];
+	[self.view setTapState:TapState_Idle];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	[super touchesBegan:touches withEvent:event];
-	
+
 	if ( UIGestureRecognizerStatePossible == self.state )
 	{
-		[self changeState:TapState_Pressing];
+		TapState currState = [self.view tapState];
+
+		if ( TapState_Idle == currState )
+		{
+			[self.view setTapState:TapState_Pressing];
+		}
 	}
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	[super touchesMoved:touches withEvent:event];
-	
-	if ( TapState_Pressing == self.tapState )
+
+	TapState currState = [self.view tapState];
+
+	if ( TapState_Pressing != currState )
 	{
-		[self changeState:TapState_Moving];
+		[self.view setTapState:TapState_Pressing];
 	}
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	[super touchesEnded:touches withEvent:event];
-	
-	if ( TapState_Pressing == self.tapState || TapState_Moving == self.tapState )
+
+	TapState currState = [self.view tapState];
+
+	if ( TapState_Pressing == currState )
 	{
-		[self changeState:TapState_Raised];
+		[self.view setTapState:TapState_Raised];
 	}
 }
 
@@ -112,66 +117,11 @@
 {
 	[super touchesCancelled:touches withEvent:event];
 
-	if ( TapState_Pressing == self.tapState || TapState_Moving == self.tapState )
+	TapState currState = [self.view tapState];
+
+	if ( TapState_Pressing == currState )
 	{
-		[self changeState:TapState_Cancelled];
-	}
-}
-
-- (void)changeState:(TapState)newState
-{
-	if ( newState != self.tapState )
-	{
-		triggerBefore( self.view, tapStateChanged );
-
-		self.tapState = newState;
-
-		if ( TapState_Pressing == self.tapState )
-		{
-//			if ( self.view.tapSignalName )
-//			{
-//				[self.view sendSignal:self.view.tapSignalName];
-//			}
-//			else
-			{
-				[self.view sendSignal:UIView.eventTapPressing];
-			}
-		}
-		else if ( TapState_Moving == self.tapState )
-		{
-//			if ( self.view.tapSignalName )
-//			{
-//				[self.view sendSignal:self.view.tapSignalName];
-//			}
-//			else
-			{
-				[self.view sendSignal:UIView.eventTapMoving];
-			}
-		}
-		else if ( TapState_Raised == self.tapState )
-		{
-			if ( self.view.tapSignalName )
-			{
-				[self.view sendSignal:self.view.tapSignalName];
-			}
-			else
-			{
-				[self.view sendSignal:UIView.eventTapRaised];
-			}
-		}
-		else if ( TapState_Cancelled == self.tapState )
-		{
-//			if ( self.view.tapSignalName )
-//			{
-//				[self.view sendSignal:self.view.tapSignalName];
-//			}
-//			else
-			{
-				[self.view sendSignal:UIView.eventTapCancelled];
-			}
-		}
-
-		triggerAfter( self.view, tapStateChanged );
+		[self.view setTapState:TapState_Cancelled];
 	}
 }
 
@@ -184,7 +134,6 @@
 @def_joint( tapStateChanged );
 
 @def_signal( eventTapPressing );	/// 按下
-@def_signal( eventTapMoving );		/// 移动
 @def_signal( eventTapRaised );		/// 抬起
 @def_signal( eventTapCancelled );	/// 取消
 
@@ -192,60 +141,68 @@
 
 @def_prop_dynamic( TapState,	tapState );
 @def_prop_dynamic( BOOL,		tapPressing );
-@def_prop_dynamic( BOOL,		tapMoving );
 @def_prop_dynamic( BOOL,		tapRaised );
 @def_prop_dynamic( BOOL,		tapCancelled );
 
 #pragma mark -
 
++ (BOOL)supportTapGesture
+{
+	return YES;
+}
+
+#pragma mark -
+
 - (TapState)tapState
 {
-	__TapGestureRecognizer * gesture = [self tapGesture];
-	
-	if ( nil == gesture )
-		return TapState_Idle;
+	return (TapState)[[self getAssociatedObjectForKey:"UIView.tapState"] integerValue];
+}
 
-	return gesture.tapState;
+- (void)setTapState:(TapState)newState
+{
+	TapState currState = [self tapState];
+
+	if ( newState != currState )
+	{
+		triggerBefore( self, tapStateChanged );
+		
+		[self retainAssociatedObject:@(newState) forKey:"UIView.tapState"];
+		
+		if ( TapState_Pressing == newState )
+		{
+			[self sendSignal:UIView.eventTapPressing];
+		}
+		else if ( TapState_Raised == newState )
+		{
+			[self sendSignal:UIView.eventTapRaised];
+
+			if ( self.tapSignalName )
+			{
+				[self sendSignal:self.tapSignalName];
+			}
+		}
+		else if ( TapState_Cancelled == newState )
+		{
+			[self sendSignal:UIView.eventTapCancelled];
+		}
+
+		triggerAfter( self, tapStateChanged );
+	}
 }
 
 - (BOOL)tapPressing
 {
-	__TapGestureRecognizer * gesture = [self tapGesture];
-
-	if ( nil == gesture )
-		return NO;
-	
-	return (TapState_Pressing == gesture.tapState) ? YES : NO;
-}
-
-- (BOOL)tapMoving
-{
-	__TapGestureRecognizer * gesture = [self tapGesture];
-	
-	if ( nil == gesture )
-		return NO;
-
-	return (TapState_Moving == gesture.tapState) ? YES : NO;
+	return ( TapState_Pressing == [self tapState] ) ? YES : NO;
 }
 
 - (BOOL)tapRaised
 {
-	__TapGestureRecognizer * gesture = [self tapGesture];
-
-	if ( nil == gesture )
-		return NO;
-
-	return (TapState_Raised == gesture.tapState) ? YES : NO;
+	return ( TapState_Raised == [self tapState] ) ? YES : NO;
 }
 
 - (BOOL)tapCancelled
 {
-	__TapGestureRecognizer * gesture = [self tapGesture];
-
-	if ( nil == gesture )
-		return NO;
-
-	return (TapState_Cancelled == gesture.tapState) ? YES : NO;
+	return ( TapState_Cancelled == [self tapState] ) ? YES : NO;
 }
 
 #pragma mark -
@@ -253,7 +210,7 @@
 - (__TapGestureRecognizer *)tapGesture
 {
 	__TapGestureRecognizer * tapGesture = nil;
-	
+
 	for ( UIGestureRecognizer * subGesture in self.gestureRecognizers )
 	{
 		if ( [subGesture isKindOfClass:[__TapGestureRecognizer class]] )
@@ -275,6 +232,11 @@
 
 - (void)enableTapGestureWithSignal:(NSString *)signal
 {
+	if ( NO == [[self class] supportTapGesture] )
+	{
+		return;
+	}
+	
 	__TapGestureRecognizer * tapGesture = [self tapGesture];
 	
 	if ( nil == tapGesture )

@@ -156,8 +156,8 @@
 		
 		[self removeAssociatedObjectForKey:"notificationNames"];
 	}
-
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	[[SamuraiNotificationCenter sharedInstance] removeObserver:self];
 }
 
 - (void)handleNotification:(SamuraiNotification *)notification

@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="">
+	
+	<head>
+		
+		<title>UIActivityIndicatorView</title>
+		
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		
+		<meta name="description" content=""/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<link rel="stylesheet" type="text/css" href="../css/normalize.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/main.css"/>
+		
+	</head>
+
+	<body>
+
+		<div class="wrapper">
+			<div class="row-4">
+				<UIActivityIndicatorView class="col-4 activity1"></UIActivityIndicatorView>
+				<UIActivityIndicatorView class="col-4 activity2"></UIActivityIndicatorView>
+				<UIActivityIndicatorView class="col-4 activity3"></UIActivityIndicatorView>
+				<UIActivityIndicatorView class="col-4 activity4"></UIActivityIndicatorView>
+			</div>
+			<div class="row-4">
+				<UIActivityIndicatorView class="col-4 activity1" is-large></UIActivityIndicatorView>
+				<UIActivityIndicatorView class="col-4 activity2" is-large></UIActivityIndicatorView>
+				<UIActivityIndicatorView class="col-4 activity3" is-large></UIActivityIndicatorView>
+				<UIActivityIndicatorView class="col-4 activity4" is-large></UIActivityIndicatorView>
+			</div>
+			<div class="row-4">
+				<UIActivityIndicatorView class="col-4 activity1" is-animating></UIActivityIndicatorView>
+				<UIActivityIndicatorView class="col-4 activity2" is-animating></UIActivityIndicatorView>
+				<UIActivityIndicatorView class="col-4 activity3" is-animating></UIActivityIndicatorView>
+				<UIActivityIndicatorView class="col-4 activity4" is-animating></UIActivityIndicatorView>
+			</div>
+			<div class="row-4">
+				<UIActivityIndicatorView class="col-4 activity1" is-large is-animating></UIActivityIndicatorView>
+				<UIActivityIndicatorView class="col-4 activity2" is-large is-animating></UIActivityIndicatorView>
+				<UIActivityIndicatorView class="col-4 activity3" is-large is-animating></UIActivityIndicatorView>
+				<UIActivityIndicatorView class="col-4 activity4" is-large is-animating></UIActivityIndicatorView>
+			</div>
+		</div>
+
+		<style>
+			
+			body {
+				width: 100%;
+				height: 100%;
+				background-color: white;
+			}
+
+			.wrapper {
+				display: block;
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				height: 100%;
+			}
+
+			.row-4 {
+				display: block;
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				height: 100px;
+			}
+		
+			.col-4 {
+				display: inline-block;
+				margin: 0;
+				padding: 0;
+				width: 25%;
+				height: 100%;
+			}
+
+			.activity1 {
+				color: red;
+			}
+
+			.activity2 {
+				color: green;
+			}
+
+			.activity3 {
+				color: blue;
+			}
+
+			.activity4 {
+				color: orange;
+			}
+
+		</style>
+		
+	</body>
+	
+</html>

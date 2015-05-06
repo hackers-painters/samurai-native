@@ -44,9 +44,39 @@
 
 @implementation UIPageControl(Samurai)
 
+#pragma mark -
+
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
-	return [super createInstanceWithRenderer:renderer identifier:identifier];
+	UIPageControl * pageControl = (UIPageControl *)[super createInstanceWithRenderer:renderer identifier:identifier];
+	
+	pageControl.numberOfPages = 1;
+	pageControl.currentPage = 0;
+	pageControl.hidesForSinglePage = YES;
+
+	return pageControl;
+}
+
+#pragma mark -
+
++ (BOOL)supportTapGesture
+{
+	return YES;
+}
+
++ (BOOL)supportSwipeGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPinchGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPanGesture
+{
+	return YES;
 }
 
 #pragma mark -
@@ -58,7 +88,18 @@
 
 - (void)unserialize:(id)obj
 {
-	self.currentPage = [obj integerValue];
+	NSInteger currentPage = [obj integerValue];
+	NSInteger numberOfPages = self.numberOfPages;
+	
+	if ( numberOfPages )
+	{
+		if ( currentPage >= numberOfPages )
+		{
+			currentPage = numberOfPages - 1;
+		}
+	}
+
+	self.currentPage = currentPage;
 }
 
 - (void)zerolize

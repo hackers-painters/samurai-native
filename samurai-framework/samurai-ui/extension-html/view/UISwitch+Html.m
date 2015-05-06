@@ -53,16 +53,66 @@
 - (void)html_applyDom:(SamuraiHtmlDomNode *)dom
 {
 	[super html_applyDom:dom];
+	
+	NSString * isOn = [dom.domAttributes objectForKey:@"is-on"];
+	NSString * isOff = [dom.domAttributes objectForKey:@"is-off"];
+
+	if ( isOn )
+	{
+		self.on = YES;
+	}
+	
+	if ( isOff )
+	{
+		self.on = NO;
+	}
 }
 
 - (void)html_applyStyle:(SamuraiHtmlStyle *)style
 {
 	[super html_applyStyle:style];
+	
+	UIColor * color = [style computeColor:self.thumbTintColor];
+	
+	self.onTintColor = [color colorWithAlphaComponent:0.75f];
+//	self.tintColor = color;
+//	self.thumbTintColor = color;
 }
 
 - (void)html_applyFrame:(CGRect)newFrame
 {
 	[super html_applyFrame:newFrame];
+}
+
+- (void)html_forView:(UIView *)hostView
+{
+	if ( [hostView isKindOfClass:[UIScrollView class]] )
+	{
+		[hostView addObserver:self
+				   forKeyPath:@"contentOffset"
+					  options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew
+					  context:(void *)hostView];
+	}
+}
+
+#pragma mark -
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	NSObject * oldValue = [change objectForKey:@"old"];
+	NSObject * newValue = [change objectForKey:@"new"];
+	
+	if ( newValue )
+	{
+		UIView * hostView = (__bridge UIView *)(context);
+		
+		if ( [hostView isKindOfClass:[UIScrollView class]] )
+		{
+			UIScrollView * scrollView = (UIScrollView *)hostView;
+			
+			// TODO:
+		}
+	}
 }
 
 @end

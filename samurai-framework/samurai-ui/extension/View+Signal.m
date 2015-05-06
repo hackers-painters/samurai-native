@@ -70,7 +70,7 @@
 
 - (id)signalResponders
 {
-    return [self nextResponder];
+	return [self nextResponder];
 }
 
 - (id)signalAlias

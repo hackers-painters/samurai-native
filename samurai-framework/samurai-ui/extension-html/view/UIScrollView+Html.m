@@ -53,6 +53,17 @@
 - (void)html_applyDom:(SamuraiHtmlDomNode *)dom
 {
 	[super html_applyDom:dom];
+	
+	NSString * isPaging = [dom.domAttributes objectForKey:@"is-paging"];
+	
+	if ( isPaging )
+	{
+		self.pagingEnabled = YES;
+	}
+	else
+	{
+		self.pagingEnabled = NO;
+	}
 }
 
 - (void)html_applyStyle:(SamuraiHtmlStyle *)style

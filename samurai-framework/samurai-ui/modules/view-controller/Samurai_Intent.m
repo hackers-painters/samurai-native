@@ -243,7 +243,7 @@
 	
 	triggerBefore( self, stateChanged );
 	
-	INFO( @"Intent '%@', state %d -> %d", self.prettyName, _state, newState );
+	PERF( @"Intent '%@', state %d -> %d", self.prettyName, _state, newState );
 
 	_state = newState;
 

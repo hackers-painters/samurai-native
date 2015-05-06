@@ -40,7 +40,6 @@ typedef enum
 {
 	TapState_Idle = 0,
 	TapState_Pressing,
-	TapState_Moving,
 	TapState_Raised,
 	TapState_Cancelled
 } TapState;
@@ -52,16 +51,16 @@ typedef enum
 @joint( tapStateChanged );
 
 @signal( eventTapPressing );	/// 按下
-@signal( eventTapMoving );		/// 移动
 @signal( eventTapRaised );		/// 抬起
 @signal( eventTapCancelled );	/// 取消
 
 @prop_strong( NSString *,	tapSignalName );
-@prop_readonly( TapState,	tapState );
+@prop_assign( TapState,		tapState );
 @prop_readonly( BOOL,		tapPressing );
-@prop_readonly( BOOL,		tapMoving );
 @prop_readonly( BOOL,		tapRaised );
 @prop_readonly( BOOL,		tapCancelled );
+
++ (BOOL)supportTapGesture;
 
 - (void)enableTapGesture;
 - (void)enableTapGestureWithSignal:(NSString *)signal;

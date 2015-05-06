@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="">
+	
+	<head>
+		
+		<title>UIButton</title>
+		
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		
+		<meta name="description" content=""/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<link rel="stylesheet" type="text/css" href="../css/normalize.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/main.css"/>
+		
+	</head>
+	
+	<body>
+		
+		<div class="wrapper">
+			<button class="row button1" onclick="signal('test1')">Button 1</button>
+			<button class="row button2" onclick="signal('test2')">Button 2</button>
+			<UIButton class="row button3" onclick="signal('test3')">Button 3</UIButton>
+			<UIButton class="row button4" onclick="signal('test4')">Button 4</UIButton>
+		</div>
+
+		<style>
+			
+			body {
+				width: 100%;
+				height: 100%;
+				background-color: white;
+			}
+		
+			.wrapper {
+				display: block;
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				height: 100%;
+			}
+
+			.row {
+				display: block;
+				margin: 0 auto;
+				padding: 0;
+				width: 100px;
+				height: 44px;
+			}
+		
+			.button1 {
+				margin-top: 40px;
+				color: red;
+				background-color: #999;
+				border-radius: 10px;
+				border-color: darkgray;
+				border-width: 2px;
+			}
+
+			.button2 {
+				margin-top: 20px;
+				color: green;
+				background-color: #999;
+				border-radius: 10px;
+				border-color: darkgray;
+				border-width: 2px;
+			}
+
+			.button3 {
+				margin-top: 20px;
+				color: blue;
+				background-color: #999;
+				border-radius: 10px;
+				border-color: darkgray;
+				border-width: 2px;
+			}
+
+			.button4 {
+				margin-top: 20px;
+				color: orange;
+				background-color: #999;
+				border-radius: 10px;
+				border-color: darkgray;
+				border-width: 2px;
+			}
+
+		</style>
+		
+	</body>
+	
+</html>

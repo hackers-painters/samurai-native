@@ -225,12 +225,12 @@
 //	}
 //	
 //#else
-
-	if ( 0 == system("ls") )
-	{
-		return YES;
-	}
-	
+//
+//	if ( 0 == system("ls") )
+//	{
+//		return YES;
+//	}
+//	
 //#endif
 	
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

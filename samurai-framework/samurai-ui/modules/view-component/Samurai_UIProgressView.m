@@ -46,7 +46,34 @@
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
-	return [super createInstanceWithRenderer:renderer identifier:identifier];
+	UIProgressView * progressView = [super createInstanceWithRenderer:renderer identifier:identifier];
+	
+	progressView.progressViewStyle = UIProgressViewStyleDefault;
+	progressView.progress = 0.0f;
+
+	return progressView;
+}
+
+#pragma mark -
+
++ (BOOL)supportTapGesture
+{
+	return YES;
+}
+
++ (BOOL)supportSwipeGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPinchGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPanGesture
+{
+	return YES;
 }
 
 #pragma mark -

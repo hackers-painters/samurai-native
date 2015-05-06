@@ -34,34 +34,11 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "HtmlViewport.h"
+
 // ----------------------------------
 // Source code
 // ----------------------------------
-
-#pragma mark -
-
-@interface __HtmlViewportView : UIView
-@end
-@implementation __HtmlViewportView
-
-- (id)initWithFrame:(CGRect)frame
-{
-	self = [super initWithFrame:frame];
-	if ( self )
-	{
-		self.backgroundColor = [UIColor whiteColor];
-		self.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-		self.autoresizesSubviews = YES;
-		self.layer.masksToBounds = YES;
-	}
-	return self;
-}
-
-- (void)dealloc
-{
-}
-
-@end
 
 #pragma mark -
 
@@ -69,49 +46,19 @@
 
 + (Class)defaultViewClass
 {
-	return [__HtmlViewportView class];
-}
-
-- (id)init
-{
-	self = [super init];
-	if ( self )
-	{
-	}
-	return self;
-}
-
-- (void)dealloc
-{
-	
+	return [HtmlViewport class];
 }
 
 #pragma mark -
 
-- (CGRect)computeFrame:(CGSize)bound origin:(CGPoint)origin;
+- (BOOL)store_isValid
 {
-#if __SAMURAI_DEBUG__
-	[self debug];
-#endif	// #if __SAMURAI_DEBUG__
-
-	return [super computeFrame:bound origin:origin];
+	return YES;
 }
 
-#pragma mark -
-
-- (id)serialize
+- (BOOL)store_hasChildren
 {
-	return [super serialize];
-}
-
-- (void)unserialize:(id)obj
-{
-	[super unserialize:obj];
-}
-
-- (void)zerolize
-{
-	[super zerolize];
+	return YES;
 }
 
 @end

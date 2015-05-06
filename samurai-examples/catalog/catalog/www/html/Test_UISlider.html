@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="">
+	
+	<head>
+		
+		<title>UISlider</title>
+		
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		
+		<meta name="description" content=""/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<link rel="stylesheet" type="text/css" href="../css/normalize.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/main.css"/>
+		
+	</head>
+	
+	<body>
+
+		<UILabel class="label" for="s1">0.0</UILabel>
+		<UILabel class="label" for="s2">0.0</UILabel>
+		<UILabel class="label" for="s3">0.0</UILabel>
+
+		<UISlider id="s1" class="slider1" min-value="2.0" max-value="3.0" is-continuous></UISlider>
+		<UISlider id="s2" class="slider2" min-value="1.0" max-value="2.0" is-continuous></UISlider>
+		<UISlider id="s3" class="slider3" min-value="0.0" max-value="1.0" is-continuous></UISlider>
+
+		<style>
+
+			body {
+				width: 100%;
+				height: auto;
+				background-color: white;
+				color: #999;
+				font-size: 14px;
+				text-align: left;
+			}
+
+			.label {
+				display: inline-block;
+				margin-top: 40px;
+				width: 33.3%;
+				height: 44px;
+				text-align: center;
+				color: black;
+				border-color: black;
+				border-width: 1px;
+			}
+
+			.slider1 {
+				display: block;
+				margin: 0 auto;
+				margin-top: 40px;
+				width: 80%;
+				height: 44px;
+				color: red;
+				background-color: white;
+			}
+
+			.slider2 {
+				display: block;
+				margin: 0 auto;
+				width: 80%;
+				height: 44px;
+				color: blue;
+				background-color: white;
+			}
+
+			.slider3 {
+				display: block;
+				margin: 0 auto;
+				width: 80%;
+				height: 44px;
+				color: green;
+				background-color: white;
+			}
+
+		</style>
+		
+	</body>
+	
+</html>

@@ -11,6 +11,7 @@
 
 @interface TestSuiteViewController : UIViewController
 
+@property (nonatomic, strong) NSString * testSuite;
 
 @end
 

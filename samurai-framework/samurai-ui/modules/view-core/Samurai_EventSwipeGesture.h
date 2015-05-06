@@ -48,6 +48,8 @@
 @signal( eventSwipeLeft );
 @signal( eventSwipeRight );
 
++ (BOOL)supportSwipeGesture;
+
 - (void)enableSwipeGesture:(UISwipeGestureRecognizerDirection)direction;
 - (void)enableSwipeGesture:(UISwipeGestureRecognizerDirection)direction withSignal:(NSString *)signal;
 

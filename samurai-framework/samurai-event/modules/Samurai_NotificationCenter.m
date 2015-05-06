@@ -116,6 +116,16 @@
 	}
 }
 
+- (void)removeObserver:(id)observer
+{
+	for ( NSMutableArray * observers in _map.allValues )
+	{
+		[observers removeObject:observer];
+	}
+
+	[[NSNotificationCenter defaultCenter] removeObserver:observer];
+}
+
 - (void)handleNotification:(SamuraiNotification *)notification
 {
 	NSMutableArray * observers = [_map objectForKey:notification.name];

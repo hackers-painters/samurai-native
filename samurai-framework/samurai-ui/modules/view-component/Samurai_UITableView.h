@@ -36,6 +36,9 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_UIView.h"
+#import "Samurai_UIScrollView.h"
+
 #pragma mark -
 
 @interface SamuraiUITableViewSection : NSObject
@@ -55,7 +58,7 @@
 
 #pragma mark -
 
-@interface SamuraiUITableViewAgent : NSObject<UITableViewDelegate, UITableViewDataSource>
+@interface SamuraiUITableViewAgent : SamuraiUIScrollViewAgent<UITableViewDelegate, UITableViewDataSource>
 
 @prop_unsafe( UITableView *,		tableView );
 @prop_strong( NSMutableArray *,		sections );

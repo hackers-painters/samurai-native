@@ -40,6 +40,20 @@
 
 #pragma mark -
 
+@implementation UIView(Host)
+
+- (void)hostWillConnect:(UIView *)hostView
+{
+}
+
+- (void)hostDidConnected:(UIView *)hostView
+{
+}
+
+@end
+
+#pragma mark -
+
 @implementation UIView(Samurai)
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
@@ -51,14 +65,36 @@
 
 #pragma mark -
 
++ (BOOL)supportTapGesture
+{
+	return YES;
+}
+
++ (BOOL)supportSwipeGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPinchGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPanGesture
+{
+	return YES;
+}
+
+#pragma mark -
+
 - (void)applyFrame:(CGRect)newFrame
 {
 	// TODO: if animation
 	
 //	if ( NO == CGRectEqualToRect( self.frame, newFrame ) )
-	{
+//	{
 		[self setFrame:newFrame];
-	}
+//	}
 	
 	[super applyFrame:newFrame];
 }

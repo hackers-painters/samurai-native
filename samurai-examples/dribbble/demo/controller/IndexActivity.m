@@ -222,9 +222,32 @@
 		_currentModel = self.model3;
 	}
 
-	self.tab1.customStyleClasses = (0 == _currentIndex) ? @[@"tab", @"active"] : @[@"tab"];
-	self.tab2.customStyleClasses = (1 == _currentIndex) ? @[@"tab", @"active"] : @[@"tab"];
-	self.tab3.customStyleClasses = (2 == _currentIndex) ? @[@"tab", @"active"] : @[@"tab"];
+	if ( 0 == _currentIndex )
+	{
+		[self.tab1 addCssStyleClass:@"active"];
+	}
+	else
+	{
+		[self.tab1 removeCssStyleClass:@"active"];
+	}
+
+	if ( 1 == _currentIndex )
+	{
+		[self.tab2 addCssStyleClass:@"active"];
+	}
+	else
+	{
+		[self.tab2 removeCssStyleClass:@"active"];
+	}
+
+	if ( 2 == _currentIndex )
+	{
+		[self.tab3 addCssStyleClass:@"active"];
+	}
+	else
+	{
+		[self.tab3 removeCssStyleClass:@"active"];
+	}
 
 	[self.tab1 restyle];
 	[self.tab2 restyle];

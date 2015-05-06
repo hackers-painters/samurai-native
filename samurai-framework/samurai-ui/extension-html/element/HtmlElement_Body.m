@@ -28,13 +28,14 @@
 //	THE SOFTWARE.
 //
 
-#import "Samurai_HtmlRenderWorklet_40Finish.h"
+#import "HtmlElement_Body.h"
 
 #import "_pragma_push.h"
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
-#import "Samurai_HtmlRenderWorkflow.h"
+#import "Samurai_HtmlStyle.h"
+#import "Samurai_HtmlRenderObject.h"
 
 // ----------------------------------
 // Source code
@@ -42,13 +43,46 @@
 
 #pragma mark -
 
-@implementation SamuraiHtmlRenderWorklet_40Finish
+@implementation HtmlElement_Body
 
-- (BOOL)processWithContext:(SamuraiHtmlRenderObject *)renderObject
+- (id)initWithFrame:(CGRect)frame
 {
-	UNUSED( renderObject );
-	
-	return YES;
+	self = [super initWithFrame:frame];
+	if ( self )
+	{
+		self.backgroundColor = [UIColor whiteColor];
+		self.autoresizesSubviews = YES;
+		self.layer.masksToBounds = YES;
+	}
+	return self;
+}
+
+- (void)dealloc
+{
+}
+
+#pragma mark -
+
+- (void)html_applyDom:(SamuraiHtmlDomNode *)dom
+{
+	[super html_applyDom:dom];
+}
+
+- (void)html_applyStyle:(SamuraiHtmlStyle *)style
+{
+	[super html_applyStyle:style];
+}
+
+- (void)html_applyFrame:(CGRect)newFrame
+{
+	[super html_applyFrame:newFrame];
+}
+
+#pragma mark -
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	[self endEditing:YES];
 }
 
 @end
@@ -61,7 +95,7 @@
 
 #if __SAMURAI_TESTING__
 
-TEST_CASE( UI, HtmlRenderWorklet_40Finish )
+TEST_CASE( UI, HtmlElement_Body )
 
 DESCRIBE( before )
 {

@@ -36,9 +36,27 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_UIView.h"
+
+#pragma mark -
+
+@interface SamuraiUISliderAgent : NSObject
+
+@prop_unsafe( UISlider *,	slider );
+
+- (void)enableEvents;
+- (void)disableEvents;
+
+@end
+
 #pragma mark -
 
 @interface UISlider(Samurai)
+
+@signal( eventValueChanged )
+
+- (SamuraiUISliderAgent *)sliderAgent;
+
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

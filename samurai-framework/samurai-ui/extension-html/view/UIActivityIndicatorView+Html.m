@@ -53,11 +53,43 @@
 - (void)html_applyStyle:(SamuraiHtmlStyle *)style
 {
 	[super html_applyStyle:style];
+
+	SamuraiHtmlColor * color = (SamuraiHtmlColor *)style.color;
+
+	if ( color && [color isColor] )
+	{
+		self.color = color.value;
+	}
+	else
+	{
+		self.color = [UIColor blackColor];
+	}
 }
 
 - (void)html_applyDom:(SamuraiHtmlDomNode *)dom
 {
 	[super html_applyDom:dom];
+	
+	NSString * isLarge = [dom.domAttributes objectForKey:@"is-large"];
+	NSString * isAnimating = [dom.domAttributes objectForKey:@"is-animating"];
+	
+	if ( isLarge )
+	{
+		self.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+	}
+	else
+	{
+		self.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
+	}
+	
+	if ( isAnimating )
+	{
+		[self startAnimating];
+	}
+	else
+	{
+		[self stopAnimating];
+	}
 }
 
 - (void)html_applyFrame:(CGRect)newFrame

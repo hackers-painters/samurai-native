@@ -211,6 +211,7 @@ typedef enum
 @html_value( position );
 @html_value( floating );
 
+@html_value( zIndex );
 @html_value( display );
 @html_value( overflow );
 @html_value( visibility );
@@ -315,7 +316,7 @@ typedef enum
 @html_value( insetRight );
 @html_value( insetBottom );
 
-// render
+// custom
 
 @html_string( renderModel );
 @html_string( renderClass );

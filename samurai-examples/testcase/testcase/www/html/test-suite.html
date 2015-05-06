@@ -25,6 +25,7 @@
 			<UITableViewCell name="items" class="item" onclick="signal('test')">
 
 				<label name="title" class="title"/>
+				<label class="arrow"> > </label>
 				
 			</UITableViewCell>
 
@@ -57,6 +58,17 @@
 				height: 100%;
 				color: #333;
 				text-align: left;
+			}
+		
+			.arrow {
+				position: absolute;
+				right: 10px;
+				width: auto;
+				height: 100%;
+				color: #333;
+				font-size: 18px;
+				font-weight: bold;
+				text-align: right;
 			}
 		
 		</style>

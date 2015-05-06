@@ -34,16 +34,11 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "HtmlElement.h"
+
 // ----------------------------------
 // Source code
 // ----------------------------------
-
-#pragma mark -
-
-@interface __HtmlElementView : UIView
-@end
-@implementation __HtmlElementView
-@end
 
 #pragma mark -
 
@@ -51,7 +46,7 @@
 
 + (Class)defaultViewClass
 {
-	return [__HtmlElementView class];
+	return [HtmlElement class];
 }
 
 #pragma mark -
@@ -68,7 +63,7 @@
 
 #pragma mark -
 
-- (CGRect)computeFrame:(CGSize)bound origin:(CGPoint)origin;
+- (CGRect)computeFrame:(CGSize)bound origin:(CGPoint)origin
 {
 #if __SAMURAI_DEBUG__
 	[self debug];
@@ -117,7 +112,7 @@
 	{
 		computedFrame.size.width = [self.style.width computeValue:bound.width];
 	}
-	
+
 	if ( [self.style.height isNumber] )
 	{
 		computedFrame.size.height = [self.style.height computeValue:bound.height];
@@ -154,15 +149,15 @@
 
 // compute size
 	
-	if ( [self.style isAutoWidth] && [self.style isAutoHeight] )
+	if ( INVALID_VALUE == computedFrame.size.width && INVALID_VALUE == computedFrame.size.height )
 	{
 		computedFrame.size = [self.view computeSizeBySize:computedFrame.size];
 	}
-	else if ( [self.style isAutoWidth] )
+	else if ( INVALID_VALUE == computedFrame.size.width )
 	{
 		computedFrame.size.width = [self.view computeSizeByHeight:computedFrame.size.height].width;
 	}
-	else if ( [self.style isAutoHeight] )
+	else if ( INVALID_VALUE == computedFrame.size.height )
 	{
 		computedFrame.size.height = [self.view computeSizeByWidth:computedFrame.size.width].height;
 	}
@@ -198,33 +193,33 @@
 	
 // compute min/max size
 	
-	if ( INVALID_VALUE != minWidth )
+	if ( self.style.minWidth )
 	{
-		if ( computedFrame.size.width < minWidth )
+		if ( INVALID_VALUE != minWidth && computedFrame.size.width < minWidth )
 		{
 			computedFrame.size.width = minWidth;
 		}
 	}
 	
-	if ( INVALID_VALUE != minHeight )
+	if ( self.style.minHeight )
 	{
-		if ( computedFrame.size.height < minHeight )
+		if ( INVALID_VALUE != minHeight && computedFrame.size.height < minHeight )
 		{
 			computedFrame.size.height = minHeight;
 		}
 	}
 	
-	if ( INVALID_VALUE != maxWidth )
+	if ( self.style.maxWidth )
 	{
-		if ( computedFrame.size.width > maxWidth )
+		if ( INVALID_VALUE != maxWidth && computedFrame.size.width > maxWidth )
 		{
 			computedFrame.size.width = maxWidth;
 		}
 	}
 	
-	if ( INVALID_VALUE != maxHeight )
+	if ( self.style.maxHeight )
 	{
-		if ( computedFrame.size.height > maxHeight )
+		if ( INVALID_VALUE != maxHeight && computedFrame.size.height > maxHeight )
 		{
 			computedFrame.size.height = maxHeight;
 		}
@@ -465,7 +460,7 @@
 	
 	CGRect outerBound;
 	
-	outerBound.origin = CGPointZero;
+	outerBound.origin = origin;
 	
 	outerBound.size.width = computedFrame.origin.x + computedFrame.size.width;
 	outerBound.size.height = computedFrame.origin.y + computedFrame.size.height;
@@ -484,7 +479,22 @@
 	outerBound.size.width += computedMargin.right;
 	outerBound.size.height += computedMargin.top;
 	outerBound.size.height += computedMargin.bottom;
-	
+
+// compute edge insets
+
+//	if ( self.view )
+//	{
+//		UIEdgeInsets edgeInsets = [self.view html_edgeInsets];
+//		
+//		innerBound.origin.x += edgeInsets.left;
+//		innerBound.origin.y += edgeInsets.top;
+//		
+//		outerBound.size.width += edgeInsets.left;
+//		outerBound.size.width += edgeInsets.right;
+//		outerBound.size.height += edgeInsets.top;
+//		outerBound.size.height += edgeInsets.bottom;
+//	}
+
 	self.frame = innerBound;
 	self.offset = origin;
 	

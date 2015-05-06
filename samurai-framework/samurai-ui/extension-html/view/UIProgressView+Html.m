@@ -53,16 +53,96 @@
 - (void)html_applyDom:(SamuraiHtmlDomNode *)dom
 {
 	[super html_applyDom:dom];
+	
+	NSString * isBar = [dom.domAttributes objectForKey:@"is-bar"];
+
+	if ( isBar )
+	{
+		self.progressViewStyle = UIProgressViewStyleBar;
+	}
+	else
+	{
+		self.progressViewStyle = UIProgressViewStyleDefault;
+	}
 }
 
 - (void)html_applyStyle:(SamuraiHtmlStyle *)style
 {
 	[super html_applyStyle:style];
+
+	self.progressTintColor = [style computeColor:self.progressTintColor];
 }
 
 - (void)html_applyFrame:(CGRect)newFrame
 {
 	[super html_applyFrame:newFrame];
+}
+
+- (void)html_forView:(UIView *)hostView
+{
+	if ( [hostView isKindOfClass:[UIScrollView class]] )
+	{
+		[hostView addObserver:self
+				   forKeyPath:@"contentOffset"
+					  options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew
+					  context:(void *)hostView];
+	}
+}
+
+#pragma mark -
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	NSObject * oldValue = [change objectForKey:@"old"];
+	NSObject * newValue = [change objectForKey:@"new"];
+	
+	if ( newValue )
+	{
+		UIView * hostView = (__bridge UIView *)(context);
+		
+		if ( [hostView isKindOfClass:[UIScrollView class]] )
+		{
+			UIScrollView * scrollView = (UIScrollView *)hostView;
+			
+			if ( NO == CGSizeEqualToSize( scrollView.contentSize, CGSizeZero ) )
+			{
+				CGFloat width = 0;
+				CGFloat offset = 0;
+				
+				CGFloat contentWidth = scrollView.contentSize.width;
+				CGFloat contentHeight = scrollView.contentSize.height;
+				
+				CGFloat frameWidth = scrollView.frame.size.width;
+				CGFloat frameHeight = scrollView.frame.size.height;
+				
+				if ( contentWidth > frameWidth && contentHeight <= frameHeight )
+				{
+					// horizontal
+					
+					width	= contentWidth - frameWidth;
+					offset	= scrollView.contentOffset.x;
+				}
+				else if ( contentHeight > frameHeight && contentWidth <= frameWidth )
+				{
+					// vertical
+					
+					width	= contentHeight - frameHeight;
+					offset	= scrollView.contentOffset.y;
+				}
+				else
+				{
+					width	= 0.0f;
+					offset	= 0.0f;
+				}
+				
+				[self setProgress:(offset / width) animated:YES];
+			}
+			else
+			{
+				[self setProgress:0.0f animated:YES];
+			}
+		}
+	}
 }
 
 @end

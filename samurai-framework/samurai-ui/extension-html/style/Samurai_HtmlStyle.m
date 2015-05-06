@@ -67,6 +67,7 @@
 @def_html_value( position, setPosition,									@"position" );
 @def_html_value( floating, setFloating,									@"float" );
 
+@def_html_value( zIndex, setZIndex,										@"z-index" );
 @def_html_value( display, setDisplay,									@"display" );
 @def_html_value( overflow, setOverflow,									@"overflow" );
 @def_html_value( visibility, setVisibility,								@"visibility" );
@@ -312,6 +313,53 @@
 	{
 		[self.properties removeObjectForKey:key];
 	}
+}
+
+#pragma mark -
+
+- (id)arrayForKey:(NSString *)key
+{
+	return [self propertyForKey:key withClass:[SamuraiHtmlArray class]];
+}
+
+- (id)boxForKey:(NSString *)key
+{
+	return [self propertyForKey:key withClass:[SamuraiHtmlBox class]];
+}
+
+- (id)sizeForKey:(NSString *)key
+{
+	return [self propertyForKey:key withClass:[SamuraiHtmlSize class]];
+}
+
+- (id)colorForKey:(NSString *)key
+{
+	return [self propertyForKey:key withClass:[SamuraiHtmlColor class]];
+}
+
+- (id)functionForKey:(NSString *)key
+{
+	return [self propertyForKey:key withClass:[SamuraiHtmlFunction class]];
+}
+
+- (id)numberForKey:(NSString *)key
+{
+	return [self propertyForKey:key withClass:[SamuraiHtmlNumber class]];
+}
+
+- (id)stringForKey:(NSString *)key
+{
+	return [self propertyForKey:key withClass:[SamuraiHtmlString class]];
+}
+
+- (id)urlForKey:(NSString *)key
+{
+	return [self propertyForKey:key withClass:[SamuraiHtmlUrl class]];
+}
+
+- (id)valueForKey:(NSString *)key
+{
+	return [self propertyForKey:key withClass:[SamuraiHtmlValue class]];
 }
 
 #pragma mark -

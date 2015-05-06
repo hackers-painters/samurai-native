@@ -395,6 +395,10 @@
 	[super html_applyFrame:newFrame];
 }
 
+- (void)html_forView:(UIView *)hostView
+{
+}
+
 @end
 
 // ----------------------------------

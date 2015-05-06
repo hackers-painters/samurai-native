@@ -49,6 +49,28 @@
 
 #pragma mark -
 
++ (BOOL)supportTapGesture
+{
+	return YES;
+}
+
++ (BOOL)supportSwipeGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPinchGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPanGesture
+{
+	return YES;
+}
+
+#pragma mark -
+
 - (id)serialize
 {
 	return [self.request.URL absoluteString];

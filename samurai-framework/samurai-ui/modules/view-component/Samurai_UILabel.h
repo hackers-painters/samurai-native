@@ -36,6 +36,8 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_UIView.h"
+
 #pragma mark -
 
 @interface UILabel(Samurai)

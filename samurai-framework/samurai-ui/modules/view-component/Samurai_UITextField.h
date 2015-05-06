@@ -36,9 +36,31 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_UIView.h"
+
+#pragma mark -
+
+@interface SamuraiUITextFieldAgent : NSObject<UITextFieldDelegate>
+
+@prop_unsafe( UITextField *,	textField );
+
+- (void)enableEvents;
+- (void)disableEvents;
+
+@end
+
 #pragma mark -
 
 @interface UITextField(Samurai)
+
+@signal( eventDidBeginEditing );
+@signal( eventDidEndEditing );
+@signal( eventChanged );
+@signal( eventClear );
+@signal( eventReturn );
+
+- (SamuraiUITextFieldAgent *)textFieldAgent;
+
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

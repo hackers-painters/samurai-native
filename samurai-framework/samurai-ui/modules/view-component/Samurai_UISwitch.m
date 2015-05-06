@@ -42,11 +42,101 @@
 
 #pragma mark -
 
+@implementation SamuraiUISwitchAgent
+{
+	BOOL _enabled;
+}
+
+@def_prop_unsafe( UISwitch *,	switchh );
+
+- (void)dealloc
+{
+	[self disableEvents];
+}
+
+- (void)enableEvents
+{
+	if ( NO == _enabled )
+	{
+		[self.switchh addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
+		
+		_enabled = YES;
+	}
+}
+
+- (void)disableEvents
+{
+	if ( _enabled )
+	{
+		[self.switchh removeTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
+		
+		_enabled = NO;
+	}
+}
+
+#pragma mark -
+
+- (void)valueChanged:(id)sender
+{
+	[self.switchh sendSignal:UISwitch.eventValueChanged];
+}
+
+@end
+
+#pragma mark -
+
 @implementation UISwitch(Samurai)
+
+@def_signal( eventValueChanged )
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
-	return [super createInstanceWithRenderer:renderer identifier:identifier];
+	UISwitch * switchh = [[self alloc] initWithFrame:CGRectZero];
+	
+	switchh.renderer = renderer;
+	
+	[[switchh switchAgent] enableEvents];
+
+	return switchh;
+}
+
+#pragma mark -
+
+- (SamuraiUISwitchAgent *)switchAgent
+{
+	SamuraiUISwitchAgent * agent = [self getAssociatedObjectForKey:"UISwitch.agent"];
+	
+	if ( nil == agent )
+	{
+		agent = [[SamuraiUISwitchAgent alloc] init];
+		agent.switchh = self;
+
+		[self retainAssociatedObject:agent forKey:"UISwitch.agent"];
+	}
+	
+	return agent;
+}
+
+#pragma mark -
+
++ (BOOL)supportTapGesture
+{
+	return YES;
+}
+
++ (BOOL)supportSwipeGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPinchGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPanGesture
+{
+	return YES;
 }
 
 #pragma mark -

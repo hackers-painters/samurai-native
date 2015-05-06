@@ -56,6 +56,8 @@
 	
 	self.titleLabel.text = [[dom computeInnerText] normalize];
 	self.titleLabel.hidden = NO;
+	
+	[self setTitle:self.titleLabel.text forState:UIControlStateNormal];
 }
 
 - (void)html_applyStyle:(SamuraiHtmlStyle *)style
@@ -68,6 +70,9 @@
 	self.titleLabel.baselineAdjustment = [style computeBaselineAdjustment:self.titleLabel.baselineAdjustment];
 	self.titleLabel.lineBreakMode = [style computeLineBreakMode:self.titleLabel.lineBreakMode];
 	self.titleLabel.numberOfLines = 0;
+	
+	[self setTitleColor:self.titleLabel.textColor forState:UIControlStateNormal];
+	[self setTitleShadowColor:self.titleLabel.shadowColor forState:UIControlStateNormal];
 }
 
 - (void)html_applyFrame:(CGRect)newFrame

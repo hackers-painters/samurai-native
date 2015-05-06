@@ -28,16 +28,13 @@
 //	THE SOFTWARE.
 //
 
-#import "Samurai_UIConfig.h"
 #import "Samurai_ViewCore.h"
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
-#import "Samurai_HtmlRenderWorkflow.h"
-
 #pragma mark -
 
-@interface SamuraiHtmlRenderWorklet_40Finish : SamuraiHtmlRenderWorklet
+@interface HtmlViewport : UIView
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

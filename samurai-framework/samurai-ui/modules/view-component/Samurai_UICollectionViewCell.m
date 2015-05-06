@@ -59,6 +59,28 @@
 
 #pragma mark -
 
++ (BOOL)supportTapGesture
+{
+	return YES;
+}
+
++ (BOOL)supportSwipeGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPinchGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPanGesture
+{
+	return YES;
+}
+
+#pragma mark -
+
 - (void)dataWillChange
 {
 	

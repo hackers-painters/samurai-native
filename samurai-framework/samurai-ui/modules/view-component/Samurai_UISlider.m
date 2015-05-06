@@ -42,11 +42,105 @@
 
 #pragma mark -
 
+@implementation SamuraiUISliderAgent
+{
+	BOOL _enabled;
+}
+
+@def_prop_unsafe( UISlider *,	slider );
+
+- (void)dealloc
+{
+	[self disableEvents];
+}
+
+- (void)enableEvents
+{
+	if ( NO == _enabled )
+	{
+		[self.slider addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
+		
+		_enabled = YES;
+	}
+}
+
+- (void)disableEvents
+{
+	if ( _enabled )
+	{
+		[self.slider removeTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventValueChanged];
+
+		_enabled = NO;
+	}
+}
+
+#pragma mark -
+
+- (void)valueChanged:(id)sender
+{
+	[self.slider sendSignal:UISlider.eventValueChanged];
+}
+
+@end
+
+#pragma mark -
+
 @implementation UISlider(Samurai)
+
+@def_signal( eventValueChanged )
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
-	return [super createInstanceWithRenderer:renderer identifier:identifier];
+	UISlider * slider = [[self alloc] initWithFrame:CGRectZero];
+	
+	slider.renderer = renderer;
+	slider.value = 0.0f;
+	slider.minimumValue = 0.0f;
+	slider.maximumValue = 0.0f;
+	slider.continuous = NO;
+	
+	[[slider sliderAgent] enableEvents];
+
+	return slider;
+}
+
+#pragma mark -
+
+- (SamuraiUISliderAgent *)sliderAgent
+{
+	SamuraiUISliderAgent * agent = [self getAssociatedObjectForKey:"UISlider.agent"];
+	
+	if ( nil == agent )
+	{
+		agent = [[SamuraiUISliderAgent alloc] init];
+		agent.slider = self;
+		
+		[self retainAssociatedObject:agent forKey:"UISlider.agent"];
+	}
+	
+	return agent;
+}
+
+#pragma mark -
+
++ (BOOL)supportTapGesture
+{
+	return YES;
+}
+
++ (BOOL)supportSwipeGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPinchGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPanGesture
+{
+	return YES;
 }
 
 #pragma mark -

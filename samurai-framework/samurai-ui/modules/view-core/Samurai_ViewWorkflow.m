@@ -94,7 +94,7 @@
 - (BOOL)process
 {
 	INFO( @" " );
-	INFO( @"workflow '%@', start", [[self class] description] );
+	INFO( @"Workflow '%@', start", [[self class] description] );
 
 	for ( SamuraiViewWorklet * worklet in self.worklets )
 	{

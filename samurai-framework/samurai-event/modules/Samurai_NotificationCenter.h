@@ -43,6 +43,7 @@
 
 - (void)addObserver:(id)observer forNotification:(NSString *)name;
 - (void)removeObserver:(id)observer forNotification:(NSString *)name;
+- (void)removeObserver:(id)observer;
 
 - (void)handleNotification:(SamuraiNotification *)that;
 

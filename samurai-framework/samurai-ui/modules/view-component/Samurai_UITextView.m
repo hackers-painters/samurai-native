@@ -40,11 +40,160 @@
 
 #pragma mark -
 
+@implementation SamuraiUITextViewAgent
+{
+	BOOL _enabled;
+}
+
+@def_prop_unsafe( UITextView *,	textView );
+
+- (void)dealloc
+{
+	[NSObject cancelPreviousPerformRequestsWithTarget:self];
+	
+	[self disableEvents];
+}
+
+- (void)enableEvents
+{
+	_enabled = YES;
+}
+
+- (void)disableEvents
+{
+	_enabled = NO;
+}
+
+#pragma mark -
+
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+	return YES;
+}
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView
+{
+	return YES;
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+	if ( _enabled )
+	{
+		[self.textView sendSignal:UITextView.eventDidBeginEditing];
+	}
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+	if ( _enabled )
+	{
+		[self.textView sendSignal:UITextView.eventDidEndEditing];
+	}
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+	return YES;
+}
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+	if ( _enabled )
+	{
+		[self.textView sendSignal:UITextView.eventChanged];
+	}
+}
+
+- (void)textViewDidChangeSelection:(UITextView *)textView
+{
+}
+
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange
+{
+	return YES;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldInteractWithTextAttachment:(NSTextAttachment *)textAttachment inRange:(NSRange)characterRange
+{
+	return YES;
+}
+
+@end
+
+#pragma mark -
+
 @implementation UITextView(Samurai)
+
+@def_signal( eventDidBeginEditing );
+@def_signal( eventDidEndEditing );
+@def_signal( eventChanged );
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
-	return [super createInstanceWithRenderer:renderer identifier:identifier];
+	UITextView * textView = [[self alloc] initWithFrame:CGRectZero];
+	
+	textView.renderer = renderer;
+	
+	textView.textColor = [UIColor darkGrayColor];
+	textView.font = [UIFont systemFontOfSize:14.0f];
+	textView.textAlignment = NSTextAlignmentLeft;
+	textView.clearsOnInsertion = NO;
+	textView.editable = YES;
+	textView.selectable = YES;
+
+	textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
+	textView.autocorrectionType = UITextAutocorrectionTypeNo;
+	textView.spellCheckingType = UITextSpellCheckingTypeNo;
+	
+	textView.keyboardType = UIKeyboardTypeDefault;
+	textView.keyboardAppearance = UIKeyboardAppearanceDefault;
+	textView.returnKeyType = UIReturnKeyDefault;
+	textView.enablesReturnKeyAutomatically = NO;
+	textView.secureTextEntry = NO;
+	
+	[[textView textViewAgent] enableEvents];
+	
+	return textView;
+}
+
+- (SamuraiUITextViewAgent *)textViewAgent
+{
+	SamuraiUITextViewAgent * agent = [self getAssociatedObjectForKey:"UITextView.agent"];
+	
+	if ( nil == agent )
+	{
+		agent = [[SamuraiUITextViewAgent alloc] init];
+		agent.textView = self;
+		
+		self.delegate = agent;
+		
+		[self retainAssociatedObject:agent forKey:"UITextView.agent"];
+	}
+	
+	return agent;
+}
+
+#pragma mark -
+
++ (BOOL)supportTapGesture
+{
+	return YES;
+}
+
++ (BOOL)supportSwipeGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPinchGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPanGesture
+{
+	return YES;
 }
 
 #pragma mark -

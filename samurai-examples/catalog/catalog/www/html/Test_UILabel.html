@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="">
+	
+	<head>
+		
+		<title>UILabel</title>
+		
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		
+		<meta name="description" content=""/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<link rel="stylesheet" type="text/css" href="../css/normalize.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/main.css"/>
+		
+	</head>
+	
+	<body>
+		
+		<h1>H1 title</h1>
+		<h2>H2 title</h2>
+		<h3>H3 title</h3>
+		<h4>H4 title</h4>
+		<h5>H5 title</h5>
+		<h6>H6 title</h6>
+		
+		<hr/>
+
+		1. text-align: left;
+		<UILabel class="label1">A quick brown fox jump over the lazy dog.</UILabel>
+		
+		2. text-align: center;
+		<UILabel class="label2">A quick brown fox jump over the lazy dog.</UILabel>
+
+		3. text-align: right;
+		<UILabel class="label3">A quick brown fox jump over the lazy dog.</UILabel>
+		
+		4. word-wrap: break-word;
+		<UILabel class="label4">A quick brown fox jump over the lazy dog. A quick brown fox jump over the lazy dog. A quick brown fox jump over the lazy dog.</UILabel>
+		
+		5. word-wrap: normal;
+		<UILabel class="label5">A quick brown fox jump over the lazy dog. A quick brown fox jump over the lazy dog. A quick brown fox jump over the lazy dog.</UILabel>
+		
+		6. text-overflow: ellipsis;
+		<label class="label6">A quick brown fox jump over the lazy dog. A quick brown fox jump over the lazy dog. A quick brown fox jump over the lazy dog.</label>
+		
+		7. text-overflow: ellipsis-head;
+		<label class="label7">A quick brown fox jump over the lazy dog. A quick brown fox jump over the lazy dog. A quick brown fox jump over the lazy dog.</label>
+		
+		8. text-overflow: ellipsis-middle;
+		<p class="label8">A quick brown fox jump over the lazy dog. A quick brown fox jump over the lazy dog. A quick brown fox jump over the lazy dog.</p>
+		
+		9. text-overflow: ellipsis-tail;
+		<p class="label9">A quick brown fox jump over the lazy dog. A quick brown fox jump over the lazy dog. A quick brown fox jump over the lazy dog.</p>
+
+		<style>
+			
+			body {
+				width: 100%;
+				height: auto;
+				color: #999;
+				font-size: 14px;
+				background-color: white;
+				text-align: left;
+			}
+
+			hr {
+				margin-top: 10px;
+				margin-bottom: 10px;
+				height: 1px;
+				background-color: #333;
+			}
+
+			p, label, UILabel {
+				width: 100%;
+				border-color: red;
+				border-width: 0.5px;
+				color: #333;
+				font-size: 14px;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				padding-top: 3px;
+				padding-bottom: 3px;
+			}
+
+			.label1 {
+				display: block;
+				color: blue;
+				text-align: left;
+			}
+		
+			.label2 {
+				display: block;
+				color: blue;
+				text-align: center;
+			}
+
+			.label3 {
+				display: block;
+				color: blue;
+				text-align: right;
+			}
+
+			.label4 {
+				display: block;
+				color: blue;
+				text-align: left;
+				word-wrap: break-word;
+			}
+		
+			.label5 {
+				display: block;
+				color: blue;
+				text-align: left;
+				word-wrap: normal;
+			}
+
+			.label6 {
+				display: block;
+				height: 20px;
+				color: blue;
+				text-align: left;
+				word-wrap: break-word;
+				text-overflow: ellipsis;
+			}
+
+			.label7 {
+				display: block;
+				height: 20px;
+				color: blue;
+				text-align: center;
+				word-wrap: break-word;
+				text-overflow: ellipsis-head;
+			}
+		
+			.label8 {
+				display: block;
+				height: 20px;
+				color: blue;
+				text-align: center;
+				word-wrap: break-word;
+				text-overflow: ellipsis-middle;
+			}
+		
+			.label9 {
+				display: block;
+				height: 20px;
+				color: blue;
+				text-align: center;
+				word-wrap: break-word;
+				text-overflow: ellipsis-tail;
+			}
+
+		</style>
+		
+	</body>
+	
+</html>

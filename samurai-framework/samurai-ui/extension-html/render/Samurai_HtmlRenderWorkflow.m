@@ -32,7 +32,8 @@
 #import "Samurai_HtmlRenderWorklet_10Begin.h"
 #import "Samurai_HtmlRenderWorklet_20UpdateStyle.h"
 #import "Samurai_HtmlRenderWorklet_30UpdateFrame.h"
-#import "Samurai_HtmlRenderWorklet_40Finish.h"
+#import "Samurai_HtmlRenderWorklet_40UpdateChain.h"
+#import "Samurai_HtmlRenderWorklet_50Finish.h"
 
 #import "_pragma_push.h"
 
@@ -59,7 +60,8 @@
 		[self.worklets addObject:[SamuraiHtmlRenderWorklet_10Begin worklet]];
 		[self.worklets addObject:[SamuraiHtmlRenderWorklet_20UpdateStyle worklet]];
 		[self.worklets addObject:[SamuraiHtmlRenderWorklet_30UpdateFrame worklet]];
-		[self.worklets addObject:[SamuraiHtmlRenderWorklet_40Finish worklet]];
+		[self.worklets addObject:[SamuraiHtmlRenderWorklet_40UpdateChain worklet]];
+		[self.worklets addObject:[SamuraiHtmlRenderWorklet_50Finish worklet]];
 	}
 	return self;
 }
@@ -81,7 +83,7 @@
 	{
 		[self.worklets addObject:[SamuraiHtmlRenderWorklet_10Begin worklet]];
 		[self.worklets addObject:[SamuraiHtmlRenderWorklet_20UpdateStyle worklet]];
-		[self.worklets addObject:[SamuraiHtmlRenderWorklet_40Finish worklet]];
+		[self.worklets addObject:[SamuraiHtmlRenderWorklet_50Finish worklet]];
 	}
 	return self;
 }
@@ -103,7 +105,29 @@
 	{
 		[self.worklets addObject:[SamuraiHtmlRenderWorklet_10Begin worklet]];
 		[self.worklets addObject:[SamuraiHtmlRenderWorklet_30UpdateFrame worklet]];
-		[self.worklets addObject:[SamuraiHtmlRenderWorklet_40Finish worklet]];
+		[self.worklets addObject:[SamuraiHtmlRenderWorklet_50Finish worklet]];
+	}
+	return self;
+}
+
+- (void)dealloc
+{
+}
+
+@end
+
+#pragma mark -
+
+@implementation SamuraiHtmlRenderWorkflow_UpdateChain
+
+- (id)init
+{
+	self = [super init];
+	if ( self )
+	{
+		[self.worklets addObject:[SamuraiHtmlRenderWorklet_10Begin worklet]];
+		[self.worklets addObject:[SamuraiHtmlRenderWorklet_40UpdateChain worklet]];
+		[self.worklets addObject:[SamuraiHtmlRenderWorklet_50Finish worklet]];
 	}
 	return self;
 }

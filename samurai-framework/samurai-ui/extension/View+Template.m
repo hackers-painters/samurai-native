@@ -68,14 +68,15 @@
 	
 	if ( viewTemplate.loading )
 	{
+	#if __SAMURAI_USE_UI_CALLCHAIN__
+		[self performCallChainWithSelector:@selector(onTemplateLoading) reversed:YES];
+	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
 		[self onTemplateLoading];
+	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
 	}
 	else if ( viewTemplate.loaded )
 	{
-		if ( viewTemplate.document )
-		{
-			[viewTemplate.document configuringForView:self];
-		}
+		[viewTemplate.document configuringForView:self];
 
 		SamuraiRenderObject * rootRender = viewTemplate.document.renderTree;
 		
@@ -102,22 +103,39 @@
 //				self.renderer = rootRender;
 			}
 
+			[rootRender rechain];
 		//	[rootRender relayout];
-			
+
+		#if __SAMURAI_USE_UI_CALLCHAIN__
+			[self performCallChainWithSelector:@selector(onTemplateLoaded) reversed:YES];
+		#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
 			[self onTemplateLoaded];
+		#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
 		}
 		else
 		{
+		#if __SAMURAI_USE_UI_CALLCHAIN__
+			[self performCallChainWithSelector:@selector(onTemplateFailed) reversed:YES];
+		#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
 			[self onTemplateFailed];
+		#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
 		}
 	}
 	else if ( viewTemplate.failed )
 	{
+	#if __SAMURAI_USE_UI_CALLCHAIN__
+		[self performCallChainWithSelector:@selector(onTemplateFailed) reversed:YES];
+	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
 		[self onTemplateFailed];
+	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
 	}
 	else if ( viewTemplate.cancelled )
 	{
+	#if __SAMURAI_USE_UI_CALLCHAIN__
+		[self performCallChainWithSelector:@selector(onTemplateCancelled) reversed:YES];
+	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
 		[self onTemplateCancelled];
+	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
 	}
 }
 
@@ -143,6 +161,14 @@
 }
 
 #pragma mark -
+
+- (void)rechain
+{
+	if ( self.renderer )
+	{
+		[self.renderer rechain];
+	}
+}
 
 - (void)relayout
 {

@@ -36,6 +36,10 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_HtmlRenderObject.h"
+#import "Samurai_HtmlStyle.h"
+#import "Samurai_UIView.h"
+
 // ----------------------------------
 // Source code
 // ----------------------------------
@@ -70,16 +74,21 @@
 	[self applyFrame:newFrame];
 }
 
+- (void)html_forView:(UIView *)hostView
+{
+	
+}
+
 @end
 
 #pragma mark -
 
 @implementation UIView(HtmlSupport)
 
-@def_prop_dynamic( SamuraiHtmlStyle *,	customStyle );
-@def_prop_dynamic( NSArray *,			customStyleClasses );
+@def_prop_dynamic( SamuraiHtmlStyle *,	cssStyle );
+@def_prop_dynamic( NSMutableArray *,	cssStyleClasses );
 
-- (SamuraiHtmlStyle *)customStyle
+- (SamuraiHtmlStyle *)cssStyle
 {
 	SamuraiHtmlRenderObject * thisRenderer = (SamuraiHtmlRenderObject *)[self renderer];
 	
@@ -99,7 +108,21 @@
 	return style;
 }
 
-- (NSArray *)customStyleClasses
+- (void)setCssStyle:(SamuraiHtmlStyle *)newStyle
+{
+	SamuraiHtmlRenderObject * thisRenderer = (SamuraiHtmlRenderObject *)[self renderer];
+	
+	if ( thisRenderer && [thisRenderer isKindOfClass:[SamuraiHtmlRenderObject class]] )
+	{
+		if ( thisRenderer.customStyle )
+		{
+			[thisRenderer.customStyle clear];
+			[thisRenderer.customStyle merge:newStyle.properties];
+		}
+	}
+}
+
+- (NSArray *)cssStyleClasses
 {
 	SamuraiHtmlRenderObject * thisRenderer = (SamuraiHtmlRenderObject *)[self renderer];
 	
@@ -111,7 +134,7 @@
 	return nil;
 }
 
-- (void)setCustomStyleClasses:(NSArray *)classes
+- (void)setCssStyleClasses:(NSArray *)classes
 {
 	SamuraiHtmlRenderObject * thisRenderer = (SamuraiHtmlRenderObject *)[self renderer];
 	
@@ -119,6 +142,58 @@
 	{
 		[thisRenderer.customStyleClasses removeAllObjects];
 		[thisRenderer.customStyleClasses addObjectsFromArray:classes];
+	}
+}
+
+- (void)attr:(NSString *)key value:(NSString *)value
+{
+	if ( nil == key )
+		return;
+	
+	if ( nil == value )
+	{
+		[self.cssStyle setProperty:nil forKey:key];
+	}
+	else
+	{
+		[self.cssStyle setProperty:value forKey:key];
+	}
+}
+
+- (void)addCssStyleClass:(NSString *)className
+{
+	if ( nil == className )
+		return;
+	
+	if ( NO == [self.cssStyleClasses containsObject:className] )
+	{
+		[self.cssStyleClasses addObject:className];
+	}
+}
+
+- (void)removeCssStyleClass:(NSString *)className
+{
+	if ( nil == className )
+		return;
+
+	if ( [self.cssStyleClasses containsObject:className] )
+	{
+		[self.cssStyleClasses removeObject:className];
+	}
+}
+
+- (void)toggleCssStyleClass:(NSString *)className
+{
+	if ( nil == className )
+		return;
+
+	if ( [self.cssStyleClasses containsObject:className] )
+	{
+		[self.cssStyleClasses removeObject:className];
+	}
+	else
+	{
+		[self.cssStyleClasses addObject:className];
 	}
 }
 
@@ -130,6 +205,7 @@
 {
 	SamuraiHtmlRenderWorkflow_UpdateFrame *	_relayout;
 	SamuraiHtmlRenderWorkflow_UpdateStyle *	_restyle;
+	SamuraiHtmlRenderWorkflow_UpdateChain *	_rechain;
 }
 
 @def_prop_strong( NSMutableArray *,				customStyleClasses );
@@ -143,6 +219,23 @@
 @def_prop_assign( RenderDirection,				direction );
 
 BASE_CLASS( SamuraiHtmlRenderObject )
+
++ (instancetype)renderObjectWithDom:(SamuraiHtmlDomNode *)dom andStyle:(SamuraiHtmlStyle *)style
+{
+	SamuraiHtmlRenderObject * renderObject = [super renderObjectWithDom:dom andStyle:style];
+	
+//	renderObject.layer = 0;
+//	renderObject.zIndex = 0;
+
+	NSString * tabIndex = [dom.domAttributes objectForKey:@"tabindex"];
+
+	if ( tabIndex )
+	{
+		renderObject.tabIndex = [tabIndex integerValue];
+	}
+
+	return renderObject;
+}
 
 #pragma mark -
 
@@ -166,6 +259,10 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (void)dealloc
 {
+	_relayout = nil;
+	_restyle = nil;
+	_rechain = nil;
+	
 	self.customStyleClasses = nil;
 	self.customStyleComputed = nil;
 	self.customStyle = nil;
@@ -614,6 +711,16 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 	}
 
 	[_restyle process];
+}
+
+- (void)rechain
+{
+	if ( nil == _rechain )
+	{
+		_rechain = [SamuraiHtmlRenderWorkflow_UpdateChain workflowWithContext:self];
+	}
+	
+	[_rechain process];
 }
 
 #pragma mark -

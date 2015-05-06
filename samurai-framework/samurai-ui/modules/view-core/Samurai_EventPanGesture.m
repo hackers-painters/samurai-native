@@ -60,6 +60,15 @@
 @def_prop_dynamic( CGPoint,	panOffset );
 @def_prop_dynamic( CGPoint,	panVelocity );
 
+#pragma mark -
+
++ (BOOL)supportPanGesture
+{
+	return YES;
+}
+
+#pragma mark -
+
 - (void)__panGestureInternalCallback:(__PanGestureRecognizer *)gesture
 {
 	if ( UIGestureRecognizerStatePossible == gesture.state )

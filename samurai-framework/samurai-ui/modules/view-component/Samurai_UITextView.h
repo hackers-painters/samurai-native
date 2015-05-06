@@ -36,9 +36,29 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_UIView.h"
+
+#pragma mark -
+
+@interface SamuraiUITextViewAgent : NSObject<UITextViewDelegate>
+
+@prop_unsafe( UITextView *,	textView );
+
+- (void)enableEvents;
+- (void)disableEvents;
+
+@end
+
 #pragma mark -
 
 @interface UITextView(Samurai)
+
+@signal( eventDidBeginEditing );
+@signal( eventDidEndEditing );
+@signal( eventChanged );
+
+- (SamuraiUITextViewAgent *)textViewAgent;
+
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

@@ -296,7 +296,8 @@
 				}
 				else if ( LAYOUT_DIRECTION_HORIZONTAL == _layoutDirection )
 				{
-					currItem.estimatedSize = [section getSizeForRowAtIndexPath:currItem.indexPath byHeight:viewBounds.height];
+					currItem.estimatedSize = [section getSizeForRowAtIndexPath:currItem.indexPath byWidth:viewBounds.width];
+				//	currItem.estimatedSize = [section getSizeForRowAtIndexPath:currItem.indexPath byHeight:viewBounds.height];
 					currItem.estimatedSpan = _layoutColumnCount; // (currItem.estimatedSize.height + _layoutColumnWidth - 1.0f) / _layoutColumnWidth;
 				}
 				else
@@ -313,7 +314,8 @@
 				}
 				else if ( LAYOUT_DIRECTION_HORIZONTAL == _layoutDirection )
 				{
-					currItem.estimatedSize = [section getSizeForRowAtIndexPath:currItem.indexPath byHeight:_layoutColumnWidth];
+					currItem.estimatedSize = [section getSizeForRowAtIndexPath:currItem.indexPath byWidth:_layoutColumnWidth];
+				//	currItem.estimatedSize = [section getSizeForRowAtIndexPath:currItem.indexPath byHeight:_layoutColumnWidth];
 					currItem.estimatedSpan = (currItem.estimatedSize.height + _layoutColumnWidth - 1.0f) / _layoutColumnWidth;
 				}
 				else
@@ -761,6 +763,43 @@
 - (void)html_applyFrame:(CGRect)newFrame
 {
 	[super html_applyFrame:newFrame];
+
+	NSString * isVertical = [self.renderer.dom.domAttributes objectForKey:@"is-vertical"];
+	NSString * isHorizontal = [self.renderer.dom.domAttributes objectForKey:@"is-horizontal"];
+
+	if ( isVertical )
+	{
+		self.alwaysBounceVertical = YES;
+		self.showsVerticalScrollIndicator = NO;
+		
+		self.alwaysBounceHorizontal = NO;
+		self.showsHorizontalScrollIndicator = NO;
+		
+		self.bounces = YES;
+		self.scrollEnabled = YES;
+	}
+	else if ( isHorizontal )
+	{
+		self.alwaysBounceVertical = NO;
+		self.showsVerticalScrollIndicator = NO;
+		
+		self.alwaysBounceHorizontal = YES;
+		self.showsHorizontalScrollIndicator = NO;
+		
+		self.bounces = YES;
+		self.scrollEnabled = YES;
+	}
+	else
+	{
+		self.alwaysBounceVertical = YES;
+		self.showsVerticalScrollIndicator = NO;
+		
+		self.alwaysBounceHorizontal = NO;
+		self.showsHorizontalScrollIndicator = NO;
+		
+		self.bounces = YES;
+		self.scrollEnabled = YES;
+	}
 }
 
 @end

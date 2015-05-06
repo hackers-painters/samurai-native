@@ -100,6 +100,11 @@
 
 @def_prop_assign( CGRect,					frame );
 @def_prop_assign( CGPoint,					offset );
+
+@def_prop_assign( NSInteger,				layer );
+@def_prop_assign( NSInteger,				zIndex );
+@def_prop_assign( NSInteger,				tabIndex );
+
 @def_prop_assign( UIEdgeInsets,				inset );
 @def_prop_assign( UIEdgeInsets,				margin );
 @def_prop_assign( UIEdgeInsets,				padding );
@@ -147,8 +152,13 @@ static NSUInteger __objectSeed = 0;
 		self.style = nil;
 		self.viewClass = nil; // [[self class] defaultViewClass];
 
+		self.layer = 0;
+		self.zIndex = 0;
+		self.tabIndex = -1;
+		
 		self.offset = CGPointZero;
 		self.frame = CGRectZero;
+		
 		self.inset = UIEdgeInsetsZero;
 		self.margin = UIEdgeInsetsZero;
 		self.padding = UIEdgeInsetsZero;
@@ -277,6 +287,91 @@ static NSUInteger __objectSeed = 0;
 
 #pragma mark -
 
+- (SamuraiRenderObject *)queryById:(NSString *)domId
+{
+	if ( nil == domId )
+	{
+		return nil;
+	}
+
+	if ( [self.dom.domId isEqualToString:domId] )
+	{
+		return self;
+	}
+	
+	for ( SamuraiRenderObject * childRender in self.childs )
+	{
+		SamuraiRenderObject * result = [childRender queryById:domId];
+		
+		if ( result )
+		{
+			return result;
+		}
+	}
+	
+	return nil;
+}
+
+- (SamuraiRenderObject *)queryByDom:(SamuraiDomNode *)domNode
+{
+	if ( nil == domNode )
+	{
+		return nil;
+	}
+
+	if ( self.dom == domNode )
+	{
+		return self;
+	}
+	
+	for ( SamuraiRenderObject * childRender in self.childs )
+	{
+		SamuraiRenderObject * result = [childRender queryByDom:domNode];
+		
+		if ( result )
+		{
+			return result;
+		}
+	}
+	
+	return nil;
+}
+
+- (SamuraiRenderObject *)prevObject
+{
+	return [self.root findObjectWithTabIndex:(self.tabIndex - 1) exclude:self];
+}
+
+- (SamuraiRenderObject *)nextObject
+{
+	return [self.root findObjectWithTabIndex:(self.tabIndex + 1) exclude:self];
+}
+
+- (SamuraiRenderObject *)findObjectWithTabIndex:(NSInteger)tabIndex exclude:(SamuraiRenderObject *)sourceObject
+{
+	if ( self != sourceObject )
+	{
+		if ( self.tabIndex == tabIndex )
+		{
+			return self;
+		}
+	}
+
+	for ( SamuraiRenderObject * childRender in self.childs )
+	{
+		SamuraiRenderObject * result = [childRender findObjectWithTabIndex:tabIndex exclude:sourceObject];
+
+		if ( result )
+		{
+			return result;
+		}
+	}
+
+	return nil;
+}
+
+#pragma mark -
+
 - (CGRect)zerolizeFrame
 {
 	self.offset = CGPointZero;
@@ -327,6 +422,10 @@ static NSUInteger __objectSeed = 0;
 }
 
 - (void)restyle
+{
+}
+
+- (void)rechain
 {
 }
 

@@ -129,7 +129,7 @@
 
 - (CGFloat)computeValue:(CGFloat)value
 {
-	return self.value;
+	return self.value * 16.0f;	// em to px
 }
 
 @end

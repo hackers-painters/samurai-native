@@ -245,7 +245,8 @@
 //	{
 //		[reuseCell zerolize];
 //	}
-	
+
+	[reuseCell.renderer rechain];
 	[reuseCell.renderer relayout];
 //	[reuseCell tableViewCellAgent].dirty = YES;
 
@@ -785,16 +786,34 @@
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
 	UITableView * tableView = [[self alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-	
-	SamuraiUITableViewAgent * agent = [tableView tableViewAgent];
-	
-	tableView.renderer = renderer;
-	tableView.delegate = agent;
-	tableView.dataSource = agent;
 
-	[agent constructSections:renderer];
+	tableView.renderer = renderer;
+
+	[[tableView tableViewAgent] constructSections:renderer];
 
 	return tableView;
+}
+
+#pragma mark -
+
++ (BOOL)supportTapGesture
+{
+	return YES;
+}
+
++ (BOOL)supportSwipeGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPinchGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPanGesture
+{
+	return YES;
 }
 
 #pragma mark -
@@ -806,7 +825,11 @@
 	if ( nil == agent )
 	{
 		agent = [[SamuraiUITableViewAgent alloc] init];
+		agent.scrollView = self;
 		agent.tableView = self;
+
+		self.delegate = agent;
+		self.dataSource = agent;
 
 		[self retainAssociatedObject:agent forKey:"UITableView.agent"];
 	}

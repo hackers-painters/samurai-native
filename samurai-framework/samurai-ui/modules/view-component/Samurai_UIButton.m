@@ -42,30 +42,172 @@
 
 #pragma mark -
 
+@implementation SamuraiUIButtonAgent
+{
+	BOOL _enabled;
+}
+
+@def_prop_unsafe( UIButton *,	button );
+
+- (void)dealloc
+{
+	[self disableEvents];
+}
+
+- (void)enableEvents
+{
+	if ( NO == _enabled )
+	{
+		[self.button addTarget:self action:@selector(touchDown:) forControlEvents:UIControlEventTouchDown];
+		[self.button addTarget:self action:@selector(touchDownRepeat:) forControlEvents:UIControlEventTouchDownRepeat];
+		[self.button addTarget:self action:@selector(touchDragInside:) forControlEvents:UIControlEventTouchDragInside];
+		[self.button addTarget:self action:@selector(touchDragOutside:) forControlEvents:UIControlEventTouchDragOutside];
+		[self.button addTarget:self action:@selector(touchDragEnter:) forControlEvents:UIControlEventTouchDragEnter];
+		[self.button addTarget:self action:@selector(touchDragExit:) forControlEvents:UIControlEventTouchDragExit];
+		[self.button addTarget:self action:@selector(touchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+		[self.button addTarget:self action:@selector(touchUpOutside:) forControlEvents:UIControlEventTouchUpOutside];
+		[self.button addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchCancel];
+		
+		_enabled = YES;
+	}
+}
+
+- (void)disableEvents
+{
+	if ( _enabled )
+	{
+		[self.button removeTarget:self action:@selector(touchDown:) forControlEvents:UIControlEventTouchDown];
+		[self.button removeTarget:self action:@selector(touchDownRepeat:) forControlEvents:UIControlEventTouchDownRepeat];
+		[self.button removeTarget:self action:@selector(touchDragInside:) forControlEvents:UIControlEventTouchDragInside];
+		[self.button removeTarget:self action:@selector(touchDragOutside:) forControlEvents:UIControlEventTouchDragOutside];
+		[self.button removeTarget:self action:@selector(touchDragEnter:) forControlEvents:UIControlEventTouchDragEnter];
+		[self.button removeTarget:self action:@selector(touchDragExit:) forControlEvents:UIControlEventTouchDragExit];
+		[self.button removeTarget:self action:@selector(touchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+		[self.button removeTarget:self action:@selector(touchUpOutside:) forControlEvents:UIControlEventTouchUpOutside];
+		[self.button removeTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchCancel];
+		
+		_enabled = NO;
+	}
+}
+
+#pragma mark -
+
+- (void)touchDown:(id)sender
+{
+	[self.button setTapState:TapState_Pressing];
+}
+
+- (void)touchDownRepeat:(id)sender
+{
+	
+}
+
+- (void)touchDragInside:(id)sender
+{
+	
+}
+
+- (void)touchDragOutside:(id)sender
+{
+	
+}
+
+- (void)touchDragEnter:(id)sender
+{
+	
+}
+
+- (void)touchDragExit:(id)sender
+{
+	
+}
+
+- (void)touchUpInside:(id)sender
+{
+	[self.button setTapState:TapState_Raised];
+}
+
+- (void)touchUpOutside:(id)sender
+{
+	[self.button setTapState:TapState_Cancelled];
+}
+
+- (void)touchCancel:(id)sender
+{
+	[self.button setTapState:TapState_Cancelled];
+}
+
+@end
+
+#pragma mark -
+
 @implementation UIButton(Samurai)
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
 	UIButton * button = [self buttonWithType:UIButtonTypeCustom];
+
 	button.renderer = renderer;
+	
+	[[button buttonAgent] enableEvents];
+	
 	return button;
+}
+
+#pragma mark -
+
+- (SamuraiUIButtonAgent *)buttonAgent
+{
+	SamuraiUIButtonAgent * agent = [self getAssociatedObjectForKey:"UIButton.agent"];
+	
+	if ( nil == agent )
+	{
+		agent = [[SamuraiUIButtonAgent alloc] init];
+		agent.button = self;
+
+		[self retainAssociatedObject:agent forKey:"UIButton.agent"];
+	}
+
+	return agent;
+}
+
+#pragma mark -
+
++ (BOOL)supportTapGesture
+{
+	return YES;
+}
+
++ (BOOL)supportSwipeGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPinchGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPanGesture
+{
+	return YES;
 }
 
 #pragma mark -
 
 - (id)serialize
 {
-	return self.titleLabel.text;
+	return [self currentTitle];
 }
 
 - (void)unserialize:(id)obj
 {
-	self.titleLabel.text = [obj toString];
+	[self setTitle:[[obj toString] normalize] forState:UIControlStateNormal];
 }
 
 - (void)zerolize
 {
-	self.titleLabel.text = nil;
+	[self setTitle:nil forState:UIControlStateNormal];
 }
 
 #pragma mark -
@@ -90,6 +232,25 @@
 - (CGSize)computeSizeByHeight:(CGFloat)height
 {
 	return [super computeSizeByHeight:height];
+}
+
+#pragma mark -
+
+- (void)enableTapGesture
+{
+	[self enableTapGestureWithSignal:nil];
+}
+
+- (void)enableTapGestureWithSignal:(NSString *)signal
+{
+	self.tapSignalName = signal;
+
+	[[self buttonAgent] enableEvents];
+}
+
+- (void)disableTapGesture
+{
+	[[self buttonAgent] disableEvents];
 }
 
 @end

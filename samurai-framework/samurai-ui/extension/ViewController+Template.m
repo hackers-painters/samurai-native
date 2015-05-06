@@ -103,7 +103,7 @@
 						leftView.decelerationRate = rightView.decelerationRate;
 					}
 				}
-				
+
 				self.view = rootView;
 				
 				[self.viewTemplate.document.renderTree bindOutletsTo:self];
@@ -122,10 +122,8 @@
 			}
 		}
 		
-		if ( self.viewTemplate )
-		{
-			[self.viewTemplate.document configuringForViewController:self];
-		}
+		[self.viewTemplate.document configuringForViewController:self];
+		[self.viewTemplate.document.renderTree rechain];
 
 	#if __SAMURAI_USE_UI_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onTemplateLoaded) reversed:YES];
@@ -173,6 +171,20 @@
 }
 
 #pragma mark -
+
+- (void)rechain
+{
+	if ( [self isViewLoaded] )
+	{
+		if ( self.viewTemplate )
+		{
+			if ( self.viewTemplate.document && self.viewTemplate.document.renderTree )
+			{
+				[self.viewTemplate.document.renderTree rechain];
+			}
+		}
+	}
+}
 
 - (void)relayout
 {

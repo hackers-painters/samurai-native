@@ -34,16 +34,11 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "HtmlContainer.h"
+
 // ----------------------------------
 // Source code
 // ----------------------------------
-
-#pragma mark -
-
-@interface __HtmlContainerView : UIView
-@end
-@implementation __HtmlContainerView
-@end
 
 #pragma mark -
 
@@ -51,7 +46,7 @@
 
 + (Class)defaultViewClass
 {
-	return [__HtmlContainerView class];
+	return [HtmlContainer class];
 }
 
 #pragma mark -
@@ -203,22 +198,21 @@
 		case RenderPosition_Static:
 		case RenderPosition_Relative:
 			{
-				CGPoint	childOrigin;
 				CGRect	childWindow;
+				CGPoint	childOrigin;
+				CGSize	childBoundSize;
 				
 				if ( [child layoutShouldWrapBefore] )
 				{
 					relWindow.origin.x = CGRectGetMinX( maxWindow );
 					relWindow.origin.y = CGRectGetMaxY( maxWindow );
 				}
-				
+
 				childOrigin.x = relWindow.origin.x - oriWindow.origin.x;
-				childOrigin.y = relWindow.origin.y - oriWindow.origin.y;
-
 				childOrigin.x += computedPadding.left;
+				
+				childOrigin.y = relWindow.origin.y - oriWindow.origin.y;
 				childOrigin.y += computedPadding.top;
-
-				CGSize childBoundSize;
 				
 				childBoundSize.width = self.style.maxWidth ? maxWidth : relWindow.size.width;
 				childBoundSize.height = self.style.maxHeight ? maxHeight : relWindow.size.height;
@@ -231,7 +225,7 @@
 					{
 						BOOL breakLine = NO;
 						
-						if ( NO == [self.style isAutoWidth] )
+						if ( INVALID_VALUE != computedFrame.size.width )
 						{
 							if ( computedFrame.size.width > childWindow.size.width )
 							{
@@ -242,9 +236,9 @@
 							}
 						}
 						
-						if ( maxWidth > childWindow.size.width )
+						if ( INVALID_VALUE != maxWidth )
 						{
-							if ( INVALID_VALUE != maxWidth )
+							if ( maxWidth > childWindow.size.width )
 							{
 								if ( relWindow.origin.x > maxWidth )
 								{
@@ -252,16 +246,27 @@
 								}
 							}
 						}
-						
+
+						if ( INVALID_VALUE != childBoundSize.width )
+						{
+							if ( CGRectGetMaxX( childWindow ) > childBoundSize.width )
+							{
+								breakLine = YES;
+							}
+						}
+
 						if ( breakLine )
 						{
-							relWindow.origin.x = oriWindow.origin.x;
-							relWindow.origin.y += childWindow.size.height;
+							relWindow.origin.x = CGRectGetMinX( oriWindow );
+							relWindow.origin.y = CGRectGetMaxY( maxWindow );
 							
 							childOrigin.x = relWindow.origin.x - oriWindow.origin.x;
 							childOrigin.y = relWindow.origin.y - oriWindow.origin.y;
-							
-							childWindow = [child computeFrame:relWindow.size origin:childOrigin];
+
+							childBoundSize.width = self.style.maxWidth ? maxWidth : relWindow.size.width;
+							childBoundSize.height = self.style.maxHeight ? maxHeight : relWindow.size.height;
+
+							childWindow = [child computeFrame:childBoundSize origin:childOrigin];
 							
 							column = 0;
 						}
@@ -395,33 +400,33 @@
 	
 // compute min/max size
 	
-	if ( INVALID_VALUE != minWidth )
+	if ( self.style.minWidth )
 	{
-		if ( computedFrame.size.width < minWidth )
+		if ( INVALID_VALUE != minWidth && computedFrame.size.width < minWidth )
 		{
 			computedFrame.size.width = minWidth;
 		}
 	}
 	
-	if ( INVALID_VALUE != minHeight )
+	if ( self.style.minHeight )
 	{
-		if ( computedFrame.size.height < minHeight )
+		if ( INVALID_VALUE != minHeight && computedFrame.size.height < minHeight )
 		{
 			computedFrame.size.height = minHeight;
 		}
 	}
 	
-	if ( INVALID_VALUE != maxWidth )
+	if ( self.style.maxWidth )
 	{
-		if ( computedFrame.size.width > maxWidth )
+		if ( INVALID_VALUE != maxWidth && computedFrame.size.width > maxWidth )
 		{
 			computedFrame.size.width = maxWidth;
 		}
 	}
 	
-	if ( INVALID_VALUE != maxHeight )
+	if ( self.style.maxHeight )
 	{
-		if ( computedFrame.size.height > maxHeight )
+		if ( INVALID_VALUE != maxHeight && computedFrame.size.height > maxHeight )
 		{
 			computedFrame.size.height = maxHeight;
 		}
@@ -551,7 +556,9 @@
 
 		CGFloat floatingLeft = floatingWindow.origin.x;
 		CGFloat floatingRight = floatingWindow.origin.x + floatingWindow.size.width;
-	 
+		CGFloat	floatingTop = 0.0f;
+		CGFloat	floatingBottom = 0.0f;
+		
 		floatingRight -= (computedPadding.right + computedPadding.left);
 		floatingRight -= (computedBorder.right + computedBorder.left);
 		
@@ -565,14 +572,49 @@
 
 			if ( RenderFloating_Left == child.floating )
 			{
-				CGRect childWindow = [child computeFrame:floatingWindow.size origin:CGPointZero];
+				CGPoint childOrigin;
+				
+				childOrigin.x = floatingLeft;
+				childOrigin.x += computedPadding.left;
+
+				childOrigin.y = floatingTop;
+				childOrigin.y += computedPadding.top;
+
+				CGRect childWindow = [child computeFrame:floatingWindow.size origin:childOrigin];
 				CGRect childBounds = child.frame;
+
+				floatingBottom = fmaxf( CGRectGetMaxY(childWindow), floatingBottom );
 				
-				childBounds.origin.x = floatingLeft;
-			//	childBounds.origin.y += computedMargin.top;
-			//	childBounds.origin.y += computedBorder.top;
-				childBounds.origin.y += computedPadding.top;
+				BOOL breakLine = NO;
 				
+				if ( INVALID_VALUE != floatingWindow.size.width )
+				{
+					if ( CGRectGetMaxX( childBounds ) >= floatingWindow.size.width )
+					{
+						breakLine = YES;
+					}
+				}
+
+				if ( breakLine )
+				{
+					floatingLeft = floatingWindow.origin.x;
+					floatingTop = floatingBottom;
+
+					childBounds.origin.x = floatingLeft;
+					childBounds.origin.x += child.inset.left;
+					childBounds.origin.x += child.margin.left;
+					childBounds.origin.x += child.border.left;
+					childBounds.origin.x += child.padding.left;
+
+					childBounds.origin.y = floatingBottom;
+					childBounds.origin.y += child.inset.top;
+					childBounds.origin.y += child.margin.top;
+					childBounds.origin.y += child.border.top;
+					childBounds.origin.y += child.padding.top;
+
+					floatingBottom = CGRectGetMaxY( childBounds );
+				}
+
 				child.frame = childBounds;
 				
 				floatingLeft += childWindow.size.width;
@@ -581,10 +623,11 @@
 			{
 				CGRect childWindow = [child computeFrame:floatingWindow.size origin:CGPointZero];
 				CGRect childBounds = child.frame;
-
+				
 				floatingRight -= childWindow.size.width;
 
 				childBounds.origin.x = floatingRight;
+				childBounds.origin.y += floatingTop;
 			//	childBounds.origin.y += computedMargin.top;
 			//	childBounds.origin.y += computedBorder.top;
 				childBounds.origin.y += computedPadding.top;
@@ -681,6 +724,21 @@
 	outerBound.size.width += computedMargin.right;
 	outerBound.size.height += computedMargin.top;
 	outerBound.size.height += computedMargin.bottom;
+
+// compute edge insets
+	
+//	if ( self.view )
+//	{
+//		UIEdgeInsets edgeInsets = [self.view html_edgeInsets];
+//		
+//		innerBound.origin.x += edgeInsets.left;
+//		innerBound.origin.y += edgeInsets.top;
+//		
+//		outerBound.size.width += edgeInsets.left;
+//		outerBound.size.width += edgeInsets.right;
+//		outerBound.size.height += edgeInsets.top;
+//		outerBound.size.height += edgeInsets.bottom;
+//	}
 	
 	self.frame = innerBound;
 	self.offset = origin;

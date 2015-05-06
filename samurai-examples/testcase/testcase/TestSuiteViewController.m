@@ -15,6 +15,8 @@
 	NSMutableArray *	_files;
 }
 
+@synthesize testSuite;
+
 - (void)dealloc
 {
 	[self unloadViewTemplate];
@@ -24,33 +26,34 @@
 	
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+
+	_files = [[NSMutableArray alloc] init];
 	
 	NSString * basePath = [[NSBundle mainBundle] pathForResource:@"/www/html/testcases" ofType:nil inDirectory:nil];
-	NSDirectoryEnumerator * dir = [[NSFileManager defaultManager] enumeratorAtPath:basePath];
-	
-	_files = [NSMutableArray array];
-	
-	for ( ;; )
+
+	if ( nil == self.testSuite )
 	{
-		NSString * subPath = [dir nextObject];
-		if ( nil == subPath )
-			break;
-		
-		NSString * fullPath = [[basePath stringByAppendingPathComponent:subPath] stringByStandardizingPath];
+		self.testSuite = basePath;
+	}
+
+	NSArray * contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.testSuite error:NULL];
+	
+	for ( NSString * subPath in contents )
+	{
+		NSString * fullPath = [[self.testSuite stringByAppendingPathComponent:subPath] stringByStandardizingPath];
 		if ( nil == fullPath )
 			continue;
-		
+
 		BOOL isDir = NO;
 		BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&isDir];
 		if ( exists )
 		{
-			if ( NO == isDir && ([fullPath hasSuffix:@".html"] || [fullPath hasSuffix:@".html"]) )
-			{
-				[_files addObject:fullPath];
-			}
+			[_files addObject:fullPath];
 		}
 	}
 
+	self.navigationBarTitle = [self.testSuite lastPathComponent];
+	
 	[self loadViewTemplate:@"/www/html/test-suite.html"];
 }
 
@@ -77,7 +80,18 @@
 
 			for ( NSString * path in _files )
 			{
-				[array addObject:@{ @"title" : [path lastPathComponent] }];
+				BOOL isDir = NO;
+				
+				[[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir];
+				
+				if ( isDir )
+				{
+					[array addObject:@{ @"title" : [NSString stringWithFormat:@"%@ >", [path lastPathComponent]] }];
+				}
+				else
+				{
+					[array addObject:@{ @"title" : [path lastPathComponent] }];
+				}
 			}
 
 			array;
@@ -99,9 +113,24 @@
 
 handleSignal( test )
 {
-	TestCaseViewController * viewController = [[TestCaseViewController alloc] init];
-	viewController.testCase = [_files objectAtIndex:signal.sourceIndexPath.row];
-	[self.navigationController pushViewController:viewController animated:YES];
+	BOOL isDir = NO;
+	
+	NSString * path = [_files objectAtIndex:signal.sourceIndexPath.row];
+	
+	[[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir];
+
+	if ( isDir )
+	{
+		TestSuiteViewController * viewController = [[TestSuiteViewController alloc] init];
+		viewController.testSuite = path;
+		[self.navigationController pushViewController:viewController animated:YES];
+	}
+	else
+	{
+		TestCaseViewController * viewController = [[TestCaseViewController alloc] init];
+		viewController.testCase = path;
+		[self.navigationController pushViewController:viewController animated:YES];
+	}
 }
 
 @end

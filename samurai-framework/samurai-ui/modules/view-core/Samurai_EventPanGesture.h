@@ -48,6 +48,8 @@
 @prop_readonly( CGPoint,	panOffset );
 @prop_readonly( CGPoint,	panVelocity );
 
++ (BOOL)supportPanGesture;
+
 - (void)enablePanGesture;
 - (void)enablePanGestureWithSignal:(NSString *)signal;
 

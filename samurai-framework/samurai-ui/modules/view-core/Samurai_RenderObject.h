@@ -102,6 +102,10 @@
 @prop_assign( CGRect,					frame );
 @prop_assign( CGPoint,					offset );
 
+@prop_assign( NSInteger,				layer );
+@prop_assign( NSInteger,				zIndex );
+@prop_assign( NSInteger,				tabIndex );
+
 @prop_assign( UIEdgeInsets,				inset );
 @prop_assign( UIEdgeInsets,				margin );
 @prop_assign( UIEdgeInsets,				padding );
@@ -123,10 +127,16 @@
 - (void)bindOutletsTo:(NSObject *)container;
 - (void)unbindOutletsFrom:(NSObject *)container;
 
+- (SamuraiRenderObject *)queryById:(NSString *)domId;
+- (SamuraiRenderObject *)queryByDom:(SamuraiDomNode *)domNode;
+
+- (SamuraiRenderObject *)prevObject;
+- (SamuraiRenderObject *)nextObject;
+- (SamuraiRenderObject *)findObjectWithTabIndex:(NSInteger)tabIndex exclude:(SamuraiRenderObject *)sourceObject;
+
 - (CGRect)zerolizeFrame;
 - (CGFloat)computeWidth:(CGFloat)height;
 - (CGFloat)computeHeight:(CGFloat)width;
-
 - (CGRect)computeFrame:(CGSize)bound;							// override point
 - (CGRect)computeFrame:(CGSize)bound origin:(CGPoint)origin;	// override point
 
@@ -135,8 +145,9 @@
 - (void)bindView:(UIView *)view;	// override point
 - (void)unbindView;					// override point
 
-- (void)relayout;	// override point
-- (void)restyle;	// override point
+- (void)relayout;					// override point
+- (void)restyle;					// override point
+- (void)rechain;					// override point
 
 - (void)debug;
 

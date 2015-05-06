@@ -81,6 +81,7 @@
 #import <fcntl.h>
 #import <dirent.h>
 #import <dlfcn.h>
+#import <spawn.h>
 
 #import <mach-o/fat.h>
 #import <mach-o/dyld.h>

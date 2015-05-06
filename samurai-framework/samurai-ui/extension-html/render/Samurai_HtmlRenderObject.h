@@ -61,14 +61,22 @@ typedef enum
 - (void)html_applyStyle:(SamuraiHtmlStyle *)style;	// override point
 - (void)html_applyFrame:(CGRect)newFrame;			// override point
 
+- (void)html_forView:(UIView *)hostView;			// override point, for="id"
+
 @end
 
 #pragma mark -
 
 @interface UIView(HtmlSupport)
 
-@prop_strong( SamuraiHtmlStyle *,	customStyle );
-@prop_strong( NSArray *,			customStyleClasses );
+@prop_strong( SamuraiHtmlStyle *,	cssStyle );
+@prop_strong( NSMutableArray *,		cssStyleClasses );
+
+- (void)attr:(NSString *)attr value:(NSString *)value;
+
+- (void)addCssStyleClass:(NSString *)className;
+- (void)removeCssStyleClass:(NSString *)className;
+- (void)toggleCssStyleClass:(NSString *)className;
 
 @end
 

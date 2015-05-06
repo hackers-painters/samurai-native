@@ -53,16 +53,121 @@
 - (void)html_applyDom:(SamuraiHtmlDomNode *)dom
 {
 	[super html_applyDom:dom];
+
+	NSString * isContinuous = [dom.domAttributes objectForKey:@"is-continuous"];
+	NSString * value = [dom.domAttributes objectForKey:@"value"];
+	NSString * minValue = [dom.domAttributes objectForKey:@"min-value"];
+	NSString * maxValue = [dom.domAttributes objectForKey:@"max-value"];
+	
+	if ( value )
+	{
+		self.value = [value floatValue];
+	}
+
+	if ( minValue )
+	{
+		self.minimumValue = [minValue floatValue];
+	}
+
+	if ( maxValue )
+	{
+		self.maximumValue = [maxValue floatValue];
+	}
+	
+	if ( isContinuous )
+	{
+		self.continuous = YES;
+	}
+	else
+	{
+		self.continuous = NO;
+	}
 }
 
 - (void)html_applyStyle:(SamuraiHtmlStyle *)style
 {
 	[super html_applyStyle:style];
+
+	UIColor * color = [style computeColor:self.thumbTintColor];
+
+	self.minimumTrackTintColor = [color colorWithAlphaComponent:0.5f];
+	self.maximumTrackTintColor = color;
+	self.thumbTintColor = color;
 }
 
 - (void)html_applyFrame:(CGRect)newFrame
 {
 	[super html_applyFrame:newFrame];
+}
+
+- (void)html_forView:(UIView *)hostView
+{
+	if ( [hostView isKindOfClass:[UIScrollView class]] )
+	{
+		[hostView addObserver:self
+				   forKeyPath:@"contentOffset"
+					  options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew
+					  context:(void *)hostView];
+	}
+}
+
+#pragma mark -
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	NSObject * oldValue = [change objectForKey:@"old"];
+	NSObject * newValue = [change objectForKey:@"new"];
+	
+	if ( newValue )
+	{
+		UIView * hostView = (__bridge UIView *)(context);
+		
+		if ( [hostView isKindOfClass:[UIScrollView class]] )
+		{
+			UIScrollView * scrollView = (UIScrollView *)hostView;
+			
+			if ( NO == CGSizeEqualToSize( scrollView.contentSize, CGSizeZero ) )
+			{
+				CGFloat width = 0;
+				CGFloat offset = 0;
+				
+				CGFloat contentWidth = scrollView.contentSize.width;
+				CGFloat contentHeight = scrollView.contentSize.height;
+				
+				CGFloat frameWidth = scrollView.frame.size.width;
+				CGFloat frameHeight = scrollView.frame.size.height;
+				
+				if ( contentWidth > frameWidth && contentHeight <= frameHeight )
+				{
+					// horizontal
+					
+					width	= contentWidth - frameWidth;
+					offset	= scrollView.contentOffset.x;
+				}
+				else if ( contentHeight > frameHeight && contentWidth <= frameWidth )
+				{
+					// vertical
+					
+					width	= contentHeight - frameHeight;
+					offset	= scrollView.contentOffset.y;
+				}
+				else
+				{
+					width	= 0.0f;
+					offset	= 0.0f;
+				}
+				
+				self.minimumValue = 0.0f;
+				self.maximumValue = 1.0f;
+				
+				[self setValue:(offset / width) animated:YES];
+			}
+			else
+			{
+				[self setValue:0.0f animated:YES];
+			}
+		}
+	}
 }
 
 @end

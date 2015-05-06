@@ -60,6 +60,15 @@
 @def_prop_dynamic( CGFloat,	pinchScale );
 @def_prop_dynamic( CGFloat,	pinchVelocity );
 
+#pragma mark -
+
++ (BOOL)supportPinchGesture
+{
+	return YES;
+}
+
+#pragma mark -
+
 - (void)__pinchGestureInternalCallback:(__PinchGestureRecognizer *)gesture
 {
 	if ( UIGestureRecognizerStatePossible == gesture.state )

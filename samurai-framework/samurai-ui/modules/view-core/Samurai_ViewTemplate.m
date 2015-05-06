@@ -213,17 +213,17 @@
 	
 	triggerBefore( self, stateChanged );
 
-	INFO( @"ViewTemplate '%p', state %d -> %d", self, _state, newState );
+	PERF( @"ViewTemplate '%p', state %d -> %d", self, _state, newState );
 
 	self.state = newState;
 
 	if ( ViewTemplateState_Loading == _state )
 	{
-		INFO( @"ViewTemplate '%p', loading", self );
+		PERF( @"ViewTemplate '%p', loading", self );
 	}
 	else if ( ViewTemplateState_Loaded == _state )
 	{
-		INFO( @"ViewTemplate '%p', loaded", self );
+		PERF( @"ViewTemplate '%p', loaded", self );
 	}
 	else if ( ViewTemplateState_Failed == _state )
 	{

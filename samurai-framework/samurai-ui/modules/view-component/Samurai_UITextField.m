@@ -40,11 +40,242 @@
 
 #pragma mark -
 
+@implementation SamuraiUITextFieldAgent
+{
+	BOOL _enabled;
+}
+
+@def_prop_unsafe( UITextField *,	textField );
+
+- (void)dealloc
+{
+	[NSObject cancelPreviousPerformRequestsWithTarget:self];
+	
+	[self disableEvents];
+}
+
+- (void)enableEvents
+{
+	if ( NO == _enabled )
+	{
+		[self.textField addTarget:self action:@selector(editingDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
+		[self.textField addTarget:self action:@selector(editingChanged:) forControlEvents:UIControlEventEditingChanged];
+		[self.textField addTarget:self action:@selector(editingDidEnd:) forControlEvents:UIControlEventEditingDidEnd];
+		[self.textField addTarget:self action:@selector(editingDidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
+		
+		_enabled = YES;
+	}
+}
+
+- (void)disableEvents
+{
+	if ( _enabled )
+	{
+		[self.textField removeTarget:self action:@selector(editingDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
+		[self.textField removeTarget:self action:@selector(editingChanged:) forControlEvents:UIControlEventEditingChanged];
+		[self.textField removeTarget:self action:@selector(editingDidEnd:) forControlEvents:UIControlEventEditingDidEnd];
+		[self.textField removeTarget:self action:@selector(editingDidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
+		
+		_enabled = NO;
+	}
+}
+
+#pragma mark -
+
+- (void)editingDidBegin:(id)sender
+{
+	if ( _enabled )
+	{
+		[self.textField sendSignal:UITextField.eventDidBeginEditing];
+	}
+}
+
+- (void)editingChanged:(id)sender
+{
+	if ( _enabled )
+	{
+		[self.textField sendSignal:UITextField.eventChanged];
+	}
+}
+
+- (void)editingDidEnd:(id)sender
+{
+	if ( _enabled )
+	{
+		[self.textField sendSignal:UITextField.eventDidEndEditing];
+	}
+}
+
+- (void)editingDidEndOnExit:(id)sender
+{
+	if ( _enabled )
+	{
+		[self.textField sendSignal:UITextField.eventDidEndEditing];
+	}
+}
+
+#pragma mark -
+
+// return NO to disallow editing.
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+	return YES;
+}
+
+// became first responder
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+}
+
+// return YES to allow editing to stop and to resign first responder status. NO to disallow the editing session to end
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+	return YES;
+}
+
+// may be called if forced even if shouldEndEditing returns NO (e.g. view removed from window) or endEditing:YES called
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+	
+}
+
+// return NO to not change text
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+	return YES;
+}
+
+// called when clear button pressed. return NO to ignore (no notifications)
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+	if ( _enabled )
+	{
+		[self.textField sendSignal:UITextField.eventClear];
+	}
+
+	return YES;
+}
+
+// called when 'return' key pressed. return NO to ignore.
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	if ( _enabled )
+	{
+		[self.textField sendSignal:UITextField.eventReturn];
+	}
+
+	if ( self.textField.renderer.tabIndex >= 0 )
+	{
+		[self performSelector:@selector(switchToNextObject) withObject:nil afterDelay:0.25f];
+	}
+
+	return YES;
+}
+
+#pragma mark -
+
+- (void)switchToNextObject
+{
+	SamuraiRenderObject * nextObject = [self.textField.renderer nextObject];
+	
+	if ( nextObject && nextObject.view )
+	{
+		[nextObject.view becomeFirstResponder];
+	}
+}
+
+@end
+
+#pragma mark -
+
 @implementation UITextField(Samurai)
+
+@def_signal( eventDidBeginEditing );
+@def_signal( eventDidEndEditing );
+@def_signal( eventChanged );
+@def_signal( eventClear );
+@def_signal( eventReturn );
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
-	return [super createInstanceWithRenderer:renderer identifier:identifier];
+	UITextField * textField = [[self alloc] initWithFrame:CGRectZero];
+
+	textField.renderer = renderer;
+
+	textField.textColor = [UIColor darkGrayColor];
+	textField.font = [UIFont systemFontOfSize:14.0f];
+	textField.textAlignment = NSTextAlignmentLeft;
+	textField.borderStyle = UITextBorderStyleNone;
+	textField.clearsOnBeginEditing = NO;
+	textField.adjustsFontSizeToFitWidth = NO;
+	textField.minimumFontSize = 12.0f;
+	textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+	textField.clearsOnInsertion = NO;
+	
+	textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+	textField.autocorrectionType = UITextAutocorrectionTypeNo;
+	textField.spellCheckingType = UITextSpellCheckingTypeNo;
+	
+	textField.keyboardType = UIKeyboardTypeDefault;
+	textField.keyboardAppearance = UIKeyboardAppearanceDefault;
+	textField.returnKeyType = UIReturnKeyDefault;
+	textField.enablesReturnKeyAutomatically = NO;
+	textField.secureTextEntry = NO;
+	
+	[[textField textFieldAgent] enableEvents];
+
+	return textField;
+}
+
+- (SamuraiUITextFieldAgent *)textFieldAgent
+{
+	SamuraiUITextFieldAgent * agent = [self getAssociatedObjectForKey:"UITextField.agent"];
+	
+	if ( nil == agent )
+	{
+		agent = [[SamuraiUITextFieldAgent alloc] init];
+		agent.textField = self;
+
+		self.delegate = agent;
+
+		[self retainAssociatedObject:agent forKey:"UITextField.agent"];
+	}
+	
+	return agent;
+}
+
+#pragma mark -
+
+- (CGRect)textRectForBounds:(CGRect)bounds
+{
+	return CGRectInset( bounds, 8, 0 );
+}
+
+- (CGRect)editingRectForBounds:(CGRect)bounds
+{
+	return CGRectInset( bounds, 8, 0 );
+}
+
+#pragma mark -
+
++ (BOOL)supportTapGesture
+{
+	return YES;
+}
+
++ (BOOL)supportSwipeGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPinchGesture
+{
+	return YES;
+}
+
++ (BOOL)supportPanGesture
+{
+	return YES;
 }
 
 #pragma mark -
