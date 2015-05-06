@@ -10,6 +10,10 @@
 
 #pragma mark -
 
+@interface ShotCommentListModel ()
+@property (nonatomic, strong) STIHTTPApi * api;
+@end
+
 @implementation ShotCommentListModel
 
 @def_prop_assign( NSInteger,			page )
@@ -71,6 +75,8 @@
 
 - (void)loadFirstTime:(BOOL)isFirstTime
 {
+    [self.api cancel];
+    
     LIST_COMMENTS_FOR_A_SHOT_API * api = [LIST_COMMENTS_FOR_A_SHOT_API new];
     
     @weakify( self );
@@ -86,7 +92,7 @@
     api.req.per_page = 18;
     api.req.shot = self.shot_id;
     
-    api.whenUpdate = ^( LIST_COMMENTS_FOR_A_SHOT_RESPONSE * resp, id error ) {
+    api.whenUpdated = ^( LIST_COMMENTS_FOR_A_SHOT_RESPONSE * resp, id error ) {
         
         @strongify( self );
         
@@ -108,6 +114,8 @@
             [self sendSignal:self.eventError];
         }
     };
+    
+    self.api = api;
     
     [api send];
     

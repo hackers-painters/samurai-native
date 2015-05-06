@@ -10,10 +10,14 @@
 
 #pragma mark -
 
+@interface ShotModel ()
+@property (nonatomic, strong) STIHTTPApi * api;
+@end
+
 @implementation ShotModel
 
-@def_prop_assign( NSInteger,				shot_id )
-@def_prop_strong( SHOT *,	shot )
+@def_prop_assign( NSInteger,	 shot_id )
+@def_prop_strong( SHOT *,    shot )
 
 @def_signal( eventLoading )
 @def_signal( eventLoaded )
@@ -52,13 +56,15 @@
 
 - (void)refresh
 {
+    [self.api cancel];
+    
     GET_A_SHOT_API * api = [GET_A_SHOT_API new];
     
     @weakify( self );
 
     api.req.id = self.shot_id;
     
-    api.whenUpdate = ^( GET_A_SHOT_RESPONSE * resp, id error ) {
+    api.whenUpdated = ^( GET_A_SHOT_RESPONSE * resp, id error ) {
         
         @strongify( self );
         
@@ -75,6 +81,8 @@
             [self sendSignal:self.eventError];
         }
     };
+    
+    self.api = api;
     
     [api send];
     

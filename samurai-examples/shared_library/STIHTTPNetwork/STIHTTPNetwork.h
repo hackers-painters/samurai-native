@@ -81,7 +81,7 @@
 @end
 
 @interface STIHTTPResponseError : NSObject
-@property (nonatomic, assign) NSUInteger code;
+@property (nonatomic, assign) NSInteger code;
 @property (nonatomic, strong) NSString * message;
 @end
 
@@ -92,13 +92,16 @@
 @interface STIHTTPApi : STIHTTPBaseObject<STIHTTPResponseDataProcessor>
 
 @property (nonatomic, weak) STIHTTPSessionManager * HTTPSessionManager;
-@property (nonatomic, copy) STIHTTPApiBlock whenUpdate;
 @property (nonatomic, strong) STIHTTPRequest * req;
 @property (nonatomic, strong) id<STIHTTPResponse> resp;
 @property (nonatomic, strong) id responseObject;
 @property (nonatomic, weak) NSURLSessionDataTask * task;
+@property (nonatomic, copy) STIHTTPApiBlock whenUpdated;
+@property (nonatomic, copy) void (^ whenCanceled)(void);
 
 - (void)send;
+- (void)cancel;
+
 + (void)setGlobalHTTPSessionManager:(STIHTTPSessionManager *)HTTPSessionManager;
 
 @end

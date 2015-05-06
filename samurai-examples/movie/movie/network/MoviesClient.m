@@ -53,21 +53,9 @@ static NSString * const kMoviesApiKey = @"7waqfqbprs7pajbz28mqf6vz";
                  failure:failure];
 }
 
-
 @end
 
 #pragma mark -
-
-NSDate * CreateDateFromString(NSString * string)
-{
-    if ( !string )
-        return nil;
-    
-    NSDateFormatter * fomatter = [[NSDateFormatter alloc] init];
-    fomatter.dateFormat = @"YYYY-MM-DDTHH:MM:SSZ";
-    NSDate * date = [fomatter dateFromString:string];
-    return date;
-}
 
 @implementation NSObject (APIExtension)
 
@@ -77,22 +65,13 @@ NSDate * CreateDateFromString(NSString * string)
                      class:(__unsafe_unretained Class)clazz
                   subClass:(__unsafe_unretained Class)subClazz
 {
-//    if ( [clazz isEqual:NSDate.class] )
-//    {
-//        if ( [originValue isKindOfClass:clazz] ) {
-//            return originValue;
-//        } else {
-//            return CreateDateFromString(convertedValue);
-//        }
-//    }
-//    
-//    if ( [clazz isEqual:NSNumber.class] )
-//    {
-//        if (  [originValue isKindOfClass:NSString.class] )
-//        {
-//            return @([originValue floatValue]);
-//        }
-//    }
+    if ( [clazz isEqual:NSString.class] )
+    {
+        if (  [originValue isKindOfClass:NSNumber.class] )
+        {
+            return ((NSNumber *)originValue).stringValue;
+        }
+    }
     
     return convertedValue;
 }

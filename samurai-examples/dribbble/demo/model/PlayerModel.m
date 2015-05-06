@@ -10,6 +10,10 @@
 
 #pragma mark -
 
+@interface PlayerModel ()
+@property (nonatomic, strong) STIHTTPApi * api;
+@end
+
 @implementation PlayerModel
 
 @def_prop_assign( NSInteger,				player_id )
@@ -52,13 +56,15 @@
 
 - (void)refresh
 {
+    [self.api cancel];
+    
     GET_A_SINGLE_USER_API * api = [GET_A_SINGLE_USER_API new];
 	
 	@weakify( self );
 	
 	api.req.user = self.player_id;
 	
-	api.whenUpdate = ^( GET_A_SINGLE_USER_RESPONSE * resp, id error ) {
+	api.whenUpdated = ^( GET_A_SINGLE_USER_RESPONSE * resp, id error ) {
         
         @strongify( self );
         
@@ -75,6 +81,8 @@
             [self sendSignal:self.eventError];
         }
     };
+    
+    self.api = api;
     
     [api send];
     

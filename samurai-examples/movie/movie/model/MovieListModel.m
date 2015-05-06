@@ -8,6 +8,10 @@
 
 #import "MovieListModel.h"
 
+@interface MovieListModel ()
+@property (nonatomic, strong) STIHTTPApi * api;
+@end
+
 @implementation MovieListModel
 
 @def_signal( eventLoading )
@@ -67,6 +71,8 @@
 
 - (void)loadFirstTime:(BOOL)isFirstTime
 {
+    [self.api cancel];
+    
     LIST_MOVIES_API * api = [LIST_MOVIES_API new];
     
     @weakify( self );
@@ -84,7 +90,7 @@
     
     api.req.page_limit = 10;
     
-    api.whenUpdate = ^( LIST_MOVIES_RESPONSE * resp, id error ) {
+    api.whenUpdated = ^( LIST_MOVIES_RESPONSE * resp, id error ) {
         
         @strongify( self );
         
@@ -108,6 +114,8 @@
             [self sendSignal:self.eventError];
         }
     };
+    
+    self.api = api;
     
     [api send];
     

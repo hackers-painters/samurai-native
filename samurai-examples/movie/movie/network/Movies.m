@@ -49,6 +49,9 @@
 
 @implementation LIST_MOVIES_API
 
+@synthesize req = _req;
+@synthesize resp = _resp;
+
 - (instancetype)init
 {
     self = [super init];
@@ -70,6 +73,9 @@
 @end
 
 @implementation GET_A_MOVIE_API
+
+@synthesize req = _req;
+@synthesize resp = _resp;
 
 - (instancetype)init
 {

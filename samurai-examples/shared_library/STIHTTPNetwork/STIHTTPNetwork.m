@@ -33,6 +33,8 @@
 #import "NSObject+AutoCoding.h"
 #import "AFNetworking.h"
 
+#pragma mark -
+
 @implementation STIHTTPBaseObject
 
 - (BOOL)isValidated
@@ -63,16 +65,7 @@ static STIHTTPSessionManager * kGlobalHTTPSessionManager = nil;
 
 - (void)dealloc
 {
-    switch ( self.task.state )
-    {
-        case NSURLSessionTaskStateRunning:
-        case NSURLSessionTaskStateSuspended:
-            [self.task cancel];
-            break;
-        case NSURLSessionTaskStateCanceling:
-        case NSURLSessionTaskStateCompleted:
-            break;
-    }
+    [self cancel];
 }
 
 - (STIHTTPSessionManager *)HTTPSessionManager
@@ -102,22 +95,46 @@ static STIHTTPSessionManager * kGlobalHTTPSessionManager = nil;
         self.HTTPSessionManager.setup(nil);
     }
 
-//    __weak typeof(self) weakSelf = self;
-    [self.HTTPSessionManager method:self.req.method
+    self.task = [self.HTTPSessionManager method:self.req.method
                            endpoint:self.req.endpoint
                          parameters:self.req.parameters
                             success:^(NSURLSessionDataTask *task, id responseObject) {
-//                                __strong typeof(weakSelf) self = weakSelf;
                                 self.resp = [self.req.responseClass ac_objectWithAny:[self processedDataWithResponseObject:responseObject task:task]];
                                 self.responseObject = responseObject;
-                                if ( self.whenUpdate ) {
-                                    self.whenUpdate( self.resp, nil );
+                                if ( self.whenUpdated ) {
+                                    self.whenUpdated( self.resp, nil );
                                 }
                             }
                             failure:^(NSURLSessionDataTask *task, id responseObject, NSError *error) {
-//                                __strong typeof(weakSelf) self = weakSelf;
-                                [self.HTTPSessionManager handleError:error responseObject:responseObject task:task failureBlock:self.whenUpdate];
+                                if ( NSURLErrorCancelled == error.code )
+                                {
+                                    if ( self.whenCanceled )
+                                    {
+                                        self.whenCanceled();
+                                    }
+                                }
+                                else
+                                {
+                                    [self.HTTPSessionManager handleError:error responseObject:responseObject task:task failureBlock:self.whenUpdated];
+                                }
                             }];
+}
+
+- (void)cancel
+{
+    if ( self.task )
+    {
+        switch ( self.task.state )
+        {
+            case NSURLSessionTaskStateRunning:
+            case NSURLSessionTaskStateSuspended:
+                [self.task cancel];
+                break;
+            case NSURLSessionTaskStateCanceling:
+            case NSURLSessionTaskStateCompleted:
+                break;
+        }
+    }
 }
 
 @end

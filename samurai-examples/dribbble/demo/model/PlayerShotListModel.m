@@ -10,6 +10,10 @@
 
 #pragma mark -
 
+@interface PlayerShotListModel ()
+@property (nonatomic, strong) STIHTTPApi * api;
+@end
+
 @implementation PlayerShotListModel
 
 @def_prop_assign( NSInteger,             page )
@@ -72,6 +76,8 @@
 
 - (void)loadFirstTime:(BOOL)isFirstTime
 {
+    [self.api cancel];
+    
     LIST_SHOTS_FOR_A_USER_API * api = [LIST_SHOTS_FOR_A_USER_API new];
     
     @weakify( self );
@@ -86,7 +92,7 @@
     api.req.user = self.player_id;
     api.req.per_page = 18;
     
-    api.whenUpdate = ^( LIST_SHOTS_FOR_A_USER_RESPONSE * resp, id error ) {
+    api.whenUpdated = ^( LIST_SHOTS_FOR_A_USER_RESPONSE * resp, id error ) {
         
         @strongify( self );
         
@@ -109,7 +115,10 @@
         }
     };
     
+    self.api = api;
+    
     [api send];
+    
     [self sendSignal:self.eventLoading];
 }
 
