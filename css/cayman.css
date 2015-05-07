@@ -52,8 +52,7 @@ a {
 .page-header {
   color: #fff;
   text-align: center;
-  background-color: #159957;
-  background-image: radial-gradient(circle at bottom right,#33b1f8 0,#aa81f3 100%); }
+  background-color: #323840;
   @media screen and (min-width: 64em) {
     .page-header {
       padding: 5rem 6rem; } }
