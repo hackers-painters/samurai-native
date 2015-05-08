@@ -120,11 +120,7 @@
 {
 	SamuraiTreeNode * node = [[nodeClass alloc] init];
 	
-	node.parent = self;
-	node.prev = [self.childs lastObject];
-	node.next = nil;
-
-	[self.childs addObject:node];
+    [self appendNode:node];
 	
 	return node;
 }
@@ -141,6 +137,11 @@
 	node.parent = self.parent;
 	node.prev = self;
 	node.next = nil;
+
+    //    [node relation]
+    //   prev self -> *node
+    
+    self.next = node;
 	
 	[self.parent.childs addObject:node];
 	
@@ -157,11 +158,18 @@
 	if ( [self.childs containsObject:node] )
 		return;
 	
-	node.parent = self;
-	node.prev = [self.childs lastObject];
-	node.next = nil;
-	
-	[self.childs addObject:node];
+    node.parent = self;
+    node.prev = [self.childs lastObject];
+    node.next = nil;
+    
+    //    [node relation]
+    //         self
+    //   /       |        \
+    // ...   node.prev -> *node
+    
+    node.prev.next = node;
+    
+    [self.childs addObject:node];
 }
 
 - (void)insertNode:(SamuraiTreeNode *)node beforeNode:(SamuraiTreeNode *)oldNode

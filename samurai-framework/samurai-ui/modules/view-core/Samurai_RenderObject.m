@@ -112,6 +112,11 @@
 
 @def_prop_strong( UIView *,					view );
 @def_prop_strong( Class,					viewClass );
+@def_prop_readonly( SamuraiRenderObject *,	root );
+@def_prop_unsafe( SamuraiRenderObject *,	parent );
+@def_prop_unsafe( SamuraiRenderObject *,	prev );
+@def_prop_unsafe( SamuraiRenderObject *,	next );
+
 
 BASE_CLASS( SamuraiRenderObject )
 
