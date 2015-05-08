@@ -219,8 +219,6 @@ samurai-native 提供了一种单向的高效的数据绑定方法，通过每�
 
 samurai-native 的设计初衷是为了将自定义控件方便的扩展进来，这意味着你可以使用任何现有的原生界面组件，通过简单的扩展或者直接使用它们。
 
-samurai-native is designed to be easily extended with custom native components, that means you can reuse anything you've already built, and can import and use your favorite native components.
-
 
 ```objc
 

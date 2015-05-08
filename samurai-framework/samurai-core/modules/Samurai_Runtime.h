@@ -57,6 +57,8 @@
 + (NSArray *)propertiesWithPrefix:(NSString *)prefix;
 + (NSArray *)propertiesWithPrefix:(NSString *)prefix untilClass:(Class)baseClass;
 
++ (NSArray *)classesWithProtocolName:(NSString *)protocolName;
+
 + (void *)replaceSelector:(SEL)sel1 withSelector:(SEL)sel2;
 
 @end
