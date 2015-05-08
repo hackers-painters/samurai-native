@@ -36,8 +36,11 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+@implementation SamuraiCSSSelectorCheckerMatchResult
+@end
+
 @interface SamuraiCSSRuleData ()
-@property (nonatomic, readwrite) NSUInteger specificity;
+@property (nonatomic, readwrite) NSInteger specificity;
 @end
 
 @implementation SamuraiCSSRuleData
@@ -49,16 +52,16 @@
     self = [super init];
     if (self) {
         _rule = rule;
-        _specificity = ULONG_MAX;
+        _specificity = -1;
         _position = position;
         _selector = selector;
     }
     return self;
 }
 
-- (NSUInteger)specificity
+- (NSInteger)specificity
 {
-    if ( _specificity == ULONG_MAX ) {
+    if ( _specificity == -1 ) {
         _specificity = katana_calc_specificity_for_selector(_selector);
     }
     return _specificity;
@@ -100,10 +103,100 @@
 
 #pragma mark -
 
+- (void)collectMatchingRules:(id<SamuraiCSSProtocol>)element ruleSet:(SamuraiCSSRuleSet *)ruleSet
+{
+    NSString * pseudoId = [element cssShadowPseudoId];
+    
+    if ( !pseudoId )
+    {
+        [self collectMatchingRulesForList:[ruleSet shadowPseudoElementRulesWithKey:pseudoId]];
+    }
+    // ID
+    if ( [element cssId] )
+    {
+        [self collectMatchingRulesForList:[ruleSet idRulesWithKey:[element cssId]]];
+    }
+    // .Class
+    if ( [element cssClasses] )
+    {
+        for ( NSString * className in [element cssClasses] )
+        {
+            [self collectMatchingRulesForList:[ruleSet classRulesWithKey:className]];
+        }
+    }
+//    if (element.isLink())
+//        collectMatchingRulesForList(matchRequest.ruleSet->linkPseudoClassRules(), cascadeOrder, matchRequest, ruleRange);
+//    if (SelectorChecker::matchesFocusPseudoClass(element))
+//        collectMatchingRulesForList(matchRequest.ruleSet->focusPseudoClassRules(), cascadeOrder, matchRequest, ruleRange);
+
+    // Tag
+    if ( [element cssTag] )
+    {
+        [self collectMatchingRulesForList:[ruleSet tagRulesWithKey:[element cssTag]]];
+    }
+    // universal
+    [self collectMatchingRulesForList:[ruleSet universalRules]];
+}
+
+- (void)collectMatchingRulesForList:(NSArray *)rules
+{
+    if ( !rules )
+        return;
+    
+    for ( SamuraiCSSRuleData * rule in rules )
+        [self collectRuleIfMatches:rule];
+}
+
+- (void)collectRuleIfMatches:(SamuraiCSSRuleData *)ruleData
+{
+    KatanaStyleRule * rule = ruleData.rule;
+    KatanaArray * declarations = rule->declarations;
+    
+    if ( NULL == declarations || 0 == declarations->length )
+        return;
+    
+    SamuraiCSSSelectorCheckerMatchResult *result = [SamuraiCSSSelectorCheckerMatchResult new];
+    
+    if ( [self ruleMatches:ruleData result:result] )
+    {
+//        SamuraiCSSPseudoId dynamicPseudo = result.dynamicPseudo;
+        // TODO: (@QFish) 检查 dynamicPseudo 来判断是否满足
+//        addMatchedRule(&ruleData, result.specificity, cascadeOrder, matchRequest.styleSheetIndex, matchRequest.styleSheet);
+        [self.matchedRules addObject:ruleData];
+    }
+}
+
+- (BOOL)ruleMatches:(SamuraiCSSRuleData *)ruleData result:(SamuraiCSSSelectorCheckerMatchResult *)result
+{
+    SamuraiCSSSelectorChecker * selectorChecker = [SamuraiCSSSelectorChecker new];
+    SamuraiCSSSelectorCheckingContext * context = [SamuraiCSSSelectorCheckingContext new];
+    context.selector = ruleData.selector;
+    context.element = self.element;
+//    context.pseudo =
+//    SelectorChecker selectorChecker(m_mode);
+//    SelectorChecker::SelectorCheckingContext context(ruleData.selector(), m_context.element(), SelectorChecker::VisitedMatchEnabled);
+//    context.elementStyle = m_style.get();
+//    context.scope = scope;
+//    context.pseudoId = m_pseudoStyleRequest.pseudoId;
+//    context.scrollbar = m_pseudoStyleRequest.scrollbar;
+//    context.scrollbarPart = m_pseudoStyleRequest.scrollbarPart;
+//    context.isUARule = m_matchingUARules;
+//    context.scopeContainsLastMatchedElement = m_scopeContainsLastMatchedElement;
+    SamuraiCSSSelectorMatch match = [selectorChecker match:context result:result];
+    if (match != SamuraiCSSSelectorMatches)
+        return NO;
+    // TODO: @(QFish) 检查伪类的逻辑
+//    if (m_pseudoStyleRequest.pseudoId != NOPSEUDO && m_pseudoStyleRequest.pseudoId != result->dynamicPseudo)
+//        return false;
+    return YES;
+}
+
+#pragma mark -
+
 - (void)collect
 {
     [self clearMatchedRules];
-    [self collectRulesForStyleable:self.element ruleSet:self.ruleSet];
+    [self collectMatchingRules:self.element ruleSet:self.ruleSet];
     [self sortAndTransferMatchedRules];
 }
 
@@ -129,7 +222,7 @@
                 // TODO: @(QFish) copy values, but no need for right now.
                 // wrapper.values = decl->values;
                 wrapper.rawValue = [NSString stringWithUTF8String:decl->raw];
-                // NSLog( @"%@ %s :%@", [self.element cssClasses], decl->property, wrapper );
+//                 NSLog( @"%@ %s :%@", [self.element cssClasses], decl->property, wrapper );
                 [self.style setValue:wrapper forKey:[NSString stringWithUTF8String:decl->property]];
             }
         }
@@ -149,67 +242,9 @@
 
 #pragma mark -
 
-
 - (void)clearMatchedRules
 {
     [_matchedRules removeAllObjects];
-}
-
-- (void)collectRulesForStyleable:(id<SamuraiCSSProtocol>)element ruleSet:(SamuraiCSSRuleSet *)ruleSet
-{
-    // #id
-    if ( [element cssId] )
-    {
-        [self collectMatchingRulesForList:[ruleSet idRulesWithKey:[element cssId]]];
-    }
-    // .class
-    if ( [element cssClasses] )
-    {
-        for ( NSString * className in [element cssClasses] )
-        {
-            [self collectMatchingRulesForList:[ruleSet classRulesWithKey:className]];
-        }
-    }
-    //   // :pseudo
-    //    if ( [element supportPseudo] )
-    //    {
-    //        for ( NSString * pseudo in self.element.stylePseudos )
-    //        {
-    //            [self collectMatchingRulesForList:[ruleSet pseudoRulesWithKey:pseudo]];
-    //        }
-    //    }
-    //
-    // element
-    if ( [element cssTag] )
-    {
-        [self collectMatchingRulesForList:[ruleSet tagRulesWithKey:[element cssTag]]];
-    }
-    // * or ...
-    [self collectMatchingRulesForList:[ruleSet universalRules]];
-}
-
-- (void)collectMatchingRulesForList:(NSArray *)rules
-{
-    if ( !rules )
-        return;
-    
-    for ( SamuraiCSSRuleData * ruleData in rules )
-    {
-        if ( [self ruleMatchesStylable:self.element ruleData:ruleData] )
-        {
-            [self.matchedRules addObject:ruleData];
-        }
-    }
-}
-
-- (BOOL)ruleMatchesStylable:(id<SamuraiCSSProtocol>)element ruleData:(SamuraiCSSRuleData *)ruleData
-{
-    SamuraiCSSSelectorMatch matches = \
-    [SamuraiCSSSelectorChecker checkSelector:ruleData.selector
-                                     element:self.element
-                                       attrs:nil];
-    
-    return matches == SamuraiCSSSelectorMatches;
 }
 
 - (NSMutableArray *)matchedRules

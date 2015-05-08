@@ -39,8 +39,10 @@
 
 - (NSString *)cssId;								// override point
 - (NSString *)cssTag;								// override point
+- (NSString *)cssPseudos;								// override point
+- (NSString *)cssShadowPseudoId;
 - (NSArray *)cssClasses;							// override point
-- (NSArray *)cssPseudos;							// override point
+- (NSArray *)cssAttributes;							// override point
 - (id<SamuraiCSSProtocol>)cssParent;							// override point
 - (id<SamuraiCSSProtocol>)cssPreviousSibling;					// override point
 - (id<SamuraiCSSProtocol>)cssFollowingSibling;					// override point

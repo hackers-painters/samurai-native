@@ -40,11 +40,43 @@ typedef NS_ENUM(NSUInteger, SamuraiCSSSelectorMatch) {
     SamuraiCSSSelectorFailsCompletely,
 };
 
+typedef NS_ENUM(NSUInteger, SamuraiCSSPseudoId) {
+    // Static pseudo styles. Dynamic ones are produced on the fly.
+    // The order must be NOP ID, public IDs, and then internal IDs.
+    // If you add or remove a public ID, you must update _pseudoBits in ComputedStyle.
+    NOPSEUDO, FIRST_LINE, FIRST_LETTER, BEFORE, AFTER, BACKDROP, SELECTION, FIRST_LINE_INHERITED, SCROLLBAR,
+    // Internal IDs follow:
+    SCROLLBAR_THUMB, SCROLLBAR_BUTTON, SCROLLBAR_TRACK, SCROLLBAR_TRACK_PIECE, SCROLLBAR_CORNER, RESIZER, INPUT_LIST_BUTTON,
+    // Special values follow:
+    AFTER_LAST_INTERNAL_PSEUDOID,
+    FIRST_PUBLIC_PSEUDOID = FIRST_LINE,
+    FIRST_INTERNAL_PSEUDOID = SCROLLBAR_THUMB,
+    PUBLIC_PSEUDOID_MASK = ((1 << FIRST_INTERNAL_PSEUDOID) - 1) & ~((1 << FIRST_PUBLIC_PSEUDOID) - 1),
+    PSEUDO_ELEMENT_MASK = (1 << (BEFORE - 1)) | (1 << (AFTER - 1)) | (1 << (BACKDROP - 1))
+};
+
+SamuraiCSSPseudoId SamuraiCSSPseudoIdFromType(KatanaPseudoType type);
+
+@interface SamuraiCSSSelectorCheckerMatchResult : NSObject
+@property (nonatomic, assign) SamuraiCSSPseudoId dynamicPseudo;
+@property (nonatomic, assign) unsigned specificity;
+@end
+
+@interface SamuraiCSSSelectorCheckingContext : NSObject
+@property (nonatomic, assign) KatanaSelector * selector;
+@property (nonatomic, assign) SamuraiCSSPseudoId pseudoId;
+@property (nonatomic, assign) BOOL isSubSelector;
+@property (nonatomic, assign) int elementStyle;
+@property (nonatomic, weak) id<SamuraiCSSProtocol> previousElement;
+@property (nonatomic, weak) id<SamuraiCSSProtocol> element;
+- initWithContext:(SamuraiCSSSelectorCheckingContext *)context;
+@end
+
 @interface SamuraiCSSSelectorChecker : NSObject
 
-+ (SamuraiCSSSelectorMatch)checkSelector:(KatanaSelector *)selector
-                                 element:(id<SamuraiCSSProtocol>)elment
-                                   attrs:(NSSet *)attrs;
+@property (nonatomic, strong) SamuraiCSSSelectorCheckingContext * context;
+
+- (SamuraiCSSSelectorMatch)match:(SamuraiCSSSelectorCheckingContext *)context result:( SamuraiCSSSelectorCheckerMatchResult *)result;
 
 @end
 

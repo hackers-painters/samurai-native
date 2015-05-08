@@ -37,16 +37,16 @@ bool katana_selector_crosses_tree_scopes(const KatanaSelector* selector)
     return false;
 }
 
-bool katana_is_attribute_selector(const KatanaSelector* selector)
-{
-    return selector->match == KatanaSelectorMatchAttributeExact
-    || selector->match == KatanaSelectorMatchAttributeSet
-    || selector->match == KatanaSelectorMatchAttributeList
-    || selector->match == KatanaSelectorMatchAttributeHyphen
-    || selector->match == KatanaSelectorMatchAttributeContain
-    || selector->match == KatanaSelectorMatchAttributeBegin
-    || selector->match == KatanaSelectorMatchAttributeEnd;
-}
+// bool katana_is_attribute_selector(const KatanaSelector* selector)
+// {
+//     return selector->match == KatanaSelectorMatchAttributeExact
+//     || selector->match == KatanaSelectorMatchAttributeSet
+//     || selector->match == KatanaSelectorMatchAttributeList
+//     || selector->match == KatanaSelectorMatchAttributeHyphen
+//     || selector->match == KatanaSelectorMatchAttributeContain
+//     || selector->match == KatanaSelectorMatchAttributeBegin
+//     || selector->match == KatanaSelectorMatchAttributeEnd;
+// }
 
 KatanaPseudoType katana_parse_pseudo_type(const char* name, bool hasArguments)
 {
@@ -224,7 +224,7 @@ bool katana_selector_is_sibling(KatanaSelector* selector)
         || type == KatanaPseudoNthLastOfType;
 }
 
-bool katana_selector_is_attribute(KatanaSelector* selector)
+bool katana_selector_is_attribute(const KatanaSelector* selector)
 {
     return selector->match >= KatanaSelectorMatchFirstAttribute;
 }
@@ -341,7 +341,7 @@ KatanaParserString* katana_selector_to_string(KatanaParser* parser, KatanaSelect
         } else if (cs->match == KatanaSelectorMatchPseudoElement) {
             katana_string_append_characters(parser, "::", string);
             katana_string_append_characters(parser, cs->data->value, string);
-        } else if (katana_is_attribute_selector(cs)) {
+        } else if (katana_selector_is_attribute(cs)) {
             katana_string_append_characters(parser, "[", string);
             if (NULL != cs->data->attribute->prefix) {
                 katana_string_append_characters(parser, cs->data->attribute->prefix, string);

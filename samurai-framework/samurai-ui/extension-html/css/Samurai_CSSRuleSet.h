@@ -42,6 +42,7 @@
 - (NSArray *)tagRulesWithKey:(NSString *)key;
 - (NSArray *)classRulesWithKey:(NSString *)key;
 - (NSArray *)pseudoRulesWithKey:(NSString *)key;
+- (NSArray *)shadowPseudoElementRulesWithKey:(NSString *)key;
 
 - (void)clear;
 
