@@ -65,13 +65,12 @@
 	[super html_applyStyle:style];
 	
 	self.titleLabel.font = [style computeFont:self.titleLabel.font];
-	self.titleLabel.textColor = [style computeColor:self.titleLabel.textColor];
 	self.titleLabel.textAlignment = [style computeTextAlignment:self.titleLabel.textAlignment];
 	self.titleLabel.baselineAdjustment = [style computeBaselineAdjustment:self.titleLabel.baselineAdjustment];
 	self.titleLabel.lineBreakMode = [style computeLineBreakMode:self.titleLabel.lineBreakMode];
 	self.titleLabel.numberOfLines = 0;
 	
-	[self setTitleColor:self.titleLabel.textColor forState:UIControlStateNormal];
+	[self setTitleColor:[style computeColor:self.titleLabel.textColor] forState:UIControlStateNormal];
 	[self setTitleShadowColor:self.titleLabel.shadowColor forState:UIControlStateNormal];
 }
 
