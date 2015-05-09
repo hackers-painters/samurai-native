@@ -31,15 +31,15 @@
 #import "Samurai_CSSProtocol.h"
 #import "Samurai_CSSStyleSheet.h"
 
+#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
+
 @interface SamuraiCSSRuleData : NSObject
 @property (nonatomic, assign, readonly) NSUInteger      position;
-@property (nonatomic, assign, readonly) NSUInteger      specificity;
+@property (nonatomic, assign, readonly) NSInteger       specificity;
 @property (nonatomic, assign, readonly) KatanaStyleRule * rule;
 @property (nonatomic, assign, readonly) KatanaSelector  * selector;
 - (instancetype)initWithRule:(KatanaStyleRule *)rule selector:(KatanaSelector *)selector position:(NSUInteger)position;
 @end
-
-#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
 @interface SamuraiCSSRuleCollector : NSObject
 - (instancetype)initWithRuleSet:(SamuraiCSSRuleSet *)ruleSet;

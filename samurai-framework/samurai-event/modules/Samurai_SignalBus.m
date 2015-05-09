@@ -116,8 +116,9 @@
 	{
 		signal.arrived = YES;
 	}
-	
+#if __SAMURAI_DEBUG__
 	NSString * newline = @"\n   > ";
+#endif // #if __SAMURAI_DEBUG__
 
 	if ( signal.arrived )
 	{

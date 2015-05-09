@@ -118,6 +118,11 @@
     return self.pseudoRules[key];
 }
 
+- (NSArray *)shadowPseudoElementRulesWithKey:(NSString *)key
+{
+    return self.shadowPseudoElementRules[key];
+}
+
 - (void)mergeWithRuleSet:(SamuraiCSSRuleSet *)ruleSet
 {
     [self.idRules addEntriesFromDictionary:ruleSet.idRules];

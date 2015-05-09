@@ -33,6 +33,20 @@ extern "C" {
 
 KatanaParserString* katana_selector_to_string(KatanaParser* parser, KatanaSelector* selector, KatanaParserString* next);
     
+bool katana_selector_crosses_tree_scopes(const KatanaSelector* selector);
+bool katana_selector_matches_pseudo_element(KatanaSelector* selector);
+bool katana_selector_is_custom_pseudo_element(KatanaSelector* selector);
+bool katana_selector_is_direct_adjacent(KatanaSelector* selector);
+bool katana_selector_is_adjacent(KatanaSelector* selector);
+bool katana_selector_is_shadow(KatanaSelector* selector);
+bool katana_selector_is_sibling(KatanaSelector* selector);
+bool katana_selector_is_attribute(const KatanaSelector* selector);
+bool katana_selector_is_content_pseudo_element(KatanaSelector* selector);
+bool katana_selector_is_shadow_pseudo_element(KatanaSelector* selector);
+bool katana_selector_is_host_pseudo_class(KatanaSelector* selector);
+bool katana_selector_is_tree_boundary_crossing(KatanaSelector* selector);
+bool katana_selector_is_insertion_point_crossing(KatanaSelector* selector);
+    
 #ifdef __cplusplus
 }
 #endif

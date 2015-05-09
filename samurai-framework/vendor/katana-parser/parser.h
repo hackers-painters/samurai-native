@@ -197,9 +197,6 @@ void katana_selector_set_argument_with_number(KatanaParser* parser, KatanaSelect
 
 bool katana_parse_attribute_match_type(KatanaParser* parser, KatanaAttributeMatchType, KatanaParserString* attr);
 
-bool katana_selector_crosses_tree_scopes(const KatanaSelector* selector);
-bool katana_selector_is_shadow_pseudo_element(KatanaSelector* selector);
-bool katana_selector_is_content_pseudo_element(KatanaSelector* selector);
 bool katana_selector_is_simple(KatanaParser* parser, KatanaSelector* selector);
 void katana_selector_extract_pseudo_type(KatanaSelector* selector);
     

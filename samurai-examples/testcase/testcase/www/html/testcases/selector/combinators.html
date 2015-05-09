@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<style>
+.ex-small-box { width: 25px; height: 25px; background-color: gray; }
+.small-box { width: 50px; height: 50px; background-color: gray; }
+.medium-box { width: 70px; height: 75px; background-color: gray; }
+.large-box { width: 100px; height: 100px; background-color: gray; }
+
+p {  color: white; }
+p.title { color: black; }
+
+/* Descendant combinator */
+
+.ancestor .descendant {
+    background-color: black;
+}
+
+.ancestor * .descendant {
+    background-color: orange;
+}
+
+/* Child combinators */
+.grandparent > .parent {
+    background-color: red;
+}
+
+.parent > .child {
+    background-color: black;
+}
+
+.grandparent > .child {
+    background-color: yellow;
+}
+
+/* Sibling combinators */
+/* Adjacent sibling combinator */
+.bro1 + .bro2 { background-color: orange; }
+/* General sibling combinator */
+.bro3 ~ .bro4 { background-color: black; }
+
+</style>
+<body>
+
+<p class="title">Descendant [space] combinator</p>
+<div class="large-box ancestor">
+    <div class="medium-box descendant">
+        <div class="small-box descendant">
+            <div class="ex-small-box"></div>
+            <p>Orange</p>
+        </div>
+        <p>Black</p>
+    </div>
+</div>
+
+<p class="title">Child > combinators</p>
+<div class="large-box grandparent">
+    <div class="medium-box parent">
+        <div class="small-box child">
+            <div class="ex-small-box"></div>
+            <p>Black</p>
+        </div>
+        <p>Red</p>
+    </div>
+</div>
+
+<p class="title">Adjacent + sibling combinator</p>
+<div class="large-box parent">
+    <div class="ex-small-box bro1"></div>
+    <div class="ex-small-box bro2"></div>
+    <div class="ex-small-box bro2"></div>
+</div>
+
+<p class="title">General ~ sibling combinator</p>
+<div class="large-box">
+    <div class="ex-small-box bro3"></div>
+    <div class="ex-small-box bro4"></div>
+    <div class="ex-small-box bro4"></div>
+</div>
+
+</body>
+</html>

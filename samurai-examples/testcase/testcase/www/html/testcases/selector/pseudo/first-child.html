@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            p:first-child {
+                background-color:yellow;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <p class="t">这个段落是其父元素（body）的首个子元素。</p>
+        
+        <h1>欢迎访问我的主页</h1>
+        <p>这个段落不是其父元素的首个子元素。</p>
+        
+        <div>
+            <p class="t">这个段落是其父元素（div）的首个子元素。</p>
+            <p>这个段落不是其父元素的首个子元素，是最后一个。</p>
+        </div>
+        
+        <p><b>注释：</b>对于 IE8 及更早版本的浏览器中的 :first-child，必须声明 <!DOCTYPE>。</p>
+        
+    </body>
+</html>
