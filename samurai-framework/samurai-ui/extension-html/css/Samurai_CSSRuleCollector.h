@@ -35,7 +35,7 @@
 
 @interface SamuraiCSSRuleData : NSObject
 @property (nonatomic, assign, readonly) NSUInteger      position;
-@property (nonatomic, assign, readonly) NSInteger      specificity;
+@property (nonatomic, assign, readonly) NSInteger       specificity;
 @property (nonatomic, assign, readonly) KatanaStyleRule * rule;
 @property (nonatomic, assign, readonly) KatanaSelector  * selector;
 - (instancetype)initWithRule:(KatanaStyleRule *)rule selector:(KatanaSelector *)selector position:(NSUInteger)position;

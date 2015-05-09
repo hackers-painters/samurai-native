@@ -540,12 +540,7 @@ static id<SamuraiCSSProtocol> parentElement(const SamuraiCSSSelectorCheckingCont
                 return siblingTraversalStrategy.isFirstOfType(element, element.tagQName());
             }
              */
-//            __block BOOL checked = NO;
-//            [[element cssPreviousSiblings] enumerateObjectsUsingBlock:^(id<SamuraiCSSProtocol> e, NSUInteger idx, BOOL *stop) {
-//                [e cssTag] ==
-//            }];
-//            return checked;
-//            return false;
+            return false;
             break;
         case KatanaPseudoLastChild:
         {
@@ -571,7 +566,8 @@ static id<SamuraiCSSProtocol> parentElement(const SamuraiCSSSelectorCheckingCont
 //                    return false;
 //                return siblingTraversalStrategy.isLastOfType(element, element.tagQName());
 //            }
-//            break;
+            return false;
+            break;
         case KatanaPseudoOnlyChild:
         {
 //            if (ContainerNode* parent = element.parentElementOrDocumentFragment()) {
@@ -599,7 +595,8 @@ static id<SamuraiCSSProtocol> parentElement(const SamuraiCSSSelectorCheckingCont
 //                    return false;
 //                return siblingTraversalStrategy.isFirstOfType(element, element.tagQName()) && siblingTraversalStrategy.isLastOfType(element, element.tagQName());
 //            }
-//            break;
+            return false;
+            break;
         case KatanaPseudoNthChild:
         {
             if (!parseNth(selector))
@@ -619,16 +616,17 @@ static id<SamuraiCSSProtocol> parentElement(const SamuraiCSSSelectorCheckingCont
 //                    parent->setChildrenAffectedByForwardPositionalRules();
 //                return selector.matchNth(1 + siblingTraversalStrategy.countElementsOfTypeBefore(element, element.tagQName()));
 //            }
-//            break;
+            return false;
+            break;
         case KatanaPseudoNthLastChild:
-//            if (!selector.parseNth())
-//                break;
+            if (!parseNth(selector))
+                break;
 //            if (ContainerNode* parent = element.parentElementOrDocumentFragment()) {
 //                if (m_mode == ResolvingStyle)
 //                    parent->setChildrenAffectedByBackwardPositionalRules();
 //                if (!parent->isFinishedParsingChildren())
 //                    return false;
-//                return selector.matchNth(1 + siblingTraversalStrategy.countElementsAfter(element));
+                return matchNth(selector, 1 + (int)[element cssFollowingSiblings].count);
 //            }
 //            break;
         case KatanaPseudoNthLastOfType:
@@ -821,6 +819,7 @@ static id<SamuraiCSSProtocol> parentElement(const SamuraiCSSSelectorCheckingCont
         case KatanaPseudoWindowInactive:
             return false;
         case KatanaPseudoUnknown:
+            // TODO: @(QFish:high) support custom pseudo
             return true;
         case KatanaPseudoNotParsed:
         default:
@@ -832,13 +831,18 @@ static id<SamuraiCSSProtocol> parentElement(const SamuraiCSSSelectorCheckingCont
 
 - (BOOL)tagMatches:(id<SamuraiCSSProtocol>)element tag:(KatanaQualifiedName *)tag
 {
-    if ( !tag )
+    if ( NULL == tag )
         return YES;
     
-    NSString * localName = [NSString stringWithUTF8String:tag->local];
-    if ( NSOrderedSame == [localName compare:[element cssTag] options:NSCaseInsensitiveSearch] )
-        return YES;
-    if ( [localName isEqualToString:@"*"] )
+    NSString * elementTag = [element cssTag];
+    
+    if ( elementTag )
+    {
+        if ( !strcasecmp(elementTag.UTF8String, tag->local) )
+            return YES;
+    }
+    
+    if ( !strcasecmp("*", tag->local) )
         return YES;
     
     return NO;

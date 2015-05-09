@@ -1475,7 +1475,7 @@ void katana_print_media_query(KatanaParser* parser, KatanaMediaQuery* query)
             return;
         }
         
-        if ( (NULL != query->type && !strncasecmp(query->type, "all", 3)) || query->restrictor != KatanaMediaQueryRestrictorNone) {
+        if ( (NULL != query->type && !strcasecmp(query->type, "all")) || query->restrictor != KatanaMediaQueryRestrictorNone) {
             if ( NULL != query->type ) {
                 katana_print("%s", query->type);
             }

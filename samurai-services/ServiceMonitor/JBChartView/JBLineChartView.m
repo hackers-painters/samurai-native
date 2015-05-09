@@ -186,6 +186,9 @@ static UIColor *kJBLineChartViewDefaultDotSelectionColor = nil;
 
 @implementation JBLineChartView
 
+@synthesize dataSource = _dataSource;
+@synthesize delegate = _delegate;
+
 #pragma mark - Alloc/Init
 
 + (void)initialize

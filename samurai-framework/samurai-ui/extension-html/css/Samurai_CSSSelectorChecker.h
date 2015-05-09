@@ -86,11 +86,30 @@ SamuraiCSSPseudoId SamuraiCSSPseudoIdFromType(KatanaPseudoType type);
 - initWithContext:(SamuraiCSSSelectorCheckingContext *)context;
 @end
 
+/**
+ *  Supported Selector:
+ *  - tag
+ *  - #id
+ *  - .class
+ *  - :pseudo
+ *      - :nth-child(an+b|odd|even) 
+        - :first-child
+        - :last-child
+        - :only-child
+ *  - Group
+ *      - <selector><selector>
+ *  - Combinator
+ *  - <selector> <selector>
+ *  - <selector> > <selector>
+ *  - <selector> + <selector>
+ *  - <selector> ~ <selector>
+ */
+
 @interface SamuraiCSSSelectorChecker : NSObject
 
 @property (nonatomic, strong) SamuraiCSSSelectorCheckingContext * context;
 
-- (SamuraiCSSSelectorMatch)match:(SamuraiCSSSelectorCheckingContext *)context result:( SamuraiCSSSelectorCheckerMatchResult *)result;
+- (SamuraiCSSSelectorMatch)match:(SamuraiCSSSelectorCheckingContext *)context result:(SamuraiCSSSelectorCheckerMatchResult *)result;
 
 @end
 

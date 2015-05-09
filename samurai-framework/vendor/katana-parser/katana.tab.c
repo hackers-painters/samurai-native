@@ -2794,13 +2794,13 @@ yyreduce:
   case 129:
 
     {
-        if (!strncasecmp((yyvsp[0].string).data, "from", 5)) {
+        if (!strcasecmp((yyvsp[0].string).data, "from")) {
             KatanaParserNumber number;
             number.val = 0;
             number.raw = (KatanaParserString){"from", 4};
             (yyval.value) = katana_new_number_value(parser, 1, &number, KATANA_VALUE_NUMBER);
         }
-        else if (!strncasecmp((yyvsp[0].string).data, "to", 3)) {
+        else if (!strcasecmp((yyvsp[0].string).data, "to")) {
             KatanaParserNumber number;
             number.val = 100;
             number.raw = (KatanaParserString){"to", 4};
@@ -2861,7 +2861,7 @@ yyreduce:
   case 136:
 
     {
-        if (!strncasecmp((yyvsp[-2].string).data, "deep", 5))
+        if (!strcasecmp((yyvsp[-2].string).data, "deep"))
             (yyval.relation) = KatanaSelectorRelationShadowDeep;
         else
             YYERROR;
