@@ -44,9 +44,23 @@ typedef NS_ENUM(NSUInteger, SamuraiCSSPseudoId) {
     // Static pseudo styles. Dynamic ones are produced on the fly.
     // The order must be NOP ID, public IDs, and then internal IDs.
     // If you add or remove a public ID, you must update _pseudoBits in ComputedStyle.
-    NOPSEUDO, FIRST_LINE, FIRST_LETTER, BEFORE, AFTER, BACKDROP, SELECTION, FIRST_LINE_INHERITED, SCROLLBAR,
+    NOPSEUDO,
+    FIRST_LINE,
+    FIRST_LETTER,
+    BEFORE,
+    AFTER,
+    BACKDROP,
+    SELECTION,
+    FIRST_LINE_INHERITED,
+    SCROLLBAR,
     // Internal IDs follow:
-    SCROLLBAR_THUMB, SCROLLBAR_BUTTON, SCROLLBAR_TRACK, SCROLLBAR_TRACK_PIECE, SCROLLBAR_CORNER, RESIZER, INPUT_LIST_BUTTON,
+    SCROLLBAR_THUMB,
+    SCROLLBAR_BUTTON,
+    SCROLLBAR_TRACK,
+    SCROLLBAR_TRACK_PIECE,
+    SCROLLBAR_CORNER,
+    RESIZER,
+    INPUT_LIST_BUTTON,
     // Special values follow:
     AFTER_LAST_INTERNAL_PSEUDOID,
     FIRST_PUBLIC_PSEUDOID = FIRST_LINE,

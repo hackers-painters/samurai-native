@@ -38,6 +38,9 @@
 #undef  ASSERT_NOT_REACHED
 #define ASSERT_NOT_REACHED NSAssert(NO, @"ASSERT_NOT_REACHED")
 
+static bool parseNth(const KatanaSelector * selector);
+static bool matchNth(const KatanaSelector * selector, int count);
+
 @implementation SamuraiCSSSelectorCheckingContext
 
 - initWithContext:(SamuraiCSSSelectorCheckingContext *)context
@@ -543,7 +546,7 @@ static id<SamuraiCSSProtocol> parentElement(const SamuraiCSSSelectorCheckingCont
 //            }];
 //            return checked;
 //            return false;
-//            break;
+            break;
         case KatanaPseudoLastChild:
         {
             /*
@@ -599,16 +602,16 @@ static id<SamuraiCSSProtocol> parentElement(const SamuraiCSSSelectorCheckingCont
 //            break;
         case KatanaPseudoNthChild:
         {
-//            if (!selector.parseNth())
-//                break;
+            if (!parseNth(selector))
+                break;
 //            if (ContainerNode* parent = element.parentElementOrDocumentFragment()) {
 //                if (m_mode == ResolvingStyle)
 //                    parent->setChildrenAffectedByForwardPositionalRules();
-//                return selector.matchNth(1 + siblingTraversalStrategy.countElementsBefore(element));
+                return matchNth(selector, 1 + (int)[element cssPreviousSiblings].count);
 //            }
         }
             break;
-        case KatanaPseudoNthOfType:
+        case KatanaPseudoNthOfType: 
 //            if (!selector.parseNth())
 //                break;
 //            if (ContainerNode* parent = element.parentElementOrDocumentFragment()) {
@@ -818,6 +821,7 @@ static id<SamuraiCSSProtocol> parentElement(const SamuraiCSSSelectorCheckingCont
         case KatanaPseudoWindowInactive:
             return false;
         case KatanaPseudoUnknown:
+            return true;
         case KatanaPseudoNotParsed:
         default:
             ASSERT_NOT_REACHED;
@@ -841,6 +845,79 @@ static id<SamuraiCSSProtocol> parentElement(const SamuraiCSSSelectorCheckingCont
 }
 
 @end
+
+// a helper function for parsing nth-arguments
+static bool parseNth(const KatanaSelector * selector)
+{
+    NSString* argument = [NSString stringWithUTF8String:selector->data->argument].lowercaseString;
+    
+    if ( !argument && !argument.length )
+        return false;
+    
+    int nthA = 0;
+    int nthB = 0;
+    if ( [argument isEqualToString:@"odd"] ) {
+        nthA = 2;
+        nthB = 1;
+    } else if ( [argument isEqualToString:@"even"] ) {
+        nthA = 2;
+        nthB = 0;
+    } else {
+        NSRange range = [argument rangeOfString:@"n"];
+        NSUInteger n = range.location;
+        if (n != NSNotFound) {
+            if ([argument hasPrefix:@"-"]) {
+                if (n == 1)
+                    nthA = -1; // -n == -1n
+                else
+                    nthA = [argument substringToIndex:n].intValue;
+            } else if (!n) {
+                nthA = 1; // n == 1n
+            } else {
+                nthA = [argument substringToIndex:n].intValue;
+            }
+            
+            range = [argument rangeOfString:@"+"
+                                    options:NSCaseInsensitiveSearch
+                                      range:NSMakeRange(n, argument.length - n)];
+            
+            NSUInteger p = range.location;
+            if (p != NSNotFound) {
+                nthB = [argument substringWithRange:NSMakeRange(p+1, argument.length - p - 1)].intValue;
+            } else {
+                range = [argument rangeOfString:@"-"
+                                        options:NSCaseInsensitiveSearch
+                                          range:NSMakeRange(n, argument.length - n)];
+                p = range.location;
+                if (p != NSNotFound)
+                    nthB = -[argument substringWithRange:NSMakeRange(p+1, argument.length - p - 1)].intValue;
+            }
+        } else {
+            nthB = argument.intValue;
+        }
+    }
+    selector->data->bits.nth.a = nthA;
+    selector->data->bits.nth.b = nthB;
+    return true;
+}
+
+// a helper function for checking nth-arguments
+static bool matchNth(const KatanaSelector * selector, int count)
+{
+    int nthAValue = selector->data->bits.nth.a;
+    int nthBValue = selector->data->bits.nth.b;
+    
+    if (!nthAValue)
+        return count == nthBValue;
+    if (nthAValue > 0) {
+        if (count < nthBValue)
+            return false;
+        return (count - nthBValue) % nthAValue == 0;
+    }
+    if (count > nthBValue)
+        return false;
+    return (nthBValue - count) % (-nthAValue) == 0;
+}
 
 SamuraiCSSPseudoId SamuraiCSSPseudoIdFromType(KatanaPseudoType type)
 {
