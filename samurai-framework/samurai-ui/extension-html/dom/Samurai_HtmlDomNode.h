@@ -41,6 +41,17 @@
 
 @prop_assign( BOOL,	implied );
 
+@prop_unsafe( SamuraiHtmlDomNode *,			parent );
+@prop_unsafe( SamuraiHtmlDomNode *,			prev );
+@prop_unsafe( SamuraiHtmlDomNode *,			next );
+
+@prop_unsafe( SamuraiHtmlDomNode *,			shadowHost );
+@prop_strong( SamuraiHtmlDomNode *,			shadowRoot );
+
+- (SamuraiHtmlDomNode *)getFirstElementById:(NSString *)domId;
+- (SamuraiHtmlDomNode *)getFirstElementByName:(NSString *)domName;
+- (SamuraiHtmlDomNode *)getFirstElementByTagName:(NSString *)domTag;
+
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

@@ -50,6 +50,10 @@
 @def_prop_unsafe( SamuraiDomNode *,			shadowHost );
 @def_prop_strong( SamuraiDomNode *,			shadowRoot );
 
+@def_prop_unsafe( SamuraiDomNode *,			parent );
+@def_prop_unsafe( SamuraiDomNode *,			prev );
+@def_prop_unsafe( SamuraiDomNode *,			next );
+
 @def_prop_unsafe( SamuraiDocument *,		document );
 @def_prop_strong( NSString *,				domId );
 @def_prop_strong( NSString *,				domTag );

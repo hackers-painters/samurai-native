@@ -49,6 +49,13 @@
 
 @def_prop_assign( BOOL,	implied );
 
+@def_prop_unsafe( SamuraiHtmlDomNode *,			parent );
+@def_prop_unsafe( SamuraiHtmlDomNode *,			prev );
+@def_prop_unsafe( SamuraiHtmlDomNode *,			next );
+
+@def_prop_unsafe( SamuraiHtmlDomNode *,			shadowHost );
+@def_prop_strong( SamuraiHtmlDomNode *,			shadowRoot );
+
 - (id)init
 {
 	self = [super init];
@@ -84,6 +91,11 @@
 	return nil;
 }
 
+- (NSString *)cssShadowPseudoId
+{
+    return nil;
+}
+
 - (NSObject *)cssParent
 {
 	return self.parent;
@@ -91,12 +103,12 @@
 
 - (id<SamuraiCSSProtocol>)cssPreviousSibling
 {
-	return nil;
+	return self.prev;
 }
 
 - (id<SamuraiCSSProtocol>)cssFollowingSibling
 {
-	return nil;
+	return self.next;
 }
 
 - (id<SamuraiCSSProtocol>)cssSiblingAtIndex:(NSInteger)index

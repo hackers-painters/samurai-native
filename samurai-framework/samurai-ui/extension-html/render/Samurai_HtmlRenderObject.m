@@ -212,11 +212,19 @@
 @def_prop_strong( NSMutableDictionary *,		customStyleComputed );
 @def_prop_strong( SamuraiHtmlStyle *,			customStyle );
 
+@def_prop_unsafe( SamuraiHtmlDomNode *,			dom );
+@def_prop_strong( SamuraiHtmlStyle *,			style );
+
 @def_prop_assign( RenderWrap,					wrap );
 @def_prop_assign( RenderDisplay,				display );
 @def_prop_assign( RenderFloating,				floating );
 @def_prop_assign( RenderPosition,				position );
 @def_prop_assign( RenderDirection,				direction );
+
+@def_prop_readonly( SamuraiHtmlRenderObject *,	root );
+@def_prop_unsafe( SamuraiHtmlRenderObject *,	parent );
+@def_prop_unsafe( SamuraiHtmlRenderObject *,	prev );
+@def_prop_unsafe( SamuraiHtmlRenderObject *,	next );
 
 BASE_CLASS( SamuraiHtmlRenderObject )
 
@@ -581,9 +589,19 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 	return self.customStyleClasses;
 }
 
+- (NSArray *)cssAttributes
+{
+    return nil;
+}
+
 - (NSArray *)cssPseudos
 {
 	return nil;
+}
+
+- (NSString *)cssShadowPseudoId
+{
+    return nil;
 }
 
 - (id<SamuraiCSSProtocol>)cssParent
