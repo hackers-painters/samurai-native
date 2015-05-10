@@ -54,4 +54,36 @@
 
 @end
 
+#pragma mark -
+
+#if __SAMURAI_DEBUG__
+
+#undef	DEBUG_HTML_DOM
+#define DEBUG_HTML_DOM( __x ) \
+		if ( [__x.domAttributes hasObjectForKey:@"debug"] || [__x.domAttributes hasObjectForKey:@"debug-dom"] ) \
+		{ \
+			INFO( @"Debug dom at >>" ); \
+			[__x dump]; \
+			TRAP(); \
+		}
+
+#undef	DEBUG_HTML_CSS
+#define DEBUG_HTML_CSS( __x ) \
+		if ( [__x.domAttributes hasObjectForKey:@"debug"] || [__x.domAttributes hasObjectForKey:@"debug-css"] ) \
+		{ \
+			INFO( @"Debug style at >>" ); \
+			[__x dump]; \
+			TRAP(); \
+		} \
+
+#else	// #if __SAMURAI_DEBUG__
+
+#undef	DEBUG_HTML_DOM
+#define DEBUG_HTML_DOM( __x )
+
+#undef	DEBUG_HTML_CSS
+#define DEBUG_HTML_CSS( __x )
+
+#endif	// #if __SAMURAI_DEBUG__
+
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

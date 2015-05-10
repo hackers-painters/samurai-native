@@ -53,7 +53,7 @@
 		self.backgroundColor = [UIColor whiteColor];
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 		self.autoresizesSubviews = YES;
-		self.layer.masksToBounds = YES;
+		self.layer.masksToBounds = NO;
 	}
 	return self;
 }

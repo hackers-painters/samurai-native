@@ -36,6 +36,7 @@
 
 #import "Samurai_HtmlStyle.h"
 #import "Samurai_HtmlRenderObject.h"
+#import "Samurai_HtmlUserAgent.h"
 
 // ----------------------------------
 // Source code
@@ -44,6 +45,20 @@
 #pragma mark -
 
 @implementation HtmlElementPre
+
+- (id)initWithFrame:(CGRect)frame
+{
+	self = [super initWithFrame:frame];
+	if ( self )
+	{
+		self.layer.masksToBounds = NO;
+	}
+	return self;
+}
+
+- (void)dealloc
+{
+}
 
 - (void)html_applyDom:(SamuraiHtmlDomNode *)dom
 {
@@ -56,7 +71,7 @@
 {
 	[super html_applyStyle:style];
 
-	self.font = [style computeFont:self.font];
+	self.font = [style computeFont:[SamuraiHtmlUserAgent sharedInstance].defaultFont];
 	self.textColor = [style computeColor:self.textColor];
 	self.textAlignment = [style computeTextAlignment:self.textAlignment];
 	self.baselineAdjustment = [style computeBaselineAdjustment:self.baselineAdjustment];

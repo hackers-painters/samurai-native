@@ -164,7 +164,7 @@
 		[self.textField sendSignal:UITextField.eventReturn];
 	}
 
-	if ( self.textField.renderer.tabIndex >= 0 )
+	if ( self.textField.renderer.index >= 0 )
 	{
 		[self performSelector:@selector(switchToNextObject) withObject:nil afterDelay:0.25f];
 	}

@@ -37,6 +37,7 @@
 {
 	BOOL			_themeChanged;
 	MBProgressHUD *	_hud;
+	MBProgressHUD *	_error;
 }
 
 - (void)onCreate

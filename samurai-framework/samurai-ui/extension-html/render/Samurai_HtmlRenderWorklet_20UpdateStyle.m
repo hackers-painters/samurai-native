@@ -58,7 +58,7 @@
 }
 
 - (void)updateStyleForRenderObject:(SamuraiHtmlRenderObject *)renderObject
-{
+{	
 	NSDictionary * mergedStyle = [self computeStyleForForRenderObject:renderObject];
 
 	[renderObject.customStyleComputed removeAllObjects];
@@ -79,10 +79,6 @@
 
 - (NSMutableDictionary *)computeStyleForForRenderObject:(SamuraiHtmlRenderObject *)renderObject
 {
-#if __SAMURAI_DEBUG__
-	[renderObject debug];
-#endif	// #if __SAMURAI_DEBUG__
-	
 	NSMutableDictionary * styleProperties = [[NSMutableDictionary alloc] init];
 	
 	[styleProperties addEntriesFromDictionary:renderObject.dom.domStyleComputed];

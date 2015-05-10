@@ -111,6 +111,8 @@
 
 - (void)mergeStyleForDomNode:(SamuraiDomNode *)domNode
 {
+	DEBUG_HTML_CSS( domNode );
+	
 	if ( nil == domNode.document )
 		return;
 	

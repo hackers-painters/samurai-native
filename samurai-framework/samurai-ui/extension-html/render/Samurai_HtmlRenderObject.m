@@ -212,19 +212,11 @@
 @def_prop_strong( NSMutableDictionary *,		customStyleComputed );
 @def_prop_strong( SamuraiHtmlStyle *,			customStyle );
 
-@def_prop_unsafe( SamuraiHtmlDomNode *,			dom );
-@def_prop_strong( SamuraiHtmlStyle *,			style );
-
 @def_prop_assign( RenderWrap,					wrap );
 @def_prop_assign( RenderDisplay,				display );
 @def_prop_assign( RenderFloating,				floating );
 @def_prop_assign( RenderPosition,				position );
 @def_prop_assign( RenderDirection,				direction );
-
-@def_prop_readonly( SamuraiHtmlRenderObject *,	root );
-@def_prop_unsafe( SamuraiHtmlRenderObject *,	parent );
-@def_prop_unsafe( SamuraiHtmlRenderObject *,	prev );
-@def_prop_unsafe( SamuraiHtmlRenderObject *,	next );
 
 BASE_CLASS( SamuraiHtmlRenderObject )
 
@@ -239,7 +231,7 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 	if ( tabIndex )
 	{
-		renderObject.tabIndex = [tabIndex integerValue];
+		renderObject.index = [tabIndex integerValue];
 	}
 
 	return renderObject;
@@ -745,6 +737,13 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (void)applyStyle
 {
+	[self applyStyleInheritesFrom:self.parent];
+}
+
+- (void)applyStyleInheritesFrom:(SamuraiHtmlRenderObject * )parent
+{
+	DEBUG_RENDERER_STYLE( self );
+
 	Class classType = nil;
 	
 	classType = classType ?: NSClassFromString( self.style.renderClass.value );
@@ -758,8 +757,6 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 	self.floating = [self.style computeFloating:HTML_DEFAULT_FLOATING];
 	self.position = [self.style computePosition:HTML_DEFAULT_POSITION];
 	self.direction = [self.style computeDirection:HTML_DEFAULT_DIRECTION];
-
-	SamuraiHtmlRenderObject * parent = self.parent;
 
 	while ( nil != parent )
 	{

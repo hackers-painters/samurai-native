@@ -45,7 +45,7 @@ html {
 	color: #333;
 	background-color: white;
 
-	font-size: 12px;
+	font-size: 15px;
 	font-weight: normal;
 
 	word-wrap: break-word;
@@ -105,9 +105,7 @@ body {
 	width: auto;
 	height: auto;
 	max-width: 100%;
-	color: #606c71;
 	background-color: white;
-	font-size: 16px;
 
 	-samurai-render-model: 'container';
 	-samurai-render-class: 'HtmlElement_Body';
@@ -121,7 +119,7 @@ element {
 	height: 100%;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElement_Element';
 }
 
 template {
@@ -130,9 +128,9 @@ template {
 	padding: 0;
 	width: 100%;
 	height: auto;
-	
+
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElement_Template';
 }
 
 /*************************
@@ -149,7 +147,7 @@ article {
 	height: auto;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElement_Article';
 }
 
 aside {
@@ -160,7 +158,7 @@ aside {
 	height: auto;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElement_Aside';
 }
 
 div {
@@ -171,7 +169,7 @@ div {
 	height: auto;
 	
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElement_Div';
 }
 
 footer {
@@ -182,7 +180,7 @@ footer {
 	height: auto;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElement_Footer';
 }
 
 header {
@@ -193,7 +191,7 @@ header {
 	height: auto;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElement_Header';
 }
 
 hgroup {
@@ -204,7 +202,7 @@ hgroup {
 	height: auto;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElement_Hgroup';
 }
 
 main {
@@ -215,7 +213,7 @@ main {
 	height: auto;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElement_Main';
 }
 
 nav {
@@ -226,7 +224,7 @@ nav {
 	height: auto;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElement_Nav';
 }
 
 section {
@@ -237,7 +235,7 @@ section {
 	height: auto;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElement_Section';
 }
 
 /* Inline based */
@@ -250,26 +248,14 @@ span {
 	height: auto;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElement_Span';
 }
 
 /*************************
  * List
  *************************/
 
-dir {
-	display: block;
-	list-style-type: disc;
-	margin: 0;
-	padding: 0;
-	width: auto;
-	height: auto;
-
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
-}
-
-ul {
+dir, ul {
 	display: block;
 	list-style-type: disc;
 	margin-top: 4px;
@@ -277,13 +263,13 @@ ul {
 	margin-left: 0;
 	margin-right: 0;
 	padding: 0;
+	padding-left: 30px;
 	width: auto;
 	height: auto;
 	max-width: 100%;
-	font-size: 14px;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElementUl';
+	-samurai-render-class: 'HtmlElement_Ul';
 }
 
 ol {
@@ -294,25 +280,25 @@ ol {
 	margin-left: 0;
 	margin-right: 0;
 	padding: 0;
+	padding-left: 30px;
 	width: auto;
 	height: auto;
 	max-width: 100%;
-	font-size: 14px;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElementOl';
+	-samurai-render-class: 'HtmlElement_Ol';
 }
 
 ul ul,
 ol ul {
-	list-style-type: circle
+	list-style-type: circle;
 }
 
 ol ol ul,
 ol ul ul,
 ul ol ul,
 ul ul ul {
-	list-style-type: square
+	list-style-type: square;
 }
 
 li {
@@ -322,10 +308,9 @@ li {
 	width: auto;
 	height: auto;
 	max-width: 100%;
-	font-size: 14px;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElementLi';
+	-samurai-render-class: 'HtmlElement_Li';
 }
 
 /*************************
@@ -334,13 +319,17 @@ li {
 
 dl {
 	display: block;
-	margin: 0;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: 0;
+	margin-right: 0;
 	padding: 0;
 	width: auto;
 	height: auto;
+	max-width: 100%;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElement_Dl';
 }
 
 dt {
@@ -349,20 +338,23 @@ dt {
 	padding: 0;
 	width: auto;
 	height: auto;
+	max-width: 100%;
 	
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElement_Dt';
 }
 
 dd {
 	display: block;
 	margin: 0;
 	padding: 0;
+	padding-left: 30px;
 	width: auto;
 	height: auto;
+	max-width: 100%;
 
 	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
+	-samurai-render-class: 'HtmlElement_Dd';
 }
 
 /*************************
@@ -370,6 +362,17 @@ dd {
  *************************/
 
 table {
+	display: block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+
+	-samurai-render-model: 'table';
+	-samurai-render-class: 'HtmlElement_Table';
+}
+
+caption {
 	display: none;
 	
 	-samurai-render-model: 'hidden';
@@ -418,13 +421,6 @@ tr {
 	-samurai-render-class: '';
 }
 
-caption {
-	display: none;
-	
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
-}
-
 col {
 	display: none;
 
@@ -443,17 +439,6 @@ colgroup {
  * Form
  *************************/
 
-fieldset {
-	display: block;
-	margin: 0;
-	padding: 0;
-	width: auto;
-	height: auto;
-	
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'UIView';
-}
-
 form {
 	display: block;
 	margin: 0;
@@ -465,11 +450,15 @@ form {
 	-samurai-render-class: 'UIView';
 }
 
-keygen {
-	display: none;
+fieldset {
+	display: block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
 	
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'UIView';
 }
 
 legend {
@@ -479,9 +468,12 @@ legend {
 	-samurai-render-class: '';
 }
 
-/*************************
- * Menu
- *************************/
+keygen {
+	display: none;
+	
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
 
 menu {
 	display: block;
@@ -500,7 +492,7 @@ menuitem {
 	padding: 0;
 	width: auto;
 	height: auto;
-
+	
 	-samurai-render-model: 'hidden';
 	-samurai-render-class: '';
 }
@@ -516,9 +508,6 @@ button {
 	width: 44px;
 	height: 44px;
 	color: black;
-	font-size: 14px;
-	font-weight: normal;
-	text-align: center;
 	
 	-samurai-render-model: 'element';
 	-samurai-render-class: 'UIButton';
@@ -535,8 +524,19 @@ canvas {
 	-samurai-render-class: 'UIView';
 }
 
-img,
-image {
+datalist {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 44px;
+	color: black;
+	
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'UITextField';
+}
+
+img, image {
 	display: block;
 	margin: 0;
 	padding: 0;
@@ -544,10 +544,9 @@ image {
 	height: auto;
 	
 	-samurai-render-model: 'element';
-	-samurai-render-class: 'UIImageView';
+	-samurai-render-class: 'HtmlElement_Img';
 }
 
-datalist,
 input {
 	display: inline-block;
 	margin: 0;
@@ -555,10 +554,7 @@ input {
 	width: 100%;
 	height: 44px;
 	color: black;
-	font-size: 14px;
-	font-weight: normal;
-	text-align: left;
-
+	
 	-samurai-render-model: 'element';
 	-samurai-render-class: 'UITextField';
 }
@@ -572,28 +568,6 @@ label {
 	
 	-samurai-render-model: 'element';
 	-samurai-render-class: 'UILabel';
-}
-
-output {
-	display: block;
-	margin: 0;
-	padding: 0;
-	width: auto;
-	height: auto;
-	
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'UILabel';
-}
-
-progress {
-	display: block;
-	margin: 0;
-	padding: 0;
-	width: auto;
-	height: auto;
-	
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'UIProgressView';
 }
 
 optgroup {
@@ -618,6 +592,28 @@ option {
 	-samurai-render-class: '';
 }
 
+output {
+	display: block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'UILabel';
+}
+
+progress {
+	display: block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'UIProgressView';
+}
+
 select
 {
 	display: inline-block;
@@ -626,9 +622,6 @@ select
 	width: 44px;
 	height: 44px;
 	color: black;
-	font-size: 14px;
-	font-weight: normal;
-	text-align: center;
 
 	-samurai-render-model: 'element';
 	-samurai-render-class: 'UILabel';
@@ -641,10 +634,7 @@ textarea {
 	width: 100%;
 	height: 44px;
 	color: black;
-	font-size: 14px;
-	font-weight: normal;
-	text-align: left;
-
+	
 	-samurai-render-model: 'element';
 	-samurai-render-class: 'UITextView';
 }
@@ -1044,7 +1034,6 @@ p {
 	width: auto;
 	height: auto;
 	max-width: 100%;
-	font-size: 14px;
 
 	-samurai-render-model: 'container';
 	-samurai-render-class: 'HtmlElementP';
@@ -1059,7 +1048,6 @@ pre {
 	width: auto;
 	height: auto;
 	max-width: 100%;
-	font-size: 14px;
 	white-space: pre;
 
 	-samurai-render-model: 'element';

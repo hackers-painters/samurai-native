@@ -43,7 +43,7 @@
 
 #pragma mark -
 
-@implementation HtmlElementUl
+@implementation HtmlElement_Ul
 
 - (void)html_applyDom:(SamuraiHtmlDomNode *)dom
 {

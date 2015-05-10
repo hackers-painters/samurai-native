@@ -30,6 +30,7 @@
 	self = [super initWithFrame:frame collectionViewLayout:layout];
 	if ( self )
 	{
+		self.backgroundColor = [UIColor clearColor];
 	}
 	return self;
 }

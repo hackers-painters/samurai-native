@@ -52,7 +52,7 @@
 	{
 		self.backgroundColor = [UIColor whiteColor];
 		self.autoresizesSubviews = YES;
-		self.layer.masksToBounds = YES;
+		self.layer.masksToBounds = NO;
 	}
 	return self;
 }

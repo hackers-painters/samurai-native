@@ -34,7 +34,21 @@
 
 #pragma mark -
 
+@interface UIBorderView : UIView
+
+@prop_assign( CGFloat,	lineWidth );
+
+@end
+
+#pragma mark -
+
 @interface UIView(Html)
+
+@prop_unsafe( UIBorderView *,	topBorder );
+@prop_unsafe( UIBorderView *,	leftBorder );
+@prop_unsafe( UIBorderView *,	rightBorder );
+@prop_unsafe( UIBorderView *,	bottomBorder );
+
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

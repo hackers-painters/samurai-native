@@ -99,12 +99,9 @@
 @prop_unsafe( SamuraiDomNode *,			dom );
 @prop_strong( SamuraiRenderStyle *,		style );
 
+@prop_assign( NSInteger,				index );
 @prop_assign( CGRect,					frame );
 @prop_assign( CGPoint,					offset );
-
-@prop_assign( NSInteger,				layer );
-@prop_assign( NSInteger,				zIndex );
-@prop_assign( NSInteger,				tabIndex );
 
 @prop_assign( UIEdgeInsets,				inset );
 @prop_assign( UIEdgeInsets,				margin );
@@ -148,8 +145,6 @@
 - (void)relayout;					// override point
 - (void)restyle;					// override point
 - (void)rechain;					// override point
-
-- (void)debug;
 
 @end
 

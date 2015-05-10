@@ -28,29 +28,91 @@
 //	THE SOFTWARE.
 //
 
-#import "Samurai_UIConfig.h"
-#import "Samurai_ViewCore.h"
+#import "Samurai_HtmlRenderObjectTable.h"
+
+#import "_pragma_push.h"
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
-#import "Samurai_HtmlNumber.h"
+#import "HtmlElement_Table.h"
+
+// ----------------------------------
+// Source code
+// ----------------------------------
 
 #pragma mark -
 
-#undef	makeDp
-#define makeDp( n )	[SamuraiHtmlNumberDp number:n]
+@implementation SamuraiHtmlRenderObjectTable
+
++ (Class)defaultViewClass
+{
+	return [HtmlElement_Table class];
+}
 
 #pragma mark -
 
-@interface SamuraiHtmlStyleObject(NumberDp)
+- (BOOL)store_isValid
+{
+	return YES;
+}
 
-- (BOOL)isDp;
+- (BOOL)store_hasChildren
+{
+	return YES;
+}
+
+#pragma mark -
+
+- (CGRect)computeFrame:(CGSize)bound origin:(CGPoint)origin
+{
+	DEBUG_RENDERER_LAYOUT( self );
+
+	// TODO
+	
+	return [self zerolizeFrame];
+}
+
+#pragma mark -
+
+- (id)serialize
+{
+	return [self.view serialize];
+}
+
+- (void)unserialize:(id)obj
+{
+	[self.view unserialize:obj];
+}
+
+- (void)zerolize
+{
+	[self.view zerolize];
+}
 
 @end
 
+// ----------------------------------
+// Unit test
+// ----------------------------------
+
 #pragma mark -
 
-@interface SamuraiHtmlNumberDp : SamuraiHtmlNumber
-@end
+#if __SAMURAI_TESTING__
+
+TEST_CASE( UI, HtmlRenderObjectTable )
+
+DESCRIBE( before )
+{
+}
+
+DESCRIBE( after )
+{
+}
+
+TEST_CASE_END
+
+#endif	// #if __SAMURAI_TESTING__
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
+
+#import "_pragma_pop.h"

@@ -30,9 +30,14 @@
 
 #import "Samurai_HtmlNumber.h"
 #import "Samurai_HtmlNumberAutomatic.h"
-#import "Samurai_HtmlNumberDp.h"
+#import "Samurai_HtmlNumberCm.h"
 #import "Samurai_HtmlNumberEm.h"
+#import "Samurai_HtmlNumberEx.h"
+#import "Samurai_HtmlNumberIn.h"
+#import "Samurai_HtmlNumberMm.h"
+#import "Samurai_HtmlNumberPc.h"
 #import "Samurai_HtmlNumberPercentage.h"
+#import "Samurai_HtmlNumberPt.h"
 #import "Samurai_HtmlNumberPx.h"
 #import "Samurai_HtmlNumberConstant.h"
 
@@ -58,7 +63,7 @@
 	return NO;
 }
 
-- (BOOL)isConstant
+- (BOOL)isAbsolute
 {
 	return NO;
 }
@@ -104,8 +109,13 @@
 			[valueClasses addObject:[SamuraiHtmlNumberAutomatic class]];
 			[valueClasses addObject:[SamuraiHtmlNumberPercentage class]];
 			[valueClasses addObject:[SamuraiHtmlNumberPx class]];
-			[valueClasses addObject:[SamuraiHtmlNumberDp class]];
+			[valueClasses addObject:[SamuraiHtmlNumberCm class]];
 			[valueClasses addObject:[SamuraiHtmlNumberEm class]];
+			[valueClasses addObject:[SamuraiHtmlNumberEx class]];
+			[valueClasses addObject:[SamuraiHtmlNumberIn class]];
+			[valueClasses addObject:[SamuraiHtmlNumberMm class]];
+			[valueClasses addObject:[SamuraiHtmlNumberPc class]];
+			[valueClasses addObject:[SamuraiHtmlNumberPt class]];
 			[valueClasses addObject:[SamuraiHtmlNumberConstant class]]; // default type
 		});
 		

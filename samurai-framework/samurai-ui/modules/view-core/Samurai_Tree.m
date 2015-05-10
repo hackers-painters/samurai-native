@@ -138,9 +138,9 @@
 	node.prev = self;
 	node.next = nil;
 
-    //    [node relation]
-    //   prev self -> *node
-    
+//	[node relation]
+//	prev self -> *node
+
     self.next = node;
 	
 	[self.parent.childs addObject:node];
@@ -162,13 +162,13 @@
     node.prev = [self.childs lastObject];
     node.next = nil;
     
-    //    [node relation]
-    //         self
-    //   /       |        \
-    // ...   node.prev -> *node
+//    [node relation]
+//         self
+//   /       |        \
+// ...   node.prev -> *node
     
     node.prev.next = node;
-    
+
     [self.childs addObject:node];
 }
 

@@ -35,7 +35,14 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+// ----------------------------------
+// Source code
+// ----------------------------------
+
+#pragma mark -
+
 @interface SamuraiCSSRuleSet()
+
 @property (nonatomic, assign) NSUInteger ruleCount;
 @property (nonatomic, strong) NSMutableDictionary * idRules;
 @property (nonatomic, strong) NSMutableDictionary * classRules;
@@ -49,6 +56,8 @@
 @property (nonatomic, strong) NSMutableArray * keyframesRules;
 
 @end
+
+#pragma mark -
 
 @implementation SamuraiCSSRuleSet
 
@@ -305,6 +314,28 @@
 }
 
 @end
+
+// ----------------------------------
+// Unit test
+// ----------------------------------
+
+#pragma mark -
+
+#if __SAMURAI_TESTING__
+
+TEST_CASE( UI, CSSRuleSet )
+
+DESCRIBE( before )
+{
+}
+
+DESCRIBE( after )
+{
+}
+
+TEST_CASE_END
+
+#endif	// #if __SAMURAI_TESTING__
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 

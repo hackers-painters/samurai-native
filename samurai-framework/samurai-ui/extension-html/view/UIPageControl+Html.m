@@ -181,6 +181,7 @@
 			}
 			
 			[self updateCurrentPageDisplay];
+			[self setNeedsDisplay];
 		}
 	}
 }

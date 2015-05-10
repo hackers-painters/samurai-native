@@ -41,12 +41,6 @@
 #import "Samurai_HtmlColor.h"
 #import "Samurai_HtmlFunction.h"
 #import "Samurai_HtmlNumber.h"
-#import "Samurai_HtmlNumberAutomatic.h"
-#import "Samurai_HtmlNumberDp.h"
-#import "Samurai_HtmlNumberEm.h"
-#import "Samurai_HtmlNumberPercentage.h"
-#import "Samurai_HtmlNumberPx.h"
-#import "Samurai_HtmlNumberConstant.h"
 #import "Samurai_HtmlString.h"
 #import "Samurai_HtmlUrl.h"
 
@@ -237,6 +231,12 @@ typedef enum
 @html_value( whiteSpace );
 @html_value( wordSpacing );
 
+// list
+
+@html_value( listStyleType );
+@html_value( listStyleImage );
+@html_value( listStylePosition );
+
 // background
 
 @html_array( background );
@@ -272,22 +272,22 @@ typedef enum
 @html_value( borderBottomLeftRadius );
 @html_value( borderBottomRightRadius );
 
-@html_value( borderTop );
+@html_array( borderTop );
 @html_value( borderTopColor );
 @html_value( borderTopStyle );
 @html_value( borderTopWidth );
 
-@html_value( borderLeft );
+@html_array( borderLeft );
 @html_value( borderLeftColor );
 @html_value( borderLeftStyle );
 @html_value( borderLeftWidth );
 
-@html_value( borderRight );
+@html_array( borderRight );
 @html_value( borderRightColor );
 @html_value( borderRightStyle );
 @html_value( borderRightWidth );
 
-@html_value( borderBottom );
+@html_array( borderBottom );
 @html_value( borderBottomColor );
 @html_value( borderBottomStyle );
 @html_value( borderBottomWidth );

@@ -36,6 +36,7 @@
 
 #import "Samurai_HtmlStyle.h"
 #import "Samurai_HtmlRenderObject.h"
+#import "Samurai_HtmlUserAgent.h"
 
 // ----------------------------------
 // Source code
@@ -63,8 +64,8 @@
 - (void)html_applyStyle:(SamuraiHtmlStyle *)style
 {
 	[super html_applyStyle:style];
-	
-	self.titleLabel.font = [style computeFont:self.titleLabel.font];
+
+	self.titleLabel.font = [style computeFont:[SamuraiHtmlUserAgent sharedInstance].defaultFont];
 	self.titleLabel.textAlignment = [style computeTextAlignment:self.titleLabel.textAlignment];
 	self.titleLabel.baselineAdjustment = [style computeBaselineAdjustment:self.titleLabel.baselineAdjustment];
 	self.titleLabel.lineBreakMode = [style computeLineBreakMode:self.titleLabel.lineBreakMode];

@@ -65,9 +65,7 @@
 
 - (CGRect)computeFrame:(CGSize)bound origin:(CGPoint)origin
 {
-#if __SAMURAI_DEBUG__
-	[self debug];
-#endif	// #if __SAMURAI_DEBUG__
+	DEBUG_RENDERER_LAYOUT( self );
 
 	if ( RenderDisplay_None == self.display )
 	{
@@ -210,9 +208,11 @@
 
 				childOrigin.x = relWindow.origin.x - oriWindow.origin.x;
 				childOrigin.x += computedPadding.left;
+				childOrigin.x += computedBorder.left;
 				
 				childOrigin.y = relWindow.origin.y - oriWindow.origin.y;
 				childOrigin.y += computedPadding.top;
+				childOrigin.y += computedBorder.top;
 				
 				childBoundSize.width = self.style.maxWidth ? maxWidth : relWindow.size.width;
 				childBoundSize.height = self.style.maxHeight ? maxHeight : relWindow.size.height;
@@ -261,7 +261,12 @@
 							relWindow.origin.y = CGRectGetMaxY( maxWindow );
 							
 							childOrigin.x = relWindow.origin.x - oriWindow.origin.x;
+//							childOrigin.x += computedPadding.left;
+//							childOrigin.x += computedBorder.left;
+							
 							childOrigin.y = relWindow.origin.y - oriWindow.origin.y;
+//							childOrigin.y += computedPadding.top;
+//							childOrigin.y += computedBorder.top;
 
 							childBoundSize.width = self.style.maxWidth ? maxWidth : relWindow.size.width;
 							childBoundSize.height = self.style.maxHeight ? maxHeight : relWindow.size.height;
@@ -485,8 +490,10 @@
 				
 				childOrigin.x = computedMargin.left;
 				childOrigin.y = computedMargin.top;
+				
 				childOrigin.x += computedPadding.left;
 				childOrigin.y += computedPadding.top;
+				
 				childOrigin.x += computedBorder.left;
 				childOrigin.y += computedBorder.top;
 				
@@ -576,9 +583,11 @@
 				
 				childOrigin.x = floatingLeft;
 				childOrigin.x += computedPadding.left;
+			//	childOrigin.x += computedBorder.left;
 
 				childOrigin.y = floatingTop;
 				childOrigin.y += computedPadding.top;
+			//	childOrigin.y += computedBorder.top;
 
 				CGRect childWindow = [child computeFrame:floatingWindow.size origin:childOrigin];
 				CGRect childBounds = child.frame;
@@ -714,7 +723,7 @@
 	outerBound.size.width += computedPadding.right;
 	outerBound.size.height += computedPadding.top;
 	outerBound.size.height += computedPadding.bottom;
-	
+
 	outerBound.size.width += computedBorder.left;
 	outerBound.size.width += computedBorder.right;
 	outerBound.size.height += computedBorder.top;

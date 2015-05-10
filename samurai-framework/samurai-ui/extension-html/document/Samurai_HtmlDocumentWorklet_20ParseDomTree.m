@@ -113,6 +113,8 @@
 
 	[self parseAttributes:node forParentNode:childNode];
 	[self parseChildren:node forParentNode:childNode];
+	
+	DEBUG_HTML_DOM( childNode );
 }
 
 - (void)parseNodeText:(GumboNode *)node forParentNode:(SamuraiHtmlDomNode *)domNode
@@ -130,6 +132,8 @@
 			childNode.domText = content;
 
 			[domNode appendNode:childNode];
+			
+			DEBUG_HTML_DOM( childNode );
 		}
 	}
 }
@@ -149,6 +153,8 @@
 			childNode.domText = content;
 
 			[domNode appendNode:childNode];
+			
+			DEBUG_HTML_DOM( childNode );
 		}
 	}
 }
@@ -167,6 +173,8 @@
 //			childNode.domText = content;
 //
 //			[domNode appendNode:childNode];
+//
+//			DEBUG_HTML_DOM( childNode );
 //		}
 //	}
 }

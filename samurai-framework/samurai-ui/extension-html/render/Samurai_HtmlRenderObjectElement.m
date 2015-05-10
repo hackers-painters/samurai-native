@@ -65,9 +65,7 @@
 
 - (CGRect)computeFrame:(CGSize)bound origin:(CGPoint)origin
 {
-#if __SAMURAI_DEBUG__
-	[self debug];
-#endif	// #if __SAMURAI_DEBUG__
+	DEBUG_RENDERER_LAYOUT( self );
 
 	if ( RenderDisplay_None == self.display )
 	{
@@ -278,10 +276,12 @@
 				
 				childOrigin.x = computedMargin.left;
 				childOrigin.y = computedMargin.top;
+				
 				childOrigin.x += computedPadding.left;
 				childOrigin.y += computedPadding.top;
-				childOrigin.x += computedBorder.left;
-				childOrigin.y += computedBorder.top;
+				
+			//	childOrigin.x += computedBorder.left;
+			//	childOrigin.y += computedBorder.top;
 				
 				CGRect			childBounds = [child computeFrame:computedFrame.size origin:childOrigin];
 				UIEdgeInsets	childOffset = [child computeOffset:computedFrame.size];

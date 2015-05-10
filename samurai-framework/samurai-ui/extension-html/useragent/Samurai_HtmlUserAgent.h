@@ -39,6 +39,7 @@
 
 @interface SamuraiHtmlUserAgent : NSObject
 
+@prop_strong( UIFont *,				defaultFont );
 @prop_strong( NSMutableArray *,		defaultStyleSheets );
 @prop_strong( NSMutableArray *,		defaultCSSInherition );
 

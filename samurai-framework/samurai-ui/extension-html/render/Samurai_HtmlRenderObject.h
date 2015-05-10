@@ -46,7 +46,8 @@ typedef enum
 	HtmlRenderModel_Hidden,
 	HtmlRenderModel_Inline,
 	HtmlRenderModel_Element,
-	HtmlRenderModel_Container
+	HtmlRenderModel_Table,
+	HtmlRenderModel_Container,
 } HtmlRenderModel;
 
 #pragma mark -
@@ -88,14 +89,14 @@ typedef enum
 @prop_strong( NSMutableDictionary *,		customStyleComputed );
 @prop_strong( SamuraiHtmlStyle *,			customStyle );
 
-@prop_unsafe( SamuraiHtmlDomNode *,			dom );
-@prop_strong( SamuraiHtmlStyle *,			style );
-
 @prop_assign( RenderWrap,					wrap );
 @prop_assign( RenderDisplay,				display );
 @prop_assign( RenderFloating,				floating );
 @prop_assign( RenderPosition,				position );
 @prop_assign( RenderDirection,				direction );
+
+@prop_unsafe( SamuraiHtmlDomNode *,			dom );
+@prop_strong( SamuraiHtmlStyle *,			style );
 
 @prop_readonly( SamuraiHtmlRenderObject *,	root );
 @prop_unsafe( SamuraiHtmlRenderObject *,	parent );
@@ -120,7 +121,52 @@ typedef enum
 - (UIEdgeInsets)computePadding:(CGSize)size;
 
 - (void)applyStyle;
+- (void)applyStyleInheritesFrom:(SamuraiHtmlRenderObject * )parent;
 
 @end
+
+#pragma mark -
+
+#if __SAMURAI_DEBUG__
+
+#undef	DEBUG_RENDERER_LAYOUT
+#define DEBUG_RENDERER_LAYOUT( __x ) \
+		if ( [__x.dom.domAttributes hasObjectForKey:@"debug"] || [__x.dom.domAttributes hasObjectForKey:@"debug-layout"] ) \
+		{ \
+			INFO( @"Debug layout at >>" ); \
+			[__x dump]; \
+			TRAP(); \
+		}
+
+#undef	DEBUG_RENDERER_STYLE
+#define DEBUG_RENDERER_STYLE( __x ) \
+		if ( [__x.dom.domAttributes hasObjectForKey:@"debug"] || [__x.dom.domAttributes hasObjectForKey:@"debug-style"] ) \
+		{ \
+			INFO( @"Debug style at >>" ); \
+			[__x dump]; \
+			TRAP(); \
+		}
+
+#undef	DEBUG_RENDERER_FRAME
+#define DEBUG_RENDERER_FRAME( __x ) \
+		if ( [__x.dom.domAttributes hasObjectForKey:@"debug"] || [__x.dom.domAttributes hasObjectForKey:@"debug-frame"] ) \
+		{ \
+			INFO( @"Debug frame at >>" ); \
+			[__x dump]; \
+			TRAP(); \
+		}
+
+#else	// #if __SAMURAI_DEBUG__
+
+#undef	DEBUG_RENDERER_LAYOUT
+#define DEBUG_RENDERER_LAYOUT( __x )
+
+#undef	DEBUG_RENDERER_STYLE
+#define DEBUG_RENDERER_STYLE( __x )
+
+#undef	DEBUG_RENDERER_FRAME
+#define DEBUG_RENDERER_FRAME( __x )
+
+#endif	// #if __SAMURAI_DEBUG__
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

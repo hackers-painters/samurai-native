@@ -37,6 +37,7 @@
 #import "Samurai_HtmlRenderObject.h"
 #import "Samurai_HtmlRenderObjectContainer.h"
 #import "Samurai_HtmlRenderObjectElement.h"
+#import "Samurai_HtmlRenderObjectTable.h"
 #import "Samurai_HtmlRenderObjectText.h"
 #import "Samurai_HtmlRenderObjectViewport.h"
 
@@ -141,6 +142,8 @@
 	else
 	{
         SamuraiHtmlStyle *			thisStyle = [SamuraiHtmlStyle renderStyle:domNode.domStyleComputed];
+		SamuraiHtmlRenderObject *	thisObject = nil;
+		
 		SamuraiHtmlString *			renderClass = thisStyle.renderClass;
         SamuraiHtmlString *			renderModel = thisStyle.renderModel;
 
@@ -159,6 +162,10 @@
 			else if ( [renderModel isString:@"element"] )
 			{
 				computedRenderModel = HtmlRenderModel_Element;
+			}
+			else if ( [renderModel isString:@"table"] )
+			{
+				computedRenderModel = HtmlRenderModel_Table;
 			}
 			else if ( [renderModel isString:@"container"] )
 			{
@@ -196,7 +203,7 @@
 		}
 		else if ( HtmlRenderModel_Element == computedRenderModel )
 		{
-			SamuraiHtmlRenderObject *	thisObject = [SamuraiHtmlRenderObjectElement renderObjectWithDom:domNode andStyle:thisStyle];
+			thisObject = [SamuraiHtmlRenderObjectElement renderObjectWithDom:domNode andStyle:thisStyle];
 
 			if ( container )
 			{
@@ -204,13 +211,10 @@
 			}
 			
 			[thisObject applyStyle];
-
-			return thisObject;
 		}
 		else if ( HtmlRenderModel_Container == computedRenderModel )
 		{
-			SamuraiHtmlStyle *			thisStyle = [SamuraiHtmlStyle renderStyle:domNode.domStyleComputed];
-			SamuraiHtmlRenderObject *	thisObject = [SamuraiHtmlRenderObjectContainer renderObjectWithDom:domNode andStyle:thisStyle];
+			thisObject = [SamuraiHtmlRenderObjectContainer renderObjectWithDom:domNode andStyle:thisStyle];
 
 			if ( container )
 			{
@@ -223,16 +227,30 @@
 			{
 				[self renderDomNode:childDom forContainer:thisObject];
 			}
+		}
+		else if ( HtmlRenderModel_Table == computedRenderModel )
+		{
+			thisObject = [SamuraiHtmlRenderObjectTable renderObjectWithDom:domNode andStyle:thisStyle];
 			
-			return thisObject;
+			if ( container )
+			{
+				[container appendNode:thisObject];
+			}
+			
+			[thisObject applyStyle];
+
+			for ( SamuraiDomNode * childDom in domNode.childs )
+			{
+				[self renderDomNode:childDom forContainer:thisObject];
+			}
 		}
 		else
 		{
 			PERF( @"unknown tag '%@'", domNode.domTag );
 		}
+		
+		return thisObject;
 	}
-	
-	return nil;
 }
 
 - (SamuraiHtmlRenderObject *)renderDomNodeText:(SamuraiDomNode *)domNode forContainer:(SamuraiHtmlRenderObject *)container

@@ -98,12 +98,9 @@
 @def_prop_unsafe( SamuraiDomNode *,			dom );
 @def_prop_strong( SamuraiRenderStyle *,		style );
 
+@def_prop_assign( NSInteger,				index );
 @def_prop_assign( CGRect,					frame );
 @def_prop_assign( CGPoint,					offset );
-
-@def_prop_assign( NSInteger,				layer );
-@def_prop_assign( NSInteger,				zIndex );
-@def_prop_assign( NSInteger,				tabIndex );
 
 @def_prop_assign( UIEdgeInsets,				inset );
 @def_prop_assign( UIEdgeInsets,				margin );
@@ -112,11 +109,6 @@
 
 @def_prop_strong( UIView *,					view );
 @def_prop_strong( Class,					viewClass );
-@def_prop_readonly( SamuraiRenderObject *,	root );
-@def_prop_unsafe( SamuraiRenderObject *,	parent );
-@def_prop_unsafe( SamuraiRenderObject *,	prev );
-@def_prop_unsafe( SamuraiRenderObject *,	next );
-
 
 BASE_CLASS( SamuraiRenderObject )
 
@@ -157,10 +149,7 @@ static NSUInteger __objectSeed = 0;
 		self.style = nil;
 		self.viewClass = nil; // [[self class] defaultViewClass];
 
-		self.layer = 0;
-		self.zIndex = 0;
-		self.tabIndex = -1;
-		
+		self.index = 0;
 		self.offset = CGPointZero;
 		self.frame = CGRectZero;
 		
@@ -344,19 +333,19 @@ static NSUInteger __objectSeed = 0;
 
 - (SamuraiRenderObject *)prevObject
 {
-	return [self.root findObjectWithTabIndex:(self.tabIndex - 1) exclude:self];
+	return [self.root findObjectWithTabIndex:(self.index - 1) exclude:self];
 }
 
 - (SamuraiRenderObject *)nextObject
 {
-	return [self.root findObjectWithTabIndex:(self.tabIndex + 1) exclude:self];
+	return [self.root findObjectWithTabIndex:(self.index + 1) exclude:self];
 }
 
 - (SamuraiRenderObject *)findObjectWithTabIndex:(NSInteger)tabIndex exclude:(SamuraiRenderObject *)sourceObject
 {
 	if ( self != sourceObject )
 	{
-		if ( self.tabIndex == tabIndex )
+		if ( self.index == tabIndex )
 		{
 			return self;
 		}
@@ -483,7 +472,7 @@ static NSUInteger __objectSeed = 0;
 				{
 					[contentView addSubview:childView];
 				}
-				
+
 			//	[child bindOutletsTo:self.view];
 			}
 		}
@@ -574,26 +563,6 @@ static NSUInteger __objectSeed = 0;
 }
 
 #pragma mark -
-
-- (void)debug
-{
-#if __SAMURAI_DEBUG__
-	
-	if ( [self.dom.domAttributes hasObjectForKey:@"breakpoint"] )
-	{
-		INFO( @"Debug breakpoint at >>" );
-		
-		[[SamuraiLogger sharedInstance] indent];
-		
-		[self.dom dump];
-		
-		[[SamuraiLogger sharedInstance] unindent];
-		
-		TRAP();
-	}
-	
-#endif
-}
 
 - (void)dump
 {

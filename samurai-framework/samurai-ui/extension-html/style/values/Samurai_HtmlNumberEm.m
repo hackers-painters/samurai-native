@@ -34,6 +34,8 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_HtmlUserAgent.h"
+
 // ----------------------------------
 // Source code
 // ----------------------------------
@@ -122,14 +124,16 @@
 	return YES;
 }
 
-- (BOOL)isConstant
+- (BOOL)isAbsolute
 {
 	return YES;
 }
 
 - (CGFloat)computeValue:(CGFloat)value
 {
-	return self.value * 16.0f;	// em to px
+	CGFloat lineHeight = [SamuraiHtmlUserAgent sharedInstance].defaultFont.lineHeight;
+
+	return self.value * lineHeight;	// em to px
 }
 
 @end

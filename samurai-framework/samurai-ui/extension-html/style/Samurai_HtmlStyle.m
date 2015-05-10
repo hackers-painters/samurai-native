@@ -35,6 +35,9 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_HtmlNumberAutomatic.h"
+#import "Samurai_HtmlNumberPercentage.h"
+
 // ----------------------------------
 // Source code
 // ----------------------------------
@@ -93,6 +96,12 @@
 @def_html_value( whiteSpace, setWhiteSpace,								@"white-space" );
 @def_html_value( wordSpacing, setWordSpacing,							@"word-spacing" );
 
+// list
+
+@def_html_value( listStyleType, setListStyleType,						@"list-style-type" );
+@def_html_value( listStyleImage, setListStyleImage,						@"list-style-image" );
+@def_html_value( listStylePosition, setListStylePosition,				@"list-style-position" );
+
 // background
 
 @def_html_array( background, setBackground,								@"background" );
@@ -128,22 +137,22 @@
 @def_html_value( borderBottomLeftRadius, setBorderBottomLeftRadius,		@"border-bottom-left-radius" );
 @def_html_value( borderBottomRightRadius, setBorderBottomRightRadius,	@"border-bottom-right-radius" );
 
-@def_html_value( borderTop, setBorderTop,								@"border-top" );
+@def_html_array( borderTop, setBorderTop,								@"border-top" );
 @def_html_value( borderTopColor, setBorderTopColor,						@"border-top-color" );
 @def_html_value( borderTopStyle, setBorderTopStyle,						@"border-top-style" );
 @def_html_value( borderTopWidth, setBorderTopWidth,						@"border-top-width" );
 
-@def_html_value( borderLeft, setBorderLeft,								@"border-left" );
+@def_html_array( borderLeft, setBorderLeft,								@"border-left" );
 @def_html_value( borderLeftColor, setBorderLeftColor,					@"border-left-color" );
 @def_html_value( borderLeftStyle, setBorderLeftStyle,					@"border-left-style" );
 @def_html_value( borderLeftWidth, setBorderLeftWidth,					@"border-left-width" );
 
-@def_html_value( borderRight, setBorderRight,							@"border-right" );
+@def_html_array( borderRight, setBorderRight,							@"border-right" );
 @def_html_value( borderRightColor, setBorderRightColor,					@"border-right-color" );
 @def_html_value( borderRightStyle, setBorderRightStyle,					@"border-right-style" );
 @def_html_value( borderRightWidth, setBorderRightWidth,					@"border-right-width" );
 
-@def_html_value( borderBottom, setBorderBottom,							@"border-bottom" );
+@def_html_array( borderBottom, setBorderBottom,							@"border-bottom" );
 @def_html_value( borderBottomColor, setBorderBottomColor,				@"border-bottom-color" );
 @def_html_value( borderBottomStyle, setBorderBottomStyle,				@"border-bottom-style" );
 @def_html_value( borderBottomWidth, setBorderBottomWidth,				@"border-bottom-width" );

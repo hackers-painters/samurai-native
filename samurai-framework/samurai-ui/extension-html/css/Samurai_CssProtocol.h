@@ -37,23 +37,23 @@
 
 @protocol SamuraiCSSProtocol
 
-- (NSString *)cssId;								// override point
-- (NSString *)cssTag;								// override point
-- (NSString *)cssPseudos;								// override point
+- (NSString *)cssId;
+- (NSString *)cssTag;
+- (NSString *)cssPseudos;
 - (NSString *)cssShadowPseudoId;
-- (NSArray *)cssClasses;							// override point
-- (NSArray *)cssAttributes;							// override point
-- (id<SamuraiCSSProtocol>)cssParent;							// override point
-- (id<SamuraiCSSProtocol>)cssPreviousSibling;					// override point
-- (id<SamuraiCSSProtocol>)cssFollowingSibling;					// override point
-- (id<SamuraiCSSProtocol>)cssSiblingAtIndex:(NSInteger)index;	// override point
-- (NSArray *)cssChildren;							// override point
-- (NSArray *)cssPreviousSiblings;					// override point
-- (NSArray *)cssFollowingSiblings;					// override point
-- (BOOL)cssIsElement;								// override point
-- (BOOL)cssIsFirstChild;							// override point
-- (BOOL)cssIsLastChild;								// override point
-- (BOOL)cssIsNthChild:(NSUInteger)index;			// override point
+- (NSArray *)cssClasses;
+- (NSArray *)cssAttributes;
+- (id<SamuraiCSSProtocol>)cssParent;
+- (id<SamuraiCSSProtocol>)cssPreviousSibling;
+- (id<SamuraiCSSProtocol>)cssFollowingSibling;
+- (id<SamuraiCSSProtocol>)cssSiblingAtIndex:(NSInteger)index;
+- (NSArray *)cssChildren;
+- (NSArray *)cssPreviousSiblings;
+- (NSArray *)cssFollowingSiblings;
+- (BOOL)cssIsElement;
+- (BOOL)cssIsFirstChild;
+- (BOOL)cssIsLastChild;
+- (BOOL)cssIsNthChild:(NSUInteger)index;
 
 @end
 

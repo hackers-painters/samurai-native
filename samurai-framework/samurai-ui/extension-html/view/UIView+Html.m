@@ -43,7 +43,20 @@
 
 #pragma mark -
 
+@implementation UIBorderView
+
+@def_prop_assign( CGFloat,	lineWidth );
+
+@end
+
+#pragma mark -
+
 @implementation UIView(Html)
+
+@def_prop_dynamic_strong( UIBorderView *,	topBorder, setTopBorder );
+@def_prop_dynamic_strong( UIBorderView *,	leftBorder, setLeftBorder );
+@def_prop_dynamic_strong( UIBorderView *,	rightBorder, setRightBorder );
+@def_prop_dynamic_strong( UIBorderView *,	bottomBorder, setBottomBorder );
 
 + (HtmlRenderModel)html_defaultRenderModel
 {
@@ -52,78 +65,526 @@
 
 - (void)html_applyBorder:(SamuraiHtmlStyle *)style
 {
+	CGFloat thinSize = 1.0f;
+	CGFloat mediumSize = 3.0f;
+	CGFloat thickSize = 5.0f;
+	
 // border:5px solid red
 
-	SamuraiHtmlStyleObject * borderWidth = style.borderWidth ?: [style.border objectAtIndex:0];
-//	SamuraiHtmlStyleObject * borderStyle = style.borderStyle ?: [style.border objectAtIndex:1];
-	SamuraiHtmlStyleObject * borderColor = style.borderColor ?: [style.border objectAtIndex:2];
-	SamuraiHtmlStyleObject * borderRadius = style.borderRadius;
-
-	CGFloat		width = 0.0f;
-	CGFloat		radius = 0.0f;
-	UIColor *	color = nil;
-	
-	if ( borderWidth )
 	{
-		if ( [borderWidth isNumber] )
+		SamuraiHtmlArray *			border = style.border;
+		SamuraiHtmlStyleObject *	borderWidth = style.borderWidth;
+		SamuraiHtmlStyleObject *	borderColor = style.borderColor;
+		SamuraiHtmlStyleObject *	borderStyle = style.borderStyle;
+		SamuraiHtmlStyleObject *	borderRadius = style.borderRadius;
+		
+		for ( SamuraiHtmlStyleObject * borderItem in border.items )
 		{
-			width = [borderWidth computeValue:fminf( self.frame.size.width, self.frame.size.height )];
+			if ( [borderItem isNumber] )
+			{
+				borderWidth = borderWidth ?: borderItem;
+			}
+			else if ( [borderItem isColor] )
+			{
+				borderColor = borderColor ?: borderItem;
+			}
+			else if ( [borderItem inStrings:@[@"none", @"hidden", @"dotted",
+											  @"dashed", @"solid", @"double",
+											  @"groove", @"ridge", @"inset",
+											  @"outset", @"inherit"]] )
+			{
+				borderStyle = borderStyle ?: borderItem;
+			}
 		}
-//		else if ( [borderWidth isFunction] )
-//		{
-//			TODO( "" )
-//		}
-//		else if ( [borderWidth isString] )
-//		{
-//			TODO( "" )
-//		}
-	}
-
-	if ( borderRadius )
-	{
+		
+		BOOL		aroundHidden = NO;
+		CGFloat		aroundWidth = 0.0f;
+		CGFloat		aroundRadius = 0.0f;
+		UIColor *	aroundColor = [UIColor clearColor];
+		
+		if ( borderStyle )
+		{
+			if ( [borderStyle inStrings:@[ @"none", @"hidden" ]] )
+			{
+				aroundHidden = YES;
+			}
+		}
+		
+		if ( borderWidth )
+		{
+			if ( [borderWidth isNumber] )
+			{
+				aroundWidth = [borderWidth computeValue:fminf( self.frame.size.width, self.frame.size.height )];
+			}
+			else if ( [borderWidth isString:@"thin"] )
+			{
+				aroundWidth = thinSize;
+			}
+			else if ( [borderWidth isString:@"medium"] )
+			{
+				aroundWidth = mediumSize;
+			}
+			else if ( [borderWidth isString:@"thick"] )
+			{
+				aroundWidth = thickSize;
+			}
+		}
+		
 		if ( [borderRadius isNumber] )
 		{
-			radius = [borderRadius computeValue:fminf(self.frame.size.width, self.frame.size.height)];
+			aroundRadius = [borderRadius computeValue:fminf(self.frame.size.width, self.frame.size.height)];
 		}
-//		else if ( [borderRadius isFunction] )
-//		{
-//			TODO( "" )
-//		}
-//		else if ( [borderRadius isString] )
-//		{
-//			TODO( "" )
-//		}
-	}
-
-	if ( borderColor )
-	{
+		
 		if ( [borderColor isColor] )
 		{
-			color = ((SamuraiHtmlColor *)borderColor).value;
+			aroundColor = ((SamuraiHtmlColor *)borderColor).value;
+		}
+		
+		if ( aroundWidth <= 0.0f )
+		{
+			if ( borderStyle || borderColor )
+			{
+				aroundWidth = mediumSize;
+			}
+		}
+		
+		if ( NO == aroundHidden && aroundWidth > 0.0f )
+		{
+			self.layer.borderColor = [aroundColor CGColor];
+			self.layer.borderWidth = aroundWidth;
+		}
+		else
+		{
+			self.layer.borderColor = [[UIColor clearColor] CGColor];
+			self.layer.borderWidth = 0.0f;
+		}
+		
+		if ( aroundRadius > 0.0f )
+		{
+			self.layer.cornerRadius = (aroundRadius > aroundWidth) ? (aroundRadius - aroundWidth) : 0.0f;
+			self.layer.masksToBounds = YES;
+		}
+		else
+		{
+			self.layer.cornerRadius = 0.0f;
 		}
 	}
 
-	self.layer.borderColor = color ? [color CGColor] : [[UIColor clearColor] CGColor];
-	self.layer.borderWidth = width;
-	self.layer.cornerRadius = (radius > width) ? (radius - width) : 0.0f;
+// border-radius
 	
-	if ( radius )
 	{
-		self.layer.masksToBounds = YES;
+	//	SamuraiHtmlStyleObject * borderTopLeftRadius = style.borderTopLeftRadius ?: borderRadius;
+	//	SamuraiHtmlStyleObject * borderTopRightRadius = style.borderTopRightRadius ?: borderRadius;
+	//	SamuraiHtmlStyleObject * borderBottomLeftRadius = style.borderBottomLeftRadius ?: borderRadius;
+	//	SamuraiHtmlStyleObject * borderBottomRightRadius = style.borderBottomRightRadius ?: borderRadius;
 	}
-//	else
-//	{
-//		self.layer.masksToBounds = NO;
-//	}
+
+// border-top
+
+	{
+		SamuraiHtmlArray *			borderTop = style.borderTop;
+		SamuraiHtmlStyleObject *	borderTopWidth = style.borderTopWidth;
+		SamuraiHtmlStyleObject *	borderTopColor = style.borderTopColor;
+		SamuraiHtmlStyleObject *	borderTopStyle = style.borderTopStyle;
+		
+		for ( SamuraiHtmlStyleObject * borderItem in borderTop.items )
+		{
+			if ( [borderItem isNumber] )
+			{
+				borderTopWidth = borderTopWidth ?: borderItem;
+			}
+			else if ( [borderItem isColor] )
+			{
+				borderTopColor = borderTopColor ?: borderItem;
+			}
+			else if ( [borderItem inStrings:@[@"none", @"hidden", @"dotted",
+											  @"dashed", @"solid", @"double",
+											  @"groove", @"ridge", @"inset",
+											  @"outset", @"inherit"]] )
+			{
+				borderTopStyle = borderTopStyle ?: borderItem;
+			}
+		}
+		
+		BOOL		topHidden = NO;
+		CGFloat		topWidth = 0.0f;
+		UIColor *	topColor = [UIColor clearColor];
+		
+		if ( borderTopStyle )
+		{
+			if ( [borderTopStyle inStrings:@[ @"none", @"hidden" ]] )
+			{
+				topHidden = YES;
+			}
+		}
+		
+		if ( borderTopWidth )
+		{
+			if ( [borderTopWidth isNumber] )
+			{
+				topWidth = [borderTopWidth computeValue:self.frame.size.width];
+			}
+			else if ( [borderTopWidth isString:@"thin"] )
+			{
+				topWidth = thinSize;
+			}
+			else if ( [borderTopWidth isString:@"medium"] )
+			{
+				topWidth = mediumSize;
+			}
+			else if ( [borderTopWidth isString:@"thick"] )
+			{
+				topWidth = thickSize;
+			}
+		}
+		
+		if ( [borderTopColor isColor] )
+		{
+			topColor = ((SamuraiHtmlColor *)borderTopColor).value;
+		}
+
+		if ( topWidth <= 0.0f )
+		{
+			if ( borderTopStyle || borderTopColor )
+			{
+				topWidth = mediumSize;
+			}
+		}
+		
+		if ( NO == topHidden && topWidth > 0.0f )
+		{
+			if ( nil == self.topBorder )
+			{
+				self.topBorder = [[UIBorderView alloc] initWithFrame:CGRectZero];
+				self.topBorder.layer.masksToBounds = YES;
+				
+				[self addSubview:self.topBorder];
+			}
+
+			self.topBorder.backgroundColor = topColor;
+			self.topBorder.lineWidth = topWidth;
+			self.topBorder.hidden = NO;
+		}
+		else
+		{
+			if ( self.topBorder )
+			{
+				self.topBorder.hidden = YES;
+			}
+		}
+	}
+
+// border-left
+	
+	{
+		SamuraiHtmlArray *			borderLeft = style.borderLeft;
+		SamuraiHtmlStyleObject *	borderLeftWidth = style.borderLeftWidth;
+		SamuraiHtmlStyleObject *	borderLeftColor = style.borderLeftColor;
+		SamuraiHtmlStyleObject *	borderLeftStyle = style.borderLeftStyle;
+		
+		for ( SamuraiHtmlStyleObject * borderItem in borderLeft.items )
+		{
+			if ( [borderItem isNumber] )
+			{
+				borderLeftWidth = borderLeftWidth ?: borderItem;
+			}
+			else if ( [borderItem isColor] )
+			{
+				borderLeftColor = borderLeftColor ?: borderItem;
+			}
+			else if ( [borderItem inStrings:@[@"none", @"hidden", @"dotted",
+											  @"dashed", @"solid", @"double",
+											  @"groove", @"ridge", @"inset",
+											  @"outset", @"inherit"]] )
+			{
+				borderLeftStyle = borderLeftStyle ?: borderItem;
+			}
+		}
+		
+		BOOL		leftHidden = NO;
+		CGFloat		leftWidth = 0.0f;
+		UIColor *	leftColor = [UIColor clearColor];
+		
+		if ( borderLeftStyle )
+		{
+			if ( [borderLeftStyle inStrings:@[ @"none", @"hidden" ]] )
+			{
+				leftHidden = YES;
+			}
+		}
+		
+		if ( borderLeftWidth )
+		{
+			if ( [borderLeftWidth isNumber] )
+			{
+				leftWidth = [borderLeftWidth computeValue:self.frame.size.width];
+			}
+			else if ( [borderLeftWidth isString:@"thin"] )
+			{
+				leftWidth = thinSize;
+			}
+			else if ( [borderLeftWidth isString:@"medium"] )
+			{
+				leftWidth = mediumSize;
+			}
+			else if ( [borderLeftWidth isString:@"thick"] )
+			{
+				leftWidth = thickSize;
+			}
+		}
+		
+		if ( [borderLeftColor isColor] )
+		{
+			leftColor = ((SamuraiHtmlColor *)borderLeftColor).value;
+		}
+		
+		if ( leftWidth <= 0.0f )
+		{
+			if ( borderLeftStyle || borderLeftColor )
+			{
+				leftWidth = mediumSize;
+			}
+		}
+		
+		if ( NO == leftHidden && leftWidth > 0.0f )
+		{
+			if ( nil == self.leftBorder )
+			{
+				self.leftBorder = [[UIBorderView alloc] initWithFrame:CGRectZero];
+				self.leftBorder.layer.masksToBounds = YES;
+				
+				[self addSubview:self.leftBorder];
+			}
+			
+			self.leftBorder.backgroundColor = leftColor;
+			self.leftBorder.lineWidth = leftWidth;
+			self.leftBorder.hidden = NO;
+		}
+		else
+		{
+			if ( self.leftBorder )
+			{
+				self.leftBorder.hidden = YES;
+			}
+		}
+	}
+	
+// border-right
+	
+	{
+		SamuraiHtmlArray *			borderRight = style.borderRight;
+		SamuraiHtmlStyleObject *	borderRightWidth = style.borderRightWidth;
+		SamuraiHtmlStyleObject *	borderRightColor = style.borderRightColor;
+		SamuraiHtmlStyleObject *	borderRightStyle = style.borderRightStyle;
+		
+		for ( SamuraiHtmlStyleObject * borderItem in borderRight.items )
+		{
+			if ( [borderItem isNumber] )
+			{
+				borderRightWidth = borderRightWidth ?: borderItem;
+			}
+			else if ( [borderItem isColor] )
+			{
+				borderRightColor = borderRightColor ?: borderItem;
+			}
+			else if ( [borderItem inStrings:@[@"none", @"hidden", @"dotted",
+											  @"dashed", @"solid", @"double",
+											  @"groove", @"ridge", @"inset",
+											  @"outset", @"inherit"]] )
+			{
+				borderRightStyle = borderRightStyle ?: borderItem;
+			}
+		}
+		
+		BOOL		rightHidden = NO;
+		CGFloat		rightWidth = 0.0f;
+		UIColor *	rightColor = [UIColor clearColor];
+		
+		if ( borderRightStyle )
+		{
+			if ( [borderRightStyle inStrings:@[ @"none", @"hidden" ]] )
+			{
+				rightHidden = YES;
+			}
+		}
+		
+		if ( borderRightWidth )
+		{
+			if ( [borderRightWidth isNumber] )
+			{
+				rightWidth = [borderRightWidth computeValue:self.frame.size.width];
+			}
+			else if ( [borderRightWidth isString:@"thin"] )
+			{
+				rightWidth = thinSize;
+			}
+			else if ( [borderRightWidth isString:@"medium"] )
+			{
+				rightWidth = mediumSize;
+			}
+			else if ( [borderRightWidth isString:@"thick"] )
+			{
+				rightWidth = thickSize;
+			}
+		}
+		
+		if ( [borderRightColor isColor] )
+		{
+			rightColor = ((SamuraiHtmlColor *)borderRightColor).value;
+		}
+		
+		if ( rightWidth <= 0.0f )
+		{
+			if ( borderRightStyle || borderRightColor )
+			{
+				rightWidth = mediumSize;
+			}
+		}
+		
+		if ( NO == rightHidden && rightWidth > 0.0f )
+		{
+			if ( nil == self.rightBorder )
+			{
+				self.rightBorder = [[UIBorderView alloc] initWithFrame:CGRectZero];
+				self.rightBorder.layer.masksToBounds = YES;
+				
+				[self addSubview:self.rightBorder];
+			}
+			
+			self.rightBorder.backgroundColor = rightColor;
+			self.rightBorder.lineWidth = rightWidth;
+			self.rightBorder.hidden = NO;
+		}
+		else
+		{
+			if ( self.rightBorder )
+			{
+				self.rightBorder.hidden = YES;
+			}
+		}
+	}
+
+// border-bottom
+
+	{
+		SamuraiHtmlArray *			borderBottom = style.borderBottom;
+		SamuraiHtmlStyleObject *	borderBottomWidth = style.borderBottomWidth;
+		SamuraiHtmlStyleObject *	borderBottomColor = style.borderBottomColor;
+		SamuraiHtmlStyleObject *	borderBottomStyle = style.borderBottomStyle;
+		
+		for ( SamuraiHtmlStyleObject * borderItem in borderBottom.items )
+		{
+			if ( [borderItem isNumber] )
+			{
+				borderBottomWidth = borderBottomWidth ?: borderItem;
+			}
+			else if ( [borderItem isColor] )
+			{
+				borderBottomColor = borderBottomColor ?: borderItem;
+			}
+			else if ( [borderItem inStrings:@[@"none", @"hidden", @"dotted",
+											  @"dashed", @"solid", @"double",
+											  @"groove", @"ridge", @"inset",
+											  @"outset", @"inherit"]] )
+			{
+				borderBottomStyle = borderBottomStyle ?: borderItem;
+			}
+		}
+		
+		BOOL		bottomHidden = NO;
+		CGFloat		bottomWidth = 0.0f;
+		UIColor *	bottomColor = [UIColor clearColor];
+		
+		if ( borderBottomStyle )
+		{
+			if ( [borderBottomStyle inStrings:@[ @"none", @"hidden" ]] )
+			{
+				bottomHidden = YES;
+			}
+		}
+		
+		if ( borderBottomWidth )
+		{
+			if ( [borderBottomWidth isNumber] )
+			{
+				bottomWidth = [borderBottomWidth computeValue:self.frame.size.width];
+			}
+			else if ( [borderBottomWidth isString:@"thin"] )
+			{
+				bottomWidth = thinSize;
+			}
+			else if ( [borderBottomWidth isString:@"medium"] )
+			{
+				bottomWidth = mediumSize;
+			}
+			else if ( [borderBottomWidth isString:@"thick"] )
+			{
+				bottomWidth = thickSize;
+			}
+		}
+		
+		if ( [borderBottomColor isColor] )
+		{
+			bottomColor = ((SamuraiHtmlColor *)borderBottomColor).value;
+		}
+		
+		if ( bottomWidth <= 0.0f )
+		{
+			if ( borderBottomStyle || borderBottomColor )
+			{
+				bottomWidth = mediumSize;
+			}
+		}
+		
+		if ( NO == bottomHidden && bottomWidth > 0.0f )
+		{
+			if ( nil == self.bottomBorder )
+			{
+				self.bottomBorder = [[UIBorderView alloc] initWithFrame:CGRectZero];
+				self.bottomBorder.layer.masksToBounds = YES;
+				
+				[self addSubview:self.bottomBorder];
+			}
+			
+			self.bottomBorder.backgroundColor = bottomColor;
+			self.bottomBorder.lineWidth = bottomWidth;
+			self.bottomBorder.hidden = NO;
+		}
+		else
+		{
+			if ( self.bottomBorder )
+			{
+				self.bottomBorder.hidden = YES;
+			}
+		}
+	}
 }
 
 - (void)html_applyBackground:(SamuraiHtmlStyle *)style
 {
-//	SamuraiHtmlStyleObject * background = style.background;
-	SamuraiHtmlStyleObject * backgroundColor = style.backgroundColor;
-//	SamuraiHtmlStyleObject * backgroundImage = style.backgroundImage;
+//	#00FF00 url(bgimage.gif) no-repeat fixed top
 	
-	if ( backgroundColor )
+	SamuraiHtmlArray *			background = style.background;
+	SamuraiHtmlStyleObject *	backgroundColor = style.backgroundColor;
+	SamuraiHtmlStyleObject *	backgroundImage = style.backgroundImage;
+	
+	for ( SamuraiHtmlStyleObject * backgroundItem in background.items )
+	{
+		if ( [backgroundItem isColor] )
+		{
+			backgroundColor = backgroundColor ?: backgroundItem;
+		}
+		else if ( [backgroundItem isUrl] )
+		{
+			backgroundImage = backgroundImage ?: backgroundItem;
+		}
+	}
+
+	if ( backgroundImage )
+	{
+		TODO( "background-image" );
+	}
+	else if ( backgroundColor )
 	{
 		if ( [backgroundColor isColor] )
 		{
@@ -134,12 +595,6 @@
 			self.backgroundColor = [UIColor clearColor];
 		}
 	}
-	else
-	{
-		self.backgroundColor = [UIColor clearColor];
-	}
-
-	TODO( "background & background-image" );
 }
 
 - (void)html_applyShadow:(SamuraiHtmlStyle *)style
@@ -393,6 +848,71 @@
 - (void)html_applyFrame:(CGRect)newFrame
 {
 	[super html_applyFrame:newFrame];
+
+	UIBorderView * topBorder = self.topBorder;
+	UIBorderView * leftBorder = self.leftBorder;
+	UIBorderView * rightBorder = self.rightBorder;
+	UIBorderView * bottomBorder = self.bottomBorder;
+	
+	if ( topBorder )
+	{
+		CGRect topFrame;
+		
+		topFrame.origin.x = 0.0f;
+		topFrame.origin.y = -1.0f * topBorder.lineWidth;
+		topFrame.size.width = newFrame.size.width;
+		topFrame.size.height = topBorder.lineWidth;
+		
+		topBorder.frame = topFrame;
+		
+		[topBorder.superview bringSubviewToFront:topBorder];
+		[topBorder setNeedsDisplay];
+	}
+
+	if ( bottomBorder )
+	{
+		CGRect bottomFrame;
+		
+		bottomFrame.origin.x = 0.0f;
+		bottomFrame.origin.y = newFrame.size.height;
+		bottomFrame.size.width = newFrame.size.width;
+		bottomFrame.size.height = bottomBorder.lineWidth;
+		
+		bottomBorder.frame = bottomFrame;
+		
+		[bottomBorder.superview bringSubviewToFront:bottomBorder];
+		[bottomBorder setNeedsDisplay];
+	}
+
+	if ( leftBorder )
+	{
+		CGRect leftFrame;
+		
+		leftFrame.origin.x = -1.0f * leftBorder.lineWidth;
+		leftFrame.origin.y = 0.0f;
+		leftFrame.size.width = leftBorder.lineWidth;
+		leftFrame.size.height = newFrame.size.height;
+		
+		leftBorder.frame = leftFrame;
+		
+		[leftBorder.superview bringSubviewToFront:leftBorder];
+		[leftBorder setNeedsDisplay];
+	}
+
+	if ( rightBorder )
+	{
+		CGRect rightFrame;
+		
+		rightFrame.origin.x = newFrame.size.width;
+		rightFrame.origin.y = 0.0f;
+		rightFrame.size.width = rightBorder.lineWidth;
+		rightFrame.size.height = newFrame.size.height;
+		
+		rightBorder.frame = rightFrame;
+		
+		[rightBorder.superview bringSubviewToFront:rightBorder];
+		[rightBorder setNeedsDisplay];
+	}
 }
 
 - (void)html_forView:(UIView *)hostView

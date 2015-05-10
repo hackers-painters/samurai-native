@@ -80,7 +80,12 @@
 {
 	if ( renderObject.view )
 	{
+		DEBUG_RENDERER_FRAME( renderObject );
+
 		[renderObject.view html_applyFrame:renderObject.frame];
+		
+		DEBUG_RENDERER_STYLE( renderObject );
+		
 		[renderObject.view html_applyStyle:renderObject.style];
 	}
 

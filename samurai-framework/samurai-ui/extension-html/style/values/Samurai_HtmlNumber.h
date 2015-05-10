@@ -42,7 +42,7 @@
 - (BOOL)isNumber;
 - (BOOL)isNumber:(CGFloat)value;
 
-- (BOOL)isConstant;
+- (BOOL)isAbsolute;
 
 - (CGFloat)computeValue;
 - (CGFloat)computeValue:(CGFloat)value;

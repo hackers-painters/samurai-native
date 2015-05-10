@@ -34,6 +34,8 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_HtmlUserAgent.h"
+
 // ----------------------------------
 // Source code
 // ----------------------------------
@@ -109,11 +111,6 @@
 - (BOOL)isPercentage
 {
 	return YES;
-}
-
-- (BOOL)isConstant
-{
-	return NO;
 }
 
 - (CGFloat)computeValue:(CGFloat)value

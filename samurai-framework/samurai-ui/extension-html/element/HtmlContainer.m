@@ -50,6 +50,7 @@
 	self = [super initWithFrame:frame];
 	if ( self )
 	{
+		self.layer.masksToBounds = NO;
 	}
 	return self;
 }

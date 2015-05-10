@@ -35,11 +35,24 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+// ----------------------------------
+// Source code
+// ----------------------------------
+
+#pragma mark -
+
 #undef  ASSERT_NOT_REACHED
 #define ASSERT_NOT_REACHED NSAssert(NO, @"ASSERT_NOT_REACHED")
 
 static bool parseNth(const KatanaSelector * selector);
 static bool matchNth(const KatanaSelector * selector, int count);
+
+#pragma mark -
+
+@implementation SamuraiCSSSelectorCheckerMatchResult
+@end
+
+#pragma mark -
 
 @implementation SamuraiCSSSelectorCheckingContext
 
@@ -55,6 +68,8 @@ static bool matchNth(const KatanaSelector * selector, int count);
 }
 
 @end
+
+#pragma mark -
 
 @implementation SamuraiCSSSelectorChecker
 
@@ -1029,6 +1044,28 @@ SamuraiCSSPseudoId SamuraiCSSPseudoIdFromType(KatanaPseudoType type)
     // TODO: (@QFish) NSAssert(NO, @"Should not reached");
     return NOPSEUDO;
 }
+
+// ----------------------------------
+// Unit test
+// ----------------------------------
+
+#pragma mark -
+
+#if __SAMURAI_TESTING__
+
+TEST_CASE( UI, CSSSelectorChecker )
+
+DESCRIBE( before )
+{
+}
+
+DESCRIBE( after )
+{
+}
+
+TEST_CASE_END
+
+#endif	// #if __SAMURAI_TESTING__
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 

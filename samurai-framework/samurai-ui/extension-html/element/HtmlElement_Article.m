@@ -28,11 +28,14 @@
 //	THE SOFTWARE.
 //
 
-#import "Samurai_HtmlNumberDp.h"
+#import "HtmlElement_Article.h"
 
 #import "_pragma_push.h"
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
+
+#import "Samurai_HtmlStyle.h"
+#import "Samurai_HtmlRenderObject.h"
 
 // ----------------------------------
 // Source code
@@ -40,70 +43,14 @@
 
 #pragma mark -
 
-@implementation SamuraiHtmlStyleObject(NumberDp)
+@implementation HtmlElement_Article
 
-- (BOOL)isDp
+- (id)initWithFrame:(CGRect)frame
 {
-	return NO;
-}
-
-@end
-
-#pragma mark -
-
-@implementation SamuraiHtmlNumberDp
-
-+ (instancetype)object:(id)any
-{
-	if ( [any isKindOfClass:[NSString class]] )
-	{
-		NSString * str = any;
-		
-		if ( 0 == str.length )
-			return nil;
-
-		for ( NSString * suffix in @[ @"dp" ] )
-		{
-			if ( [str hasSuffix:suffix] )
-			{
-				SamuraiHtmlNumberDp * value = [[self alloc] init];
-
-				value.value = [[str substringToIndex:(str.length - suffix.length)] floatValue];
-				value.unit = [str substringFromIndex:(str.length - suffix.length)];
-
-				return value;
-			}
-		}
-	}
-	else if ( [any isKindOfClass:[NSNumber class]] )
-	{
-		NSNumber * num = any;
-		
-		SamuraiHtmlNumberDp * value = [[self alloc] init];
-		
-		value.value = [num floatValue];
-		value.unit = @"dp";
-		
-		return value;
-	}
-
-	return nil; // [super object:any];
-}
-
-+ (instancetype)number:(CGFloat)value
-{
-	SamuraiHtmlNumberDp * number = [[self alloc] init];
-	number.value = value;
-	return number;
-}
-
-- (id)init
-{
-	self = [super init];
+	self = [super initWithFrame:frame];
 	if ( self )
 	{
-		self.value = 0.0f;
-		self.unit = @"dp";
+		self.layer.masksToBounds = NO;
 	}
 	return self;
 }
@@ -112,24 +59,21 @@
 {
 }
 
-- (NSString *)description
+#pragma mark -
+
+- (void)html_applyDom:(SamuraiHtmlDomNode *)dom
 {
-	return [super description];
+	[super html_applyDom:dom];
 }
 
-- (BOOL)isDp
+- (void)html_applyStyle:(SamuraiHtmlStyle *)style
 {
-	return YES;
+	[super html_applyStyle:style];
 }
 
-- (BOOL)isConstant
+- (void)html_applyFrame:(CGRect)newFrame
 {
-	return YES;
-}
-
-- (CGFloat)computeValue:(CGFloat)value
-{
-	return self.value;
+	[super html_applyFrame:newFrame];
 }
 
 @end
@@ -142,7 +86,7 @@
 
 #if __SAMURAI_TESTING__
 
-TEST_CASE( UI, HtmlNumberDp )
+TEST_CASE( UI, HtmlElement_Article )
 
 DESCRIBE( before )
 {

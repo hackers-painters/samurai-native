@@ -103,7 +103,7 @@
 	return [super description];
 }
 
-- (BOOL)isConstant
+- (BOOL)isAbsolute
 {
 	return YES;
 }

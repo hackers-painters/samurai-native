@@ -54,6 +54,7 @@
 
 @implementation SamuraiHtmlUserAgent
 
+@def_prop_strong( UIFont *,				defaultFont );
 @def_prop_strong( NSMutableArray *,		defaultStyleSheets );
 @def_prop_strong( NSMutableArray *,		defaultCSSInherition );
 
@@ -64,6 +65,8 @@
 	self = [super init];
 	if ( self )
 	{
+		self.defaultFont = [UIFont systemFontOfSize:16.0f];
+
 		[self loadStyleSheets];
 		[self loadCSSInheration];
 	}
@@ -72,6 +75,7 @@
 
 - (void)dealloc
 {
+	self.defaultFont = nil;
 	self.defaultStyleSheets = nil;
 	self.defaultCSSInherition = nil;
 }

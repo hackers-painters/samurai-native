@@ -23,10 +23,11 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	
-	self.navigationBarDoneButton = @"Compare";
-
 	[self loadViewTemplate:self.testCase];
 	
+	self.navigationBarTitle = [self.testCase lastPathComponent];
+	self.navigationBarDoneButton = @"Compare";
+
 	self.view.backgroundColor = [UIColor whiteColor];
 }
 

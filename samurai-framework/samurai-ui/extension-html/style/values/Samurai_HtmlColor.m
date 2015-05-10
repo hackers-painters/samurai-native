@@ -125,156 +125,151 @@
 		
 		dispatch_once( &once, ^
 		{
-            namedColors = [NSDictionary dictionaryWithObjectsAndKeys:
-                           [UIColor colorWithRed:240.0/255.0 green:248.0/255.0 blue:255.0/255.0 alpha:1], @"aliceblue",
-                           [UIColor colorWithRed:250.0/255.0 green:235.0/255.0 blue:215.0/255.0 alpha:1], @"antiquewhite",
-                           [UIColor colorWithRed:0.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1], @"aqua",
-                           [UIColor colorWithRed:127.0/255.0 green:255.0/255.0 blue:212.0/255.0 alpha:1], @"aquamarine",
-                           [UIColor colorWithRed:240.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1], @"azure",
-                           [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:220.0/255.0 alpha:1], @"beige",
-                           [UIColor colorWithRed:255.0/255.0 green:228.0/255.0 blue:196.0/255.0 alpha:1], @"bisque",
-                           [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:1], @"black",
-                           [UIColor colorWithRed:255.0/255.0 green:235.0/255.0 blue:205.0/255.0 alpha:1], @"blanchedalmond",
-                           [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:255.0/255.0 alpha:1], @"blue",
-                           [UIColor colorWithRed:138.0/255.0 green:43.0/255.0 blue:226.0/255.0 alpha:1], @"blueviolet",
-                           [UIColor colorWithRed:165.0/255.0 green:42.0/255.0 blue:42.0/255.0 alpha:1], @"brown",
-                           [UIColor colorWithRed:222.0/255.0 green:184.0/255.0 blue:135.0/255.0 alpha:1], @"burlywood",
-                           [UIColor colorWithRed:95.0/255.0 green:158.0/255.0 blue:160.0/255.0 alpha:1], @"cadetblue",
-                           [UIColor colorWithRed:127.0/255.0 green:255.0/255.0 blue:0.0/255.0 alpha:1], @"chartreuse",
-                           [UIColor colorWithRed:210.0/255.0 green:105.0/255.0 blue:30.0/255.0 alpha:1], @"chocolate",
-                           [UIColor colorWithRed:255.0/255.0 green:127.0/255.0 blue:80.0/255.0 alpha:1], @"coral",
-                           [UIColor colorWithRed:100.0/255.0 green:149.0/255.0 blue:237.0/255.0 alpha:1], @"cornflowerblue",
-                           [UIColor colorWithRed:255.0/255.0 green:248.0/255.0 blue:220.0/255.0 alpha:1], @"cornsilk",
-                           [UIColor colorWithRed:220.0/255.0 green:20.0/255.0 blue:60.0/255.0 alpha:1], @"crimson",
-                           [UIColor colorWithRed:0.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1], @"cyan",
-                           [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:139.0/255.0 alpha:1], @"darkblue",
-                           [UIColor colorWithRed:0.0/255.0 green:139.0/255.0 blue:139.0/255.0 alpha:1], @"darkcyan",
-                           [UIColor colorWithRed:184.0/255.0 green:134.0/255.0 blue:11.0/255.0 alpha:1], @"darkgoldenrod",
-                           [UIColor colorWithRed:169.0/255.0 green:169.0/255.0 blue:169.0/255.0 alpha:1], @"darkgray",
-                           [UIColor colorWithRed:0.0/255.0 green:100.0/255.0 blue:0.0/255.0 alpha:1], @"darkgreen",
-                           [UIColor colorWithRed:169.0/255.0 green:169.0/255.0 blue:169.0/255.0 alpha:1], @"darkgrey",
-                           [UIColor colorWithRed:189.0/255.0 green:183.0/255.0 blue:107.0/255.0 alpha:1], @"darkkhaki",
-                           [UIColor colorWithRed:139.0/255.0 green:0.0/255.0 blue:139.0/255.0 alpha:1], @"darkmagenta",
-                           [UIColor colorWithRed:85.0/255.0 green:107.0/255.0 blue:47.0/255.0 alpha:1], @"darkolivegreen",
-                           [UIColor colorWithRed:255.0/255.0 green:140.0/255.0 blue:0.0/255.0 alpha:1], @"darkorange",
-                           [UIColor colorWithRed:153.0/255.0 green:50.0/255.0 blue:204.0/255.0 alpha:1], @"darkorchid",
-                           [UIColor colorWithRed:139.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:1], @"darkred",
-                           [UIColor colorWithRed:233.0/255.0 green:150.0/255.0 blue:122.0/255.0 alpha:1], @"darksalmon",
-                           [UIColor colorWithRed:143.0/255.0 green:188.0/255.0 blue:143.0/255.0 alpha:1], @"darkseagreen",
-                           [UIColor colorWithRed:72.0/255.0 green:61.0/255.0 blue:139.0/255.0 alpha:1], @"darkslateblue",
-                           [UIColor colorWithRed:47.0/255.0 green:79.0/255.0 blue:79.0/255.0 alpha:1], @"darkslategray",
-                           [UIColor colorWithRed:47.0/255.0 green:79.0/255.0 blue:79.0/255.0 alpha:1], @"darkslategrey",
-                           [UIColor colorWithRed:0.0/255.0 green:206.0/255.0 blue:209.0/255.0 alpha:1], @"darkturquoise",
-                           [UIColor colorWithRed:148.0/255.0 green:0.0/255.0 blue:211.0/255.0 alpha:1], @"darkviolet",
-                           [UIColor colorWithRed:255.0/255.0 green:20.0/255.0 blue:147.0/255.0 alpha:1], @"deeppink",
-                           [UIColor colorWithRed:0.0/255.0 green:191.0/255.0 blue:255.0/255.0 alpha:1], @"deepskyblue",
-                           [UIColor colorWithRed:105.0/255.0 green:105.0/255.0 blue:105.0/255.0 alpha:1], @"dimgray",
-                           [UIColor colorWithRed:105.0/255.0 green:105.0/255.0 blue:105.0/255.0 alpha:1], @"dimgrey",
-                           [UIColor colorWithRed:30.0/255.0 green:144.0/255.0 blue:255.0/255.0 alpha:1], @"dodgerblue",
-                           [UIColor colorWithRed:178.0/255.0 green:34.0/255.0 blue:34.0/255.0 alpha:1], @"firebrick",
-                           [UIColor colorWithRed:255.0/255.0 green:250.0/255.0 blue:240.0/255.0 alpha:1], @"floralwhite",
-                           [UIColor colorWithRed:34.0/255.0 green:139.0/255.0 blue:34.0/255.0 alpha:1], @"forestgreen",
-                           [UIColor colorWithRed:255.0/255.0 green:0.0/255.0 blue:255.0/255.0 alpha:1], @"fuchsia",
-                           [UIColor colorWithRed:220.0/255.0 green:220.0/255.0 blue:220.0/255.0 alpha:1], @"gainsboro",
-                           [UIColor colorWithRed:248.0/255.0 green:248.0/255.0 blue:255.0/255.0 alpha:1], @"ghostwhite",
-                           [UIColor colorWithRed:255.0/255.0 green:215.0/255.0 blue:0.0/255.0 alpha:1], @"gold",
-                           [UIColor colorWithRed:218.0/255.0 green:165.0/255.0 blue:32.0/255.0 alpha:1], @"goldenrod",
-                           [UIColor colorWithRed:128.0/255.0 green:128.0/255.0 blue:128.0/255.0 alpha:1], @"gray",
-                           [UIColor colorWithRed:0.0/255.0 green:128.0/255.0 blue:0.0/255.0 alpha:1], @"green",
-                           [UIColor colorWithRed:173.0/255.0 green:255.0/255.0 blue:47.0/255.0 alpha:1], @"greenyellow",
-                           [UIColor colorWithRed:128.0/255.0 green:128.0/255.0 blue:128.0/255.0 alpha:1], @"grey",
-                           [UIColor colorWithRed:240.0/255.0 green:255.0/255.0 blue:240.0/255.0 alpha:1], @"honeydew",
-                           [UIColor colorWithRed:255.0/255.0 green:105.0/255.0 blue:180.0/255.0 alpha:1], @"hotpink",
-                           [UIColor colorWithRed:205.0/255.0 green:92.0/255.0 blue:92.0/255.0 alpha:1], @"indianred",
-                           [UIColor colorWithRed:75.0/255.0 green:0.0/255.0 blue:130.0/255.0 alpha:1], @"indigo",
-                           [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:240.0/255.0 alpha:1], @"ivory",
-                           [UIColor colorWithRed:240.0/255.0 green:230.0/255.0 blue:140.0/255.0 alpha:1], @"khaki",
-                           [UIColor colorWithRed:230.0/255.0 green:230.0/255.0 blue:250.0/255.0 alpha:1], @"lavender",
-                           [UIColor colorWithRed:255.0/255.0 green:240.0/255.0 blue:245.0/255.0 alpha:1], @"lavenderblush",
-                           [UIColor colorWithRed:124.0/255.0 green:252.0/255.0 blue:0.0/255.0 alpha:1], @"lawngreen",
-                           [UIColor colorWithRed:255.0/255.0 green:250.0/255.0 blue:205.0/255.0 alpha:1], @"lemonchiffon",
-                           [UIColor colorWithRed:173.0/255.0 green:216.0/255.0 blue:230.0/255.0 alpha:1], @"lightblue",
-                           [UIColor colorWithRed:240.0/255.0 green:128.0/255.0 blue:128.0/255.0 alpha:1], @"lightcoral",
-                           [UIColor colorWithRed:224.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1], @"lightcyan",
-                           [UIColor colorWithRed:250.0/255.0 green:250.0/255.0 blue:210.0/255.0 alpha:1], @"lightgoldenrodyellow",
-                           [UIColor colorWithRed:211.0/255.0 green:211.0/255.0 blue:211.0/255.0 alpha:1], @"lightgray",
-                           [UIColor colorWithRed:144.0/255.0 green:238.0/255.0 blue:144.0/255.0 alpha:1], @"lightgreen",
-                           [UIColor colorWithRed:211.0/255.0 green:211.0/255.0 blue:211.0/255.0 alpha:1], @"lightgrey",
-                           [UIColor colorWithRed:255.0/255.0 green:182.0/255.0 blue:193.0/255.0 alpha:1], @"lightpink",
-                           [UIColor colorWithRed:255.0/255.0 green:160.0/255.0 blue:122.0/255.0 alpha:1], @"lightsalmon",
-                           [UIColor colorWithRed:32.0/255.0 green:178.0/255.0 blue:170.0/255.0 alpha:1], @"lightseagreen",
-                           [UIColor colorWithRed:135.0/255.0 green:206.0/255.0 blue:250.0/255.0 alpha:1], @"lightskyblue",
-                           [UIColor colorWithRed:119.0/255.0 green:136.0/255.0 blue:153.0/255.0 alpha:1], @"lightslategray",
-                           [UIColor colorWithRed:119.0/255.0 green:136.0/255.0 blue:153.0/255.0 alpha:1], @"lightslategrey",
-                           [UIColor colorWithRed:176.0/255.0 green:196.0/255.0 blue:222.0/255.0 alpha:1], @"lightsteelblue",
-                           [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:224.0/255.0 alpha:1], @"lightyellow",
-                           [UIColor colorWithRed:0.0/255.0 green:255.0/255.0 blue:0.0/255.0 alpha:1], @"lime",
-                           [UIColor colorWithRed:50.0/255.0 green:205.0/255.0 blue:50.0/255.0 alpha:1], @"limegreen",
-                           [UIColor colorWithRed:250.0/255.0 green:240.0/255.0 blue:230.0/255.0 alpha:1], @"linen",
-                           [UIColor colorWithRed:255.0/255.0 green:0.0/255.0 blue:255.0/255.0 alpha:1], @"magenta",
-                           [UIColor colorWithRed:128.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:1], @"maroon",
-                           [UIColor colorWithRed:102.0/255.0 green:205.0/255.0 blue:170.0/255.0 alpha:1], @"mediumaquamarine",
-                           [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:205.0/255.0 alpha:1], @"mediumblue",
-                           [UIColor colorWithRed:186.0/255.0 green:85.0/255.0 blue:211.0/255.0 alpha:1], @"mediumorchid",
-                           [UIColor colorWithRed:147.0/255.0 green:112.0/255.0 blue:219.0/255.0 alpha:1], @"mediumpurple",
-                           [UIColor colorWithRed:60.0/255.0 green:179.0/255.0 blue:113.0/255.0 alpha:1], @"mediumseagreen",
-                           [UIColor colorWithRed:123.0/255.0 green:104.0/255.0 blue:238.0/255.0 alpha:1], @"mediumslateblue",
-                           [UIColor colorWithRed:0.0/255.0 green:250.0/255.0 blue:154.0/255.0 alpha:1], @"mediumspringgreen",
-                           [UIColor colorWithRed:72.0/255.0 green:209.0/255.0 blue:204.0/255.0 alpha:1], @"mediumturquoise",
-                           [UIColor colorWithRed:199.0/255.0 green:21.0/255.0 blue:133.0/255.0 alpha:1], @"mediumvioletred",
-                           [UIColor colorWithRed:25.0/255.0 green:25.0/255.0 blue:112.0/255.0 alpha:1], @"midnightblue",
-                           [UIColor colorWithRed:245.0/255.0 green:255.0/255.0 blue:250.0/255.0 alpha:1], @"mintcream",
-                           [UIColor colorWithRed:255.0/255.0 green:228.0/255.0 blue:225.0/255.0 alpha:1], @"mistyrose",
-                           [UIColor colorWithRed:255.0/255.0 green:228.0/255.0 blue:181.0/255.0 alpha:1], @"moccasin",
-                           [UIColor colorWithRed:255.0/255.0 green:222.0/255.0 blue:173.0/255.0 alpha:1], @"navajowhite",
-                           [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:128.0/255.0 alpha:1], @"navy",
-                           [UIColor colorWithRed:253.0/255.0 green:245.0/255.0 blue:230.0/255.0 alpha:1], @"oldlace",
-                           [UIColor colorWithRed:128.0/255.0 green:128.0/255.0 blue:0.0/255.0 alpha:1], @"olive",
-                           [UIColor colorWithRed:107.0/255.0 green:142.0/255.0 blue:35.0/255.0 alpha:1], @"olivedrab",
-                           [UIColor colorWithRed:255.0/255.0 green:165.0/255.0 blue:0.0/255.0 alpha:1], @"orange",
-                           [UIColor colorWithRed:255.0/255.0 green:69.0/255.0 blue:0.0/255.0 alpha:1], @"orangered",
-                           [UIColor colorWithRed:218.0/255.0 green:112.0/255.0 blue:214.0/255.0 alpha:1], @"orchid",
-                           [UIColor colorWithRed:238.0/255.0 green:232.0/255.0 blue:170.0/255.0 alpha:1], @"palegoldenrod",
-                           [UIColor colorWithRed:152.0/255.0 green:251.0/255.0 blue:152.0/255.0 alpha:1], @"palegreen",
-                           [UIColor colorWithRed:175.0/255.0 green:238.0/255.0 blue:238.0/255.0 alpha:1], @"paleturquoise",
-                           [UIColor colorWithRed:219.0/255.0 green:112.0/255.0 blue:147.0/255.0 alpha:1], @"palevioletred",
-                           [UIColor colorWithRed:255.0/255.0 green:239.0/255.0 blue:213.0/255.0 alpha:1], @"papayawhip",
-                           [UIColor colorWithRed:255.0/255.0 green:218.0/255.0 blue:185.0/255.0 alpha:1], @"peachpuff",
-                           [UIColor colorWithRed:205.0/255.0 green:133.0/255.0 blue:63.0/255.0 alpha:1], @"peru",
-                           [UIColor colorWithRed:255.0/255.0 green:192.0/255.0 blue:203.0/255.0 alpha:1], @"pink",
-                           [UIColor colorWithRed:221.0/255.0 green:160.0/255.0 blue:221.0/255.0 alpha:1], @"plum",
-                           [UIColor colorWithRed:176.0/255.0 green:224.0/255.0 blue:230.0/255.0 alpha:1], @"powderblue",
-                           [UIColor colorWithRed:128.0/255.0 green:0.0/255.0 blue:128.0/255.0 alpha:1], @"purple",
-                           [UIColor colorWithRed:255.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:1], @"red",
-                           [UIColor colorWithRed:188.0/255.0 green:143.0/255.0 blue:143.0/255.0 alpha:1], @"rosybrown",
-                           [UIColor colorWithRed:65.0/255.0 green:105.0/255.0 blue:225.0/255.0 alpha:1], @"royalblue",
-                           [UIColor colorWithRed:139.0/255.0 green:69.0/255.0 blue:19.0/255.0 alpha:1], @"saddlebrown",
-                           [UIColor colorWithRed:250.0/255.0 green:128.0/255.0 blue:114.0/255.0 alpha:1], @"salmon",
-                           [UIColor colorWithRed:244.0/255.0 green:164.0/255.0 blue:96.0/255.0 alpha:1], @"sandybrown",
-                           [UIColor colorWithRed:46.0/255.0 green:139.0/255.0 blue:87.0/255.0 alpha:1], @"seagreen",
-                           [UIColor colorWithRed:255.0/255.0 green:245.0/255.0 blue:238.0/255.0 alpha:1], @"seashell",
-                           [UIColor colorWithRed:160.0/255.0 green:82.0/255.0 blue:45.0/255.0 alpha:1], @"sienna",
-                           [UIColor colorWithRed:192.0/255.0 green:192.0/255.0 blue:192.0/255.0 alpha:1], @"silver",
-                           [UIColor colorWithRed:135.0/255.0 green:206.0/255.0 blue:235.0/255.0 alpha:1], @"skyblue",
-                           [UIColor colorWithRed:106.0/255.0 green:90.0/255.0 blue:205.0/255.0 alpha:1], @"slateblue",
-                           [UIColor colorWithRed:112.0/255.0 green:128.0/255.0 blue:144.0/255.0 alpha:1], @"slategray",
-                           [UIColor colorWithRed:112.0/255.0 green:128.0/255.0 blue:144.0/255.0 alpha:1], @"slategrey",
-                           [UIColor colorWithRed:255.0/255.0 green:250.0/255.0 blue:250.0/255.0 alpha:1], @"snow",
-                           [UIColor colorWithRed:0.0/255.0 green:255.0/255.0 blue:127.0/255.0 alpha:1], @"springgreen",
-                           [UIColor colorWithRed:70.0/255.0 green:130.0/255.0 blue:180.0/255.0 alpha:1], @"steelblue",
-                           [UIColor colorWithRed:210.0/255.0 green:180.0/255.0 blue:140.0/255.0 alpha:1], @"tan",
-                           [UIColor colorWithRed:0.0/255.0 green:128.0/255.0 blue:128.0/255.0 alpha:1], @"teal",
-                           [UIColor colorWithRed:216.0/255.0 green:191.0/255.0 blue:216.0/255.0 alpha:1], @"thistle",
-                           [UIColor colorWithRed:255.0/255.0 green:99.0/255.0 blue:71.0/255.0 alpha:1], @"tomato",
-                           [UIColor clearColor], @"transparent",
-                           [UIColor colorWithRed:64.0/255.0 green:224.0/255.0 blue:208.0/255.0 alpha:1], @"turquoise",
-                           [UIColor colorWithRed:238.0/255.0 green:130.0/255.0 blue:238.0/255.0 alpha:1], @"violet",
-                           [UIColor colorWithRed:245.0/255.0 green:222.0/255.0 blue:179.0/255.0 alpha:1], @"wheat",
-                           [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1], @"white",
-                           [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1], @"whitesmoke",
-                           [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:0.0/255.0 alpha:1], @"yellow",
-                           [UIColor colorWithRed:154.0/255.0 green:205.0/255.0 blue:50.0/255.0 alpha:1], @"yellowgreen",
-                           nil];
+			namedColors = [[NSMutableDictionary alloc] init];
+			namedColors[@"aliceblue"]				= HEX_RGB( 0xF0F8FF );
+			namedColors[@"antiquewhite"]			= HEX_RGB( 0xFAEBD7 );
+			namedColors[@"aqua"]					= HEX_RGB( 0x00FFFF );
+			namedColors[@"aquamarine"]				= HEX_RGB( 0x7FFFD4 );
+			namedColors[@"azure"]					= HEX_RGB( 0xF0FFFF );
+			namedColors[@"beige"]					= HEX_RGB( 0xF5F5DC );
+			namedColors[@"bisque"]					= HEX_RGB( 0xFFE4C4 );
+			namedColors[@"black"]					= HEX_RGB( 0x000000 );
+			namedColors[@"blanchedalmond"]			= HEX_RGB( 0xFFEBCD );
+			namedColors[@"blue"]					= HEX_RGB( 0x0000FF );
+			namedColors[@"blueviolet"]				= HEX_RGB( 0x8A2BE2 );
+			namedColors[@"brown"]					= HEX_RGB( 0xA52A2A );
+			namedColors[@"burlywood"]				= HEX_RGB( 0xDEB887 );
+			namedColors[@"cadetblue"]				= HEX_RGB( 0x5F9EA0 );
+			namedColors[@"chartreuse"]				= HEX_RGB( 0x7FFF00 );
+			namedColors[@"chocolate"]				= HEX_RGB( 0xD2691E );
+			namedColors[@"coral"]					= HEX_RGB( 0xFF7F50 );
+			namedColors[@"cornflowerblue"]			= HEX_RGB( 0x6495ED );
+			namedColors[@"cornsilk"]				= HEX_RGB( 0xFFF8DC );
+			namedColors[@"crimson"]					= HEX_RGB( 0xDC143C );
+			namedColors[@"cyan"]					= HEX_RGB( 0x00FFFF );
+			namedColors[@"darkblue"]				= HEX_RGB( 0x00008B );
+			namedColors[@"darkcyan"]				= HEX_RGB( 0x008B8B );
+			namedColors[@"darkgoldenrod"]			= HEX_RGB( 0xB8860B );
+			namedColors[@"darkgray"]				= HEX_RGB( 0xA9A9A9 );
+			namedColors[@"darkgreen"]				= HEX_RGB( 0x006400 );
+			namedColors[@"darkkhaki"]				= HEX_RGB( 0xBDB76B );
+			namedColors[@"darkmagenta"]				= HEX_RGB( 0x8B008B );
+			namedColors[@"darkolivegreen"]			= HEX_RGB( 0x556B2F );
+			namedColors[@"darkorange"]				= HEX_RGB( 0xFF8C00 );
+			namedColors[@"darkorchid"]				= HEX_RGB( 0x9932CC );
+			namedColors[@"darkred"]					= HEX_RGB( 0x8B0000 );
+			namedColors[@"darksalmon"]				= HEX_RGB( 0xE9967A );
+			namedColors[@"darkseagreen"]			= HEX_RGB( 0x8FBC8F );
+			namedColors[@"darkslateblue"]			= HEX_RGB( 0x483D8B );
+			namedColors[@"darkslategray"]			= HEX_RGB( 0x2F4F4F );
+			namedColors[@"darkturquoise"]			= HEX_RGB( 0x00CED1 );
+			namedColors[@"darkviolet"]				= HEX_RGB( 0x9400D3 );
+			namedColors[@"deeppink"]				= HEX_RGB( 0xFF1493 );
+			namedColors[@"deepskyblue"]				= HEX_RGB( 0x00BFFF );
+			namedColors[@"dimgray"]					= HEX_RGB( 0x696969 );
+			namedColors[@"dodgerblue"]				= HEX_RGB( 0x1E90FF );
+			namedColors[@"feldspar"]				= HEX_RGB( 0xD19275 );
+			namedColors[@"firebrick"]				= HEX_RGB( 0xB22222 );
+			namedColors[@"floralwhite"]				= HEX_RGB( 0xFFFAF0 );
+			namedColors[@"forestgreen"]				= HEX_RGB( 0x228B22 );
+			namedColors[@"fuchsia"]					= HEX_RGB( 0xFF00FF );
+			namedColors[@"gainsboro"]				= HEX_RGB( 0xDCDCDC );
+			namedColors[@"ghostwhite"]				= HEX_RGB( 0xF8F8FF );
+			namedColors[@"gold"]					= HEX_RGB( 0xFFD700 );
+			namedColors[@"goldenrod"]				= HEX_RGB( 0xDAA520 );
+			namedColors[@"gray"]					= HEX_RGB( 0x808080 );
+			namedColors[@"green"]					= HEX_RGB( 0x008000 );
+			namedColors[@"greenyellow"]				= HEX_RGB( 0xADFF2F );
+			namedColors[@"honeydew"]				= HEX_RGB( 0xF0FFF0 );
+			namedColors[@"hotpink"]					= HEX_RGB( 0xFF69B4 );
+			namedColors[@"indianred"]				= HEX_RGB( 0xCD5C5C );
+			namedColors[@"indigo"]					= HEX_RGB( 0x4B0082 );
+			namedColors[@"ivory"]					= HEX_RGB( 0xFFFFF0 );
+			namedColors[@"khaki"]					= HEX_RGB( 0xF0E68C );
+			namedColors[@"lavender"]				= HEX_RGB( 0xE6E6FA );
+			namedColors[@"lavenderblush"]			= HEX_RGB( 0xFFF0F5 );
+			namedColors[@"lawngreen"]				= HEX_RGB( 0x7CFC00 );
+			namedColors[@"lemonchiffon"]			= HEX_RGB( 0xFFFACD );
+			namedColors[@"lightblue"]				= HEX_RGB( 0xADD8E6 );
+			namedColors[@"lightcoral"]				= HEX_RGB( 0xF08080 );
+			namedColors[@"lightcyan"]				= HEX_RGB( 0xE0FFFF );
+			namedColors[@"lightgoldenrodyellow"]	= HEX_RGB( 0xFAFAD2 );
+			namedColors[@"lightgrey"]				= HEX_RGB( 0xD3D3D3 );
+			namedColors[@"lightgreen"]				= HEX_RGB( 0x90EE90 );
+			namedColors[@"lightpink"]				= HEX_RGB( 0xFFB6C1 );
+			namedColors[@"lightsalmon"]				= HEX_RGB( 0xFFA07A );
+			namedColors[@"lightseagreen"]			= HEX_RGB( 0x20B2AA );
+			namedColors[@"lightskyblue"]			= HEX_RGB( 0x87CEFA );
+			namedColors[@"lightslateblue"]			= HEX_RGB( 0x8470FF );
+			namedColors[@"lightslategray"]			= HEX_RGB( 0x778899 );
+			namedColors[@"lightsteelblue"]			= HEX_RGB( 0xB0C4DE );
+			namedColors[@"lightyellow"]				= HEX_RGB( 0xFFFFE0 );
+			namedColors[@"lime"]					= HEX_RGB( 0x00FF00 );
+			namedColors[@"limegreen"]				= HEX_RGB( 0x32CD32 );
+			namedColors[@"linen"]					= HEX_RGB( 0xFAF0E6 );
+			namedColors[@"magenta"]					= HEX_RGB( 0xFF00FF );
+			namedColors[@"maroon"]					= HEX_RGB( 0x800000 );
+			namedColors[@"mediumaquamarine"]		= HEX_RGB( 0x66CDAA );
+			namedColors[@"mediumblue"]				= HEX_RGB( 0x0000CD );
+			namedColors[@"mediumorchid"]			= HEX_RGB( 0xBA55D3 );
+			namedColors[@"mediumpurple"]			= HEX_RGB( 0x9370D8 );
+			namedColors[@"mediumseagreen"]			= HEX_RGB( 0x3CB371 );
+			namedColors[@"mediumslateblue"]			= HEX_RGB( 0x7B68EE );
+			namedColors[@"mediumspringgreen"]		= HEX_RGB( 0x00FA9A );
+			namedColors[@"mediumturquoise"]			= HEX_RGB( 0x48D1CC );
+			namedColors[@"mediumvioletred"]			= HEX_RGB( 0xC71585 );
+			namedColors[@"midnightblue"]			= HEX_RGB( 0x191970 );
+			namedColors[@"mintcream"]				= HEX_RGB( 0xF5FFFA );
+			namedColors[@"mistyrose"]				= HEX_RGB( 0xFFE4E1 );
+			namedColors[@"moccasin"]				= HEX_RGB( 0xFFE4B5 );
+			namedColors[@"navajowhite"]				= HEX_RGB( 0xFFDEAD );
+			namedColors[@"navy"]					= HEX_RGB( 0x000080 );
+			namedColors[@"oldlace"]					= HEX_RGB( 0xFDF5E6 );
+			namedColors[@"olive"]					= HEX_RGB( 0x808000 );
+			namedColors[@"olivedrab"]				= HEX_RGB( 0x6B8E23 );
+			namedColors[@"orange"]					= HEX_RGB( 0xFFA500 );
+			namedColors[@"orangered"]				= HEX_RGB( 0xFF4500 );
+			namedColors[@"orchid"]					= HEX_RGB( 0xDA70D6 );
+			namedColors[@"palegoldenrod"]			= HEX_RGB( 0xEEE8AA );
+			namedColors[@"palegreen"]				= HEX_RGB( 0x98FB98 );
+			namedColors[@"paleturquoise"]			= HEX_RGB( 0xAFEEEE );
+			namedColors[@"palevioletred"]			= HEX_RGB( 0xD87093 );
+			namedColors[@"papayawhip"]				= HEX_RGB( 0xFFEFD5 );
+			namedColors[@"peachpuff"]				= HEX_RGB( 0xFFDAB9 );
+			namedColors[@"peru"]					= HEX_RGB( 0xCD853F );
+			namedColors[@"pink"]					= HEX_RGB( 0xFFC0CB );
+			namedColors[@"plum"]					= HEX_RGB( 0xDDA0DD );
+			namedColors[@"powderblue"]				= HEX_RGB( 0xB0E0E6 );
+			namedColors[@"purple"]					= HEX_RGB( 0x800080 );
+			namedColors[@"red"]						= HEX_RGB( 0xFF0000 );
+			namedColors[@"rosybrown"]				= HEX_RGB( 0xBC8F8F );
+			namedColors[@"royalblue"]				= HEX_RGB( 0x4169E1 );
+			namedColors[@"saddlebrown"]				= HEX_RGB( 0x8B4513 );
+			namedColors[@"salmon"]					= HEX_RGB( 0xFA8072 );
+			namedColors[@"sandybrown"]				= HEX_RGB( 0xF4A460 );
+			namedColors[@"seagreen"]				= HEX_RGB( 0x2E8B57 );
+			namedColors[@"seashell"]				= HEX_RGB( 0xFFF5EE );
+			namedColors[@"sienna"]					= HEX_RGB( 0xA0522D );
+			namedColors[@"silver"]					= HEX_RGB( 0xC0C0C0 );
+			namedColors[@"skyblue"]					= HEX_RGB( 0x87CEEB );
+			namedColors[@"slateblue"]				= HEX_RGB( 0x6A5ACD );
+			namedColors[@"slategray"]				= HEX_RGB( 0x708090 );
+			namedColors[@"snow"]					= HEX_RGB( 0xFFFAFA );
+			namedColors[@"springgreen"]				= HEX_RGB( 0x00FF7F );
+			namedColors[@"steelblue"]				= HEX_RGB( 0x4682B4 );
+			namedColors[@"tan"]						= HEX_RGB( 0xD2B48C );
+			namedColors[@"teal"]					= HEX_RGB( 0x008080 );
+			namedColors[@"thistle"]					= HEX_RGB( 0xD8BFD8 );
+			namedColors[@"tomato"]					= HEX_RGB( 0xFF6347 );
+			namedColors[@"turquoise"]				= HEX_RGB( 0x40E0D0 );
+			namedColors[@"violet"]					= HEX_RGB( 0xEE82EE );
+			namedColors[@"violetred"]				= HEX_RGB( 0xD02090 );
+			namedColors[@"wheat"]					= HEX_RGB( 0xF5DEB3 );
+			namedColors[@"white"]					= HEX_RGB( 0xFFFFFF );
+			namedColors[@"whitesmoke"]				= HEX_RGB( 0xF5F5F5 );
+			namedColors[@"yellow"]					= HEX_RGB( 0xFFFF00 );
+			namedColors[@"yellowgreen"]				= HEX_RGB( 0x9ACD32 );
+			namedColors[@"transparent"]				= [UIColor clearColor];
 		});
 
 		result = [namedColors objectForKey:[string lowercaseString]];

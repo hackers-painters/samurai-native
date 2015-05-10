@@ -43,7 +43,21 @@
 
 #pragma mark -
 
-@implementation HtmlElementOl
+@implementation HtmlElement_Ol
+
+- (id)initWithFrame:(CGRect)frame
+{
+	self = [super initWithFrame:frame];
+	if ( self )
+	{
+		self.layer.masksToBounds = NO;
+	}
+	return self;
+}
+
+- (void)dealloc
+{
+}
 
 - (void)html_applyDom:(SamuraiHtmlDomNode *)dom
 {

@@ -36,12 +36,17 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
-@implementation SamuraiCSSSelectorCheckerMatchResult
-@end
+// ----------------------------------
+// Source code
+// ----------------------------------
+
+#pragma mark -
 
 @interface SamuraiCSSRuleData ()
 @property (nonatomic, readwrite) NSInteger specificity;
 @end
+
+#pragma mark -
 
 @implementation SamuraiCSSRuleData
 
@@ -69,6 +74,8 @@
 
 @end
 
+#pragma mark -
+
 @interface SamuraiCSSRuleCollector()
 
 @property (nonatomic, strong, readonly) SamuraiCSSRuleSet * ruleSet;
@@ -76,6 +83,8 @@
 @property (nonatomic, strong) NSMutableArray * matchedRules;
 @property (nonatomic, strong) NSMutableDictionary * style;
 @end
+
+#pragma mark -
 
 @implementation SamuraiCSSRuleCollector
 
@@ -256,6 +265,28 @@
 }
 
 @end
+
+// ----------------------------------
+// Unit test
+// ----------------------------------
+
+#pragma mark -
+
+#if __SAMURAI_TESTING__
+
+TEST_CASE( UI, CSSRuleCollector )
+
+DESCRIBE( before )
+{
+}
+
+DESCRIBE( after )
+{
+}
+
+TEST_CASE_END
+
+#endif	// #if __SAMURAI_TESTING__
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 

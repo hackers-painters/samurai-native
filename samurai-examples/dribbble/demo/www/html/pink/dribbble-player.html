@@ -26,7 +26,7 @@
 	
 	<body>
 		
-		<RefreshCollectionView  id="list" name="player" class="fill" columns="3" is-vertical>
+		<RefreshCollectionView  id="list" name="player" class="list" columns="3" is-vertical>
 			
 			<UICollectionViewCell name="author" is-static is-row>
 				<div class="author-wrapper">
@@ -89,6 +89,13 @@
 				width: 100%;
 				height: 100%;
 				background-color: #e5508c;
+			}
+
+			.list {
+				display: block;
+				width: 100%;
+				height: 100%;
+				background-color: transparent;
 			}
 
 			.author-wrapper {

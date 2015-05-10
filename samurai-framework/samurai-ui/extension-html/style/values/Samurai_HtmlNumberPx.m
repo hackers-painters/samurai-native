@@ -34,6 +34,8 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_HtmlUserAgent.h"
+
 // ----------------------------------
 // Source code
 // ----------------------------------
@@ -122,14 +124,14 @@
 	return YES;
 }
 
-- (BOOL)isConstant
+- (BOOL)isAbsolute
 {
 	return YES;
 }
 
 - (CGFloat)computeValue:(CGFloat)value
 {
-	return self.value;
+	return self.value * 1.0f;
 }
 
 @end

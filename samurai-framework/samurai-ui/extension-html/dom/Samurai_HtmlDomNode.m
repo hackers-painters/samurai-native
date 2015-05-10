@@ -49,13 +49,6 @@
 
 @def_prop_assign( BOOL,	implied );
 
-@def_prop_unsafe( SamuraiHtmlDomNode *,			parent );
-@def_prop_unsafe( SamuraiHtmlDomNode *,			prev );
-@def_prop_unsafe( SamuraiHtmlDomNode *,			next );
-
-@def_prop_unsafe( SamuraiHtmlDomNode *,			shadowHost );
-@def_prop_strong( SamuraiHtmlDomNode *,			shadowRoot );
-
 - (id)init
 {
 	self = [super init];
@@ -84,6 +77,11 @@
 - (NSArray *)cssClasses
 {
 	return self.domStyleClasses;
+}
+
+- (NSArray *)cssAttributes
+{
+	return nil;
 }
 
 - (NSArray *)cssPseudos
@@ -199,6 +197,23 @@
 	{
 		return ([self.parent.childs indexOfObject:self] == index) ? YES : NO;
 	}
+}
+
+#pragma mark -
+
+- (SamuraiHtmlDomNode *)getFirstElementById:(NSString *)domId
+{
+	return (SamuraiHtmlDomNode *)[super getFirstElementById:domId];
+}
+
+- (SamuraiHtmlDomNode *)getFirstElementByName:(NSString *)domName
+{
+	return (SamuraiHtmlDomNode *)[super getFirstElementByName:domName];
+}
+
+- (SamuraiHtmlDomNode *)getFirstElementByTagName:(NSString *)domTag
+{
+	return (SamuraiHtmlDomNode *)[super getFirstElementByTagName:domTag];
 }
 
 @end

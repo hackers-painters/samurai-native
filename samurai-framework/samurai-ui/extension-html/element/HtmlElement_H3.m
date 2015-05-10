@@ -45,6 +45,20 @@
 
 @implementation HtmlElementH3
 
+- (id)initWithFrame:(CGRect)frame
+{
+	self = [super initWithFrame:frame];
+	if ( self )
+	{
+		self.layer.masksToBounds = NO;
+	}
+	return self;
+}
+
+- (void)dealloc
+{
+}
+
 - (void)html_applyDom:(SamuraiHtmlDomNode *)dom
 {
 	[super html_applyDom:dom];

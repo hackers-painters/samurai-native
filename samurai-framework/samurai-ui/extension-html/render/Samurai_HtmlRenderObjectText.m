@@ -65,9 +65,7 @@
 
 - (CGRect)computeFrame:(CGSize)bound origin:(CGPoint)origin;
 {
-#if __SAMURAI_DEBUG__
-	[self debug];
-#endif	// #if __SAMURAI_DEBUG__
+	DEBUG_RENDERER_LAYOUT( self );
 
 	if ( RenderDisplay_None == self.display )
 	{
@@ -246,12 +244,12 @@
 	innerBound.origin.y += origin.y;
 	innerBound.origin.x += computedMargin.left;
 	innerBound.origin.y += computedMargin.top;
-	
+
 	innerBound.size.width += computedPadding.left;
 	innerBound.size.width += computedPadding.right;
 	innerBound.size.height += computedPadding.top;
 	innerBound.size.height += computedPadding.bottom;
-	
+
 	innerBound.size.width += computedBorder.left;
 	innerBound.size.width += computedBorder.right;
 	innerBound.size.height += computedBorder.top;

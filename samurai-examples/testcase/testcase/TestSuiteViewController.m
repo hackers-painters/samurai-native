@@ -51,10 +51,13 @@
 			[_files addObject:fullPath];
 		}
 	}
-
-	self.navigationBarTitle = [self.testSuite lastPathComponent];
 	
+	[_files sortUsingSelector:@selector(compare:)];
+
 	[self loadViewTemplate:@"/www/html/test-suite.html"];
+
+	self.navigationBarTitle = self.testSuite;
+	self.navigationBarTitle = [self.testSuite lastPathComponent];
 }
 
 - (void)didReceiveMemoryWarning {

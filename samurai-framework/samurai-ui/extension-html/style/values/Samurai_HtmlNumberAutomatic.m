@@ -115,7 +115,7 @@
 	return YES;
 }
 
-- (BOOL)isConstant
+- (BOOL)isAbsolute
 {
 	return NO;
 }

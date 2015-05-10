@@ -30,7 +30,9 @@
 
 #import "Samurai_CSSProtocol.h"
 #import "Samurai_CSSParser.h"
+
 #import "Samurai_HtmlMediaQuery.h"
+
 #import "Samurai_CSSRuleCollector.h"
 #import "Samurai_CSSRuleSet.h"
 
@@ -42,7 +44,7 @@
 // Source code
 // ----------------------------------
 
-#pragma mark - SamuraiCSSValueWrapper
+#pragma mark -
 
 @implementation SamuraiCSSValueWrapper
 
@@ -54,12 +56,15 @@
 @end
 
 #pragma mark - 
-#pragma mark - SamuraiCSSStyleSheet
 
 @interface SamuraiCSSStyleSheet()
+
 @prop_unsafe( KatanaOutput *, output );
 @prop_strong( SamuraiCSSRuleCollector*, styleCollector );
+
 @end
+
+#pragma mark -
 
 @implementation SamuraiCSSStyleSheet
 
@@ -134,6 +139,10 @@
 
 	if ( self.output )
 	{
+	#if __SAMURAI_DEBUG__
+		katana_dump_output( self.output );
+	#endif	// #if __SAMURAI_DEBUG__
+		
 		KatanaStylesheet * stylesheet = self.output->stylesheet;
 		
 		if ( stylesheet->rules.length )

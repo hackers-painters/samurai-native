@@ -34,7 +34,7 @@
 
 #pragma mark -
 
-@interface HtmlElementUl : UIView
+@interface HtmlElement_Ul : UIView
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
