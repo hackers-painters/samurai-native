@@ -230,7 +230,16 @@ BASE_CLASS( SamuraiResource )
 	do
 	{
 	#if TARGET_IPHONE_SIMULATOR
-		NSString * srcPath = [[[SamuraiWatcher sharedInstance].sourcePath stringByAppendingPathComponent:path] stringByStandardizingPath];
+		NSString * srcPath = nil;
+		
+		if ( [path hasPrefix:[SamuraiWatcher sharedInstance].sourcePath] )
+		{
+			srcPath = path;
+		}
+		else
+		{
+			srcPath = [[[SamuraiWatcher sharedInstance].sourcePath stringByAppendingPathComponent:path] stringByStandardizingPath];
+		}
 	#endif	// #if TARGET_IPHONE_SIMULATOR
 		
 		NSString * docPath = [[[NSBundle mainBundle] pathForResource:fileName ofType:fileExt inDirectory:[path stringByDeletingLastPathComponent]] stringByStandardizingPath];
