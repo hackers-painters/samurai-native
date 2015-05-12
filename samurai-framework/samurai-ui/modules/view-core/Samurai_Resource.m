@@ -230,33 +230,34 @@ BASE_CLASS( SamuraiResource )
 	do
 	{
 	#if TARGET_IPHONE_SIMULATOR
-		NSString * srcPath = nil;
-		
-		if ( [path hasPrefix:[SamuraiWatcher sharedInstance].sourcePath] )
+		if ( [SamuraiWatcher sharedInstance].sourcePath )
 		{
-			srcPath = path;
-		}
-		else
-		{
-			srcPath = [[[SamuraiWatcher sharedInstance].sourcePath stringByAppendingPathComponent:path] stringByStandardizingPath];
+			NSString * srcPath = nil;
+			
+			if ( [path hasPrefix:[SamuraiWatcher sharedInstance].sourcePath] )
+			{
+				srcPath = path;
+			}
+			else
+			{
+				srcPath = [[[SamuraiWatcher sharedInstance].sourcePath stringByAppendingPathComponent:path] stringByStandardizingPath];
+			}
+			
+			if ( srcPath )
+			{
+				fileContent = [NSString stringWithContentsOfFile:srcPath encoding:NSUTF8StringEncoding error:NULL];
+				if ( fileContent )
+				{
+					filePath = srcPath;
+					break;
+				}
+			}
 		}
 	#endif	// #if TARGET_IPHONE_SIMULATOR
 		
 		NSString * docPath = [[[NSBundle mainBundle] pathForResource:fileName ofType:fileExt inDirectory:[path stringByDeletingLastPathComponent]] stringByStandardizingPath];
 		NSString * resPath = [[[NSBundle mainBundle] pathForResource:fileName ofType:fileExt] stringByStandardizingPath];
 		NSString * wwwPath = [[[NSBundle mainBundle] pathForResource:fileName ofType:fileExt inDirectory:[[resource class] baseDirectory]] stringByStandardizingPath];
-
-	#if TARGET_IPHONE_SIMULATOR
-		if ( srcPath )
-		{
-			fileContent = [NSString stringWithContentsOfFile:srcPath encoding:NSUTF8StringEncoding error:NULL];
-			if ( fileContent )
-			{
-				filePath = srcPath;
-				break;
-			}
-		}
-	#endif	// #if TARGET_IPHONE_SIMULATOR
 
 		if ( docPath )
 		{
