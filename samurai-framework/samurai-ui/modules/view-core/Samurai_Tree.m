@@ -180,7 +180,7 @@
 	if ( [self.childs containsObject:node] )
 		return;
 	
-	if ( NO == [self.childs containsObject:node] )
+	if ( NO == [self.childs containsObject:oldNode] )
 		return;
 	
 	node.prev = oldNode.prev;
@@ -201,7 +201,7 @@
 	if ( [self.childs containsObject:node] )
 		return;
 	
-	if ( NO == [self.childs containsObject:node] )
+	if ( NO == [self.childs containsObject:oldNode] )
 		return;
 	
 	node.prev = oldNode;
