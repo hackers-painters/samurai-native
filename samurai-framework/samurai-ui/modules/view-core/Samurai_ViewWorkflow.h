@@ -50,7 +50,7 @@
 
 @interface SamuraiViewWorkflow : NSObject
 
-@prop_strong( NSObject *,		context );
+@prop_unsafe( NSObject *,		context );
 @prop_strong( NSMutableArray *,	worklets );
 
 + (instancetype)workflow;

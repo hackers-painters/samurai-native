@@ -76,7 +76,7 @@
 
 @interface NSObject(Renderer)
 
-@prop_strong( SamuraiRenderObject *, renderer );
+@prop_unsafe( SamuraiRenderObject *, renderer );
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer;	// override point
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier;	// override point

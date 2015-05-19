@@ -53,7 +53,7 @@
 
 @implementation NSObject(Renderer)
 
-@def_prop_dynamic_strong( SamuraiRenderObject *, renderer, setRenderer );
+@def_prop_dynamic_weak( SamuraiRenderObject *, renderer, setRenderer );
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer
 {
