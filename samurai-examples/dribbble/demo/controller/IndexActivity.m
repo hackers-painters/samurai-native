@@ -255,6 +255,8 @@
 	[self.tab1 restyle];
 	[self.tab2 restyle];
 	[self.tab3 restyle];
+	
+//	[self relayout];
 
 	[self.list setContentOffset:CGPointZero animated:NO];
 	
@@ -366,6 +368,8 @@
 			shots;
 		})
 	};
+
+	[self relayout];
 }
 
 #pragma mark -

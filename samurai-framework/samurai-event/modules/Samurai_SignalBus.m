@@ -241,23 +241,54 @@
 				
 				if ( 1 == responders.count )
 				{
-					[self forward:signal to:[responders objectAtIndex:0]];
+					if ( NO == signal.dead )
+					{
+						[signal log:signal.target];
+						
+						signal.target = [responders objectAtIndex:0];
+						signal.sending = YES;
+					
+						[self routes:signal];
+					}
+					
+				//	[self forward:signal to:[responders objectAtIndex:0]];
 				}
 				else
 				{
 					for ( NSObject * responder in responders )
 					{
 						SamuraiSignal * clonedSignal = [signal clone];
+						
 						if ( clonedSignal )
 						{
-							[self forward:clonedSignal to:responder];
+							if ( NO == clonedSignal.dead )
+							{
+								[clonedSignal log:clonedSignal.target];
+								
+								clonedSignal.target = responder;
+								clonedSignal.sending = YES;
+								
+								[self routes:clonedSignal];
+							}
+
+						//	[self forward:clonedSignal to:responder];
 						}
 					}
 				}
 			}
 			else
 			{
-				[self forward:signal to:object];
+				if ( NO == signal.dead )
+				{
+					[signal log:signal.target];
+					
+					signal.target = object;
+					signal.sending = YES;
+					
+					[self routes:signal];
+				}
+				
+			//	[self forward:signal to:object];
 			}
 		}
 	}

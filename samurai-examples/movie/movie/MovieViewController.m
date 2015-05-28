@@ -100,6 +100,8 @@
                           actors;
                       })
     };
+	
+	[self relayout];
 }
 
 #pragma mark -

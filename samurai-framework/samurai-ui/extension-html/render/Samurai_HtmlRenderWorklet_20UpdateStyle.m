@@ -57,18 +57,40 @@
 	return YES;
 }
 
+- (NSMutableSet *)diffStyle:(NSDictionary *)style1 withStyle:(NSDictionary *)style2
+{
+	NSMutableSet * diffKeys = [NSMutableSet set];
+	NSMutableSet * allKeys = [NSMutableSet set];
+	
+	[allKeys addObjectsFromArray:style1.allKeys];
+	[allKeys addObjectsFromArray:style2.allKeys];
+	
+	for ( NSString * key in allKeys )
+	{
+		NSString * value1 = [style1 objectForKey:key];
+		NSString * value2 = [style2 objectForKey:key];
+		
+		if ( NO == [[value1 description] isEqualToString:[value2 description]] )
+		{
+			[diffKeys addObject:key];
+		}
+	}
+	
+	return diffKeys;
+}
+
 - (void)updateStyleForRenderObject:(SamuraiHtmlRenderObject *)renderObject
 {
 	DEBUG_RENDERER_STYLE( renderObject );
 
-	NSDictionary * mergedStyle = [self computeStyleForForRenderObject:renderObject];
+	NSDictionary *	mergedStyle = [self computeStyleForForRenderObject:renderObject];
+//	NSSet *			changedKeys = [self diffStyle:mergedStyle withStyle:renderObject.customStyleComputed];
 
 	[renderObject.customStyleComputed removeAllObjects];
 	[renderObject.customStyleComputed setDictionary:mergedStyle];
 	
 	[renderObject.style clear];
 	[renderObject.style merge:mergedStyle];
-
 	[renderObject applyStyle];
 
 	for ( SamuraiHtmlRenderObject * child in renderObject.childs )
