@@ -40,8 +40,8 @@
 
 @implementation SamuraiWatcher
 
-@def_prop_strong( NSMutableDictionary *,	sourceFiles );
-@def_prop_strong( NSString *,				sourcePath );
+@def_prop_strong( NSMutableArray *,		sourceFiles );
+@def_prop_strong( NSString *,			sourcePath );
 
 @def_notification( SourceFileDidChanged )
 @def_notification( SourceFileDidRemoved )
@@ -80,7 +80,7 @@
 {
 	if ( nil == self.sourceFiles )
 	{
-		self.sourceFiles = [[NSMutableDictionary alloc] init];
+		self.sourceFiles = [[NSMutableArray alloc] init];
 	}
 
 	[self.sourceFiles removeAllObjects];
@@ -99,29 +99,40 @@
 				break;
 
 			NSString * fileName = [filePath lastPathComponent];
-		//	NSString * fileExt = [fileName pathExtension];
+			NSString * fileExt = [fileName pathExtension];
 			NSString * fullPath = [basePath stringByAppendingPathComponent:filePath];
 			
 			BOOL isDirectory = NO;
 			BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&isDirectory];
 			if ( exists && NO == isDirectory )
 			{
-				[self.sourceFiles setObject:fullPath forKey:fileName];
+				BOOL isValid = NO;
+				
+				for ( NSString * extension in @[ @"xml", @"html", @"htm", @"css" ] )
+				{
+					if ( NSOrderedSame == [fileExt compare:extension] )
+					{
+						isValid = YES;
+						break;
+					}
+				}
+				
+				if ( isValid )
+				{
+					[self.sourceFiles addObject:fullPath];
+				}
 			}
 		}
 	}
 	
-	for ( NSString * key in self.sourceFiles.allKeys )
+	for ( NSString * file in self.sourceFiles )
 	{
-		[self watchSourceFile:key];
+		[self watchSourceFile:file];
 	}
 }
 
-- (void)watchSourceFile:(NSString *)key
+- (void)watchSourceFile:(NSString *)filePath
 {
-	__block NSString *	fileName = key;
-	__block NSString *	filePath = [self.sourceFiles objectForKey:fileName];
-
 	int fileHandle = open( [filePath UTF8String], O_EVTONLY );
 	if ( fileHandle )
 	{
@@ -152,7 +163,7 @@
 					}
 				});
 				
-				[self watchSourceFile:key];
+				[self watchSourceFile:filePath];
 			}
 		};
 		

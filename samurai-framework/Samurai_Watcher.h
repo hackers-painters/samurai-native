@@ -36,8 +36,8 @@
 
 @interface SamuraiWatcher : NSObject
 
-@prop_strong( NSMutableDictionary *,	sourceFiles );
-@prop_strong( NSString *,				sourcePath );
+@prop_strong( NSMutableArray *,		sourceFiles );
+@prop_strong( NSString *,			sourcePath );
 
 @notification( SourceFileDidChanged )
 @notification( SourceFileDidRemoved )
