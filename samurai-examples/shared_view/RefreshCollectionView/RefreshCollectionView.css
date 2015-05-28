@@ -1,0 +1,11 @@
+/*************************
+ * Plugin
+ *************************/
+
+RefreshCollectionView {
+
+	/*background-color: #333;*/
+
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'RefreshCollectionView';
+}

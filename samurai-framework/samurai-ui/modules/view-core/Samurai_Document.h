@@ -51,10 +51,6 @@
 @prop_strong( NSString *,				type );
 @prop_strong( NSString *,				media );
 
-@prop_strong( NSString *,				rootTag );
-@prop_strong( NSString *,				headTag );
-@prop_strong( NSString *,				bodyTag );
-
 @prop_strong( SamuraiDomNode *,			domTree );
 @prop_strong( SamuraiStyleSheet *,		styleTree );
 @prop_strong( SamuraiRenderObject *,	renderTree );
@@ -69,14 +65,12 @@
 - (SamuraiDocument *)childDocument;
 - (SamuraiDocument *)childDocument:(SamuraiDomNode *)domNode;
 
-- (SamuraiDomNode *)getRoot;
-- (SamuraiDomNode *)getHead;
-- (SamuraiDomNode *)getBody;
-
 - (BOOL)reflow;
 
-- (void)configuringForView:(UIView *)view;
-- (void)configuringForViewController:(UIViewController *)viewController;
+- (void)configureForView:(UIView *)view;
+- (void)configureForViewController:(UIViewController *)viewController;
+
+- (NSString *)uniqueIdentifier;
 
 @end
 

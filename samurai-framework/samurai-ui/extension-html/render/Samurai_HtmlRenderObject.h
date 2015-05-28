@@ -89,30 +89,51 @@ typedef enum
 @prop_strong( NSMutableDictionary *,		customStyleComputed );
 @prop_strong( SamuraiHtmlStyle *,			customStyle );
 
-@prop_assign( RenderWrap,					wrap );
-@prop_assign( RenderDisplay,				display );
-@prop_assign( RenderFloating,				floating );
-@prop_assign( RenderPosition,				position );
-@prop_assign( RenderDirection,				direction );
+@prop_assign( HtmlRenderWrap,				wrap );
+@prop_assign( HtmlRenderAlign,				align );
+@prop_assign( HtmlRenderDisplay,			display );
+@prop_assign( HtmlRenderFloating,			floating );
+@prop_assign( HtmlRenderPosition,			position );
+@prop_assign( HtmlRenderDirection,			direction );
+@prop_assign( HtmlRenderVerticalAlign,		verticalAlign );
 
-@prop_unsafe( SamuraiHtmlDomNode *,			dom );
-@prop_strong( SamuraiHtmlStyle *,			style );
+@prop_assign( NSInteger,					tableRow );
+@prop_assign( NSInteger,					tableCol );
+@prop_assign( NSInteger,					tableRowSpan );
+@prop_assign( NSInteger,					tableColSpan );
 
-@prop_readonly( SamuraiHtmlRenderObject *,	root );
-@prop_unsafe( SamuraiHtmlRenderObject *,	parent );
-@prop_unsafe( SamuraiHtmlRenderObject *,	prev );
-@prop_unsafe( SamuraiHtmlRenderObject *,	next );
+@prop_unsafe( SamuraiHtmlDomNode *,			dom );		// override
+@prop_strong( SamuraiHtmlStyle *,			style );	// override
+
+@prop_readonly( SamuraiHtmlRenderObject *,	root );		// override
+@prop_unsafe( SamuraiHtmlRenderObject *,	parent );	// override
+@prop_unsafe( SamuraiHtmlRenderObject *,	prev );		// override
+@prop_unsafe( SamuraiHtmlRenderObject *,	next );		// override
 
 - (BOOL)layoutShouldWrapLine;				// override point
 - (BOOL)layoutShouldWrapBefore;				// override point
 - (BOOL)layoutShouldWrapAfter;				// override point
+
 - (BOOL)layoutShouldBoundsToWindow;			// override point
 - (BOOL)layoutShouldCenteringInRow;			// override point
 - (BOOL)layoutShouldCenteringInCol;			// override point
+
 - (BOOL)layoutShouldPositioningChildren;	// override point
+
 - (BOOL)layoutShouldArrangedInRow;			// override point
 - (BOOL)layoutShouldArrangedInCol;			// override point
 - (BOOL)layoutShouldArrangedReverse;		// override point
+
+- (BOOL)layoutShouldHorizontalAlign;		// override point
+- (BOOL)layoutShouldHorizontalAlignLeft;	// override point
+- (BOOL)layoutShouldHorizontalAlignRight;	// override point
+- (BOOL)layoutShouldHorizontalAlignCenter;	// override point
+
+- (BOOL)layoutShouldVerticalAlign;			// override point
+- (BOOL)layoutShouldVerticalAlignBaseline;	// override point
+- (BOOL)layoutShouldVerticalAlignTop;		// override point
+- (BOOL)layoutShouldVerticalAlignMiddle;	// override point
+- (BOOL)layoutShouldVerticalAlignBottom;	// override point
 
 - (UIEdgeInsets)computeInset:(CGSize)size;
 - (UIEdgeInsets)computeBorder:(CGSize)size;
@@ -120,8 +141,17 @@ typedef enum
 - (UIEdgeInsets)computeOffset:(CGSize)size;
 - (UIEdgeInsets)computePadding:(CGSize)size;
 
+- (CGFloat)computeLineHeight:(CGFloat)height;
+
+- (CGFloat)computeBorderSpacing;
+- (CGFloat)computeCellSpacing;
+- (CGFloat)computeCellPadding;
+
 - (void)applyStyle;
 - (void)applyStyleInheritesFrom:(SamuraiHtmlRenderObject * )parent;
+
+- (void)renderWillLoad;		// override point
+- (void)renderDidLoad;		// override point
 
 @end
 
@@ -131,7 +161,7 @@ typedef enum
 
 #undef	DEBUG_RENDERER_LAYOUT
 #define DEBUG_RENDERER_LAYOUT( __x ) \
-		if ( [__x.dom.domAttributes hasObjectForKey:@"debug"] || [__x.dom.domAttributes hasObjectForKey:@"debug-layout"] ) \
+		if ( [__x.dom.attributes hasObjectForKey:@"debug"] || [__x.dom.attributes hasObjectForKey:@"debug-layout"] ) \
 		{ \
 			INFO( @"Debug layout at >>" ); \
 			[__x dump]; \
@@ -140,7 +170,7 @@ typedef enum
 
 #undef	DEBUG_RENDERER_STYLE
 #define DEBUG_RENDERER_STYLE( __x ) \
-		if ( [__x.dom.domAttributes hasObjectForKey:@"debug"] || [__x.dom.domAttributes hasObjectForKey:@"debug-style"] ) \
+		if ( [__x.dom.attributes hasObjectForKey:@"debug"] || [__x.dom.attributes hasObjectForKey:@"debug-style"] ) \
 		{ \
 			INFO( @"Debug style at >>" ); \
 			[__x dump]; \
@@ -149,7 +179,7 @@ typedef enum
 
 #undef	DEBUG_RENDERER_FRAME
 #define DEBUG_RENDERER_FRAME( __x ) \
-		if ( [__x.dom.domAttributes hasObjectForKey:@"debug"] || [__x.dom.domAttributes hasObjectForKey:@"debug-frame"] ) \
+		if ( [__x.dom.attributes hasObjectForKey:@"debug"] || [__x.dom.attributes hasObjectForKey:@"debug-frame"] ) \
 		{ \
 			INFO( @"Debug frame at >>" ); \
 			[__x dump]; \

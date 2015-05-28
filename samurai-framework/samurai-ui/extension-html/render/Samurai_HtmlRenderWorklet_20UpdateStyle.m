@@ -58,7 +58,9 @@
 }
 
 - (void)updateStyleForRenderObject:(SamuraiHtmlRenderObject *)renderObject
-{	
+{
+	DEBUG_RENDERER_STYLE( renderObject );
+
 	NSDictionary * mergedStyle = [self computeStyleForForRenderObject:renderObject];
 
 	[renderObject.customStyleComputed removeAllObjects];
@@ -105,6 +107,21 @@
 	if ( matchedStyle && [matchedStyle count] )
 	{
 		[styleProperties addEntriesFromDictionary:matchedStyle];
+	}
+	
+// attributed style
+	
+	for ( NSArray * pair in [SamuraiHtmlUserAgent sharedInstance].defaultDOMAttributed )
+	{
+		NSString * attrName1 = [pair objectAtIndex:0];
+		NSString * attrName2 = [pair objectAtIndex:1];
+		
+		NSString * attrValue = [renderObject.dom.attributes objectForKey:attrName1];
+		
+		if ( attrValue )
+		{
+			[styleProperties setObject:attrValue forKey:attrName2];
+		}
 	}
 
 // custom style properties

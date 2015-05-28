@@ -44,8 +44,11 @@
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
-	UIActivityIndicatorView * indicator = [super createInstanceWithRenderer:renderer identifier:identifier];
+	UIActivityIndicatorView * indicator = [[self alloc] initWithFrame:CGRectZero];
+	
+	indicator.renderer = renderer;
 	indicator.hidesWhenStopped = YES;
+	
 	return indicator;
 }
 

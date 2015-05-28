@@ -66,7 +66,7 @@
 	{
 		// for="id"
 
-		NSString *	forId = [renderObject.dom.domAttributes objectForKey:@"for"];
+		NSString *	forId = [renderObject.dom.attributes objectForKey:@"for"];
 		NSArray *	forIds = [forId componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
 		for ( NSString * targetId in forIds )

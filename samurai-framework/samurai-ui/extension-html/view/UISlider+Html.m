@@ -54,10 +54,10 @@
 {
 	[super html_applyDom:dom];
 
-	NSString * isContinuous = [dom.domAttributes objectForKey:@"is-continuous"];
-	NSString * value = [dom.domAttributes objectForKey:@"value"];
-	NSString * minValue = [dom.domAttributes objectForKey:@"min-value"];
-	NSString * maxValue = [dom.domAttributes objectForKey:@"max-value"];
+	NSString * isContinuous = [dom.attributes objectForKey:@"is-continuous"];
+	NSString * value = [dom.attributes objectForKey:@"value"];
+	NSString * minValue = [dom.attributes objectForKey:@"min-value"];
+	NSString * maxValue = [dom.attributes objectForKey:@"max-value"];
 	
 	if ( value )
 	{

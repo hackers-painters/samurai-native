@@ -49,11 +49,6 @@
 @prop_readonly(	UICollectionViewCell *,	sourceCollectionCell );
 
 @prop_readonly(	SamuraiDomNode *,		sourceDom );
-@prop_readonly( NSString *,				sourceDomHref );
-@prop_readonly( NSString *,				sourceDomIdPath );
-@prop_readonly( NSString *,				sourceDomTagPath );
-@prop_readonly( NSString *,				sourceDomNamePath );
-
 @prop_readonly(	SamuraiRenderObject *,	sourceRender );
 @prop_readonly(	NSIndexPath *,			sourceIndexPath );
 

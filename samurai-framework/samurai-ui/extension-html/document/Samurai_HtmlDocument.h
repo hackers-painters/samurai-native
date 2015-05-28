@@ -33,9 +33,26 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_HtmlDomNode.h"
+#import "Samurai_CSSStyleSheet.h"
+#import "Samurai_HtmlRenderObject.h"
+
 #pragma mark -
 
 @interface SamuraiHtmlDocument : SamuraiDocument
+
+@prop_strong( SamuraiHtmlDomNode *,		domTree );
+@prop_strong( SamuraiCSSStyleSheet *,	styleTree );
+@prop_strong( SamuraiRenderObject *,	renderTree );
+
+@prop_strong( NSString *,	rootTag );
+@prop_strong( NSString *,	headTag );
+@prop_strong( NSString *,	bodyTag );
+
+- (SamuraiHtmlDomNode *)getRootDomNode;
+- (SamuraiHtmlDomNode *)getHeadDomNode;
+- (SamuraiHtmlDomNode *)getBodyDomNode;
+
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

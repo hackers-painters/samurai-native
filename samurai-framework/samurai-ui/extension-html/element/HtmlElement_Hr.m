@@ -43,7 +43,7 @@
 
 #pragma mark -
 
-@implementation HtmlElementHr
+@implementation HtmlElement_Hr
 
 - (id)initWithFrame:(CGRect)frame
 {

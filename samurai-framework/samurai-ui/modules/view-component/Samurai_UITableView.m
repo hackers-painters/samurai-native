@@ -159,7 +159,7 @@
 	
 	ASSERT( indexPath );
 
-	NSString * cachedKey = [NSString stringWithFormat:@"%ld-%ld", indexPath.section, indexPath.row];
+	NSString * cachedKey = [NSString stringWithFormat:@"%ld-%ld", (long)indexPath.section, (long)indexPath.row];
 	NSNumber * cachedHeight = [_cachedHeight objectForKey:cachedKey];
 	
 	if ( cachedHeight )
@@ -172,12 +172,14 @@
 	if ( nil == reuseCell )
 	{
 		reuseCell = (UITableViewCell *)[self.document.renderTree createViewWithIdentifier:nil];
+		
 		[reuseCell.renderer bindOutletsTo:reuseCell];
 	}
 	
 	if ( nil == reuseCell )
 	{
 		reuseCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+		
 		[reuseCell.renderer bindOutletsTo:reuseCell];
 	}
 	
@@ -369,7 +371,7 @@
 			}
 			else
 			{
-				sectionKey = [NSString stringWithFormat:@"%lu", section.index];
+				sectionKey = [NSString stringWithFormat:@"%lu", (unsigned long)section.index];
 			}
 			
 			sectionData = [section serialize];
@@ -406,7 +408,7 @@
 			}
 			else
 			{
-				sectionKey = [NSString stringWithFormat:@"%lu", section.index];
+				sectionKey = [NSString stringWithFormat:@"%lu", (unsigned long)section.index];
 			}
 			
 			if ( [obj isKindOfClass:[NSDictionary class]] || [obj conformsToProtocol:@protocol(NSDictionaryProtocol)] )

@@ -48,7 +48,14 @@
 		BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&isDir];
 		if ( exists )
 		{
-			[_files addObject:fullPath];
+			if ( isDir )
+			{
+				[_files addObject:fullPath];
+			}
+			else if ( [fullPath hasSuffix:@".html"] )
+			{
+				[_files addObject:fullPath];
+			}
 		}
 	}
 	

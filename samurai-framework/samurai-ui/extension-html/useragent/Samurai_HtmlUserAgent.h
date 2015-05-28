@@ -39,11 +39,14 @@
 
 @interface SamuraiHtmlUserAgent : NSObject
 
-@prop_strong( UIFont *,				defaultFont );
-@prop_strong( NSMutableArray *,		defaultStyleSheets );
-@prop_strong( NSMutableArray *,		defaultCSSInherition );
+@prop_strong( UIFont *,					defaultFont );
+@prop_strong( NSMutableArray *,			defaultStyleSheets );
+@prop_strong( NSMutableArray *,			defaultCSSInherition );
+@prop_strong( NSMutableArray *,			defaultDOMAttributed );
 
 @singleton( SamuraiHtmlUserAgent )
+
+- (void)importStyleSheet:(NSString *)path;
 
 @end
 

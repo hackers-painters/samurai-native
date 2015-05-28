@@ -87,20 +87,6 @@
 
 #pragma mark -
 
-- (void)applyFrame:(CGRect)newFrame
-{
-	// TODO: if animation
-	
-//	if ( NO == CGRectEqualToRect( self.frame, newFrame ) )
-//	{
-		[self setFrame:newFrame];
-//	}
-	
-	[super applyFrame:newFrame];
-}
-
-#pragma mark -
-
 - (CGSize)computeSizeBySize:(CGSize)size
 {
 	return size;
@@ -114,6 +100,25 @@
 - (CGSize)computeSizeByHeight:(CGFloat)height
 {
 	return CGSizeMake( self.frame.size.width, height );
+}
+
+#pragma mark -
+
+- (void)applyDom:(SamuraiDomNode *)dom
+{
+	
+}
+
+- (void)applyStyle:(SamuraiRenderStyle *)style
+{
+	
+}
+
+- (void)applyFrame:(CGRect)newFrame
+{
+	// TODO: if animation
+	
+	[self setFrame:newFrame];
 }
 
 #pragma mark -
@@ -135,10 +140,19 @@
 
 #pragma mark -
 
+- (NSString *)description
+{
+	[[SamuraiLogger sharedInstance] outputCapture];
+	
+	[self dump];
+	
+	[[SamuraiLogger sharedInstance] outputRelease];
+	
+	return [SamuraiLogger sharedInstance].output;
+}
+
 - (void)dump
 {
-#if __SAMURAI_DEBUG__
-	
 	SEL selector = NSSelectorFromString( @"recursiveDescription" );
 	if ( selector && [self respondsToSelector:selector] )
 	{
@@ -149,8 +163,6 @@
 		[invocation setSelector:selector];
 		[invocation invoke];
 	}
-	
-#endif	// #if __SAMURAI_DEBUG__
 }
 
 @end

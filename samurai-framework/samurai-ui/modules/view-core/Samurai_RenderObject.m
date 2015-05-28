@@ -53,16 +53,16 @@
 
 @implementation NSObject(Renderer)
 
-@def_prop_dynamic_weak( SamuraiRenderObject *, renderer, setRenderer );
+@def_prop_dynamic_strong( SamuraiRenderObject *, renderer, setRenderer );
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer
 {
-	return [self createInstanceWithRenderer:renderer identifier:nil];
+	return nil;
 }
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
-	return [self createInstanceWithRenderer:renderer identifier:identifier];
+	return nil;
 }
 
 - (void)prepareForRendering
@@ -84,6 +84,14 @@
 	return CGSizeZero;
 }
 
+- (void)applyDom:(SamuraiDomNode *)dom
+{	
+}
+
+- (void)applyStyle:(SamuraiRenderStyle *)style
+{
+}
+
 - (void)applyFrame:(CGRect)frame
 {
 }
@@ -99,13 +107,12 @@
 @def_prop_strong( SamuraiRenderStyle *,		style );
 
 @def_prop_assign( NSInteger,				index );
-@def_prop_assign( CGRect,					frame );
-@def_prop_assign( CGPoint,					offset );
+@def_prop_assign( CGRect,					bounds );
 
 @def_prop_assign( UIEdgeInsets,				inset );
+@def_prop_assign( UIEdgeInsets,				border );
 @def_prop_assign( UIEdgeInsets,				margin );
 @def_prop_assign( UIEdgeInsets,				padding );
-@def_prop_assign( UIEdgeInsets,				border );
 
 @def_prop_strong( UIView *,					view );
 @def_prop_strong( Class,					viewClass );
@@ -130,9 +137,9 @@ static NSUInteger __objectSeed = 0;
 {
 	SamuraiRenderObject * renderObject = [[self alloc] init];
 	
-	renderObject.dom = dom;
-	renderObject.style = style;
-	
+	[renderObject bindDom:dom];
+	[renderObject bindStyle:style];
+
 	return renderObject;
 }
 
@@ -145,13 +152,12 @@ static NSUInteger __objectSeed = 0;
 	{
 		self.id = [NSNumber numberWithUnsignedInteger:__objectSeed++];
 
-		self.dom = nil;
-		self.style = nil;
-		self.viewClass = nil; // [[self class] defaultViewClass];
+//		self.dom = nil;
+//		self.style = nil;
+//		self.viewClass = nil; // [[self class] defaultViewClass];
 
 		self.index = 0;
-		self.offset = CGPointZero;
-		self.frame = CGRectZero;
+		self.bounds = CGRectZero;
 		
 		self.inset = UIEdgeInsetsZero;
 		self.margin = UIEdgeInsetsZero;
@@ -179,8 +185,9 @@ static NSUInteger __objectSeed = 0;
 {
 	[super deepCopyFrom:right];
 	
-	self.dom = right.dom;
-	self.style = [right.style clone];
+	[self bindDom:right.dom];
+	[self bindStyle:[right.style clone]];
+
 	self.viewClass = right.viewClass;
 }
 
@@ -368,8 +375,8 @@ static NSUInteger __objectSeed = 0;
 
 - (CGRect)zerolizeFrame
 {
-	self.offset = CGPointZero;
-	self.frame = CGRectZero;
+	self.bounds = CGRectZero;
+	
 	self.inset = UIEdgeInsetsZero;
 	self.border = UIEdgeInsetsZero;
 	self.margin = UIEdgeInsetsZero;
@@ -432,9 +439,9 @@ static NSUInteger __objectSeed = 0;
 	
 	if ( nil == self.viewClass )
 		return nil;
-	
+
 	self.view = [self.viewClass createInstanceWithRenderer:self identifier:identifier];
-	
+
 	if ( self.view )
 	{
 		if ( nil == self.view.renderer )
@@ -442,15 +449,6 @@ static NSUInteger __objectSeed = 0;
 			self.view.renderer = self;
 		}
 
-		if ( self.dom.domTag )
-		{
-			PERF( @"RenderObject '%p', create view '%@' for <%@/>", self, self.viewClass, self.dom.domTag );
-		}
-		else
-		{
-			PERF( @"RenderObject '%p', create view '%@' for \"%@ ...\"", self, self.viewClass, self.dom.domText.length > 20 ? [self.dom.domText substringToIndex:20] : self.dom.domText );
-		}
-		
 		UIView * contentView = nil;
 
 		if ( [self.view respondsToSelector:@selector(contentView)] )
@@ -476,7 +474,7 @@ static NSUInteger __objectSeed = 0;
 			//	[child bindOutletsTo:self.view];
 			}
 		}
-		
+
 		[self.view prepareForRendering];
 	}
 
@@ -546,6 +544,26 @@ static NSUInteger __objectSeed = 0;
 	self.view = nil;
 }
 
+- (void)bindDom:(SamuraiDomNode *)newDom
+{
+	self.dom = newDom;
+}
+
+- (void)unbindDom
+{
+	self.dom = nil;
+}
+
+- (void)bindStyle:(SamuraiRenderStyle *)newStyle
+{
+	self.style = newStyle;
+}
+
+- (void)unbindStyle
+{
+	self.style = nil;
+}
+
 #pragma mark -
 
 - (id)serialize
@@ -564,17 +582,26 @@ static NSUInteger __objectSeed = 0;
 
 #pragma mark -
 
+- (NSString *)description
+{
+	[[SamuraiLogger sharedInstance] outputCapture];
+	
+	[self dump];
+	
+	[[SamuraiLogger sharedInstance] outputRelease];
+	
+	return [SamuraiLogger sharedInstance].output;
+}
+
 - (void)dump
 {
-#if __SAMURAI_DEBUG__
-	
 	if ( self.childs && self.childs.count )
 	{
 		PERF( @"<%@>, [%@], XY = (%.1f, %.1f), WH = (%.1f, %.1f)",
 			 self.dom.domTag,
 			 [self.viewClass description],
-			 self.frame.origin.x, self.frame.origin.y,
-			 self.frame.size.width, self.frame.size.height );
+			 self.bounds.origin.x, self.bounds.origin.y,
+			 self.bounds.size.width, self.bounds.size.height );
 		
 		[[SamuraiLogger sharedInstance] indent];
 		
@@ -594,20 +621,18 @@ static NSUInteger __objectSeed = 0;
 			PERF( @"<%@/>, [%@], XY = (%.1f, %.1f), WH = (%.1f, %.1f)",
 				 self.dom.domTag,
 				 [self.viewClass description],
-				 self.frame.origin.x, self.frame.origin.y,
-				 self.frame.size.width, self.frame.size.height );
+				 self.bounds.origin.x, self.bounds.origin.y,
+				 self.bounds.size.width, self.bounds.size.height );
 		}
 		else
 		{
 			PERF( @"\"%@ ...\", [%@], XY = (%.1f, %.1f), WH = (%.1f, %.1f)",
 				 (self.dom.domText.length > 20 ? [self.dom.domText substringToIndex:20] : self.dom.domText),
 				 [self.viewClass description],
-				 self.frame.origin.x, self.frame.origin.y,
-				 self.frame.size.width, self.frame.size.height );
+				 self.bounds.origin.x, self.bounds.origin.y,
+				 self.bounds.size.width, self.bounds.size.height );
 		}
 	}
-	
-#endif	// #if __SAMURAI_DEBUG__
 }
 
 @end

@@ -54,7 +54,7 @@
 {
 	[super html_applyDom:dom];
 	
-	NSString * isPaging = [dom.domAttributes objectForKey:@"is-paging"];
+	NSString * isPaging = [dom.attributes objectForKey:@"is-paging"];
 	
 	if ( isPaging )
 	{

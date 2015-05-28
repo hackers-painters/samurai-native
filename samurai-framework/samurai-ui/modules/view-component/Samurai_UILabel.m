@@ -44,9 +44,17 @@
 
 @implementation UILabel(Samurai)
 
+@def_prop_dynamic( BOOL,							trimmed );
+@def_prop_dynamic( BOOL,							normalized );
+@def_prop_dynamic_strong( NSMutableDictionary *,	mutableAttributes, setMutableAttributes )
+
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
-	return [super createInstanceWithRenderer:renderer identifier:identifier];
+	UILabel * label = [[self alloc] initWithFrame:CGRectZero];
+
+	label.renderer = renderer;
+
+	return label;
 }
 
 #pragma mark -
@@ -73,22 +81,107 @@
 
 #pragma mark -
 
+- (BOOL)normalized
+{
+	NSNumber * normalized = [self getAssociatedObjectForKey:"normalized"];
+	
+	if ( normalized )
+	{
+		return [normalized boolValue];
+	}
+	
+	return NO;
+}
+
+- (void)setNormalized:(BOOL)normalized
+{
+	[self retainAssociatedObject:@(normalized) forKey:"normalized"];
+}
+
+#pragma mark -
+
+- (BOOL)trimmed
+{
+	NSNumber * trimmed = [self getAssociatedObjectForKey:"trimmed"];
+	
+	if ( trimmed )
+	{
+		return [trimmed boolValue];
+	}
+	
+	return NO;
+}
+
+- (void)setTrimmed:(BOOL)trimmed
+{
+	[self retainAssociatedObject:@(trimmed) forKey:"trimmed"];
+}
+
+#pragma mark -
+
 - (id)serialize
 {
-	return self.text;
+	return self.attributedText ? self.attributedText.string : self.text;
 }
 
 - (void)unserialize:(id)obj
 {
-	self.text = [obj toString];
+	if ( obj )
+	{
+		NSString * content = nil;
+		
+		if ( [obj isKindOfClass:[NSAttributedString class]] )
+		{
+			content = [(NSAttributedString *)obj string];
+		}
+		else
+		{
+			content = [obj toString];
+		}
+		
+		if ( [self trimmed] )
+		{
+			content = [content trim];
+		}
+		
+		if ( [self normalized] )
+		{
+			content = [content normalize];
+		}
+		
+		if ( content )
+		{
+			NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:content];
+			[attributedString setAttributes:self.mutableAttributes range:NSMakeRange(0, [content length])];
+			self.attributedText = attributedString;
+		}
+		else
+		{
+			self.attributedText = nil;
+		}
+	}
+	else
+	{
+		self.attributedText = nil;
+	}
 }
 
 - (void)zerolize
 {
-	self.text = nil;
+	self.attributedText = nil;
 }
 
 #pragma mark -
+
+- (void)applyDom:(SamuraiDomNode *)dom
+{
+	[super applyDom:dom];
+}
+
+- (void)applyStyle:(SamuraiRenderStyle *)style
+{
+	[super applyStyle:style];
+}
 
 - (void)applyFrame:(CGRect)frame
 {
@@ -115,7 +208,7 @@
 
 - (CGSize)computeSizeBySize:(CGSize)size
 {
-	if ( nil == self.text || 0 == self.text.length )
+	if ( nil == self.attributedText || 0 == self.attributedText.string.length )
 	{
 		return CGSizeZero;
 	}
@@ -126,14 +219,14 @@
 	if ( INVALID_VALUE == size.width && INVALID_VALUE == size.height )
 	{
 		CGSize bound = CGSizeMake(HUGE_VALF, HUGE_VALF/*fmaxf(self.font.lineHeight, self.font.pointSize)*/);
-		CGSize result = [self.text boundingRectWithSize:bound options:options attributes:attribute context:nil].size;
+		CGSize result = [self.attributedText.string boundingRectWithSize:bound options:options attributes:attribute context:nil].size;
 		result.width = ceilf( result.width );
 		result.height = ceilf( result.height );
 		return result;
 	}
 	else if ( INVALID_VALUE != size.width && INVALID_VALUE != size.height )
 	{
-		CGSize result = [self.text boundingRectWithSize:size options:options attributes:attribute context:nil].size;
+		CGSize result = [self.attributedText.string boundingRectWithSize:size options:options attributes:attribute context:nil].size;
 		result.width = ceilf( result.width );
 		result.height = ceilf( result.height );
 		return result;
@@ -143,7 +236,7 @@
 		if ( INVALID_VALUE != size.width )
 		{
 			CGSize bound = CGSizeMake(size.width, HUGE_VALF);
-			CGSize result = [self.text boundingRectWithSize:bound options:options attributes:attribute context:nil].size;
+			CGSize result = [self.attributedText.string boundingRectWithSize:bound options:options attributes:attribute context:nil].size;
 			result.width = ceilf( result.width );
 			result.height = ceilf( result.height );
 			return result;
@@ -151,14 +244,14 @@
 		else if ( INVALID_VALUE != size.height )
 		{
 			CGSize bound = CGSizeMake(HUGE_VALF, size.height);
-			CGSize result = [self.text boundingRectWithSize:bound options:options attributes:attribute context:nil].size;
+			CGSize result = [self.attributedText.string boundingRectWithSize:bound options:options attributes:attribute context:nil].size;
 			result.width = ceilf( result.width );
 			result.height = ceilf( result.height );
 			return result;
 		}
 		else
 		{
-			CGSize result = [self.text boundingRectWithSize:size options:options attributes:attribute context:nil].size;
+			CGSize result = [self.attributedText.string boundingRectWithSize:size options:options attributes:attribute context:nil].size;
 			result.width = ceilf( result.width );
 			result.height = ceilf( result.height );
 			return result;
@@ -174,15 +267,15 @@
 	}
 	else
 	{
-		if ( nil == self.text || 0 == self.text.length )
+		if ( nil == self.attributedText.string || 0 == self.attributedText.string.length )
 		{
-			return CGSizeMake( width, 0.0f );
+			return CGSizeMake( 0.0f, 0.0f );
 		}
 		
 		NSDictionary *			attribute = [NSDictionary dictionaryWithObject:self.font forKey:NSFontAttributeName];
 		NSStringDrawingOptions	options = NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading;
 		
-		CGSize result = [self.text boundingRectWithSize:CGSizeMake(width, HUGE_VALF) options:options attributes:attribute context:nil].size;
+		CGSize result = [self.attributedText.string boundingRectWithSize:CGSizeMake(width, HUGE_VALF) options:options attributes:attribute context:nil].size;
 		result.width = ceilf( result.width );
 		result.height = ceilf( result.height );
 		return result;
@@ -197,15 +290,15 @@
 	}
 	else
 	{
-		if ( nil == self.text || 0 == self.text.length )
+		if ( nil == self.attributedText.string || 0 == self.attributedText.string.length )
 		{
-			return CGSizeMake( 0.0f, height );
+			return CGSizeMake( 0.0f, 0.0f );
 		}
 
 		NSDictionary *			attribute = [NSDictionary dictionaryWithObject:self.font forKey:NSFontAttributeName];
 		NSStringDrawingOptions	options = NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading;
 
-		CGSize result = [self.text boundingRectWithSize:CGSizeMake(HUGE_VALF, height) options:options attributes:attribute context:nil].size;
+		CGSize result = [self.attributedText.string boundingRectWithSize:CGSizeMake(HUGE_VALF, height) options:options attributes:attribute context:nil].size;
 		result.width = ceilf( result.width );
 		result.height = ceilf( result.height );
 		return result;

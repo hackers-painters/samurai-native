@@ -257,8 +257,8 @@
 	
 	for ( SamuraiRenderObject * childRender in self.renderer.childs )
 	{
-		contentSize.width	= fmaxf( contentSize.width, CGRectGetMaxX(childRender.frame) );
-		contentSize.height	= fmaxf( contentSize.height, CGRectGetMaxY(childRender.frame) );
+		contentSize.width	= fmaxf( contentSize.width, CGRectGetMaxX(childRender.bounds) );
+		contentSize.height	= fmaxf( contentSize.height, CGRectGetMaxY(childRender.bounds) );
 	}
 	
 	if ( contentSize.width > self.frame.size.width && contentSize.height > self.frame.size.height )

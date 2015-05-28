@@ -139,9 +139,9 @@
 
 	if ( self.output )
 	{
-	#if __SAMURAI_DEBUG__
-		katana_dump_output( self.output );
-	#endif	// #if __SAMURAI_DEBUG__
+//	#if __SAMURAI_DEBUG__
+//		katana_dump_output( self.output );
+//	#endif	// #if __SAMURAI_DEBUG__
 		
 		KatanaStylesheet * stylesheet = self.output->stylesheet;
 		

@@ -28,13 +28,14 @@
 //	THE SOFTWARE.
 //
 
+#import "Samurai_ViewComponent.h"
 #import "Samurai_ViewCore.h"
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
 #pragma mark -
 
-@interface HtmlElementH6 : UIView
+@interface HtmlElement_H6 : UIView
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

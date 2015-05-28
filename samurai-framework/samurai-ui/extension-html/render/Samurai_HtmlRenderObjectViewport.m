@@ -44,6 +44,30 @@
 
 @implementation SamuraiHtmlRenderObjectViewport
 
++ (instancetype)renderObjectWithDom:(SamuraiHtmlDomNode *)dom andStyle:(SamuraiHtmlStyle *)style
+{
+	SamuraiHtmlRenderObjectViewport * renderObject = [super renderObjectWithDom:dom andStyle:style];
+	
+	return renderObject;
+}
+
+#pragma mark -
+
+- (id)init
+{
+	self = [super init];
+	if ( self )
+	{
+	}
+	return self;
+}
+
+- (void)dealloc
+{
+}
+
+#pragma mark -
+
 + (Class)defaultViewClass
 {
 	return [HtmlViewport class];
@@ -59,6 +83,110 @@
 - (BOOL)store_hasChildren
 {
 	return YES;
+}
+
+#pragma mark -
+
+- (void)renderWillLoad
+{
+	[super renderWillLoad];
+}
+
+- (void)renderDidLoad
+{
+	[super renderDidLoad];
+}
+
+#pragma mark -
+
+- (BOOL)layoutShouldWrapLine
+{
+	return [super layoutShouldWrapLine];
+}
+
+- (BOOL)layoutShouldWrapBefore
+{
+	return [super layoutShouldWrapBefore];
+}
+
+- (BOOL)layoutShouldWrapAfter
+{
+	return [super layoutShouldWrapAfter];
+}
+
+- (BOOL)layoutShouldBoundsToWindow
+{
+	return [super layoutShouldBoundsToWindow];
+}
+
+- (BOOL)layoutShouldCenteringInRow
+{
+	return [super layoutShouldCenteringInRow];
+}
+
+- (BOOL)layoutShouldCenteringInCol
+{
+	return [super layoutShouldCenteringInCol];
+}
+
+- (BOOL)layoutShouldPositioningChildren
+{
+	return [super layoutShouldPositioningChildren];
+}
+
+- (BOOL)layoutShouldArrangedInRow
+{
+	return [super layoutShouldArrangedInRow];
+}
+
+- (BOOL)layoutShouldArrangedInCol
+{
+	return [super layoutShouldArrangedInCol];
+}
+
+- (BOOL)layoutShouldArrangedReverse
+{
+	return [super layoutShouldArrangedReverse];
+}
+
+- (BOOL)layoutShouldHorizontalAlign
+{
+	return [super layoutShouldHorizontalAlign];
+}
+
+- (BOOL)layoutShouldHorizontalAlignLeft
+{
+	return [super layoutShouldHorizontalAlignLeft];
+}
+
+- (BOOL)layoutShouldHorizontalAlignRight
+{
+	return [super layoutShouldHorizontalAlignRight];
+}
+
+- (BOOL)layoutShouldHorizontalAlignCenter
+{
+	return [super layoutShouldHorizontalAlignCenter];
+}
+
+- (BOOL)layoutShouldVerticalAlign
+{
+	return [super layoutShouldVerticalAlign];
+}
+
+- (BOOL)layoutShouldVerticalAlignTop
+{
+	return [super layoutShouldVerticalAlignTop];
+}
+
+- (BOOL)layoutShouldVerticalAlignMiddle
+{
+	return [super layoutShouldVerticalAlignMiddle];
+}
+
+- (BOOL)layoutShouldVerticalAlignBottom
+{
+	return [super layoutShouldVerticalAlignBottom];
 }
 
 @end

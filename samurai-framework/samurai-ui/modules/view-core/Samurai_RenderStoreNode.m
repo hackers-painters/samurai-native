@@ -132,10 +132,21 @@
 	}
 }
 
+#pragma mark -
+
+- (NSString *)description
+{
+	[[SamuraiLogger sharedInstance] outputCapture];
+	
+	[self dump];
+	
+	[[SamuraiLogger sharedInstance] outputRelease];
+	
+	return [SamuraiLogger sharedInstance].output;
+}
+
 - (void)dump
 {
-#if __SAMURAI_DEBUG__
-	
 	if ( self.target && self.target.dom.domName )
 	{
 		PERF( @"<%@ name='%@'>", self.target.dom.domTag, self.target.dom.domName );
@@ -154,8 +165,6 @@
 
 		PERF( @"</%@>", self.target.dom.domTag, self.target.dom.domName );
 	}
-	
-#endif	// #if __SAMURAI_DEBUG__
 }
 
 @end

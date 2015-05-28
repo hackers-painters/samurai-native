@@ -17,11 +17,11 @@
 		<meta name="navbar-tint-color" content="white"/>
 		<meta name="navbar-text-color" content="white"/>
 
-		<link rel="stylesheet" type="text/css" href="../css/normalize.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/main.css"/>
-		
+		<link rel="stylesheet" type="text/css" href="../../css/normalize.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
 		<link rel="stylesheet" type="text/css" href="SDWebImageView.css"/>
-		
+		<link rel="stylesheet" type="text/css" href="EMStringLabel.css"/>
+
 	</head>
 	
 	<body>
@@ -39,14 +39,14 @@
 			<UICollectionViewCell name="profile" is-static is-row>
 				<div class="profile-wrapper">
 					<div class="profile-attribution">
-						<div class="profile-segment no-wrap">
+						<div class="profile-segment">
 							<div class="segment-wrapper">
 								<!-- <img class="segment-icon" src="icon-views.png"/> -->
 								<span class="segment-count" name="followers">10,875</span>
 								<span class="segment-suffix">Followers</span>
 							</div>
 						</div>
-						<div class="profile-segment no-wrap">
+						<div class="profile-segment">
 							<div class="segment-wrapper">
 								<!-- <img class="segment-icon" src="icon-views.png"/> -->
 								<span class="segment-count" name="followings">199</span>
@@ -149,7 +149,7 @@
 			.profile-wrapper {
 				width: 100%;
 				height: auto;
-				padding-bottom: 0.5px;
+				margin-bottom: 0.5px;
 			}
 
 			.profile-attribution {
@@ -161,17 +161,16 @@
 			.profile-segment {
 				display: block;
 				float: left;
-				width: 49.8%;
+				width: 50.0%;
 				height: 100%;
 				border-width: 0.5px;
 				border-color: #fff 0.1;
+				text-align: center;
 			}
 		
 			.segment-wrapper {
 				width: auto;
 				height: 100%;
-				margin-left: auto;
-				margin-right: auto;
 			}
 
 			.segment-icon {
@@ -257,7 +256,7 @@
 				inset: 2px;
 				background-color: #eee;
 				border-radius: 2px;
-				border-width: 0px;
+				border-width: 2px;
 				border-color: white;
 			}
 

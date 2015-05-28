@@ -50,7 +50,6 @@
 
 - (void)onCreate
 {
-//	self.navigationBarTitle = [UIImage imageNamed:@"dribbble-logo.png"];
 	self.navigationBarDoneButton = @"Save";
 	
 	self.shot = [self.intent.input objectForKey:@"shot"];

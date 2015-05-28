@@ -55,7 +55,7 @@
 {
 	[super html_applyDom:dom];
 	
-	NSString * placeholder = [dom.domAttributes objectForKey:@"placeholder"];
+	NSString * placeholder = [dom.attributes objectForKey:@"placeholder"];
 	
 	self.text = [[dom computeInnerText] normalize];
 	
@@ -68,10 +68,10 @@
 		self.placeholder = nil;
 	}
 
-	NSString * autoCapitalize = [dom.domAttributes objectForKey:@"auto-capitalization"];
-	NSString * autoCorrection = [dom.domAttributes objectForKey:@"auto-correction"];
-	NSString * autoClears = [dom.domAttributes objectForKey:@"auto-clears"];
-	NSString * spellChecking = [dom.domAttributes objectForKey:@"spell-checking"];
+	NSString * autoCapitalize = [dom.attributes objectForKey:@"auto-capitalization"];
+	NSString * autoCorrection = [dom.attributes objectForKey:@"auto-correction"];
+	NSString * autoClears = [dom.attributes objectForKey:@"auto-clears"];
+	NSString * spellChecking = [dom.attributes objectForKey:@"spell-checking"];
 
 	if ( autoClears )
 	{
@@ -109,7 +109,7 @@
 		self.spellCheckingType = UITextSpellCheckingTypeNo;
 	}
 	
-	NSString * keyboardType = [dom.domAttributes objectForKey:@"keyboard-type"];
+	NSString * keyboardType = [dom.attributes objectForKey:@"keyboard-type"];
 
 	if ( [keyboardType isEqualToString:@"ascii"] )
 	{
@@ -156,7 +156,7 @@
 		self.keyboardType = UIKeyboardTypeDefault;
 	}
 	
-	NSString * keyboardAppearance = [dom.domAttributes objectForKey:@"keyboard-appearance"];
+	NSString * keyboardAppearance = [dom.attributes objectForKey:@"keyboard-appearance"];
 
 	if ( [keyboardAppearance isEqualToString:@"dark"] )
 	{
@@ -171,7 +171,7 @@
 		self.keyboardAppearance = UIKeyboardAppearanceDefault;
 	}
 
-	NSString * returnKeyType = [dom.domAttributes objectForKey:@"return-key-type"];
+	NSString * returnKeyType = [dom.attributes objectForKey:@"return-key-type"];
 
 	if ( [returnKeyType isEqualToString:@"go"] )
 	{
@@ -220,7 +220,7 @@
 	
 	self.enablesReturnKeyAutomatically = NO;
 	
-	NSString * isSecure = [dom.domAttributes objectForKey:@"is-secure"];
+	NSString * isSecure = [dom.attributes objectForKey:@"is-secure"];
 	
 	if ( isSecure )
 	{

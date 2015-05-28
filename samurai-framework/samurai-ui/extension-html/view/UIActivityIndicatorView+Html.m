@@ -70,8 +70,8 @@
 {
 	[super html_applyDom:dom];
 	
-	NSString * isLarge = [dom.domAttributes objectForKey:@"is-large"];
-	NSString * isAnimating = [dom.domAttributes objectForKey:@"is-animating"];
+	NSString * isLarge = [dom.attributes objectForKey:@"is-large"];
+	NSString * isAnimating = [dom.attributes objectForKey:@"is-animating"];
 	
 	if ( isLarge )
 	{

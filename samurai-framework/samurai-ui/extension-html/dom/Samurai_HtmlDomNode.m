@@ -47,7 +47,24 @@
 
 @implementation SamuraiHtmlDomNode
 
+@def_html_dom_string( align, setAlign,				@"align" );
+@def_html_dom_string( width, setWidth,				@"width" );
+@def_html_dom_string( height, setHeight,			@"height" );
+
+@def_html_dom_string( cellSpacing, setCellSpacing,	@"cellspacing" );
+@def_html_dom_string( cellPadding, setCellPadding,	@"cellpadding" );
+@def_html_dom_string( colSpan, setColSpan,			@"colspan" );
+@def_html_dom_string( rowSpan, setRowSpan,			@"rowspan" );
+@def_html_dom_string( selected, setSelected,		@"selected" );
+
+@def_html_dom_string( value, setValue,				@"value" );
+@def_html_dom_string( min, setMin,					@"min" );
+@def_html_dom_string( max, setMax,					@"max" );
+
 @def_prop_assign( BOOL,	implied );
+
+@def_prop_unsafe( SamuraiHtmlDomNode *,		shadowHost );
+@def_prop_strong( SamuraiHtmlDomNode *,		shadowRoot );
 
 - (id)init
 {
@@ -60,6 +77,16 @@
 
 - (void)dealloc
 {
+	self.shadowRoot = nil;
+	self.shadowHost = nil;
+}
+
+- (void)deepCopyFrom:(SamuraiHtmlDomNode *)right
+{
+	[super deepCopyFrom:right];
+	
+	self.shadowHost = nil;
+	self.shadowRoot = [right.shadowRoot clone];
 }
 
 #pragma mark -
@@ -130,7 +157,7 @@
 {
 	NSMutableArray * array = [NSMutableArray array];
 	
-	SamuraiDomNode * domNode = self.prev;
+	SamuraiHtmlDomNode * domNode = self.prev;
 	
 	while ( domNode )
 	{
@@ -146,7 +173,7 @@
 {
 	NSMutableArray * array = [NSMutableArray array];
 	
-	SamuraiDomNode * domNode = self.next;
+	SamuraiHtmlDomNode * domNode = self.next;
 	
 	while ( domNode )
 	{
@@ -197,23 +224,6 @@
 	{
 		return ([self.parent.childs indexOfObject:self] == index) ? YES : NO;
 	}
-}
-
-#pragma mark -
-
-- (SamuraiHtmlDomNode *)getFirstElementById:(NSString *)domId
-{
-	return (SamuraiHtmlDomNode *)[super getFirstElementById:domId];
-}
-
-- (SamuraiHtmlDomNode *)getFirstElementByName:(NSString *)domName
-{
-	return (SamuraiHtmlDomNode *)[super getFirstElementByName:domName];
-}
-
-- (SamuraiHtmlDomNode *)getFirstElementByTagName:(NSString *)domTag
-{
-	return (SamuraiHtmlDomNode *)[super getFirstElementByTagName:domTag];
 }
 
 @end

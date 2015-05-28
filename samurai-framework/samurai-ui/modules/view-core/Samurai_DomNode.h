@@ -57,34 +57,27 @@ typedef enum
 
 @prop_strong( NSNumber *,				id );
 @prop_assign( DomNodeType,				type );
-
-@prop_unsafe( SamuraiDocument *,		document );
-@prop_unsafe( SamuraiDomNode *,			parent );
-@prop_unsafe( SamuraiDomNode *,			prev );
-@prop_unsafe( SamuraiDomNode *,			next );
-
-@prop_unsafe( SamuraiDomNode *,			shadowHost );
-@prop_strong( SamuraiDomNode *,			shadowRoot );
+@prop_strong( NSMutableDictionary *,	attributes );
 
 @prop_strong( NSString *,				domId );
 @prop_strong( NSString *,				domTag );
 @prop_strong( NSString *,				domText );
 @prop_strong( NSString *,				domName );
 @prop_strong( NSString *,				domNamespace );
-@prop_strong( NSMutableDictionary *,	domAttributes );
+
 @prop_strong( NSString *,				domStyleInline );
 @prop_strong( NSMutableArray *,			domStyleClasses );
 @prop_strong( NSMutableDictionary *,	domStyleComputed );
+
+@prop_unsafe( SamuraiDocument *,		document );
+@prop_unsafe( SamuraiDomNode *,			parent );
+@prop_unsafe( SamuraiDomNode *,			prev );
+@prop_unsafe( SamuraiDomNode *,			next );
 
 + (instancetype)domNode;
 
 - (void)attach:(SamuraiDocument *)document;
 - (void)detach;
-
-- (NSString *)computeHref;
-- (NSString *)computeIdPath;
-- (NSString *)computeTagPath;
-- (NSString *)computeNamePath;
 
 - (NSString *)computeInnerText;
 - (NSString *)computeOuterText;

@@ -66,7 +66,7 @@
 	return YES;
 }
 
-- (NSMutableDictionary *)computeStyleForDomNode:(SamuraiDomNode *)domNode
+- (NSMutableDictionary *)computeStyleForDomNode:(SamuraiHtmlDomNode *)domNode
 {
 	NSMutableDictionary * styleProperties = [[NSMutableDictionary alloc] init];
 
@@ -93,6 +93,21 @@
 	{
 		[styleProperties addEntriesFromDictionary:matchedStyle];
 	}
+	
+// attributed style
+	
+	for ( NSArray * pair in [SamuraiHtmlUserAgent sharedInstance].defaultDOMAttributed )
+	{
+		NSString * attrName1 = [pair objectAtIndex:0];
+		NSString * attrName2 = [pair objectAtIndex:1];
+
+		NSString * attrValue = [domNode.attributes objectForKey:attrName1];
+
+		if ( attrValue )
+		{
+			[styleProperties setObject:attrValue forKey:attrName2];
+		}
+	}
 
 // inline style - <tag style=""/>
 	
@@ -109,7 +124,7 @@
 	return styleProperties;
 }
 
-- (void)mergeStyleForDomNode:(SamuraiDomNode *)domNode
+- (void)mergeStyleForDomNode:(SamuraiHtmlDomNode *)domNode
 {
 	DEBUG_HTML_CSS( domNode );
 	
@@ -117,11 +132,11 @@
 		return;
 	
 	NSMutableDictionary * domStyle = [self computeStyleForDomNode:domNode];
-	
+
 	[domNode.domStyleComputed removeAllObjects];
 	[domNode.domStyleComputed addEntriesFromDictionary:domStyle];
-	
-	for ( SamuraiDomNode * childDom in domNode.childs )
+
+	for ( SamuraiHtmlDomNode * childDom in domNode.childs )
 	{
 		[self mergeStyleForDomNode:childDom];
 	}
@@ -135,7 +150,7 @@
 		[domNode.shadowRoot.domStyleComputed removeAllObjects];
 		[domNode.shadowRoot.domStyleComputed addEntriesFromDictionary:shadowStyle];
 		
-		for ( SamuraiDomNode * childDom in domNode.shadowRoot.childs )
+		for ( SamuraiHtmlDomNode * childDom in domNode.shadowRoot.childs )
 		{
 			[self mergeStyleForDomNode:childDom];
 		}

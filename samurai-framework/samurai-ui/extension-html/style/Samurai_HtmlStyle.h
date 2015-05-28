@@ -48,278 +48,322 @@
 
 // object
 
-#undef	html_object
-#define	html_object( type, name ) \
+#undef	html_style_object
+#define	html_style_object( type, name ) \
 		property (nonatomic, strong) type * name
 
-#undef	def_html_object
-#define	def_html_object( type, getter, setter, key ) \
+#undef	def_html_style_object
+#define	def_html_style_object( type, getter, setter, key ) \
 		dynamic getter; \
 		- (type *)getter { return [self propertyForKey:key withClass:[type class]]; } \
 		- (void)setter:(type *)value { [self setProperty:value forKey:key withClass:[type class]]; }
 
 // number | color | function | string
 
-#undef	html_value
-#define	html_value( name ) \
-		html_object( SamuraiHtmlValue, name )
+#undef	html_style_value
+#define	html_style_value( name ) \
+		html_style_object( SamuraiHtmlValue, name )
 
-#undef	def_html_value
-#define	def_html_value( getter, setter, key ) \
-		def_html_object( SamuraiHtmlValue, getter, setter, key )
+#undef	def_html_style_value
+#define	def_html_style_value( getter, setter, key ) \
+		def_html_style_object( SamuraiHtmlValue, getter, setter, key )
 
 // number
 
-#undef	html_number
-#define	html_number( name ) \
-		html_object( SamuraiHtmlNumber, name )
+#undef	html_style_number
+#define	html_style_number( name ) \
+		html_style_object( SamuraiHtmlNumber, name )
 
-#undef	def_html_number
-#define	def_html_number( getter, setter, key ) \
-		def_html_object( SamuraiHtmlNumber, getter, setter, key )
+#undef	def_html_style_number
+#define	def_html_style_number( getter, setter, key ) \
+		def_html_style_object( SamuraiHtmlNumber, getter, setter, key )
 
 // color
 
-#undef	html_color
-#define	html_color( name ) \
-		html_object( SamuraiHtmlColor, name )
+#undef	html_style_color
+#define	html_style_color( name ) \
+		html_style_object( SamuraiHtmlColor, name )
 
-#undef	def_html_color
-#define	def_html_color( getter, setter, key ) \
-		def_html_object( SamuraiHtmlColor, getter, setter, key )
+#undef	def_html_style_color
+#define	def_html_style_color( getter, setter, key ) \
+		def_html_style_object( SamuraiHtmlColor, getter, setter, key )
 
 // function
 
-#undef	html_function
-#define	html_function( name ) \
-		html_object( SamuraiHtmlFunction, name )
+#undef	html_style_function
+#define	html_style_function( name ) \
+		html_style_object( SamuraiHtmlFunction, name )
 
-#undef	def_html_function
-#define	def_html_function( getter, setter, key ) \
-		def_html_object( SamuraiHtmlFunction, getter, setter, key )
+#undef	def_html_style_function
+#define	def_html_style_function( getter, setter, key ) \
+		def_html_style_object( SamuraiHtmlFunction, getter, setter, key )
 
 // string
 
-#undef	html_string
-#define	html_string( name ) \
-		html_object( SamuraiHtmlString, name )
+#undef	html_style_string
+#define	html_style_string( name ) \
+		html_style_object( SamuraiHtmlString, name )
 
-#undef	def_html_string
-#define	def_html_string( getter, setter, key ) \
-		def_html_object( SamuraiHtmlString, getter, setter, key )
+#undef	def_html_style_string
+#define	def_html_style_string( getter, setter, key ) \
+		def_html_style_object( SamuraiHtmlString, getter, setter, key )
 
 // box
 
-#undef	html_box
-#define	html_box( name ) \
-		html_object( SamuraiHtmlBox, name )
+#undef	html_style_box
+#define	html_style_box( name ) \
+		html_style_object( SamuraiHtmlBox, name )
 
-#undef	def_html_box
-#define	def_html_box( getter, setter, key ) \
-		def_html_object( SamuraiHtmlBox, getter, setter, key )
+#undef	def_html_style_box
+#define	def_html_style_box( getter, setter, key ) \
+		def_html_style_object( SamuraiHtmlBox, getter, setter, key )
 
 // list
 
-#undef	html_array
-#define	html_array( name ) \
-		html_object( SamuraiHtmlArray, name )
+#undef	html_style_array
+#define	html_style_array( name ) \
+		html_style_object( SamuraiHtmlArray, name )
 
-#undef	def_html_array
-#define	def_html_array( getter, setter, key ) \
-		def_html_object( SamuraiHtmlArray, getter, setter, key )
+#undef	def_html_style_array
+#define	def_html_style_array( getter, setter, key ) \
+		def_html_style_object( SamuraiHtmlArray, getter, setter, key )
 
 // size
 
-#undef	html_size
-#define	html_size( name ) \
-		html_object( SamuraiHtmlSize, name )
+#undef	html_style_size
+#define	html_style_size( name ) \
+		html_style_object( SamuraiHtmlSize, name )
 
-#undef	def_html_size
-#define	def_html_size( getter, setter, key ) \
-		def_html_object( SamuraiHtmlSize, getter, setter, key )
+#undef	def_html_style_size
+#define	def_html_style_size( getter, setter, key ) \
+		def_html_style_object( SamuraiHtmlSize, getter, setter, key )
 
 #pragma mark -
 
 typedef enum
 {
-	RenderDisplay_Inherit = 0,		/// 继承自父级
-	RenderDisplay_None,				/// 不显示
-	RenderDisplay_Block,			/// 块显示
-	RenderDisplay_Inline,			/// 行显示
-	RenderDisplay_InlineBlock,		/// 行内块显示
-	RenderDisplay_Flex,				/// 伸缩显示
-	RenderDisplay_InlineFlex		/// 行内伸缩显示
-} RenderDisplay;
+	HtmlRenderDisplay_Inherit = 0,		/// 继承自父级
+	HtmlRenderDisplay_None,				/// 不显示
+	HtmlRenderDisplay_Block,			/// 块显示
+	HtmlRenderDisplay_Inline,			/// 行显示
+	HtmlRenderDisplay_InlineBlock,		/// 行内块显示
+	HtmlRenderDisplay_Flex,				/// 伸缩显示
+	HtmlRenderDisplay_InlineFlex,		/// 行内伸缩显示
+
+	HtmlRenderDisplay_Table,			/// 此元素会作为块级表格来显示（类似 <table>），表格前后带有换行符。
+	HtmlRenderDisplay_InlineTable,		/// 此元素会作为内联表格来显示（类似 <table>），表格前后没有换行符。
+	HtmlRenderDisplay_TableRowGroup,	/// 此元素会作为一个或多个行的分组来显示（类似 <tbody>）。
+	HtmlRenderDisplay_TableHeaderGroup,	/// 此元素会作为一个或多个行的分组来显示（类似 <thead>）。
+	HtmlRenderDisplay_TableFooterGroup,	/// 此元素会作为一个或多个行的分组来显示（类似 <tfoot>）。
+	HtmlRenderDisplay_TableRow,			/// 此元素会作为一个表格行显示（类似 <tr>）。
+	HtmlRenderDisplay_TableColumnGroup,	/// 此元素会作为一个或多个列的分组来显示（类似 <colgroup>）。
+	HtmlRenderDisplay_TableColumn,		/// 此元素会作为一个单元格列显示（类似 <col>）
+	HtmlRenderDisplay_TableCell,		/// 此元素会作为一个表格单元格显示（类似 <td> 和 <th>）
+	HtmlRenderDisplay_TableCaption,		/// 此元素会作为一个表格标题显示（类似 <caption>）
+
+} HtmlRenderDisplay;
 
 typedef enum
 {
-	RenderPosition_Inherit = 0,		/// 继承自父级
-	RenderPosition_Static,			/// 默认排版
-	RenderPosition_Relative,		/// 相对于当前
-	RenderPosition_Absolute,		/// 相对于上级
-	RenderPosition_Fixed			/// 相对于屏幕
-} RenderPosition;
+	HtmlRenderPosition_Inherit = 0,		/// 继承自父级
+	HtmlRenderPosition_Static,			/// 默认排版
+	HtmlRenderPosition_Relative,		/// 相对于当前
+	HtmlRenderPosition_Absolute,		/// 相对于上级
+	HtmlRenderPosition_Fixed			/// 相对于屏幕
+} HtmlRenderPosition;
 
 typedef enum
 {
-	RenderDirection_Inherit = 0,	/// 继承自父级
-	RenderDirection_Row,			/// 水平排版
-	RenderDirection_RowReverse,		/// 水平排版（反转）
-	RenderDirection_Column,			/// 垂直排版
-	RenderDirection_ColumnReverse	/// 垂直排版（反转）
-} RenderDirection;
+	HtmlRenderDirection_Inherit = 0,	/// 继承自父级
+	HtmlRenderDirection_Row,			/// 水平排版
+	HtmlRenderDirection_RowReverse,		/// 水平排版（反转）
+	HtmlRenderDirection_Column,			/// 垂直排版
+	HtmlRenderDirection_ColumnReverse	/// 垂直排版（反转）
+} HtmlRenderDirection;
 
 typedef enum
 {
-	RenderFloating_Inherit = 0,		/// 继承自父级
-	RenderFloating_None,			/// 非浮动
-	RenderFloating_Left,			/// 左浮动
-	RenderFloating_Right			/// 右浮动
-} RenderFloating;
+	HtmlRenderFloating_Inherit = 0,		/// 继承自父级
+	HtmlRenderFloating_None,			/// 非浮动
+	HtmlRenderFloating_Left,			/// 左浮动
+	HtmlRenderFloating_Right			/// 右浮动
+} HtmlRenderFloating;
 
 typedef enum
 {
-	RenderWrap_Inherit = 0,			/// 继承自父级
-	RenderWrap_NoWrap,				/// 非浮动
-	RenderWrap_Wrap,				/// 左浮动
-	RenderWrap_WrapReverse			/// 右浮动
-} RenderWrap;
+	HtmlRenderWrap_Inherit = 0,			/// 继承自父级
+	HtmlRenderWrap_NoWrap,				/// 非浮动
+	HtmlRenderWrap_Wrap,				/// 左浮动
+	HtmlRenderWrap_WrapReverse			/// 右浮动
+} HtmlRenderWrap;
+
+typedef enum
+{
+	HtmlRenderAlign_Inherit = 0,		/// 继承自父级
+	HtmlRenderAlign_None,				/// 无效
+	HtmlRenderAlign_Left,				/// 居左对齐
+	HtmlRenderAlign_Right,				/// 居右对齐
+	HtmlRenderAlign_Center				/// 居中对齐
+} HtmlRenderAlign;
+
+typedef enum
+{
+	HtmlRenderVerticalAlign_Inherit = 0,		/// 继承自父级
+	HtmlRenderVerticalAlign_None,				/// 无效
+	HtmlRenderVerticalAlign_Baseline,			/// 默认。元素放置在父元素的基线上
+	HtmlRenderVerticalAlign_Sub,				/// 垂直对齐文本的下标
+	HtmlRenderVerticalAlign_Super,				/// 垂直对齐文本的上标
+	HtmlRenderVerticalAlign_Top,				/// 把元素的顶端与行中最高元素的顶端对齐
+	HtmlRenderVerticalAlign_TextTop,			/// 把元素的顶端与父元素字体的顶端对齐
+	HtmlRenderVerticalAlign_Middle,				/// 把此元素放置在父元素的中部
+	HtmlRenderVerticalAlign_Bottom,				/// 把元素的顶端与行中最低的元素的顶端对齐
+	HtmlRenderVerticalAlign_TextBottom			/// 把元素的底端与父元素字体的底端对齐
+} HtmlRenderVerticalAlign;
 
 #pragma mark -
 
 @interface SamuraiHtmlStyle : SamuraiRenderStyle
 
-@html_value( top );
-@html_value( left );
-@html_value( right );
-@html_value( bottom );
+@html_style_value( top );
+@html_style_value( left );
+@html_style_value( right );
+@html_style_value( bottom );
 
-@html_value( width );
-@html_value( minWidth );
-@html_value( maxWidth );
+@html_style_value( width );
+@html_style_value( minWidth );
+@html_style_value( maxWidth );
 
-@html_value( height );
-@html_value( minHeight );
-@html_value( maxHeight );
+@html_style_value( height );
+@html_style_value( minHeight );
+@html_style_value( maxHeight );
 
-@html_value( position );
-@html_value( floating );
+@html_style_value( position );
+@html_style_value( floating );
 
-@html_value( zIndex );
-@html_value( display );
-@html_value( overflow );
-@html_value( visibility );
-@html_value( opacity );
+@html_style_value( zIndex );
+@html_style_value( display );
+@html_style_value( overflow );
+@html_style_value( visibility );
+@html_style_value( opacity );
 
-@html_array( boxShadow );
+@html_style_value( boxSizing );
+@html_style_array( boxShadow );
 
-@html_value( baseline );
-@html_value( wordWrap );
-@html_value( contentMode );
+@html_style_value( baseline );
+@html_style_value( wordWrap );
+@html_style_value( contentMode );
 
-@html_value( color );
-@html_value( direction );
-@html_value( letterSpacing );
-@html_value( lineHeight );
-@html_value( textAlign );
-@html_value( textDecoration );
-@html_value( textIndent );
-@html_array( textShadow );
-@html_value( textTransform );
-@html_value( textOverflow );
-@html_value( unicodeBidi );
-@html_value( whiteSpace );
-@html_value( wordSpacing );
+@html_style_value( color );
+@html_style_value( direction );
+@html_style_value( letterSpacing );
+@html_style_value( lineHeight );
+@html_style_value( align );
+@html_style_value( verticalAlign );
+@html_style_value( textAlign );
+@html_style_value( textDecoration );
+@html_style_value( textIndent );
+@html_style_array( textShadow );
+@html_style_value( textTransform );
+@html_style_value( textOverflow );
+@html_style_value( unicodeBidi );
+@html_style_value( whiteSpace );
+@html_style_value( wordSpacing );
 
 // list
 
-@html_value( listStyleType );
-@html_value( listStyleImage );
-@html_value( listStylePosition );
+@html_style_value( listStyleType );
+@html_style_value( listStyleImage );
+@html_style_value( listStylePosition );
 
 // background
 
-@html_array( background );
-@html_value( backgroundColor );
-@html_value( backgroundImage );
+@html_style_array( background );
+@html_style_value( backgroundColor );
+@html_style_value( backgroundImage );
 
 // flex box
 
-@html_value( flex );
-@html_value( flexWrap );
-@html_value( flexFlow );
-@html_value( flexDirection );
+@html_style_value( flex );
+@html_style_value( flexWrap );
+@html_style_value( flexFlow );
+@html_style_value( flexDirection );
 
 // font
 
-@html_array( font );
-@html_array( fontFamily );
-@html_value( fontVariant );
-@html_value( fontStyle );
-@html_value( fontSize );
-@html_value( fontWeight );
+@html_style_array( font );
+@html_style_array( fontFamily );
+@html_style_value( fontVariant );
+@html_style_value( fontStyle );
+@html_style_value( fontSize );
+@html_style_value( fontWeight );
 
 // border
 
-@html_array( border );
-@html_value( borderWidth );
-@html_value( borderStyle );
-@html_value( borderColor );
+@html_style_value( borderCollapse );
+@html_style_value( borderSpacing );
 
-@html_value( borderRadius );
-@html_value( borderTopLeftRadius );
-@html_value( borderTopRightRadius );
-@html_value( borderBottomLeftRadius );
-@html_value( borderBottomRightRadius );
+@html_style_value( cellSpacing );
+@html_style_value( cellPadding );
 
-@html_array( borderTop );
-@html_value( borderTopColor );
-@html_value( borderTopStyle );
-@html_value( borderTopWidth );
+@html_style_array( border );
+@html_style_value( borderWidth );
+@html_style_value( borderStyle );
+@html_style_value( borderColor );
 
-@html_array( borderLeft );
-@html_value( borderLeftColor );
-@html_value( borderLeftStyle );
-@html_value( borderLeftWidth );
+@html_style_value( borderRadius );
+@html_style_value( borderTopLeftRadius );
+@html_style_value( borderTopRightRadius );
+@html_style_value( borderBottomLeftRadius );
+@html_style_value( borderBottomRightRadius );
 
-@html_array( borderRight );
-@html_value( borderRightColor );
-@html_value( borderRightStyle );
-@html_value( borderRightWidth );
+@html_style_array( borderTop );
+@html_style_value( borderTopColor );
+@html_style_value( borderTopStyle );
+@html_style_value( borderTopWidth );
 
-@html_array( borderBottom );
-@html_value( borderBottomColor );
-@html_value( borderBottomStyle );
-@html_value( borderBottomWidth );
+@html_style_array( borderLeft );
+@html_style_value( borderLeftColor );
+@html_style_value( borderLeftStyle );
+@html_style_value( borderLeftWidth );
+
+@html_style_array( borderRight );
+@html_style_value( borderRightColor );
+@html_style_value( borderRightStyle );
+@html_style_value( borderRightWidth );
+
+@html_style_array( borderBottom );
+@html_style_value( borderBottomColor );
+@html_style_value( borderBottomStyle );
+@html_style_value( borderBottomWidth );
 
 // margin
 
-@html_box( margin );
-@html_value( marginTop );
-@html_value( marginLeft );
-@html_value( marginRight );
-@html_value( marginBottom );
+@html_style_box( margin );
+@html_style_value( marginTop );
+@html_style_value( marginLeft );
+@html_style_value( marginRight );
+@html_style_value( marginBottom );
 
 // padding
 
-@html_box( padding );
-@html_value( paddingTop );
-@html_value( paddingLeft );
-@html_value( paddingRight );
-@html_value( paddingBottom );
+@html_style_box( padding );
+@html_style_value( paddingTop );
+@html_style_value( paddingLeft );
+@html_style_value( paddingRight );
+@html_style_value( paddingBottom );
 
 // inset
 
-@html_box( inset );
-@html_value( insetTop );
-@html_value( insetLeft );
-@html_value( insetRight );
-@html_value( insetBottom );
+@html_style_box( inset );
+@html_style_value( insetTop );
+@html_style_value( insetLeft );
+@html_style_value( insetRight );
+@html_style_value( insetBottom );
 
 // custom
 
-@html_string( renderModel );
-@html_string( renderClass );
+@html_style_string( renderModel );
+@html_style_string( renderClass );
 
 #pragma mark -
 
@@ -344,11 +388,13 @@ typedef enum
 - (UIViewContentMode)computeContentMode:(UIViewContentMode)defaultMode;
 - (UIBaselineAdjustment)computeBaselineAdjustment:(UIBaselineAdjustment)defaultMode;
 
-- (RenderWrap)computeWrap:(RenderWrap)defaultValue;
-- (RenderDisplay)computeDisplay:(RenderDisplay)defaultValue;
-- (RenderFloating)computeFloating:(RenderFloating)defaultValue;
-- (RenderPosition)computePosition:(RenderPosition)defaultValue;
-- (RenderDirection)computeDirection:(RenderDirection)defaultValue;
+- (HtmlRenderWrap)computeWrap:(HtmlRenderWrap)defaultValue;
+- (HtmlRenderAlign)computeAlign:(HtmlRenderAlign)defaultValue;
+- (HtmlRenderDisplay)computeDisplay:(HtmlRenderDisplay)defaultValue;
+- (HtmlRenderFloating)computeFloating:(HtmlRenderFloating)defaultValue;
+- (HtmlRenderPosition)computePosition:(HtmlRenderPosition)defaultValue;
+- (HtmlRenderDirection)computeDirection:(HtmlRenderDirection)defaultValue;
+- (HtmlRenderVerticalAlign)computeVerticalAlign:(HtmlRenderVerticalAlign)defaultValue;
 
 @end
 

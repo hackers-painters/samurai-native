@@ -45,7 +45,7 @@
 	BOOL _enabled;
 }
 
-@def_prop_unsafe( UITextField *,	textField );
+@def_prop_unsafe( UITextField *,			textField );
 
 - (void)dealloc
 {
@@ -367,7 +367,7 @@
 	{
 		if ( nil == self.text || 0 == self.text.length )
 		{
-			return CGSizeMake( width, 0.0f );
+			return CGSizeMake( 0.0f, 0.0f );
 		}
 		
 		NSDictionary *			attribute = [NSDictionary dictionaryWithObject:self.font forKey:NSFontAttributeName];
@@ -390,7 +390,7 @@
 	{
 		if ( nil == self.text || 0 == self.text.length )
 		{
-			return CGSizeMake( 0.0f, height );
+			return CGSizeMake( 0.0f, 0.0f );
 		}
 		
 		NSDictionary *			attribute = [NSDictionary dictionaryWithObject:self.font forKey:NSFontAttributeName];

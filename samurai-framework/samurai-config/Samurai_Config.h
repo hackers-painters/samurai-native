@@ -43,7 +43,8 @@
 // Global configuration
 // ----------------------------------
 
-#define	__SAMURAI_VERSION__	"0.1.0"		/// 框架主版本号
+#undef	__SAMURAI_VERSION__
+#define	__SAMURAI_VERSION__	"0.1.0"	/// 主版本號
 
 #if TARGET_IPHONE_SIMULATOR
 #import "Samurai_Config(Simulator).h"

@@ -74,12 +74,24 @@
 
 typedef enum
 {
-	CallFrameType_Unknown = 0,
-	CallFrameType_ObjectC = 0,
-	CallFrameType_NativeC = 0,
+	CallFrameType_Unknown = 0,	/// 未知調用棧類型
+	CallFrameType_ObjectC = 0,	/// Objective-C
+	CallFrameType_NativeC = 0,	/// C
 } CallFrameType;
 
 #pragma mark -
+
+@interface NSObject(Debug)
+
+- (void)dump;
+
+@end
+
+#pragma mark -
+
+/**
+ *  「武士」·「調用棧」
+ */
 
 @interface SamuraiCallFrame : NSObject
 
@@ -90,12 +102,31 @@ typedef enum
 @prop_strong( NSString *,		clazz );
 @prop_strong( NSString *,		method );
 
+/**
+ *  解析原始調用棧数据
+ *
+ *  @param line 调用栈原始数据
+ *
+ *  @return 調用棧對象
+ */
+
 + (id)parse:(NSString *)line;
+
+/**
+ *  创建调用栈对象
+ *
+ *  @return 调用栈对象
+ */
+
 + (id)unknown;
 
 @end
 
 #pragma mark -
+
+/**
+ *  「武士」·「調試器」
+ */
 
 @interface SamuraiDebugger : NSObject
 
@@ -103,19 +134,42 @@ typedef enum
 
 @prop_readonly( NSArray *,	callstack );
 
+/**
+ *  獲取調用棧（當前線程）
+ *
+ *  @return 調用棧對象數組
+ */
+
 - (NSArray *)callstack;
+
+/**
+ *  @brief 獲取調用棧（當前線程）
+ *
+ *  @param depth 最大棧深
+ *
+ *  @return 調用棧對象數組
+ */
+
 - (NSArray *)callstack:(NSInteger)depth;
 
+/**
+ *  軟件斷點
+ */
+
 - (void)trap;
+
+/**
+ *  打印調用棧
+ */
+
 - (void)trace;
+
+/**
+ *  打印調用棧
+ *
+ *  @param depth 最大棧深
+ */
+
 - (void)trace:(NSInteger)depth;
-
-@end
-
-#pragma mark -
-
-@interface NSObject(Debug)
-
-- (void)dump;
 
 @end

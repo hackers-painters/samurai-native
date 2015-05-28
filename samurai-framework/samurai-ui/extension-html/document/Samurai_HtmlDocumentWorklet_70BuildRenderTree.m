@@ -65,12 +65,16 @@
 		{
 			ERROR( @"Failed to render document with root dom node '%@'", document.domTree.domTag );
 		}
+		else
+		{
+			[document.renderTree dump];
+		}
 	}
 
 	return YES;
 }
 
-- (SamuraiHtmlRenderObject *)renderDomNode:(SamuraiDomNode *)domNode forContainer:(SamuraiHtmlRenderObject *)container
+- (SamuraiHtmlRenderObject *)renderDomNode:(SamuraiHtmlDomNode *)domNode forContainer:(SamuraiHtmlRenderObject *)container
 {
 	SamuraiHtmlRenderObject * renderObject = nil;
 
@@ -102,21 +106,25 @@
 	return renderObject;
 }
 
-- (SamuraiHtmlRenderObject *)renderDomNodeDocument:(SamuraiDomNode *)domNode forContainer:(SamuraiHtmlRenderObject *)container
+- (SamuraiHtmlRenderObject *)renderDomNodeDocument:(SamuraiHtmlDomNode *)domNode forContainer:(SamuraiHtmlRenderObject *)container
 {
 	SamuraiHtmlRenderObject * rootObject = [SamuraiHtmlRenderObjectViewport renderObjectWithDom:domNode andStyle:nil];
 	
 	if ( rootObject )
 	{
+		[rootObject renderWillLoad];
+
 		[rootObject applyStyle];
 
 		[self renderDomNodeElement:domNode forContainer:rootObject];
+		
+		[rootObject renderDidLoad];
 	}
 	
 	return rootObject;
 }
 
-- (SamuraiHtmlRenderObject *)renderDomNodeElement:(SamuraiDomNode *)domNode forContainer:(SamuraiHtmlRenderObject *)container
+- (SamuraiHtmlRenderObject *)renderDomNodeElement:(SamuraiHtmlDomNode *)domNode forContainer:(SamuraiHtmlRenderObject *)container
 {
 	if ( domNode.shadowRoot )
 	{
@@ -125,22 +133,31 @@
 		SamuraiHtmlStyle *			thisStyle = [SamuraiHtmlStyle renderStyle:domNode.shadowRoot.domStyleComputed];
 		SamuraiHtmlRenderObject *	thisObject = [SamuraiHtmlRenderObjectContainer renderObjectWithDom:domNode andStyle:thisStyle];
 
-		if ( container )
+		if ( thisObject )
 		{
-			[container appendNode:thisObject];
-		}
+			[thisObject renderWillLoad];
 
-		[thisObject applyStyle];
-
-		for ( SamuraiDomNode * childDom in domNode.shadowRoot.childs )
-		{
-			[self renderDomNode:childDom forContainer:thisObject];
+			if ( container )
+			{
+				[container appendNode:thisObject];
+			}
+			
+			[thisObject applyStyle];
+			
+			for ( SamuraiHtmlDomNode * childDom in domNode.shadowRoot.childs )
+			{
+				[self renderDomNode:childDom forContainer:thisObject];
+			}
+			
+			[thisObject renderDidLoad];
 		}
 		
 		return thisObject;
 	}
 	else
 	{
+	// normal dom
+		
         SamuraiHtmlStyle *			thisStyle = [SamuraiHtmlStyle renderStyle:domNode.domStyleComputed];
 		SamuraiHtmlRenderObject *	thisObject = nil;
 		
@@ -196,7 +213,7 @@
 		}
 		else if ( HtmlRenderModel_Inline == computedRenderModel )
 		{
-			for ( SamuraiDomNode * childDom in domNode.childs )
+			for ( SamuraiHtmlDomNode * childDom in domNode.childs )
 			{
 				[self renderDomNode:childDom forContainer:container];
 			}
@@ -205,43 +222,64 @@
 		{
 			thisObject = [SamuraiHtmlRenderObjectElement renderObjectWithDom:domNode andStyle:thisStyle];
 
-			if ( container )
+			if ( thisObject )
 			{
-				[container appendNode:thisObject];
+				[thisObject renderWillLoad];
+				
+				if ( container )
+				{
+					[container appendNode:thisObject];
+				}
+				
+				[thisObject applyStyle];
+				
+				[thisObject renderDidLoad];
 			}
-			
-			[thisObject applyStyle];
 		}
 		else if ( HtmlRenderModel_Container == computedRenderModel )
 		{
 			thisObject = [SamuraiHtmlRenderObjectContainer renderObjectWithDom:domNode andStyle:thisStyle];
 
-			if ( container )
+			if ( thisObject )
 			{
-				[container appendNode:thisObject];
-			}
-			
-			[thisObject applyStyle];
+				[thisObject renderWillLoad];
 
-			for ( SamuraiDomNode * childDom in domNode.childs )
-			{
-				[self renderDomNode:childDom forContainer:thisObject];
+				if ( container )
+				{
+					[container appendNode:thisObject];
+				}
+				
+				[thisObject applyStyle];
+				
+				for ( SamuraiHtmlDomNode * childDom in domNode.childs )
+				{
+					[self renderDomNode:childDom forContainer:thisObject];
+				}
+				
+				[thisObject renderDidLoad];
 			}
 		}
 		else if ( HtmlRenderModel_Table == computedRenderModel )
 		{
 			thisObject = [SamuraiHtmlRenderObjectTable renderObjectWithDom:domNode andStyle:thisStyle];
-			
-			if ( container )
-			{
-				[container appendNode:thisObject];
-			}
-			
-			[thisObject applyStyle];
 
-			for ( SamuraiDomNode * childDom in domNode.childs )
+			if ( thisObject )
 			{
-				[self renderDomNode:childDom forContainer:thisObject];
+				[thisObject renderWillLoad];
+				
+				if ( container )
+				{
+					[container appendNode:thisObject];
+				}
+				
+				[thisObject applyStyle];
+				
+				for ( SamuraiHtmlDomNode * childDom in domNode.childs )
+				{
+					[self renderDomNode:childDom forContainer:thisObject];
+				}
+				
+				[thisObject renderDidLoad];
 			}
 		}
 		else
@@ -253,22 +291,29 @@
 	}
 }
 
-- (SamuraiHtmlRenderObject *)renderDomNodeText:(SamuraiDomNode *)domNode forContainer:(SamuraiHtmlRenderObject *)container
+- (SamuraiHtmlRenderObject *)renderDomNodeText:(SamuraiHtmlDomNode *)domNode forContainer:(SamuraiHtmlRenderObject *)container
 {
 	SamuraiHtmlStyle *			thisStyle = [SamuraiHtmlStyle renderStyle:domNode.domStyleComputed];
 	SamuraiHtmlRenderObject *	thisObject = [SamuraiHtmlRenderObjectText renderObjectWithDom:domNode andStyle:thisStyle];
 
-	if ( container )
+	if ( thisObject )
 	{
-		[container appendNode:thisObject];
+		[thisObject renderWillLoad];
+
+		if ( container )
+		{
+			[container appendNode:thisObject];
+		}
+		
+		[thisObject applyStyle];
+		
+		[thisObject renderDidLoad];
 	}
-
-	[thisObject applyStyle];
-
+	
 	return thisObject;
 }
 
-- (SamuraiHtmlRenderObject *)renderDomNodeData:(SamuraiDomNode *)domNode forContainer:(SamuraiHtmlRenderObject *)container
+- (SamuraiHtmlRenderObject *)renderDomNodeData:(SamuraiHtmlDomNode *)domNode forContainer:(SamuraiHtmlRenderObject *)container
 {
 	// TODO:
 	

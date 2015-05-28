@@ -46,8 +46,9 @@
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
-	UIProgressView * progressView = [super createInstanceWithRenderer:renderer identifier:identifier];
+	UIProgressView * progressView = [[self alloc] initWithFrame:CGRectZero];
 	
+	progressView.renderer = renderer;
 	progressView.progressViewStyle = UIProgressViewStyleDefault;
 	progressView.progress = 0.0f;
 

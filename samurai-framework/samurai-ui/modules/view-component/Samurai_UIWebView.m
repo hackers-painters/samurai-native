@@ -44,7 +44,13 @@
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
-	return [super createInstanceWithRenderer:renderer identifier:identifier];
+	UIWebView * webView = [[self alloc] initWithFrame:CGRectZero];
+	
+	webView.renderer = renderer;
+	webView.scalesPageToFit = NO;
+	webView.allowsInlineMediaPlayback = YES;
+	
+	return webView;
 }
 
 #pragma mark -

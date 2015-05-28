@@ -131,7 +131,7 @@ static BOOL __enabled = NO;
 		return;
 	
 	ServiceBorderLayer * borderLayer = nil;
-
+	
 	for ( CALayer * sublayer in container.layer.sublayers )
 	{
 		if ( [sublayer isKindOfClass:[ServiceBorderLayer class]] )
@@ -140,7 +140,7 @@ static BOOL __enabled = NO;
 			break;
 		}
 	}
-
+	
 	if ( nil == borderLayer )
 	{
 		borderLayer = [[ServiceBorderLayer alloc] init];
@@ -148,13 +148,13 @@ static BOOL __enabled = NO;
 		
 		borderLayer.hidden = __enabled ? NO : YES;
 		borderLayer.frame = CGRectInset( CGRectMake( 0, 0, container.bounds.size.width, container.bounds.size.height ), 0.1f, 0.1f );
-
+		
 		borderLayer.masksToBounds = YES;
 		borderLayer.cornerRadius = container.layer.cornerRadius;
-
+		
 		[container.layer insertSublayer:borderLayer atIndex:0];
 	}
-
+	
 	SamuraiRenderObject * renderer = container.renderer;
 	
 	if ( renderer )

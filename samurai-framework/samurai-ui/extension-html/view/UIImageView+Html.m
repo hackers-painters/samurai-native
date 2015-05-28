@@ -54,7 +54,7 @@
 {
 	[super html_applyDom:dom];
 	
-	NSString * url = [dom.domAttributes objectForKey:@"src"];
+	NSString * url = [dom.attributes objectForKey:@"src"];
 	
 	if ( url && url.length )
 	{

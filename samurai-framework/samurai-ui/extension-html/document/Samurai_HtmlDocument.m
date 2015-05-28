@@ -58,6 +58,10 @@
 	SamuraiHtmlDocumentWorkflow_Render *	_reflow;
 }
 
+@def_prop_strong( NSString *,	rootTag );
+@def_prop_strong( NSString *,	headTag );
+@def_prop_strong( NSString *,	bodyTag );
+
 - (id)init
 {
 	self = [super init];
@@ -72,6 +76,11 @@
 
 - (void)dealloc
 {
+	
+	self.rootTag = nil;
+	self.headTag = nil;
+	self.bodyTag = nil;
+
 	_reparse = nil;
 	_reflow = nil;
 }
@@ -91,6 +100,23 @@
 + (NSString *)baseDirectory
 {
 	return @"/www/html";
+}
+
+#pragma mark -
+
+- (SamuraiHtmlDomNode *)getRootDomNode
+{
+	return (SamuraiHtmlDomNode *)[self.domTree getFirstElementByTagName:self.rootTag];
+}
+
+- (SamuraiHtmlDomNode *)getHeadDomNode
+{
+	return (SamuraiHtmlDomNode *)[self.domTree getFirstElementByTagName:self.headTag];
+}
+
+- (SamuraiHtmlDomNode *)getBodyDomNode
+{
+	return (SamuraiHtmlDomNode *)[self.domTree getFirstElementByTagName:self.bodyTag];
 }
 
 #pragma mark -
@@ -117,29 +143,30 @@
 
 #pragma mark -
 
-- (void)configuringForView:(UIView *)view
+- (void)configureForView:(UIView *)view
 {
 	// TODO:
 }
 
-- (void)configuringForViewController:(UIViewController *)viewController
+- (void)configureForViewController:(UIViewController *)viewController
 {
-	SamuraiDomNode * head = [self getHead];
+	SamuraiHtmlDomNode * head = [self getHeadDomNode];
 	
 	UIImage *	navbarBgImage = nil;
 	UIColor *	navbarBgColor = nil;
 	UIColor *	navbarTintColor = nil;
 	UIColor *	navbarTextColor = nil;
 	NSString *	navbarTitle = nil;
+	NSString *	navbarLogo = nil;
 
 	if ( head )
 	{
-		for ( SamuraiDomNode * child in head.childs )
+		for ( SamuraiHtmlDomNode * child in head.childs )
 		{
 			if ( NSOrderedSame == [child.domTag compare:@"meta" options:NSCaseInsensitiveSearch] )
 			{
-				NSString * name = [child.domAttributes objectForKey:@"name"];
-				NSString * content = [child.domAttributes objectForKey:@"content"];
+				NSString * name = [child.attributes objectForKey:@"name"];
+				NSString * content = [child.attributes objectForKey:@"content"];
 				
 				if ( name && content )
 				{
@@ -158,6 +185,16 @@
 					else if ( [name isEqualToString:@"navbar-text-color"] )
 					{
 						navbarTextColor = [SamuraiHtmlColor parseColor:content];
+					}
+					else if ( [name isEqualToString:@"navbar-logo"] )
+					{
+						NSString * prefix = @"url(";
+						NSString * suffix = @")";
+						
+						if ( [content hasPrefix:prefix] && [content hasSuffix:suffix] )
+						{
+							navbarLogo = [content substringWithRange:NSMakeRange(prefix.length, content.length - prefix.length - suffix.length)];
+						}
 					}
 				}
 			}
@@ -197,10 +234,35 @@
 		[navigationBar setBackgroundImage:navbarBgImage forBarPosition:UIBarPositionTopAttached barMetrics:UIBarMetricsDefault];
 	}
 	
-	if ( navbarTitle )
+	if ( navbarLogo )
 	{
-		viewController.title = navbarTitle;
+		UIImageView * imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:navbarLogo]];
+		imageView.contentMode = UIViewContentModeScaleAspectFit;
+		imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		
+		viewController.navigationItem.title = nil;
+		viewController.navigationItem.titleView = imageView;
 	}
+	else
+	{
+		if ( navbarTitle )
+		{
+			viewController.navigationItem.title = navbarTitle;
+			viewController.navigationItem.titleView = nil;
+		}
+		else
+		{
+			viewController.navigationItem.title = nil;
+			viewController.navigationItem.titleView = nil;
+		}	
+	}
+}
+
+#pragma mark -
+
+- (NSString *)uniqueIdentifier
+{
+	return [NSString stringWithFormat:@"%@-%@", self.domTree.domTag, self.renderTree.id];
 }
 
 @end

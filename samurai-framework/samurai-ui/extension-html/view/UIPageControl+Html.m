@@ -54,11 +54,11 @@
 {
 	[super html_applyDom:dom];
 	
-	NSInteger count = [[dom.domAttributes objectForKey:@"pages"] integerValue];
-	NSInteger current = [[dom.domAttributes objectForKey:@"current"] integerValue];
+	NSInteger count = [[dom.attributes objectForKey:@"pages"] integerValue];
+	NSInteger current = [[dom.attributes objectForKey:@"current"] integerValue];
 
-	NSString * minCount = [dom.domAttributes objectForKey:@"min-pages"];
-	NSString * maxCount = [dom.domAttributes objectForKey:@"max-pages"];
+	NSString * minCount = [dom.attributes objectForKey:@"min-pages"];
+	NSString * maxCount = [dom.attributes objectForKey:@"max-pages"];
 
 	if ( minCount )
 	{
@@ -121,7 +121,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	NSObject * oldValue = [change objectForKey:@"old"];
+//	NSObject * oldValue = [change objectForKey:@"old"];
 	NSObject * newValue = [change objectForKey:@"new"];
 	
 	if ( newValue )

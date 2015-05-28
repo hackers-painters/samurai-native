@@ -335,11 +335,6 @@ static void __uncaughtSignalHandler( int signal )
 
 - (void)dump
 {
-#if __SAMURAI_DEBUG__
-	
-	INFO( [self description] );
-	
-#endif	// #if __SAMURAI_DEBUG__
 }
 
 @end

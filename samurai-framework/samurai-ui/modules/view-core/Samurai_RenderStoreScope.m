@@ -536,13 +536,20 @@ BASE_CLASS( SamuraiRenderStoreScope )
 
 #pragma mark -
 
+- (NSString *)description
+{
+	[[SamuraiLogger sharedInstance] outputCapture];
+	
+	[self dump];
+	
+	[[SamuraiLogger sharedInstance] outputRelease];
+	
+	return [SamuraiLogger sharedInstance].output;
+}
+
 - (void)dump
 {
-#if __SAMURAI_DEBUG__
-	
 	[self.storeTree dump];
-	
-#endif	// #if __SAMURAI_DEBUG__
 }
 
 @end

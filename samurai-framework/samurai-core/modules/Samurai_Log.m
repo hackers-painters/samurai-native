@@ -215,7 +215,7 @@ static void __NSLog( NSString * format, ... )
 {
 	if ( _capture > 0 )
 	{
-		_capture += 1;
+		_capture -= 1;
 	}
 }
 

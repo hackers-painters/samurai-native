@@ -53,13 +53,33 @@ typedef enum
 
 @interface NSObject(Encoding)
 
+/**
+ *  對象編碼
+ *
+ *  @param type 目標編碼類型
+ *
+ *  @return 編碼後的對象
+ */
+
 - (NSObject *)converToType:(EncodingType)type;
 
 @end
 
 #pragma mark -
 
+/**
+ *  「武士」·「編碼器」
+ */
+
 @interface SamuraiEncoding : NSObject
+
+/**
+ *  判斷對象屬性是否為只讀？
+ *
+ *  @param attr 屬性名稱
+ *
+ *  @return YES或NO
+ */
 
 + (BOOL)isReadOnly:(const char *)attr;
 

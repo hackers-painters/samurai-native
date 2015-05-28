@@ -63,12 +63,14 @@
 	return HtmlRenderModel_Element;
 }
 
+#pragma mark -
+
 - (void)html_applyBorder:(SamuraiHtmlStyle *)style
 {
 	CGFloat thinSize = 1.0f;
 	CGFloat mediumSize = 3.0f;
 	CGFloat thickSize = 5.0f;
-	
+
 // border:5px solid red
 
 	{
@@ -142,7 +144,7 @@
 		
 		if ( aroundWidth <= 0.0f )
 		{
-			if ( borderStyle || borderColor )
+			if ( borderStyle /* || borderColor */ )
 			{
 				aroundWidth = mediumSize;
 			}
@@ -245,7 +247,7 @@
 
 		if ( topWidth <= 0.0f )
 		{
-			if ( borderTopStyle || borderTopColor )
+			if ( borderTopStyle /*|| borderTopColor*/ )
 			{
 				topWidth = mediumSize;
 			}
@@ -264,6 +266,8 @@
 			self.topBorder.backgroundColor = topColor;
 			self.topBorder.lineWidth = topWidth;
 			self.topBorder.hidden = NO;
+			
+			[self html_applyTopBorderFrame];
 		}
 		else
 		{
@@ -340,7 +344,7 @@
 		
 		if ( leftWidth <= 0.0f )
 		{
-			if ( borderLeftStyle || borderLeftColor )
+			if ( borderLeftStyle /*|| borderLeftColor*/ )
 			{
 				leftWidth = mediumSize;
 			}
@@ -359,6 +363,8 @@
 			self.leftBorder.backgroundColor = leftColor;
 			self.leftBorder.lineWidth = leftWidth;
 			self.leftBorder.hidden = NO;
+			
+			[self html_applyLeftBorderFrame];
 		}
 		else
 		{
@@ -395,7 +401,7 @@
 				borderRightStyle = borderRightStyle ?: borderItem;
 			}
 		}
-		
+
 		BOOL		rightHidden = NO;
 		CGFloat		rightWidth = 0.0f;
 		UIColor *	rightColor = [UIColor clearColor];
@@ -435,7 +441,7 @@
 		
 		if ( rightWidth <= 0.0f )
 		{
-			if ( borderRightStyle || borderRightColor )
+			if ( borderRightStyle /*|| borderRightColor*/ )
 			{
 				rightWidth = mediumSize;
 			}
@@ -454,6 +460,8 @@
 			self.rightBorder.backgroundColor = rightColor;
 			self.rightBorder.lineWidth = rightWidth;
 			self.rightBorder.hidden = NO;
+			
+			[self html_applyRightBorderFrame];
 		}
 		else
 		{
@@ -530,12 +538,12 @@
 		
 		if ( bottomWidth <= 0.0f )
 		{
-			if ( borderBottomStyle || borderBottomColor )
+			if ( borderBottomStyle /*|| borderBottomColor*/ )
 			{
 				bottomWidth = mediumSize;
 			}
 		}
-		
+
 		if ( NO == bottomHidden && bottomWidth > 0.0f )
 		{
 			if ( nil == self.bottomBorder )
@@ -549,6 +557,8 @@
 			self.bottomBorder.backgroundColor = bottomColor;
 			self.bottomBorder.lineWidth = bottomWidth;
 			self.bottomBorder.hidden = NO;
+
+			[self html_applyBottomBorderFrame];
 		}
 		else
 		{
@@ -756,7 +766,7 @@
 
 #pragma mark -
 
-- (NSString *)parseSignal:(NSString *)property
+- (NSString *)html_parseSignal:(NSString *)property
 {
 	NSString * prefix = @"signal(";
 	NSString * suffix = @")";
@@ -776,25 +786,25 @@
 {
 	[super html_applyDom:dom];
 	
-	NSString * onClick		= [dom.domAttributes objectForKey:@"onclick"];
-	NSString * onSwipe		= [dom.domAttributes objectForKey:@"onswipe"];
-	NSString * onSwipeLeft	= [dom.domAttributes objectForKey:@"onswipe-left"];
-	NSString * onSwipeRight	= [dom.domAttributes objectForKey:@"onswipe-right"];
-	NSString * onSwipeUp	= [dom.domAttributes objectForKey:@"onswipe-up"];
-	NSString * onSwipeDown	= [dom.domAttributes objectForKey:@"onswipe-down"];
-	NSString * onPinch		= [dom.domAttributes objectForKey:@"onpinch"];
-	NSString * onPan		= [dom.domAttributes objectForKey:@"onpan"];
+	NSString * onClick		= [dom.attributes objectForKey:@"onclick"];
+	NSString * onSwipe		= [dom.attributes objectForKey:@"onswipe"];
+	NSString * onSwipeLeft	= [dom.attributes objectForKey:@"onswipe-left"];
+	NSString * onSwipeRight	= [dom.attributes objectForKey:@"onswipe-right"];
+	NSString * onSwipeUp	= [dom.attributes objectForKey:@"onswipe-up"];
+	NSString * onSwipeDown	= [dom.attributes objectForKey:@"onswipe-down"];
+	NSString * onPinch		= [dom.attributes objectForKey:@"onpinch"];
+	NSString * onPan		= [dom.attributes objectForKey:@"onpan"];
 
 	if ( onClick )
 	{
-		NSString * signal = [self parseSignal:onClick];
+		NSString * signal = [self html_parseSignal:onClick];
 		
 		[self enableTapGestureWithSignal:signal];
 	}
 
 	if ( onSwipe )
 	{
-		NSString * signal = [self parseSignal:onSwipe];
+		NSString * signal = [self html_parseSignal:onSwipe];
 
 		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionUp withSignal:signal];
 		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionDown withSignal:signal];
@@ -804,77 +814,99 @@
 
 	if ( onSwipeLeft )
 	{
-		NSString * signal = [self parseSignal:onSwipeLeft];
+		NSString * signal = [self html_parseSignal:onSwipeLeft];
 		
 		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionLeft withSignal:signal];
 	}
 
 	if ( onSwipeRight )
 	{
-		NSString * signal = [self parseSignal:onSwipeRight];
+		NSString * signal = [self html_parseSignal:onSwipeRight];
 		
 		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionRight withSignal:signal];
 	}
 
 	if ( onSwipeUp )
 	{
-		NSString * signal = [self parseSignal:onSwipeUp];
+		NSString * signal = [self html_parseSignal:onSwipeUp];
 		
 		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionUp withSignal:signal];
 	}
 
 	if ( onSwipeDown )
 	{
-		NSString * signal = [self parseSignal:onSwipeDown];
+		NSString * signal = [self html_parseSignal:onSwipeDown];
 		
 		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionDown withSignal:signal];
 	}
 
 	if ( onPinch )
 	{
-		NSString * signal = [self parseSignal:onPinch];
+		NSString * signal = [self html_parseSignal:onPinch];
 		
 		[self enablePinchGestureWithSignal:signal];
 	}
 
 	if ( onPan )
 	{
-		NSString * signal = [self parseSignal:onPan];
+		NSString * signal = [self html_parseSignal:onPan];
 		
 		[self enablePanGestureWithSignal:signal];
 	}
 }
 
+#pragma mark -
+
 - (void)html_applyFrame:(CGRect)newFrame
 {
 	[super html_applyFrame:newFrame];
 
+	[self html_applyTopBorderFrame:newFrame];
+	[self html_applyLeftBorderFrame:newFrame];
+	[self html_applyRightBorderFrame:newFrame];
+	[self html_applyBottomBorderFrame:newFrame];
+}
+
+- (void)html_applyTopBorderFrame
+{
+	[self html_applyTopBorderFrame:self.frame];
+}
+
+- (void)html_applyTopBorderFrame:(CGRect)newFrame
+{
 	UIBorderView * topBorder = self.topBorder;
-	UIBorderView * leftBorder = self.leftBorder;
-	UIBorderView * rightBorder = self.rightBorder;
-	UIBorderView * bottomBorder = self.bottomBorder;
 	
 	if ( topBorder )
 	{
 		CGRect topFrame;
 		
 		topFrame.origin.x = 0.0f;
-		topFrame.origin.y = -1.0f * topBorder.lineWidth;
+		topFrame.origin.y = 0.0f; // -1.0f * topBorder.lineWidth;
 		topFrame.size.width = newFrame.size.width;
 		topFrame.size.height = topBorder.lineWidth;
-		
+
 		topBorder.frame = topFrame;
 		
 		[topBorder.superview bringSubviewToFront:topBorder];
 		[topBorder setNeedsDisplay];
 	}
+}
+
+- (void)html_applyBottomBorderFrame
+{
+	[self html_applyBottomBorderFrame:self.frame];
+}
+
+- (void)html_applyBottomBorderFrame:(CGRect)newFrame
+{
+	UIBorderView * bottomBorder = self.bottomBorder;
 
 	if ( bottomBorder )
 	{
 		CGRect bottomFrame;
 		
 		bottomFrame.origin.x = 0.0f;
-		bottomFrame.origin.y = newFrame.size.height;
+		bottomFrame.origin.y = newFrame.size.height - bottomBorder.lineWidth; // newFrame.size.height;
 		bottomFrame.size.width = newFrame.size.width;
 		bottomFrame.size.height = bottomBorder.lineWidth;
 		
@@ -883,12 +915,22 @@
 		[bottomBorder.superview bringSubviewToFront:bottomBorder];
 		[bottomBorder setNeedsDisplay];
 	}
+}
 
+- (void)html_applyLeftBorderFrame
+{
+	[self html_applyLeftBorderFrame:self.frame];
+}
+
+- (void)html_applyLeftBorderFrame:(CGRect)newFrame
+{
+	UIBorderView * leftBorder = self.leftBorder;
+	
 	if ( leftBorder )
 	{
 		CGRect leftFrame;
 		
-		leftFrame.origin.x = -1.0f * leftBorder.lineWidth;
+		leftFrame.origin.x = 0.0f; // -1.0f * leftBorder.lineWidth;
 		leftFrame.origin.y = 0.0f;
 		leftFrame.size.width = leftBorder.lineWidth;
 		leftFrame.size.height = newFrame.size.height;
@@ -898,12 +940,22 @@
 		[leftBorder.superview bringSubviewToFront:leftBorder];
 		[leftBorder setNeedsDisplay];
 	}
+}
 
+- (void)html_applyRightBorderFrame
+{
+	[self html_applyRightBorderFrame:self.frame];
+}
+
+- (void)html_applyRightBorderFrame:(CGRect)newFrame
+{
+	UIBorderView * rightBorder = self.rightBorder;
+	
 	if ( rightBorder )
 	{
 		CGRect rightFrame;
 		
-		rightFrame.origin.x = newFrame.size.width;
+		rightFrame.origin.x = newFrame.size.width - rightBorder.lineWidth; // newFrame.size.width;
 		rightFrame.origin.y = 0.0f;
 		rightFrame.size.width = rightBorder.lineWidth;
 		rightFrame.size.height = newFrame.size.height;
@@ -914,6 +966,8 @@
 		[rightBorder setNeedsDisplay];
 	}
 }
+
+#pragma mark -
 
 - (void)html_forView:(UIView *)hostView
 {

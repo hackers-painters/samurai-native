@@ -193,6 +193,10 @@
 		def_prop_custom( type, name, setName, retain ) \
 		+ (NSString *)property_##name { return macro_string( macro_join(__VA_ARGS__) ); }
 
+#define def_prop_dynamic_unsafe( type, name, setName, ... ) \
+		def_prop_custom( type, name, setName, assign ) \
+		+ (NSString *)property_##name { return macro_string( macro_join(__VA_ARGS__) ); }
+
 #define def_prop_dynamic_weak( type, name, setName, ... ) \
 		def_prop_custom( type, name, setName, assign ) \
 		+ (NSString *)property_##name { return macro_string( macro_join(__VA_ARGS__) ); }

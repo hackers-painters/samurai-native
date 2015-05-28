@@ -44,6 +44,30 @@
 
 @implementation SamuraiHtmlRenderObjectElement
 
++ (instancetype)renderObjectWithDom:(SamuraiHtmlDomNode *)dom andStyle:(SamuraiHtmlStyle *)style
+{
+	SamuraiHtmlRenderObjectElement * renderObject = [super renderObjectWithDom:dom andStyle:style];
+	
+	return renderObject;
+}
+
+#pragma mark -
+
+- (id)init
+{
+	self = [super init];
+	if ( self )
+	{
+	}
+	return self;
+}
+
+- (void)dealloc
+{
+}
+
+#pragma mark -
+
 + (Class)defaultViewClass
 {
 	return [HtmlElement class];
@@ -63,11 +87,115 @@
 
 #pragma mark -
 
+- (void)renderWillLoad
+{
+	[super renderWillLoad];
+}
+
+- (void)renderDidLoad
+{
+	[super renderDidLoad];
+}
+
+#pragma mark -
+
+- (BOOL)layoutShouldWrapLine
+{
+	return [super layoutShouldWrapLine];
+}
+
+- (BOOL)layoutShouldWrapBefore
+{
+	return [super layoutShouldWrapBefore];
+}
+
+- (BOOL)layoutShouldWrapAfter
+{
+	return [super layoutShouldWrapAfter];
+}
+
+- (BOOL)layoutShouldBoundsToWindow
+{
+	return [super layoutShouldBoundsToWindow];
+}
+
+- (BOOL)layoutShouldCenteringInRow
+{
+	return [super layoutShouldCenteringInRow];
+}
+
+- (BOOL)layoutShouldCenteringInCol
+{
+	return [super layoutShouldCenteringInCol];
+}
+
+- (BOOL)layoutShouldPositioningChildren
+{
+	return [super layoutShouldPositioningChildren];
+}
+
+- (BOOL)layoutShouldArrangedInRow
+{
+	return [super layoutShouldArrangedInRow];
+}
+
+- (BOOL)layoutShouldArrangedInCol
+{
+	return [super layoutShouldArrangedInCol];
+}
+
+- (BOOL)layoutShouldArrangedReverse
+{
+	return [super layoutShouldArrangedReverse];
+}
+
+- (BOOL)layoutShouldHorizontalAlign
+{
+	return [super layoutShouldHorizontalAlign];
+}
+
+- (BOOL)layoutShouldHorizontalAlignLeft
+{
+	return [super layoutShouldHorizontalAlignLeft];
+}
+
+- (BOOL)layoutShouldHorizontalAlignRight
+{
+	return [super layoutShouldHorizontalAlignRight];
+}
+
+- (BOOL)layoutShouldHorizontalAlignCenter
+{
+	return [super layoutShouldHorizontalAlignCenter];
+}
+
+- (BOOL)layoutShouldVerticalAlign
+{
+	return [super layoutShouldVerticalAlign];
+}
+
+- (BOOL)layoutShouldVerticalAlignTop
+{
+	return [super layoutShouldVerticalAlignTop];
+}
+
+- (BOOL)layoutShouldVerticalAlignMiddle
+{
+	return [super layoutShouldVerticalAlignMiddle];
+}
+
+- (BOOL)layoutShouldVerticalAlignBottom
+{
+	return [super layoutShouldVerticalAlignBottom];
+}
+
+#pragma mark -
+
 - (CGRect)computeFrame:(CGSize)bound origin:(CGPoint)origin
 {
 	DEBUG_RENDERER_LAYOUT( self );
 
-	if ( RenderDisplay_None == self.display )
+	if ( HtmlRenderDisplay_None == self.display )
 	{
 		return [self zerolizeFrame];
 	}
@@ -101,409 +229,207 @@
 
 // compute width/height
 	
-	CGRect computedFrame;
- 
-	computedFrame.origin = CGPointZero; // bound.origin;
-	computedFrame.size = bound;
+	CGSize computedSize = bound;
 
-	if ( [self.style.width isNumber] )
+	if ( self.style.width )
 	{
-		computedFrame.size.width = [self.style.width computeValue:bound.width];
+		if ( [self.style.width isNumber] )
+		{
+			computedSize.width = [self.style.width computeValue:bound.width];
+		}
 	}
-
-	if ( [self.style.height isNumber] )
+	
+	if ( self.style.height )
 	{
-		computedFrame.size.height = [self.style.height computeValue:bound.height];
+		if ( [self.style.height isNumber] )
+		{
+			computedSize.height = [self.style.height computeValue:bound.height];
+		}
 	}
 	
 // compute function
 	
-	if ( [self.style.width isFunction:@"equals"] )
+	if ( self.style.width )
 	{
-		NSString * firstParam = [[self.style.width params] firstObject];
-		
-		if ( [firstParam isEqualToString:@"height"] )
+		if ( [self.style.width isFunction:@"equals"] )
 		{
-			computedFrame.size.width = computedFrame.size.height;
+			NSString * firstParam = [[self.style.width params] firstObject];
+			
+			if ( [firstParam isEqualToString:@"height"] )
+			{
+				computedSize.width = computedSize.height;
+			}
 		}
 	}
 	
-	if ( [self.style.height isFunction:@"equals"] )
+	if ( self.style.height )
 	{
-		NSString * firstParam = [[self.style.height params] firstObject];
-		
-		if ( [firstParam isEqualToString:@"width"] )
+		if ( [self.style.height isFunction:@"equals"] )
 		{
-			computedFrame.size.height = computedFrame.size.width;
+			NSString * firstParam = [[self.style.height params] firstObject];
+			
+			if ( [firstParam isEqualToString:@"width"] )
+			{
+				computedSize.height = computedSize.width;
+			}
 		}
 	}
 
-// compute border/margin/padding
-
-	UIEdgeInsets computedInset = [self computeInset:computedFrame.size];
-	UIEdgeInsets computedBorder = [self computeBorder:computedFrame.size];
-	UIEdgeInsets computedMargin = [self computeMargin:computedFrame.size];
-	UIEdgeInsets computedPadding = [self computePadding:computedFrame.size];
-
-// compute size
-	
-	if ( INVALID_VALUE == computedFrame.size.width && INVALID_VALUE == computedFrame.size.height )
-	{
-		computedFrame.size = [self.view computeSizeBySize:computedFrame.size];
-	}
-	else if ( INVALID_VALUE == computedFrame.size.width )
-	{
-		computedFrame.size.width = [self.view computeSizeByHeight:computedFrame.size.height].width;
-	}
-	else if ( INVALID_VALUE == computedFrame.size.height )
-	{
-		computedFrame.size.height = [self.view computeSizeByWidth:computedFrame.size.width].height;
-	}
-	
-// compute function
-	
-	if ( [self.style.width isFunction:@"equals"] )
-	{
-		NSString * firstParam = [[self.style.width params] firstObject];
-		
-		if ( [firstParam isEqualToString:@"height"] )
-		{
-			computedFrame.size.width = computedFrame.size.height;
-		}
-	}
-	
-	if ( [self.style.height isFunction:@"equals"] )
-	{
-		NSString * firstParam = [[self.style.height params] firstObject];
-		
-		if ( [firstParam isEqualToString:@"width"] )
-		{
-			computedFrame.size.height = computedFrame.size.width;
-		}
-	}
-	
-// normalize value
-	
-	computedFrame.origin.x = NORMALIZE_VALUE( computedFrame.origin.x );
-	computedFrame.origin.y = NORMALIZE_VALUE( computedFrame.origin.y );
-	computedFrame.size.width = NORMALIZE_VALUE( computedFrame.size.width );
-	computedFrame.size.height = NORMALIZE_VALUE( computedFrame.size.height );
-	
 // compute min/max size
 	
 	if ( self.style.minWidth )
 	{
-		if ( INVALID_VALUE != minWidth && computedFrame.size.width < minWidth )
+		if ( INVALID_VALUE != minWidth && computedSize.width < minWidth )
 		{
-			computedFrame.size.width = minWidth;
+			computedSize.width = minWidth;
 		}
 	}
 	
 	if ( self.style.minHeight )
 	{
-		if ( INVALID_VALUE != minHeight && computedFrame.size.height < minHeight )
+		if ( INVALID_VALUE != minHeight && computedSize.height < minHeight )
 		{
-			computedFrame.size.height = minHeight;
+			computedSize.height = minHeight;
 		}
 	}
 	
 	if ( self.style.maxWidth )
 	{
-		if ( INVALID_VALUE != maxWidth && computedFrame.size.width > maxWidth )
+		if ( INVALID_VALUE != maxWidth && computedSize.width > maxWidth )
 		{
-			computedFrame.size.width = maxWidth;
+			computedSize.width = maxWidth;
 		}
 	}
 	
 	if ( self.style.maxHeight )
 	{
-		if ( INVALID_VALUE != maxHeight && computedFrame.size.height > maxHeight )
+		if ( INVALID_VALUE != maxHeight && computedSize.height > maxHeight )
 		{
-			computedFrame.size.height = maxHeight;
+			computedSize.height = maxHeight;
 		}
 	}
 
-//// re-compute border/margin/padding
-//
-//	computedBorder = [self computeBorder:computedFrame.size];
-//	computedMargin = [self computeMargin:computedFrame.size];
-//	computedPadding = [self computePadding:computedFrame.size];
+// compute border/margin/padding
 
-// re-compute border/margin/padding
+	UIEdgeInsets computedInset = [self computeInset:computedSize];
+	UIEdgeInsets computedBorder = [self computeBorder:computedSize];
+	UIEdgeInsets computedMargin = [self computeMargin:computedSize];
+	UIEdgeInsets computedPadding = [self computePadding:computedSize];
+
+// compute size
 	
-	if ( [self layoutShouldPositioningChildren] )
+	if ( INVALID_VALUE == computedSize.width && INVALID_VALUE == computedSize.height )
 	{
-	// compute offset
-		
-		for ( SamuraiHtmlRenderObject * child in self.childs )
+		computedSize = [self.view computeSizeBySize:computedSize];
+	}
+	else if ( INVALID_VALUE == computedSize.width )
+	{
+		computedSize.width = [self.view computeSizeByHeight:computedSize.height].width;
+	}
+	else if ( INVALID_VALUE == computedSize.height )
+	{
+		computedSize.height = [self.view computeSizeByWidth:computedSize.width].height;
+	}
+	
+// compute function
+	
+	if ( self.style.width )
+	{
+		if ( [self.style.width isFunction:@"equals"] )
 		{
-			if ( RenderFloating_None != child.floating )
-				continue;
+			NSString * firstParam = [[self.style.width params] firstObject];
 			
-			if ( RenderDisplay_None == child.display )
-				continue;
-			
-			if ( RenderPosition_Static == child.position )
-				continue;
-
-			if ( RenderPosition_Relative == child.position )
+			if ( [firstParam isEqualToString:@"height"] )
 			{
-				UIEdgeInsets	childOffset = [child computeOffset:computedFrame.size];
-			//	UIEdgeInsets	childMargin = [child computeMargin:computedFrame.size];
-				
-				childOffset.top = NORMALIZE_VALUE( childOffset.top );
-				childOffset.left = NORMALIZE_VALUE( childOffset.left );
-				childOffset.right = NORMALIZE_VALUE( childOffset.right );
-				childOffset.bottom = NORMALIZE_VALUE( childOffset.bottom );
-
-				CGRect childBounds = child.frame;
-				
-				childBounds.origin.x += childOffset.left;
-				childBounds.origin.x -= childOffset.right;
-				childBounds.origin.y += childOffset.top;
-				childBounds.origin.y -= childOffset.bottom;
-				
-//				childBounds.origin.x += computedPadding.left;
-//				childBounds.origin.y += computedPadding.top;
-//				childBounds.origin.x += computedBorder.left;
-//				childBounds.origin.y += computedBorder.top;
-				
-				child.frame = childBounds;
+				computedSize.width = computedSize.height;
 			}
-			else if ( RenderPosition_Absolute == child.position )
-			{
-				CGPoint childOrigin;
-				
-				childOrigin.x = computedMargin.left;
-				childOrigin.y = computedMargin.top;
-				
-				childOrigin.x += computedPadding.left;
-				childOrigin.y += computedPadding.top;
-				
-			//	childOrigin.x += computedBorder.left;
-			//	childOrigin.y += computedBorder.top;
-				
-				CGRect			childBounds = [child computeFrame:computedFrame.size origin:childOrigin];
-				UIEdgeInsets	childOffset = [child computeOffset:computedFrame.size];
-				UIEdgeInsets	childMargin = [child computeMargin:computedFrame.size];
-
-				childBounds.origin.x = NORMALIZE_VALUE( childBounds.origin.x );
-				childBounds.origin.y = NORMALIZE_VALUE( childBounds.origin.y );
-				childBounds.size.width = NORMALIZE_VALUE( childBounds.size.width );
-				childBounds.size.height = NORMALIZE_VALUE( childBounds.size.height );
-				
-				childOffset.top = NORMALIZE_VALUE( childOffset.top );
-				childOffset.left = NORMALIZE_VALUE( childOffset.left );
-				childOffset.right = NORMALIZE_VALUE( childOffset.right );
-				childOffset.bottom = NORMALIZE_VALUE( childOffset.bottom );
-				
-				childMargin.top = NORMALIZE_VALUE( childMargin.top );
-				childMargin.left = NORMALIZE_VALUE( childMargin.left );
-				childMargin.right = NORMALIZE_VALUE( childMargin.right );
-				childMargin.bottom = NORMALIZE_VALUE( childMargin.bottom );
-
-				if ( child.style.left )
-				{
-					childBounds.origin.x = computedFrame.origin.x + childOffset.left;
-					childBounds.origin.x += computedPadding.left;
-					childBounds.origin.x += computedBorder.left;
-				}
-				else if ( child.style.right )
-				{
-					childBounds.origin.x = (computedFrame.origin.x + computedFrame.size.width) - (childMargin.right + childBounds.size.width + childOffset.right);
-					childBounds.origin.x -= computedPadding.right;
-					childBounds.origin.x -= computedBorder.right;
-				}
-				
-				if ( child.style.top )
-				{
-					childBounds.origin.y = computedFrame.origin.y + childOffset.top;
-					childBounds.origin.y += computedPadding.top;
-					childBounds.origin.y += computedBorder.top;
-				}
-				else if ( child.style.bottom )
-				{
-					childBounds.origin.y = (computedFrame.origin.y + computedFrame.size.height) - (childMargin.bottom + childBounds.size.height + childOffset.bottom);
-					childBounds.origin.y -= computedPadding.bottom;
-					childBounds.origin.y -= computedBorder.bottom;
-				}
-				
-				child.frame = childBounds;
-			}
-			else if ( RenderPosition_Fixed == child.position )
-			{
-				TODO( "fixed" )
-			}
-		}
-		
-	// compute floating
-		
-		CGRect floatingWindow = computedFrame;
-		
-		floatingWindow.origin.x += computedMargin.left;
-		floatingWindow.origin.y += computedMargin.top;
-		floatingWindow.origin.x += computedPadding.left;
-		floatingWindow.origin.y += computedPadding.top;
-		floatingWindow.origin.x += computedBorder.left;
-		floatingWindow.origin.y += computedBorder.top;
-		
-		CGFloat floatingLeft = floatingWindow.origin.x;
-		CGFloat floatingRight = floatingWindow.origin.x + floatingWindow.size.width;
-	 
-		floatingRight -= (computedPadding.right + computedPadding.left);
-		floatingRight -= (computedBorder.right + computedBorder.left);
-		
-		for ( SamuraiHtmlRenderObject * child in self.childs )
-		{
-			if ( RenderFloating_None == child.floating )
-				continue;
-			
-			if ( RenderDisplay_None == child.display )
-				continue;
-			
-			if ( RenderFloating_Left == child.floating )
-			{
-				CGRect childWindow = [child computeFrame:floatingWindow.size origin:CGPointZero];
-				CGRect childBounds = child.frame;
-				
-				childBounds.origin.x = floatingLeft;
-			//	childBounds.origin.y += computedMargin.top;
-			//	childBounds.origin.y += computedBorder.top;
-				childBounds.origin.y += computedPadding.top;
-				
-				child.frame = childBounds;
-				
-				floatingLeft += childWindow.size.width;
-			}
-			else if ( RenderFloating_Right == child.floating )
-			{
-				CGRect childWindow = [child computeFrame:floatingWindow.size origin:CGPointZero];
-				CGRect childBounds = child.frame;
-
-				floatingRight -= childWindow.size.width;
-
-				childBounds.origin.x = floatingRight;
-			//	childBounds.origin.y += computedMargin.top;
-			//	childBounds.origin.y += computedBorder.top;
-				childBounds.origin.y += computedPadding.top;
-				
-				child.frame = childBounds;
-			}
-		}
-		
-		// compute margin: 0 auto
-		
-		CGRect alignBound = computedFrame;
-		
-		alignBound.size.width += computedPadding.left;
-		alignBound.size.width += computedPadding.right;
-		alignBound.size.height += computedPadding.top;
-		alignBound.size.height += computedPadding.bottom;
-		
-		alignBound.size.width += computedBorder.left;
-		alignBound.size.width += computedBorder.right;
-		alignBound.size.height += computedBorder.top;
-		alignBound.size.height += computedBorder.bottom;
-		
-		for ( SamuraiHtmlRenderObject * child in self.childs )
-		{
-			if ( RenderFloating_None != child.floating )
-				continue;
-			
-			if ( RenderDisplay_None == child.display )
-				continue;
-
-			CGRect childBounds = child.frame;
-
-			if ( [child layoutShouldCenteringInRow] )
-			{
-				childBounds.origin.x = (alignBound.size.width - childBounds.size.width) / 2.0f;
-			}
-
-			if ( [child layoutShouldCenteringInCol] )
-			{
-				childBounds.origin.y = (alignBound.size.height - childBounds.size.height) / 2.0f;
-			}
-
-			child.frame = childBounds;
 		}
 	}
 
-// compute inner bounds
-	
-	CGRect innerBound = computedFrame;
-	
-	innerBound.origin.x += origin.x;
-	innerBound.origin.y += origin.y;
-	innerBound.origin.x += computedMargin.left;
-	innerBound.origin.y += computedMargin.top;
+	if ( self.style.height )
+	{
+		if ( [self.style.height isFunction:@"equals"] )
+		{
+			NSString * firstParam = [[self.style.height params] firstObject];
+			
+			if ( [firstParam isEqualToString:@"width"] )
+			{
+				computedSize.height = computedSize.width;
+			}
+		}
+	}
 
-	innerBound.size.width += computedPadding.left;
-	innerBound.size.width += computedPadding.right;
-	innerBound.size.height += computedPadding.top;
-	innerBound.size.height += computedPadding.bottom;
+// normalize value
+	
+	computedSize.width = NORMALIZE_VALUE( computedSize.width );
+	computedSize.height = NORMALIZE_VALUE( computedSize.height );
+	
+// compute min/max size
+	
+	if ( self.style.minWidth )
+	{
+		if ( INVALID_VALUE != minWidth && computedSize.width < minWidth )
+		{
+			computedSize.width = minWidth;
+		}
+	}
+	
+	if ( self.style.minHeight )
+	{
+		if ( INVALID_VALUE != minHeight && computedSize.height < minHeight )
+		{
+			computedSize.height = minHeight;
+		}
+	}
+	
+	if ( self.style.maxWidth )
+	{
+		if ( INVALID_VALUE != maxWidth && computedSize.width > maxWidth )
+		{
+			computedSize.width = maxWidth;
+		}
+	}
+	
+	if ( self.style.maxHeight )
+	{
+		if ( INVALID_VALUE != maxHeight && computedSize.height > maxHeight )
+		{
+			computedSize.height = maxHeight;
+		}
+	}
 
-	innerBound.size.width += computedBorder.left;
-	innerBound.size.width += computedBorder.right;
-	innerBound.size.height += computedBorder.top;
-	innerBound.size.height += computedBorder.bottom;
-	
-	innerBound.origin.x += computedInset.left;
-	innerBound.origin.y += computedInset.top;
-	
-	innerBound.size.width -= computedInset.left;
-	innerBound.size.width -= computedInset.right;
-	innerBound.size.height -= computedInset.top;
-	innerBound.size.height -= computedInset.bottom;
-
-// compute outer bounds
-	
-	CGRect outerBound;
-	
-	outerBound.origin = origin;
-	
-	outerBound.size.width = computedFrame.origin.x + computedFrame.size.width;
-	outerBound.size.height = computedFrame.origin.y + computedFrame.size.height;
-	
-	outerBound.size.width += computedPadding.left;
-	outerBound.size.width += computedPadding.right;
-	outerBound.size.height += computedPadding.top;
-	outerBound.size.height += computedPadding.bottom;
-	
-	outerBound.size.width += computedBorder.left;
-	outerBound.size.width += computedBorder.right;
-	outerBound.size.height += computedBorder.top;
-	outerBound.size.height += computedBorder.bottom;
-	
-	outerBound.size.width += computedMargin.left;
-	outerBound.size.width += computedMargin.right;
-	outerBound.size.height += computedMargin.top;
-	outerBound.size.height += computedMargin.bottom;
-
-// compute edge insets
-
-//	if ( self.view )
-//	{
-//		UIEdgeInsets edgeInsets = [self.view html_edgeInsets];
-//		
-//		innerBound.origin.x += edgeInsets.left;
-//		innerBound.origin.y += edgeInsets.top;
-//		
-//		outerBound.size.width += edgeInsets.left;
-//		outerBound.size.width += edgeInsets.right;
-//		outerBound.size.height += edgeInsets.top;
-//		outerBound.size.height += edgeInsets.bottom;
-//	}
-
-	self.frame = innerBound;
-	self.offset = origin;
+// compute inset / border / margin /padding
 	
 	self.inset = computedInset;
+	self.border = computedBorder;
 	self.margin = computedMargin;
 	self.padding = computedPadding;
-	self.border = computedBorder;
+	
+// compute bounds
+	
+	CGRect computedBounds;
+	
+	computedBounds.origin = origin;
+	
+	computedBounds.size.width = computedSize.width;
+	computedBounds.size.width += computedPadding.left;
+	computedBounds.size.width += computedPadding.right;
+	computedBounds.size.width += computedBorder.left;
+	computedBounds.size.width += computedBorder.right;
+	computedBounds.size.width += computedMargin.left;
+	computedBounds.size.width += computedMargin.right;
+	
+	computedBounds.size.height = computedSize.height;
+	computedBounds.size.height += computedPadding.top;
+	computedBounds.size.height += computedPadding.bottom;
+	computedBounds.size.height += computedBorder.top;
+	computedBounds.size.height += computedBorder.bottom;
+	computedBounds.size.height += computedMargin.top;
+	computedBounds.size.height += computedMargin.bottom;
+	
+	self.bounds = computedBounds;
 
-	return outerBound;
+	return computedBounds;
 }
 
 #pragma mark -

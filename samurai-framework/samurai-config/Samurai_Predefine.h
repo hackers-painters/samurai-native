@@ -112,6 +112,7 @@
 
 	#import <UIKit/UIKit.h>
 	#import <UIKit/UIGestureRecognizerSubclass.h>
+	#import <CoreText/CoreText.h>
 	#import <Foundation/Foundation.h>
 	#import <QuartzCore/QuartzCore.h>
 	#import <AudioToolbox/AudioToolbox.h>

@@ -54,9 +54,10 @@
 
 @implementation SamuraiHtmlUserAgent
 
-@def_prop_strong( UIFont *,				defaultFont );
-@def_prop_strong( NSMutableArray *,		defaultStyleSheets );
-@def_prop_strong( NSMutableArray *,		defaultCSSInherition );
+@def_prop_strong( UIFont *,					defaultFont );
+@def_prop_strong( NSMutableArray *,			defaultStyleSheets );
+@def_prop_strong( NSMutableArray *,			defaultCSSInherition );
+@def_prop_strong( NSMutableArray *,			defaultDOMAttributed );
 
 @def_singleton( SamuraiHtmlUserAgent )
 
@@ -69,6 +70,7 @@
 
 		[self loadStyleSheets];
 		[self loadCSSInheration];
+		[self loadDOMAttributed];
 	}
 	return self;
 }
@@ -115,6 +117,7 @@
 		@"text-align",
 		@"text-indent",
 		@"text-transform",
+		@"text-decoration",
 								 
 		@"empty-cells",
 		
@@ -159,6 +162,42 @@
 		@"whitespace",
 		
 	nil];
+}
+
+- (void)loadDOMAttributed
+{
+	self.defaultDOMAttributed = [NSMutableArray arrayWithObjects:
+								
+	//	DOM							CSS
+
+	@[	@"width",					@"width"					],
+	@[	@"height",					@"height"					],
+	@[	@"background",				@"background"				],
+	@[	@"bgcolor",					@"background-color"			],
+	@[	@"direction",				@"rtl"						],
+	@[	@"align",					@"align"					],
+	@[	@"border",					@"border"					],
+//	@[	@"border",					@"border-top-width"			],
+//	@[	@"border",					@"border-left-width"		],
+//	@[	@"border",					@"border-right-width"		],
+//	@[	@"border",					@"border-bottom-width"		],
+	@[	@"cellspacing",				@"cell-spacing"				],
+	@[	@"cellpadding",				@"cell-padding"				],
+
+	nil];
+}
+
+- (void)importStyleSheet:(NSString *)path
+{
+	if ( nil == path )
+		return;
+	
+	SamuraiCSSStyleSheet * styleSheet = [SamuraiCSSStyleSheet resourceAtPath:path];
+	
+	if ( styleSheet && [styleSheet parse] )
+	{
+		[self.defaultStyleSheets addObject:styleSheet];
+	}
 }
 
 @end

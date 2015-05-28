@@ -41,6 +41,11 @@
 #pragma mark -
 
 @interface UILabel(Samurai)
+
+@prop_assign( BOOL,						trimmed );
+@prop_assign( BOOL,						normalized );
+@prop_strong( NSMutableDictionary *,	mutableAttributes )
+
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

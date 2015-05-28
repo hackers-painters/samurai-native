@@ -48,8 +48,9 @@
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
-	UIPageControl * pageControl = (UIPageControl *)[super createInstanceWithRenderer:renderer identifier:identifier];
-	
+	UIPageControl * pageControl = [[self alloc] initWithFrame:CGRectZero];
+
+	pageControl.renderer = renderer;
 	pageControl.numberOfPages = 1;
 	pageControl.currentPage = 0;
 	pageControl.hidesForSinglePage = YES;

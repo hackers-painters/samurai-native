@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "Samurai.h"
 
 @interface AppDelegate ()
 
@@ -16,6 +17,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
+	
+//	[[SamuraiHtmlUserAgent sharedInstance] importStyleSheet:@"EMStringLabel.css"];
+//	[[SamuraiHtmlUserAgent sharedInstance] importStyleSheet:@"SDWebImageView.css"];
+
 	return YES;
 }
 

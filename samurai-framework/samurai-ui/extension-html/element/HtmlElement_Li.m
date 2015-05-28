@@ -42,88 +42,88 @@
 // Source code
 // ----------------------------------
 
-#pragma mark -
+//#pragma mark -
 
-@interface __HtmlArrow : UILabel
-
-- (void)setDiscType;
-- (void)setCircleType;
-- (void)setSquareType;
-- (void)setTextType:(NSString *)text;
-
-@end
-
-#pragma mark -
-
-@implementation __HtmlArrow
-
-- (void)setDiscType
-{
-	self.frame = CGRectMake( self.frame.origin.x, self.frame.origin.y, 6.0f, 6.0f );
-	self.layer.borderColor = [[UIColor clearColor] CGColor];
-	self.layer.borderWidth = 0.0f;
-	self.layer.cornerRadius = 4.0f;
-	self.layer.masksToBounds = YES;
-	self.backgroundColor = [UIColor darkGrayColor];
-	self.text = nil;
-}
-
-- (void)setCircleType
-{
-	self.frame = CGRectMake( self.frame.origin.x, self.frame.origin.y, 4.0f, 4.0f );
-	self.layer.borderColor = [[UIColor darkGrayColor] CGColor];
-	self.layer.borderWidth = 2.0f;
-	self.layer.cornerRadius = 3.0f;
-	self.layer.masksToBounds = YES;
-	self.backgroundColor = [UIColor clearColor];
-	self.text = nil;
-}
-
-- (void)setSquareType
-{
-	self.frame = CGRectMake( self.frame.origin.x, self.frame.origin.y, 6.0f, 6.0f );
-	self.layer.borderColor = [[UIColor clearColor] CGColor];
-	self.layer.borderWidth = 0.0f;
-	self.layer.cornerRadius = 0.0f;
-	self.layer.masksToBounds = YES;
-	self.backgroundColor = [UIColor darkGrayColor];
-	self.text = nil;
-}
-
-- (void)setTextType:(NSString *)text
-{
-	self.frame = CGRectMake( self.frame.origin.x, self.frame.origin.y, 60.0f, 12.0f );
-	self.layer.borderColor = [[UIColor clearColor] CGColor];
-	self.layer.borderWidth = 0.0f;
-	self.layer.cornerRadius = 0.0f;
-	self.text = nil;
-	self.font = [SamuraiHtmlUserAgent sharedInstance].defaultFont;
-	self.textColor = [UIColor darkGrayColor];
-	self.textAlignment = NSTextAlignmentRight;
-	self.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
-	self.lineBreakMode = NSLineBreakByClipping;
-	self.numberOfLines = 1;
-}
-
-- (void)setDecimal:(NSUInteger)index
-{
-	[self setTextType:[NSString stringWithFormat:@"%lu.", index]];
-}
-
-- (void)setDecimalLeadingZero:(NSUInteger)index
-{
-	[self setTextType:[NSString stringWithFormat:@"0%lu.", index]];
-}
-
-@end
+//@interface __HtmlArrow : UILabel
+//
+//- (void)setDiscType;
+//- (void)setCircleType;
+//- (void)setSquareType;
+//- (void)setTextType:(NSString *)text;
+//
+//@end
+//
+//#pragma mark -
+//
+//@implementation __HtmlArrow
+//
+//- (void)setDiscType
+//{
+//	self.frame = CGRectMake( self.frame.origin.x, self.frame.origin.y, 6.0f, 6.0f );
+//	self.layer.borderColor = [[UIColor clearColor] CGColor];
+//	self.layer.borderWidth = 0.0f;
+//	self.layer.cornerRadius = 4.0f;
+//	self.layer.masksToBounds = YES;
+//	self.backgroundColor = [UIColor darkGrayColor];
+//	self.text = nil;
+//}
+//
+//- (void)setCircleType
+//{
+//	self.frame = CGRectMake( self.frame.origin.x, self.frame.origin.y, 4.0f, 4.0f );
+//	self.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+//	self.layer.borderWidth = 2.0f;
+//	self.layer.cornerRadius = 3.0f;
+//	self.layer.masksToBounds = YES;
+//	self.backgroundColor = [UIColor clearColor];
+//	self.text = nil;
+//}
+//
+//- (void)setSquareType
+//{
+//	self.frame = CGRectMake( self.frame.origin.x, self.frame.origin.y, 6.0f, 6.0f );
+//	self.layer.borderColor = [[UIColor clearColor] CGColor];
+//	self.layer.borderWidth = 0.0f;
+//	self.layer.cornerRadius = 0.0f;
+//	self.layer.masksToBounds = YES;
+//	self.backgroundColor = [UIColor darkGrayColor];
+//	self.text = nil;
+//}
+//
+//- (void)setTextType:(NSString *)text
+//{
+//	self.frame = CGRectMake( self.frame.origin.x, self.frame.origin.y, 60.0f, 12.0f );
+//	self.layer.borderColor = [[UIColor clearColor] CGColor];
+//	self.layer.borderWidth = 0.0f;
+//	self.layer.cornerRadius = 0.0f;
+//	self.text = nil;
+//	self.font = [SamuraiHtmlUserAgent sharedInstance].defaultFont;
+//	self.textColor = [UIColor darkGrayColor];
+//	self.textAlignment = NSTextAlignmentRight;
+//	self.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
+//	self.lineBreakMode = NSLineBreakByClipping;
+//	self.numberOfLines = 1;
+//}
+//
+//- (void)setDecimal:(NSUInteger)index
+//{
+//	[self setTextType:[NSString stringWithFormat:@"%lu.", (unsigned long)index]];
+//}
+//
+//- (void)setDecimalLeadingZero:(NSUInteger)index
+//{
+//	[self setTextType:[NSString stringWithFormat:@"0%lu.", (unsigned long)index]];
+//}
+//
+//@end
 
 #pragma mark -
 
 @implementation HtmlElement_Li
 {
 	NSUInteger		_index;
-	CGFloat			_lineHeight;
-	__HtmlArrow *	_arrow;
+//	CGFloat			_lineHeight;
+//	__HtmlArrow *	_arrow;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -165,203 +165,206 @@
 {
 	[super html_applyStyle:style];
 	
-	if ( nil == _arrow )
-	{
-		_arrow = [[__HtmlArrow alloc] initWithFrame:CGRectZero];
-		_arrow.hidden = NO;
-
-		[self addSubview:_arrow];
-		[self bringSubviewToFront:_arrow];
-	}
-
-	_lineHeight = [style computeFont:_arrow.font].lineHeight;
-
-	SamuraiHtmlValue * listStyleType = style.listStyleType;
-	SamuraiHtmlValue * listStyleImage = style.listStyleImage;
-	SamuraiHtmlValue * listStylePosition = style.listStylePosition;
-
-	if ( listStyleType )
-	{
-		if ( [listStyleType isString:@"disc"] )
-		{
-			_arrow.hidden = NO;
-
-			[_arrow setDiscType];
-		}
-		else if ( [listStyleType isString:@"circle"] )
-		{
-			_arrow.hidden = NO;
-			
-			[_arrow setCircleType];
-		}
-		else if ( [listStyleType isString:@"square"] )
-		{
-			_arrow.hidden = NO;
-			
-			[_arrow setSquareType];
-		}
-		else if ( [listStyleType isString:@"decimal"] )
-		{
-			_arrow.hidden = NO;
-			
-			[_arrow setDecimal:_index];
-		}
-		else if ( [listStyleType isString:@"decimal-leading-zero"] )
-		{
-			_arrow.hidden = NO;
-			
-			[_arrow setDecimalLeadingZero:_index];
-		}
-		else if ( [listStyleType isString:@"lower-roman"] )
-		{
-			// 小写罗马数字(i, ii, iii, iv, v, 等。)
-			
-			_arrow.hidden = NO;
-			
-			[_arrow setDecimal:_index];
-		}
-		else if ( [listStyleType isString:@"upper-roman"] )
-		{
-			// 大写罗马数字(I, II, III, IV, V, 等。)
-			
-			_arrow.hidden = NO;
-			
-			[_arrow setDecimal:_index];
-		}
-		else if ( [listStyleType isString:@"lower-alpha"] )
-		{
-			// 小写英文字母The marker is lower-alpha (a, b, c, d, e, 等。)
-			
-			_arrow.hidden = NO;
-			
-			[_arrow setDecimal:_index];
-		}
-		else if ( [listStyleType isString:@"upper-alpha"] )
-		{
-			// 大写英文字母The marker is upper-alpha (A, B, C, D, E, 等。)
-			
-			_arrow.hidden = NO;
-			
-			[_arrow setDecimal:_index];
-		}
-		else if ( [listStyleType isString:@"lower-greek"] )
-		{
-			// 小写希腊字母(alpha, beta, gamma, 等。)
-			
-			_arrow.hidden = NO;
-			
-			[_arrow setDecimal:_index];
-		}
-		else if ( [listStyleType isString:@"lower-latin"] )
-		{
-			// 小写拉丁字母(a, b, c, d, e, 等。)
-			
-			_arrow.hidden = NO;
-			
-			[_arrow setDecimal:_index];
-		}
-		else if ( [listStyleType isString:@"upper-latin"] )
-		{
-			// 大写拉丁字母(A, B, C, D, E, 等。)
-			
-			_arrow.hidden = NO;
-			
-			[_arrow setDecimal:_index];
-		}
-		else if ( [listStyleType isString:@"hebrew"] )
-		{
-			// 传统的希伯来编号方式
-			
-			_arrow.hidden = NO;
-			
-			[_arrow setDecimal:_index];
-		}
-		else if ( [listStyleType isString:@"armenian"] )
-		{
-			// 传统的亚美尼亚编号方式
-			
-			_arrow.hidden = NO;
-			
-			[_arrow setDecimal:_index];
-		}
-		else if ( [listStyleType isString:@"georgian"] )
-		{
-			// 传统的乔治亚编号方式(an, ban, gan, 等。)
-			
-			_arrow.hidden = NO;
-			
-			[_arrow setDecimal:_index];
-		}
-		else if ( [listStyleType isString:@"cjk-ideographic"] )
-		{
-			// 简单的表意数字
-			
-			_arrow.hidden = NO;
-			
-			[_arrow setDecimal:_index];
-		}
-		else if ( [listStyleType isString:@"hiragana"] )
-		{
-			// 标记是：a, i, u, e, o, ka, ki, 等。（日文片假名）
-			
-			_arrow.hidden = NO;
-			
-			[_arrow setDecimal:_index];
-		}
-		else if ( [listStyleType isString:@"katakana"] )
-		{
-			// 标记是：A, I, U, E, O, KA, KI, 等。（日文片假名）
-			
-			_arrow.hidden = NO;
-			
-			[_arrow setDecimal:_index];
-		}
-		else if ( [listStyleType isString:@"hiragana-iroha"] )
-		{
-			// 标记是：i, ro, ha, ni, ho, he, to, 等。（日文片假名）
-			
-			_arrow.hidden = NO;
-			
-			[_arrow setDecimal:_index];
-		}
-		else if ( [listStyleType isString:@"katakana-iroha"] )
-		{
-			// 标记是：I, RO, HA, NI, HO, HE, TO, 等。（日文片假名）
-			
-			_arrow.hidden = NO;
-			
-			[_arrow setDecimal:_index];
-		}
-		else if ( [listStyleType isString:@"none"] )
-		{
-			_arrow.hidden = YES;
-		}
-		else
-		{
-			_arrow.hidden = YES;
-		}
-	}
-	else
-	{
-		_arrow.hidden = NO;
-		
-		[_arrow setDiscType];
-	}
+//	if ( nil == _arrow )
+//	{
+//		_arrow = [[__HtmlArrow alloc] initWithFrame:CGRectZero];
+//		_arrow.hidden = NO;
+//
+//		[self addSubview:_arrow];
+//		[self bringSubviewToFront:_arrow];
+//	}
+//
+//	_lineHeight = [style computeFont:_arrow.font].lineHeight;
+//
+//	SamuraiHtmlValue * listStyleType = style.listStyleType;
+////	SamuraiHtmlValue * listStyleImage = style.listStyleImage;
+////	SamuraiHtmlValue * listStylePosition = style.listStylePosition;
+//
+//	TODO( "list-style-image" );
+//	TODO( "list-style-position" );
+//	
+//	if ( listStyleType )
+//	{
+//		if ( [listStyleType isString:@"disc"] )
+//		{
+//			_arrow.hidden = NO;
+//
+//			[_arrow setDiscType];
+//		}
+//		else if ( [listStyleType isString:@"circle"] )
+//		{
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setCircleType];
+//		}
+//		else if ( [listStyleType isString:@"square"] )
+//		{
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setSquareType];
+//		}
+//		else if ( [listStyleType isString:@"decimal"] )
+//		{
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setDecimal:_index];
+//		}
+//		else if ( [listStyleType isString:@"decimal-leading-zero"] )
+//		{
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setDecimalLeadingZero:_index];
+//		}
+//		else if ( [listStyleType isString:@"lower-roman"] )
+//		{
+//			// 小写罗马数字(i, ii, iii, iv, v, 等。)
+//			
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setDecimal:_index];
+//		}
+//		else if ( [listStyleType isString:@"upper-roman"] )
+//		{
+//			// 大写罗马数字(I, II, III, IV, V, 等。)
+//			
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setDecimal:_index];
+//		}
+//		else if ( [listStyleType isString:@"lower-alpha"] )
+//		{
+//			// 小写英文字母The marker is lower-alpha (a, b, c, d, e, 等。)
+//			
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setDecimal:_index];
+//		}
+//		else if ( [listStyleType isString:@"upper-alpha"] )
+//		{
+//			// 大写英文字母The marker is upper-alpha (A, B, C, D, E, 等。)
+//			
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setDecimal:_index];
+//		}
+//		else if ( [listStyleType isString:@"lower-greek"] )
+//		{
+//			// 小写希腊字母(alpha, beta, gamma, 等。)
+//			
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setDecimal:_index];
+//		}
+//		else if ( [listStyleType isString:@"lower-latin"] )
+//		{
+//			// 小写拉丁字母(a, b, c, d, e, 等。)
+//			
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setDecimal:_index];
+//		}
+//		else if ( [listStyleType isString:@"upper-latin"] )
+//		{
+//			// 大写拉丁字母(A, B, C, D, E, 等。)
+//			
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setDecimal:_index];
+//		}
+//		else if ( [listStyleType isString:@"hebrew"] )
+//		{
+//			// 传统的希伯来编号方式
+//			
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setDecimal:_index];
+//		}
+//		else if ( [listStyleType isString:@"armenian"] )
+//		{
+//			// 传统的亚美尼亚编号方式
+//			
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setDecimal:_index];
+//		}
+//		else if ( [listStyleType isString:@"georgian"] )
+//		{
+//			// 传统的乔治亚编号方式(an, ban, gan, 等。)
+//			
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setDecimal:_index];
+//		}
+//		else if ( [listStyleType isString:@"cjk-ideographic"] )
+//		{
+//			// 简单的表意数字
+//			
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setDecimal:_index];
+//		}
+//		else if ( [listStyleType isString:@"hiragana"] )
+//		{
+//			// 标记是：a, i, u, e, o, ka, ki, 等。（日文片假名）
+//			
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setDecimal:_index];
+//		}
+//		else if ( [listStyleType isString:@"katakana"] )
+//		{
+//			// 标记是：A, I, U, E, O, KA, KI, 等。（日文片假名）
+//			
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setDecimal:_index];
+//		}
+//		else if ( [listStyleType isString:@"hiragana-iroha"] )
+//		{
+//			// 标记是：i, ro, ha, ni, ho, he, to, 等。（日文片假名）
+//			
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setDecimal:_index];
+//		}
+//		else if ( [listStyleType isString:@"katakana-iroha"] )
+//		{
+//			// 标记是：I, RO, HA, NI, HO, HE, TO, 等。（日文片假名）
+//			
+//			_arrow.hidden = NO;
+//			
+//			[_arrow setDecimal:_index];
+//		}
+//		else if ( [listStyleType isString:@"none"] )
+//		{
+//			_arrow.hidden = YES;
+//		}
+//		else
+//		{
+//			_arrow.hidden = YES;
+//		}
+//	}
+//	else
+//	{
+//		_arrow.hidden = NO;
+//		
+//		[_arrow setDiscType];
+//	}
 }
 
 - (void)html_applyFrame:(CGRect)newFrame
 {
 	[super html_applyFrame:newFrame];
 	
-	CGRect arrowFrame = _arrow.frame;
-
-	arrowFrame.origin.x = -1.0f * arrowFrame.size.width - 10.0f;
-	arrowFrame.origin.y = (_lineHeight - arrowFrame.size.height) / 2.0f;
-
-	_arrow.frame = arrowFrame;
-
-	[self bringSubviewToFront:_arrow];
-	[self setNeedsDisplay];
+//	CGRect arrowFrame = _arrow.frame;
+//
+//	arrowFrame.origin.x = -1.0f * arrowFrame.size.width - 10.0f;
+//	arrowFrame.origin.y = (_lineHeight - arrowFrame.size.height) / 2.0f;
+//
+//	_arrow.frame = arrowFrame;
+//
+//	[self bringSubviewToFront:_arrow];
+//	[self setNeedsDisplay];
 }
 
 @end

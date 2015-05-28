@@ -28,7 +28,7 @@
 //	THE SOFTWARE.
 //
 
-#import "Samurai_UILabel.h"
+#import "UILabel+Html.h"
 
 #import "_pragma_push.h"
 
@@ -54,8 +54,8 @@
 - (void)html_applyDom:(SamuraiHtmlDomNode *)dom
 {
 	[super html_applyDom:dom];
-	
-	self.text = [[[dom computeInnerText] normalize] trim];
+
+	[self unserialize:[dom computeInnerText]];
 }
 
 - (void)html_applyStyle:(SamuraiHtmlStyle *)style
@@ -68,6 +68,50 @@
 	self.baselineAdjustment = [style computeBaselineAdjustment:self.baselineAdjustment];
 	self.lineBreakMode = [style computeLineBreakMode:self.lineBreakMode];
 	self.numberOfLines = 0;
+	
+	SamuraiHtmlValue * textDecoration = style.textDecoration;
+	
+	if ( textDecoration )
+	{
+		if ( nil == self.mutableAttributes )
+		{
+			self.mutableAttributes = [[NSMutableDictionary alloc] init];
+		}
+
+		if ( [textDecoration isString:@"overline"] )
+		{
+			// TODO:
+		}
+		else if ( [textDecoration isString:@"underline"] )
+		{
+			[self.mutableAttributes setObject:[NSNumber numberWithInt:kCTUnderlineStyleSingle]
+									   forKey:(NSString *)kCTUnderlineStyleAttributeName];
+		}
+		else if ( [textDecoration isString:@"line-through"] )
+		{
+			// TODO:
+		}
+	}
+	else
+	{
+		if ( self.mutableAttributes )
+		{
+			[self.mutableAttributes removeAllObjects];
+		}
+	}
+
+	if ( self.text )
+	{
+		[self unserialize:self.text];
+	}
+	else if ( self.attributedText )
+	{
+		[self unserialize:self.attributedText.string];
+	}
+	else
+	{
+		[self zerolize];
+	}
 }
 
 - (void)html_applyFrame:(CGRect)newFrame
@@ -96,15 +140,17 @@
 - (void)UISlider_valueChanged:(UIView *)hostView;
 {
 	UISlider * control = (UISlider *)hostView;
+	NSString * content = [NSString stringWithFormat:@"%f", control.value];
 	
-	self.text = [NSString stringWithFormat:@"%f", control.value];
+	[self unserialize:content];
 }
 
 - (void)UISwitch_valueChanged:(UIView *)hostView;
 {
 	UISwitch * control = (UISwitch *)hostView;
-	
-	self.text = control.on ? @"On" : @"Off";
+	NSNumber * content = control.on ? @(YES) : @(NO);
+
+	[self unserialize:content];
 }
 
 @end

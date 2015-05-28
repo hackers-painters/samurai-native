@@ -54,8 +54,8 @@
 {
 	[super html_applyDom:dom];
 	
-	NSString * isOn = [dom.domAttributes objectForKey:@"is-on"];
-	NSString * isOff = [dom.domAttributes objectForKey:@"is-off"];
+	NSString * isOn = [dom.attributes objectForKey:@"is-on"];
+	NSString * isOff = [dom.attributes objectForKey:@"is-off"];
 
 	if ( isOn )
 	{
@@ -99,20 +99,20 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	NSObject * oldValue = [change objectForKey:@"old"];
-	NSObject * newValue = [change objectForKey:@"new"];
-	
-	if ( newValue )
-	{
-		UIView * hostView = (__bridge UIView *)(context);
-		
-		if ( [hostView isKindOfClass:[UIScrollView class]] )
-		{
-			UIScrollView * scrollView = (UIScrollView *)hostView;
-			
-			// TODO:
-		}
-	}
+//	NSObject * oldValue = [change objectForKey:@"old"];
+//	NSObject * newValue = [change objectForKey:@"new"];
+//	
+//	if ( newValue )
+//	{
+//		UIView * hostView = (__bridge UIView *)(context);
+//		
+//		if ( [hostView isKindOfClass:[UIScrollView class]] )
+//		{
+//			UIScrollView * scrollView = (UIScrollView *)hostView;
+//			
+//			// TODO:
+//		}
+//	}
 }
 
 @end

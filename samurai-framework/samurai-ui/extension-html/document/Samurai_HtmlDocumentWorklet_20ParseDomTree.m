@@ -35,6 +35,7 @@
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
 #import "Samurai_HtmlDomNode.h"
+#import "Samurai_HtmlUserAgent.h"
 #import "gumbo.h"
 
 // ----------------------------------
@@ -112,16 +113,17 @@
 	[domNode appendNode:childNode];
 
 	[self parseAttributes:node forParentNode:childNode];
-	[self parseChildren:node forParentNode:childNode];
 	
 	DEBUG_HTML_DOM( childNode );
+
+	[self parseChildren:node forParentNode:childNode];
 }
 
 - (void)parseNodeText:(GumboNode *)node forParentNode:(SamuraiHtmlDomNode *)domNode
 {
 	if ( node->v.text.text && strlen(node->v.text.text) )
 	{
-		NSString * content = [[NSString stringWithUTF8String:(const char *)node->v.text.text] trim];
+		NSString * content = [NSString stringWithUTF8String:(const char *)node->v.text.text];
 		
 		if ( content && content.length )
 		{
@@ -142,7 +144,7 @@
 {
 	if ( node->v.text.text && strlen(node->v.text.text) )
 	{
-		NSString * content = [[NSString stringWithUTF8String:(const char *)node->v.text.text] trim];
+		NSString * content = [NSString stringWithUTF8String:(const char *)node->v.text.text];
 		
 		if ( content && content.length )
 		{
@@ -163,7 +165,7 @@
 {
 //	if ( node->v.text.text && strlen(node->v.text.text) )
 //	{
-//		NSString * content = [[NSString stringWithUTF8String:(const char *)node->v.text.text] trim];
+//		NSString * content = [NSString stringWithUTF8String:(const char *)node->v.text.text];
 //		
 //		if ( content && content.length )
 //		{
@@ -254,11 +256,11 @@
 		
 		if ( name && value )
 		{
-			[domNode.domAttributes setObject:value forKey:name];
+			[domNode.attributes setObject:value forKey:name];
 		}
 	}
 
-//	domNode.domName = domNode.domName ?: domNode.domId;
+//	domNode.domName = domNode.domName ?: domNode.domId;	
 }
 
 - (void)parseChildren:(GumboNode *)node forParentNode:(SamuraiHtmlDomNode *)domNode

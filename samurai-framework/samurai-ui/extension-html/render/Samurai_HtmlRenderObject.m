@@ -46,11 +46,13 @@
 
 #pragma mark -
 
-#define HTML_DEFAULT_WRAP		RenderWrap_Wrap
-#define HTML_DEFAULT_DISPLAY	RenderDisplay_InlineBlock
-#define HTML_DEFAULT_FLOATING	RenderFloating_None
-#define HTML_DEFAULT_POSITION	RenderPosition_Relative
-#define HTML_DEFAULT_DIRECTION	RenderDirection_Row
+#define HTML_DEFAULT_WRAP		HtmlRenderWrap_Wrap
+#define HTML_DEFAULT_ALIGN		HtmlRenderAlign_None
+#define HTML_DEFAULT_DISPLAY	HtmlRenderDisplay_InlineBlock
+#define HTML_DEFAULT_FLOATING	HtmlRenderFloating_None
+#define HTML_DEFAULT_POSITION	HtmlRenderPosition_Relative
+#define HTML_DEFAULT_DIRECTION	HtmlRenderDirection_Row
+#define HTML_DEFAULT_VALIGN		HtmlRenderVerticalAlign_Baseline
 
 #pragma mark -
 
@@ -63,10 +65,12 @@
 
 - (void)html_applyDom:(SamuraiHtmlDomNode *)dom
 {
+	[self applyDom:dom];
 }
 
 - (void)html_applyStyle:(SamuraiHtmlStyle *)style
 {
+	[self applyStyle:style];
 }
 
 - (void)html_applyFrame:(CGRect)newFrame
@@ -76,7 +80,6 @@
 
 - (void)html_forView:(UIView *)hostView
 {
-	
 }
 
 @end
@@ -212,11 +215,18 @@
 @def_prop_strong( NSMutableDictionary *,		customStyleComputed );
 @def_prop_strong( SamuraiHtmlStyle *,			customStyle );
 
-@def_prop_assign( RenderWrap,					wrap );
-@def_prop_assign( RenderDisplay,				display );
-@def_prop_assign( RenderFloating,				floating );
-@def_prop_assign( RenderPosition,				position );
-@def_prop_assign( RenderDirection,				direction );
+@def_prop_assign( HtmlRenderWrap,				wrap );
+@def_prop_assign( HtmlRenderAlign,				align );
+@def_prop_assign( HtmlRenderDisplay,			display );
+@def_prop_assign( HtmlRenderFloating,			floating );
+@def_prop_assign( HtmlRenderPosition,			position );
+@def_prop_assign( HtmlRenderDirection,			direction );
+@def_prop_assign( HtmlRenderVerticalAlign,		verticalAlign );
+
+@def_prop_assign( NSInteger,					tableRow );
+@def_prop_assign( NSInteger,					tableCol );
+@def_prop_assign( NSInteger,					tableRowSpan );
+@def_prop_assign( NSInteger,					tableColSpan );
 
 BASE_CLASS( SamuraiHtmlRenderObject )
 
@@ -227,7 +237,7 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 //	renderObject.layer = 0;
 //	renderObject.zIndex = 0;
 
-	NSString * tabIndex = [dom.domAttributes objectForKey:@"tabindex"];
+	NSString * tabIndex = [dom.attributes objectForKey:@"tabindex"];
 
 	if ( tabIndex )
 	{
@@ -248,11 +258,18 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 		self.customStyleComputed = [[NSMutableDictionary alloc] init];
 		self.customStyle = [[SamuraiHtmlStyle alloc] init];
 
-		self.wrap		= HTML_DEFAULT_WRAP;
-		self.display	= HTML_DEFAULT_DISPLAY;
-		self.floating	= HTML_DEFAULT_FLOATING;
-		self.position	= HTML_DEFAULT_POSITION;
-		self.direction	= HTML_DEFAULT_DIRECTION;
+		self.wrap			= HTML_DEFAULT_WRAP;
+		self.align			= HTML_DEFAULT_ALIGN;
+		self.display		= HTML_DEFAULT_DISPLAY;
+		self.floating		= HTML_DEFAULT_FLOATING;
+		self.position		= HTML_DEFAULT_POSITION;
+		self.direction		= HTML_DEFAULT_DIRECTION;
+		self.verticalAlign	= HTML_DEFAULT_VALIGN;
+		
+		self.tableCol		= -1;
+		self.tableRow		= -1;
+		self.tableRowSpan	= 0;
+		self.tableColSpan	= 0;
 	}
 	return self;
 }
@@ -262,7 +279,7 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 	_relayout = nil;
 	_restyle = nil;
 	_rechain = nil;
-	
+
 	self.customStyleClasses = nil;
 	self.customStyleComputed = nil;
 	self.customStyle = nil;
@@ -273,7 +290,7 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 - (void)deepCopyFrom:(SamuraiHtmlRenderObject *)right
 {
 	[super deepCopyFrom:right];
-	
+
 	[self.customStyleClasses removeAllObjects];
 	[self.customStyleClasses addObjectsFromArray:right.customStyleClasses];
 	
@@ -287,10 +304,12 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 	[self.style merge:right.style.properties];
 	
 	self.wrap = right.wrap;
+	self.align = right.align;
 	self.display = right.display;
 	self.floating = right.floating;
 	self.position = right.position;
 	self.direction = right.direction;
+	self.verticalAlign = right.verticalAlign;
 }
 
 #pragma mark -
@@ -316,16 +335,16 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (BOOL)layoutShouldWrapLine
 {
-//	if ( RenderFloating_None != self.floating )
+//	if ( HtmlRenderFloating_None != self.floating )
 //	{
 //		return NO;
 //	}
 
 	if ( self.parent ) // flex
 	{
-		if ( RenderDisplay_Flex == self.parent.display || RenderDisplay_Flex == self.parent.display )
+		if ( HtmlRenderDisplay_Flex == self.parent.display || HtmlRenderDisplay_Flex == self.parent.display )
 		{
-			if ( RenderWrap_NoWrap == self.parent.wrap )
+			if ( HtmlRenderWrap_NoWrap == self.parent.wrap )
 			{
 				return NO;
 			}
@@ -337,36 +356,76 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (BOOL)layoutShouldWrapBefore
 {
-	if ( RenderFloating_None != self.floating )
+	if ( HtmlRenderFloating_None != self.floating )
 	{
 		return NO;
 	}
 	
 	if ( self.parent ) // flex
 	{
-		if ( RenderDisplay_Flex == self.parent.display || RenderDisplay_Flex == self.parent.display )
+		if ( HtmlRenderDisplay_Flex == self.parent.display || HtmlRenderDisplay_Flex == self.parent.display )
 		{
 			return NO;
 		}
 	}
 	
-	if ( RenderDisplay_Inline == self.display ) // inline
+	if ( HtmlRenderDisplay_Inline == self.display ) // inline
 	{
 		return NO;
 	}
-	else if ( RenderDisplay_Block == self.display ) // block
+	else if ( HtmlRenderDisplay_Block == self.display ) // block
 	{
 		return YES;
 	}
-	else if ( RenderDisplay_InlineBlock == self.display ) // inline-block
+	else if ( HtmlRenderDisplay_InlineBlock == self.display ) // inline-block
 	{
 		return NO;
 	}
-	else if ( RenderDisplay_Flex == self.display ) // flex
+	else if ( HtmlRenderDisplay_Flex == self.display ) // flex
 	{
 		return YES;
 	}
-	else if ( RenderDisplay_InlineFlex == self.display ) // inline-flex
+	else if ( HtmlRenderDisplay_InlineFlex == self.display ) // inline-flex
+	{
+		return NO;
+	}
+	else if ( HtmlRenderDisplay_Table == self.display ) // table
+	{
+		return YES;
+	}
+	else if ( HtmlRenderDisplay_InlineTable == self.display ) // inline-table
+	{
+		return NO;
+	}
+	else if ( HtmlRenderDisplay_TableRowGroup == self.display ) // table-row-group
+	{
+		return NO;
+	}
+	else if ( HtmlRenderDisplay_TableHeaderGroup == self.display ) // table-header-group
+	{
+		return NO;
+	}
+	else if ( HtmlRenderDisplay_TableFooterGroup == self.display ) // table-footer-group
+	{
+		return NO;
+	}
+	else if ( HtmlRenderDisplay_TableRow == self.display ) // table-row
+	{
+		return YES;
+	}
+	else if ( HtmlRenderDisplay_TableColumnGroup == self.display ) // table-column-group
+	{
+		return NO;
+	}
+	else if ( HtmlRenderDisplay_TableColumn == self.display ) // table-column
+	{
+		return NO;
+	}
+	else if ( HtmlRenderDisplay_TableCell == self.display ) // table-cell
+	{
+		return NO;
+	}
+	else if ( HtmlRenderDisplay_TableCaption == self.display ) // table-caption
 	{
 		return NO;
 	}
@@ -378,36 +437,76 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (BOOL)layoutShouldWrapAfter
 {
-	if ( RenderFloating_None != self.floating )
+	if ( HtmlRenderFloating_None != self.floating )
 	{
 		return NO;
 	}
 	
 	if ( self.parent ) // flex
 	{
-		if ( RenderDisplay_Flex == self.parent.display || RenderDisplay_InlineFlex == self.parent.display )
+		if ( HtmlRenderDisplay_Flex == self.parent.display || HtmlRenderDisplay_InlineFlex == self.parent.display )
 		{
 			return NO;
 		}
 	}
 	
-	if ( RenderDisplay_Inline == self.display ) // inline
+	if ( HtmlRenderDisplay_Inline == self.display ) // inline
 	{
 		return NO;
 	}
-	else if ( RenderDisplay_Block == self.display ) // block
+	else if ( HtmlRenderDisplay_Block == self.display ) // block
 	{
 		return YES;
 	}
-	else if ( RenderDisplay_InlineBlock == self.display ) // inline-block
+	else if ( HtmlRenderDisplay_InlineBlock == self.display ) // inline-block
 	{
 		return NO;
 	}
-	else if ( RenderDisplay_Flex == self.display ) // flex
+	else if ( HtmlRenderDisplay_Flex == self.display ) // flex
 	{
 		return YES;
 	}
-	else if ( RenderDisplay_InlineFlex == self.display ) // inline-flex
+	else if ( HtmlRenderDisplay_InlineFlex == self.display ) // inline-flex
+	{
+		return NO;
+	}
+	else if ( HtmlRenderDisplay_Table == self.display ) // table
+	{
+		return YES;
+	}
+	else if ( HtmlRenderDisplay_InlineTable == self.display ) // inline-table
+	{
+		return NO;
+	}
+	else if ( HtmlRenderDisplay_TableRowGroup == self.display ) // table-row-group
+	{
+		return NO;
+	}
+	else if ( HtmlRenderDisplay_TableHeaderGroup == self.display ) // table-header-group
+	{
+		return NO;
+	}
+	else if ( HtmlRenderDisplay_TableFooterGroup == self.display ) // table-footer-group
+	{
+		return NO;
+	}
+	else if ( HtmlRenderDisplay_TableRow == self.display ) // table-row
+	{
+		return YES;
+	}
+	else if ( HtmlRenderDisplay_TableColumnGroup == self.display ) // table-column-group
+	{
+		return NO;
+	}
+	else if ( HtmlRenderDisplay_TableColumn == self.display ) // table-column
+	{
+		return NO;
+	}
+	else if ( HtmlRenderDisplay_TableCell == self.display ) // table-cell
+	{
+		return NO;
+	}
+	else if ( HtmlRenderDisplay_TableCaption == self.display ) // table-caption
 	{
 		return NO;
 	}
@@ -419,12 +518,12 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (BOOL)layoutShouldCenteringInRow
 {
-	if ( RenderFloating_None != self.floating )
+	if ( HtmlRenderFloating_None != self.floating )
 	{
 		return NO;
 	}
 	
-	if ( RenderDisplay_Block != self.display )
+	if ( HtmlRenderDisplay_Block != self.display )
 	{
 		return NO;
 	}
@@ -439,12 +538,12 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (BOOL)layoutShouldCenteringInCol
 {
-	if ( RenderFloating_None != self.floating )
+	if ( HtmlRenderFloating_None != self.floating )
 	{
 		return NO;
 	}
 	
-	if ( RenderDisplay_Block != self.display )
+	if ( HtmlRenderDisplay_Block != self.display )
 	{
 		return NO;
 	}
@@ -459,7 +558,12 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (BOOL)layoutShouldBoundsToWindow
 {
-	if ( RenderDisplay_Inline == self.display )
+	if ( HtmlRenderDisplay_Inline == self.display )
+	{
+		return YES;
+	}
+	
+	if ( nil == self.style.width && nil == self.style.height )
 	{
 		return YES;
 	}
@@ -469,7 +573,7 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (BOOL)layoutShouldPositioningChildren
 {
-	if ( RenderDisplay_Block == self.display || RenderDisplay_InlineBlock == self.display )
+	if ( HtmlRenderDisplay_Block == self.display || HtmlRenderDisplay_InlineBlock == self.display )
 	{
 		return YES;
 	}
@@ -479,9 +583,9 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (BOOL)layoutShouldArrangedInRow
 {
-	if ( RenderDisplay_Flex == self.display || RenderDisplay_InlineFlex == self.display ) // flex
+	if ( HtmlRenderDisplay_Flex == self.display || HtmlRenderDisplay_InlineFlex == self.display ) // flex
 	{
-		if ( RenderDirection_Row == self.direction || RenderDirection_RowReverse == self.direction )
+		if ( HtmlRenderDirection_Row == self.direction || HtmlRenderDirection_RowReverse == self.direction )
 		{
 			return YES;
 		}
@@ -492,9 +596,9 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (BOOL)layoutShouldArrangedInCol
 {
-	if ( RenderDisplay_Flex == self.display || RenderDisplay_InlineFlex == self.display ) // flex
+	if ( HtmlRenderDisplay_Flex == self.display || HtmlRenderDisplay_InlineFlex == self.display ) // flex
 	{
-		if ( RenderDirection_Column == self.direction || RenderDirection_ColumnReverse == self.direction )
+		if ( HtmlRenderDirection_Column == self.direction || HtmlRenderDirection_ColumnReverse == self.direction )
 		{
 			return YES;
 		}
@@ -505,14 +609,108 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (BOOL)layoutShouldArrangedReverse
 {
-	if ( RenderDisplay_Flex == self.display || RenderDisplay_InlineFlex == self.display ) // flex
+	if ( HtmlRenderDisplay_Flex == self.display || HtmlRenderDisplay_InlineFlex == self.display ) // flex
 	{
-		if ( RenderDirection_RowReverse == self.direction || RenderDirection_ColumnReverse == self.direction )
+		if ( HtmlRenderDirection_RowReverse == self.direction || HtmlRenderDirection_ColumnReverse == self.direction )
 		{
 			return YES;
 		}
 	}
 
+	return NO;
+}
+
+- (BOOL)layoutShouldHorizontalAlign
+{
+	if ( HtmlRenderAlign_None == self.align || HtmlRenderAlign_Inherit == self.align )
+	{
+		return NO;
+	}
+	
+	return YES;
+}
+
+- (BOOL)layoutShouldHorizontalAlignLeft
+{
+	if ( HtmlRenderAlign_Left == self.align )
+	{
+		return YES;
+	}
+	
+	return NO;
+}
+
+- (BOOL)layoutShouldHorizontalAlignRight
+{
+	if ( HtmlRenderAlign_Right == self.align )
+	{
+		return YES;
+	}
+	
+	return NO;
+}
+
+- (BOOL)layoutShouldHorizontalAlignCenter
+{
+	if ( HtmlRenderAlign_Center == self.align )
+	{
+		return YES;
+	}
+	
+	return NO;
+}
+
+- (BOOL)layoutShouldVerticalAlign
+{
+	if ( HtmlRenderVerticalAlign_None == self.verticalAlign || HtmlRenderVerticalAlign_Inherit == self.verticalAlign )
+	{
+		return NO;
+	}
+	
+	return YES;
+}
+
+- (BOOL)layoutShouldVerticalAlignBaseline
+{
+	if ( HtmlRenderVerticalAlign_Baseline == self.verticalAlign )
+	{
+		return YES;
+	}
+	
+	return NO;
+}
+
+- (BOOL)layoutShouldVerticalAlignTop
+{
+	if ( HtmlRenderVerticalAlign_Top == self.verticalAlign ||
+		HtmlRenderVerticalAlign_Super == self.verticalAlign ||
+		HtmlRenderVerticalAlign_TextTop == self.verticalAlign )
+	{
+		return YES;
+	}
+	
+	return NO;
+}
+
+- (BOOL)layoutShouldVerticalAlignMiddle
+{
+	if ( HtmlRenderVerticalAlign_Middle == self.verticalAlign )
+	{
+		return YES;
+	}
+	
+	return NO;
+}
+
+- (BOOL)layoutShouldVerticalAlignBottom
+{
+	if ( HtmlRenderVerticalAlign_Bottom == self.verticalAlign ||
+		HtmlRenderVerticalAlign_Sub == self.verticalAlign ||
+		HtmlRenderVerticalAlign_TextBottom == self.verticalAlign )
+	{
+		return YES;
+	}
+	
 	return NO;
 }
 
@@ -536,17 +734,39 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 #pragma mark -
 
 - (UIView *)createViewWithIdentifier:(NSString *)identifier
-{	
+{
 	UIView * newView = [super createViewWithIdentifier:identifier];
 	
 	if ( newView )
 	{
+		if ( self.dom.domTag )
+		{
+			PERF( @"RenderObject '%p', create view '%@' for <%@/>", self, self.viewClass, self.dom.domTag );
+		}
+		else
+		{
+			PERF( @"RenderObject '%p', create view '%@' for \"%@ ...\"", self, self.viewClass, self.dom.domText.length > 20 ? [self.dom.domText substringToIndex:20] : self.dom.domText );
+		}
+
 		[newView html_applyDom:self.dom];
 		[newView html_applyStyle:self.style];	// TODO: useless code
+	}
+	else
+	{
+		if ( self.dom.domTag )
+		{
+			ERROR( @"RenderObject '%p', failed to create view '%@' for <%@/>", self, self.viewClass, self.dom.domTag );
+		}
+		else
+		{
+			ERROR( @"RenderObject '%p', failed to create view '%@' for \"%@ ...\"", self, self.viewClass, self.dom.domText.length > 20 ? [self.dom.domText substringToIndex:20] : self.dom.domText );
+		}
 	}
 
 	return newView;
 }
+
+#pragma mark -
 
 - (void)bindView:(UIView *)view
 {
@@ -562,6 +782,26 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 - (void)unbindView
 {
 	[super unbindView];
+}
+
+- (void)bindDom:(SamuraiHtmlDomNode *)newDom
+{
+	[super bindDom:newDom];
+}
+
+- (void)unbindDom
+{
+	[super unbindDom];
+}
+
+- (void)bindStyle:(SamuraiHtmlStyle *)newStyle
+{
+	[super bindStyle:newStyle];
+}
+
+- (void)unbindStyle
+{
+	[super unbindStyle];
 }
 
 #pragma mark -
@@ -742,41 +982,47 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (void)applyStyleInheritesFrom:(SamuraiHtmlRenderObject * )parent
 {
-	DEBUG_RENDERER_STYLE( self );
-
 	Class classType = nil;
-	
+
 	classType = classType ?: NSClassFromString( self.style.renderClass.value );
 	classType = classType ?: NSClassFromString( self.dom.domTag );
 	classType = classType ?: [[self class] defaultViewClass];
 
 	self.viewClass = classType;
-
+	
 	self.wrap = [self.style computeWrap:HTML_DEFAULT_WRAP];
+	self.align = [self.style computeAlign:HTML_DEFAULT_ALIGN];
 	self.display = [self.style computeDisplay:HTML_DEFAULT_DISPLAY];
 	self.floating = [self.style computeFloating:HTML_DEFAULT_FLOATING];
 	self.position = [self.style computePosition:HTML_DEFAULT_POSITION];
 	self.direction = [self.style computeDirection:HTML_DEFAULT_DIRECTION];
+	self.verticalAlign = [self.style computeVerticalAlign:HTML_DEFAULT_VALIGN];
 
 	while ( nil != parent )
 	{
-		self.wrap = (RenderWrap_Inherit == self.wrap) ? parent.wrap : self.wrap;
-		self.display = (RenderDisplay_Inherit == self.display) ? parent.display : self.display;
-		self.floating = (RenderFloating_Inherit == self.floating) ? parent.floating : self.floating;
-		self.position = (RenderPosition_Inherit == self.position) ? parent.position : self.position;
-		self.direction = (RenderDirection_Inherit == self.direction) ? parent.direction : self.direction;
+		self.wrap = (HtmlRenderWrap_Inherit == self.wrap) ? parent.wrap : self.wrap;
+		self.align = (HtmlRenderAlign_Inherit == self.align) ? parent.align : self.align;
+		self.display = (HtmlRenderDisplay_Inherit == self.display) ? parent.display : self.display;
+		self.floating = (HtmlRenderFloating_Inherit == self.floating) ? parent.floating : self.floating;
+		self.position = (HtmlRenderPosition_Inherit == self.position) ? parent.position : self.position;
+		self.direction = (HtmlRenderDirection_Inherit == self.direction) ? parent.direction : self.direction;
+		self.verticalAlign = (HtmlRenderVerticalAlign_Inherit == self.verticalAlign) ? parent.verticalAlign : self.verticalAlign;
 
 		parent = (SamuraiHtmlRenderObject *)parent.parent;
 	}
 
-	self.wrap = (RenderWrap_Inherit == self.wrap) ? HTML_DEFAULT_WRAP : self.wrap;
-	self.display = (RenderDisplay_Inherit == self.display) ? HTML_DEFAULT_DISPLAY : self.display;
-	self.floating = (RenderFloating_Inherit == self.floating) ? HTML_DEFAULT_FLOATING : self.floating;
-	self.position = (RenderPosition_Inherit == self.position) ? HTML_DEFAULT_POSITION : self.position;
-	self.direction = (RenderDirection_Inherit == self.direction) ? HTML_DEFAULT_DIRECTION : self.direction;
+	self.wrap = (HtmlRenderWrap_Inherit == self.wrap) ? HTML_DEFAULT_WRAP : self.wrap;
+	self.align = (HtmlRenderAlign_Inherit == self.align) ? HTML_DEFAULT_ALIGN : self.align;
+	self.display = (HtmlRenderDisplay_Inherit == self.display) ? HTML_DEFAULT_DISPLAY : self.display;
+	self.floating = (HtmlRenderFloating_Inherit == self.floating) ? HTML_DEFAULT_FLOATING : self.floating;
+	self.position = (HtmlRenderPosition_Inherit == self.position) ? HTML_DEFAULT_POSITION : self.position;
+	self.direction = (HtmlRenderDirection_Inherit == self.direction) ? HTML_DEFAULT_DIRECTION : self.direction;
+	self.verticalAlign = (HtmlRenderVerticalAlign_Inherit == self.verticalAlign) ? HTML_DEFAULT_VALIGN : self.verticalAlign;
 	
 	if ( self.view )
 	{
+		DEBUG_RENDERER_STYLE( self );
+
 		[self.view html_applyStyle:self.style];
 	}
 }
@@ -856,10 +1102,10 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 //		}
 	}
 	
-//	inset.top = (INVALID_VALUE == inset.top) ? 0.0f : inset.top;
-//	inset.left = (INVALID_VALUE == inset.left) ? 0.0f : inset.left;
-//	inset.right = (INVALID_VALUE == inset.right) ? 0.0f : inset.right;
-//	inset.bottom = (INVALID_VALUE == inset.bottom) ? 0.0f : inset.bottom;
+	inset.top		= NORMALIZE_VALUE( inset.top );
+	inset.left		= NORMALIZE_VALUE( inset.left );
+	inset.right		= NORMALIZE_VALUE( inset.right );
+	inset.bottom	= NORMALIZE_VALUE( inset.bottom );
 	
 	return inset;
 }
@@ -937,10 +1183,10 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 //		}
 	}
 	
-//	inset.top = (INVALID_VALUE == inset.top) ? 0.0f : inset.top;
-//	inset.left = (INVALID_VALUE == inset.left) ? 0.0f : inset.left;
-//	inset.right = (INVALID_VALUE == inset.right) ? 0.0f : inset.right;
-//	inset.bottom = (INVALID_VALUE == inset.bottom) ? 0.0f : inset.bottom;
+	inset.top		= NORMALIZE_VALUE( inset.top );
+	inset.left		= NORMALIZE_VALUE( inset.left );
+	inset.right		= NORMALIZE_VALUE( inset.right );
+	inset.bottom	= NORMALIZE_VALUE( inset.bottom );
 	
 	return inset;
 }
@@ -954,6 +1200,8 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 	SamuraiHtmlStyleObject * right = self.style.borderRight ?: [self.style.border objectAtIndex:0];
 	SamuraiHtmlStyleObject * bottom = self.style.borderBottom ?: [self.style.border objectAtIndex:0];
 	
+	TODO( "border" )
+
 	if ( top )
 	{
 		if ( [top isNumber] )
@@ -1018,10 +1266,10 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 //		}
 	}
 	
-//	inset.top = (INVALID_VALUE == inset.top) ? 0.0f : inset.top;
-//	inset.left = (INVALID_VALUE == inset.left) ? 0.0f : inset.left;
-//	inset.right = (INVALID_VALUE == inset.right) ? 0.0f : inset.right;
-//	inset.bottom = (INVALID_VALUE == inset.bottom) ? 0.0f : inset.bottom;
+	inset.top		= NORMALIZE_VALUE( inset.top );
+	inset.left		= NORMALIZE_VALUE( inset.left );
+	inset.right		= NORMALIZE_VALUE( inset.right );
+	inset.bottom	= NORMALIZE_VALUE( inset.bottom );
 	
 	return inset;
 }
@@ -1099,10 +1347,10 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 //		}
 	}
 	
-//	inset.top = (INVALID_VALUE == inset.top) ? 0.0f : inset.top;
-//	inset.left = (INVALID_VALUE == inset.left) ? 0.0f : inset.left;
-//	inset.right = (INVALID_VALUE == inset.right) ? 0.0f : inset.right;
-//	inset.bottom = (INVALID_VALUE == inset.bottom) ? 0.0f : inset.bottom;
+	inset.top		= NORMALIZE_VALUE( inset.top );
+	inset.left		= NORMALIZE_VALUE( inset.left );
+	inset.right		= NORMALIZE_VALUE( inset.right );
+	inset.bottom	= NORMALIZE_VALUE( inset.bottom );
 
 	return inset;
 }
@@ -1179,13 +1427,87 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 //			TODO( "" );
 //		}
 	}
-	
-//	inset.top = (INVALID_VALUE == inset.top) ? 0.0f : inset.top;
-//	inset.left = (INVALID_VALUE == inset.left) ? 0.0f : inset.left;
-//	inset.right = (INVALID_VALUE == inset.right) ? 0.0f : inset.right;
-//	inset.bottom = (INVALID_VALUE == inset.bottom) ? 0.0f : inset.bottom;
+
+	inset.top		= NORMALIZE_VALUE( inset.top );
+	inset.left		= NORMALIZE_VALUE( inset.left );
+	inset.right		= NORMALIZE_VALUE( inset.right );
+	inset.bottom	= NORMALIZE_VALUE( inset.bottom );
 
 	return inset;
+}
+
+- (CGFloat)computeLineHeight:(CGFloat)height
+{
+	CGFloat lineHeight = 0.0f;
+	
+	if ( self.style.lineHeight )
+	{
+		if ( [self.style.lineHeight isNumber] )
+		{
+			lineHeight = [self.style.lineHeight computeValue:height];
+			lineHeight = NORMALIZE_VALUE( lineHeight );
+		}
+	}
+	
+	return lineHeight;
+}
+
+- (CGFloat)computeBorderSpacing
+{
+	CGFloat borderSpacing = 0.0f;
+
+	if ( self.style.borderSpacing )
+	{
+		if ( [self.style.borderSpacing isNumber] )
+		{
+			borderSpacing = [self.style.borderSpacing computeValue];
+			borderSpacing = NORMALIZE_VALUE( borderSpacing );
+		}
+	}
+	
+	return borderSpacing;
+}
+
+- (CGFloat)computeCellSpacing
+{
+	CGFloat cellSpacing = 0.0f;
+	
+	if ( self.style.cellSpacing )
+	{
+		if ( [self.style.cellSpacing isNumber] )
+		{
+			cellSpacing = [self.style.cellSpacing computeValue];
+			cellSpacing = NORMALIZE_VALUE( cellSpacing );
+		}
+	}
+	
+	return cellSpacing;
+}
+
+- (CGFloat)computeCellPadding
+{
+	CGFloat cellPadding = 0.0f;
+	
+	if ( self.style.cellPadding )
+	{
+		if ( [self.style.cellPadding isNumber] )
+		{
+			cellPadding = [self.style.cellPadding computeValue];
+			cellPadding = NORMALIZE_VALUE( cellPadding );
+		}
+	}
+
+	return cellPadding;
+}
+
+#pragma mark -
+
+- (void)renderWillLoad
+{
+}
+
+- (void)renderDidLoad
+{
 }
 
 @end

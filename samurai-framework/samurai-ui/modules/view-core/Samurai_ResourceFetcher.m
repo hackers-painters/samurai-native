@@ -31,11 +31,7 @@
 #import "Samurai_ResourceFetcher.h"
 #import "Samurai_App.h"
 
-#if __SAMURAI_USE_AFNETWORKING__
 #import "AFNetworking.h"
-#else	// #if __SAMURAI_USE_AFNETWORKING__
-// TODO
-#endif	// #if __SAMURAI_USE_AFNETWORKING__
 
 #import "_pragma_push.h"
 
@@ -70,9 +66,7 @@
 
 @implementation SamuraiResourceFetcher
 {
-#if __SAMURAI_USE_AFNETWORKING__
 	NSMutableArray * _operations;
-#endif	// #if __SAMURAI_USE_AFNETWORKING__
 }
 
 @def_prop_unsafe( id,	responder );
@@ -87,9 +81,7 @@
 	self = [super init];
 	if ( self )
 	{
-	#if __SAMURAI_USE_AFNETWORKING__
 		_operations = [NSMutableArray nonRetainingArray];
-	#endif	// #if __SAMURAI_USE_AFNETWORKING__
 
 		self.responder = nil;
 	}
@@ -102,16 +94,12 @@
 	
 	self.responder = nil;
 
-#if __SAMURAI_USE_AFNETWORKING__
 	[_operations removeAllObjects];
 	_operations = nil;
-#endif	// #if __SAMURAI_USE_AFNETWORKING__
 }
 
 - (void)queue:(SamuraiResource *)resource
 {
-#if __SAMURAI_USE_AFNETWORKING__
-	
 	NSURL * url = [NSURL URLWithString:resource.resPath];
 	if ( nil == url )
 		return;
@@ -168,93 +156,16 @@
 	}];
 
 	[operation start];
-
-#else	// #if __SAMURAI_USE_AFNETWORKING__
-
-	SamuraiHTTPSession * session = [self HTTP_GET:resource.resPath];
-	
-	@weakify(self)
-	
-	session.object = resource;
-	session.timeoutSeconds = RESOURCE_TIMEOUT_SECONDS;
-	session.stateChanged = ^( SamuraiHTTPSession * session )
-	{
-		@strongify(self)
-		
-		SamuraiResource * resource = session.object;
-		ASSERT( nil != resource );
-		
-		if ( session.sending )
-		{
-		}
-		else if ( session.recving )
-		{
-		}
-		else if ( session.succeed )
-		{
-		//	NSString *	requestURL = session.url.absoluteString;
-			NSData *	responseData = session.response.bodyData;
-		//	NSString *	responseType = [[session.response.ContentType componentsSeparatedByString:@";"] safeObjectAtIndex:0];
-			
-			[resource clear];
-			
-		//	resource.resType = responseType ?: resource.resType;
-		//	resource.resPath = requestURL ?: resource.resPath;
-			resource.resContent = [responseData toString];
-			
-			BOOL succeed = [resource parse];
-			if ( NO == succeed )
-			{
-				[self cancelAllSessions];
-				
-				if ( self.responder )
-				{
-					[self.responder handleResourceFailed:resource];
-				}
-			}
-			else
-			{
-				if ( self.responder )
-				{
-					[self.responder handleResourceLoaded:resource];
-				}
-			}
-		}
-		else if ( session.failed )
-		{
-			if ( self.responder )
-			{
-				[self.responder handleResourceFailed:resource];
-			}
-		}
-		else if ( session.cancelled )
-		{
-			if ( self.responder )
-			{
-				[self.responder handleResourceCancelled:resource];
-			}
-		}
-	};
-	
-#endif	// #if __SAMURAI_USE_AFNETWORKING__
 }
 
 - (void)cancel
 {
-#if __SAMURAI_USE_AFNETWORKING__
-	
 	for ( AFHTTPRequestOperation * operation in [_operations copy] )
 	{
 		[operation cancel];
 	}
 	
 	[_operations removeAllObjects];
-	
-#else	// #if __SAMURAI_USE_AFNETWORKING__
-	
-	[self cancelAllSessions];
-	
-#endif	// #if __SAMURAI_USE_AFNETWORKING__
 }
 
 @end

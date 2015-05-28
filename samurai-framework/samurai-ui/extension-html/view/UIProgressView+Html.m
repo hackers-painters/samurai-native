@@ -54,7 +54,7 @@
 {
 	[super html_applyDom:dom];
 	
-	NSString * isBar = [dom.domAttributes objectForKey:@"is-bar"];
+	NSString * isBar = [dom.attributes objectForKey:@"is-bar"];
 
 	if ( isBar )
 	{
@@ -93,7 +93,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	NSObject * oldValue = [change objectForKey:@"old"];
+//	NSObject * oldValue = [change objectForKey:@"old"];
 	NSObject * newValue = [change objectForKey:@"new"];
 	
 	if ( newValue )

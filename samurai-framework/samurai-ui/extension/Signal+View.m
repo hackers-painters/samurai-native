@@ -48,11 +48,6 @@
 @def_prop_dynamic( UICollectionViewCell *,	sourceCollectionCell );
 
 @def_prop_dynamic( SamuraiDomNode *,		sourceDom );
-@def_prop_dynamic( NSString *,				sourceDomHref );
-@def_prop_dynamic( NSString *,				sourceDomIdPath );
-@def_prop_dynamic( NSString *,				sourceDomTagPath );
-@def_prop_dynamic( NSString *,				sourceDomNamePath );
-
 @def_prop_dynamic( SamuraiRenderObject *,	sourceRender );
 @def_prop_dynamic( NSIndexPath *,			sourceIndexPath );
 
@@ -166,38 +161,6 @@
 		return nil;
 	
 	return [[self.source renderer] dom];
-}
-
-- (NSString *)sourceDomHref
-{
-	if ( nil == self.source )
-		return nil;
-	
-	return [[[self.source renderer] dom] computeHref];
-}
-
-- (NSString *)sourceDomIdPath
-{
-	if ( nil == self.source )
-		return nil;
-	
-	return [[[self.source renderer] dom] computeIdPath];
-}
-
-- (NSString *)sourceDomTagPath
-{
-	if ( nil == self.source )
-		return nil;
-	
-	return [[[self.source renderer] dom] computeTagPath];
-}
-
-- (NSString *)sourceDomNamePath
-{
-	if ( nil == self.source )
-		return nil;
-	
-	return [[[self.source renderer] dom] computeNamePath];
 }
 
 - (SamuraiRenderObject *)sourceRender

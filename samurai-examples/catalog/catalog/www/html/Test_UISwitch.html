@@ -20,18 +20,16 @@
 	
 	<body>
 
-		<UILabel class="label" for="s1">Off</UILabel>
-		<UILabel class="label" for="s2">Off</UILabel>
-		<UILabel class="label" for="s3">Off</UILabel>
+		<div class="wrapper">
+			<UILabel class="label" for="s1">Off</UILabel>
+			<UILabel class="label" for="s2">Off</UILabel>
+			<UILabel class="label" for="s3">Off</UILabel>
+		</div>
 
 		<div class="wrapper">
-			<UISwitch id="s1" class="switch1"></UISwitch>
-		</div>			
-		<div class="wrapper">
-			<UISwitch id="s2" class="switch2"></UISwitch>
-		</div>
-		<div class="wrapper">
-			<UISwitch id="s3" class="switch3"></UISwitch>
+			<UISwitch id="s1" class="switch"></UISwitch>
+			<UISwitch id="s2" class="switch"></UISwitch>
+			<UISwitch id="s3" class="switch"></UISwitch>
 		</div>
 
 		<style>
@@ -44,10 +42,17 @@
 				font-size: 14px;
 				text-align: left;
 			}
+		
+			.wrapper {
+				display: block;
+				width: 100%;
+				height: 44px;
+				margin-top: 40px;
+			}
 
 			.label {
-				display: inline-block;
-				margin-top: 40px;
+				float: left;
+				display: block;
 				width: 33.3%;
 				height: 44px;
 				text-align: center;
@@ -55,36 +60,13 @@
 				border-color: black;
 				border-width: 1px;
 			}
-		
-			.wrapper {
-				display: inline-block;
-				margin-top: 40px;
+
+			.switch {
+				float: left;
+				display: block;
 				width: 33.3%;
 				height: 44px;
-			}
-
-			.switch1 {
-				display: block;
-				margin: 0 auto;
-				width: 52px;
-				height: 44px;
 				color: red;
-			}
-
-			.switch2 {
-				display: block;
-				margin: 0 auto;
-				width: 52px;
-				height: 44px;
-				color: blue;
-			}
-
-			.switch3 {
-				display: block;
-				margin: 0 auto;
-				width: 52px;
-				height: 44px;
-				color: green;
 			}
 
 		</style>

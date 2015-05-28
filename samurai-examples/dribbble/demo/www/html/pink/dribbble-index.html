@@ -13,31 +13,38 @@
 		<meta name="description" content=""/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 
+		<meta name="navbar-logo" content="url(dribbble-logo-light.png)"/>
 		<meta name="navbar-bg-color" content="#e5508c"/>
 		<meta name="navbar-tint-color" content="white"/>
 		<meta name="navbar-text-color" content="white"/>
 
-		<link rel="stylesheet" type="text/css" href="../css/normalize.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/main.css"/>
-
+		<link rel="stylesheet" type="text/css" href="../../css/normalize.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
 		<link rel="stylesheet" type="text/css" href="SDWebImageView.css"/>
+		<link rel="stylesheet" type="text/css" href="EMStringLabel.css"/>
 
 	</head>
 
 	<body>
 
 		<div name="tabbar" class="tab-bar">
-			<div id="tab1" name="popular" class="tab" onclick="signal('switch-tab1')">Popular</div>
-			<div id="tab2" name="debuts" class="tab" onclick="signal('switch-tab2')">Debuts</div>
-			<div id="tab3" name="everyone" class="tab" onclick="signal('switch-tab3')">Everyone</div>
+			<div class="tab-col">
+				<div id="tab1" name="popular" class="tab" onclick="signal('switch-tab1')">Popular</div>
+			</div>
+			<div class="tab-col">
+				<div id="tab2" name="debuts" class="tab" onclick="signal('switch-tab2')">Debuts</div>
+			</div>
+			<div class="tab-col">
+				<div id="tab3" name="everyone" class="tab" onclick="signal('switch-tab3')">Everyone</div>
+			</div>
 		</div>
 
 		<RefreshCollectionView id="list" name="list" class="list" columns="3" is-vertical
 			onswipe-left="signal('next-tab')"
 			onswipe-right="signal('prev-tab')">
 
-			<UICollectionViewCell name="shots" class="list-item" is-column>
-				<img name="shot-url" class="shot-img" onclick="signal('view-shot')"/>
+			<UICollectionViewCell name="shots" class="list-item" is-column onclick="signal('view-shot')">
+				<img name="shot-url" class="shot-img"/>
 				<!--
 				<div class="shot-author">
 					<img name="author-avatar" class="author-avatar"/>
@@ -63,25 +70,32 @@
 				/* box-shadow: 0px 0.5px 0.5px black; */
 				z-index: 2;
 			}
-
-			.tab {
+		
+			.tab-col {
 				float: left;
 				display: block;
 				width: 33.33%;
 				height: 34px;
+			}
+
+			.tab {
+				width: 60%;
+				height: 30px;
+				margin: 0 auto;
 				font-size: 14px;
 				line-height: 34px;
 				color: #fff 0.75;
 				text-align: center;
 				font-weight: normal;
 			}
-			
+
 			.active {
 				color: #fff;
 				font-size: 14px;
 				font-weight: bold;
-				border-radius: 2px;
 				background-color: #e5508c;
+				border-bottom-color: white;
+				border-bottom-width: 2px;
 			}
 
 			.list {
@@ -106,7 +120,7 @@
 				inset: 2px;
 				background-color: #eee;
 				border-radius: 2px;
-				border-width: 0px;
+				border-width: 2px;
 				border-color: white;
 			}
 

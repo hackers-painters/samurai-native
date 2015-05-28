@@ -229,51 +229,51 @@ static NSMutableArray * __activities = nil;
 
 	if ( ActivityState_Created == _state )
 	{
-	#if __SAMURAI_USE_UI_CALLCHAIN__
+	#if __SAMURAI_UI_USE_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onCreate) reversed:YES];
-	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#else	// #if __SAMURAI_UI_USE_CALLCHAIN__
 		[self onCreate];
-	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#endif	// #if __SAMURAI_UI_USE_CALLCHAIN__
 	}
 	else if ( ActivityState_Activating == _state )
 	{
-	#if __SAMURAI_USE_UI_CALLCHAIN__
+	#if __SAMURAI_UI_USE_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onStart) reversed:YES];
-	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#else	// #if __SAMURAI_UI_USE_CALLCHAIN__
 		[self onStart];
-	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#endif	// #if __SAMURAI_UI_USE_CALLCHAIN__
 	}
 	else if ( ActivityState_Activated == _state )
 	{
-	#if __SAMURAI_USE_UI_CALLCHAIN__
+	#if __SAMURAI_UI_USE_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onResume) reversed:YES];
-	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#else	// #if __SAMURAI_UI_USE_CALLCHAIN__
 		[self onResume];
-	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#endif	// #if __SAMURAI_UI_USE_CALLCHAIN__
 	}
 	else if ( ActivityState_Deactivating == _state )
 	{
-	#if __SAMURAI_USE_UI_CALLCHAIN__
+	#if __SAMURAI_UI_USE_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onPause) reversed:YES];
-	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#else	// #if __SAMURAI_UI_USE_CALLCHAIN__
 		[self onPause];
-	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#endif	// #if __SAMURAI_UI_USE_CALLCHAIN__
 	}
 	else if ( ActivityState_Deactivated == _state )
 	{
-	#if __SAMURAI_USE_UI_CALLCHAIN__
+	#if __SAMURAI_UI_USE_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onStop) reversed:YES];
-	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#else	// #if __SAMURAI_UI_USE_CALLCHAIN__
 		[self onStop];
-	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#endif	// #if __SAMURAI_UI_USE_CALLCHAIN__
 	}
 	else if ( ActivityState_Destroyed == _state )
 	{
-	#if __SAMURAI_USE_UI_CALLCHAIN__
+	#if __SAMURAI_UI_USE_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onDestroy) reversed:NO];
-	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#else	// #if __SAMURAI_UI_USE_CALLCHAIN__
 		[self onDestroy];
-	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#endif	// #if __SAMURAI_UI_USE_CALLCHAIN__
 	}
 
 	triggerAfter( self, stateChanged );
@@ -492,11 +492,11 @@ static NSMutableArray * __activities = nil;
 	{
 		_animated = YES;
 
-	#if __SAMURAI_USE_UI_CALLCHAIN__
+	#if __SAMURAI_UI_USE_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onLayout) reversed:YES];
-	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#else	// #if __SAMURAI_UI_USE_CALLCHAIN__
 		[self onLayout];
-	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#endif	// #if __SAMURAI_UI_USE_CALLCHAIN__
 		
 		_animated = NO;
 		

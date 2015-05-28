@@ -46,24 +46,22 @@
 
 @def_prop_strong( NSNumber *,				id );
 @def_prop_assign( DomNodeType,				type );
+@def_prop_strong( NSMutableDictionary *,	attributes );
 
-@def_prop_unsafe( SamuraiDomNode *,			shadowHost );
-@def_prop_strong( SamuraiDomNode *,			shadowRoot );
-
-@def_prop_unsafe( SamuraiDomNode *,			parent );
-@def_prop_unsafe( SamuraiDomNode *,			prev );
-@def_prop_unsafe( SamuraiDomNode *,			next );
-
-@def_prop_unsafe( SamuraiDocument *,		document );
 @def_prop_strong( NSString *,				domId );
 @def_prop_strong( NSString *,				domTag );
 @def_prop_strong( NSString *,				domText );
 @def_prop_strong( NSString *,				domName );
 @def_prop_strong( NSString *,				domNamespace );
-@def_prop_strong( NSMutableDictionary *,	domAttributes );
+
 @def_prop_strong( NSString *,				domStyleInline );
 @def_prop_strong( NSMutableArray *,			domStyleClasses );
 @def_prop_strong( NSMutableDictionary *,	domStyleComputed );
+
+@def_prop_unsafe( SamuraiDocument *,		document );
+@def_prop_unsafe( SamuraiDomNode *,			parent );
+@def_prop_unsafe( SamuraiDomNode *,			prev );
+@def_prop_unsafe( SamuraiDomNode *,			next );
 
 BASE_CLASS( SamuraiDomNode )
 
@@ -84,14 +82,13 @@ static NSUInteger __domSeed = 0;
 	if ( self )
 	{
 		self.id = [NSNumber numberWithUnsignedInteger:__domSeed++];
+		
 		self.type = DomNodeType_Unknown;
+		self.attributes = [[NSMutableDictionary alloc] init];
 		
 		self.domStyleInline = nil;
 		self.domStyleClasses = [[NSMutableArray alloc] init];
 		self.domStyleComputed = [[NSMutableDictionary alloc] init];
-
-		self.domAttributes = [[NSMutableDictionary alloc] init];
-		self.childs = [NSMutableArray array];
 	}
 	return self;
 }
@@ -99,24 +96,22 @@ static NSUInteger __domSeed = 0;
 - (void)dealloc
 {
 	self.id = nil;
-	
-	self.shadowRoot = nil;
-	
+	self.attributes = nil;
+
 	self.domId = nil;
 	self.domTag = nil;
 	self.domText = nil;
 	self.domName = nil;
 	self.domNamespace = nil;
-	self.domAttributes = nil;
-
-	self.domStyleInline = nil;
-	self.domStyleComputed = nil;
-	self.domStyleClasses = nil;
 	
+	self.domStyleInline = nil;
+	self.domStyleClasses = nil;
+	self.domStyleComputed = nil;
+
+	self.document = nil;
 	self.parent = nil;
 	self.prev = nil;
 	self.next = nil;
-	self.childs = nil;
 }
 
 #pragma mark -
@@ -127,20 +122,18 @@ static NSUInteger __domSeed = 0;
 
 	self.type = right.type;
 	self.document = right.document;
-
-	self.shadowRoot = [right.shadowRoot clone];
 	
 	self.domId = [right.domId copy];
 	self.domTag = [right.domTag copy];
 	self.domText = [right.domText copy];
 	self.domName = [right.domName copy];
 	self.domNamespace = [right.domNamespace copy];
-	
+
 	self.domStyleInline = right.domStyleInline;
 	[self.domStyleClasses addObjectsFromArray:right.domStyleClasses];
 	[self.domStyleComputed addEntriesFromDictionary:right.domStyleComputed];
 
-	[self.domAttributes addEntriesFromDictionary:right.domAttributes];
+	[self.attributes setDictionary:right.attributes];
 }
 
 #pragma mark -
@@ -167,86 +160,6 @@ static NSUInteger __domSeed = 0;
 
 #pragma mark -
 
-- (NSString *)computeHref
-{
-	return [self.domAttributes objectForKey:@"href"];
-}
-
-- (NSString *)computeIdPath
-{
-	if ( nil == self.domId )
-		return nil;
-
-	NSMutableArray * array = [NSMutableArray nonRetainingArray];
-	
-	for ( SamuraiDomNode * node = self; nil != node; node = (SamuraiDomNode *)node.parent )
-	{
-		if ( node.domId )
-		{
-			if ( 0 == array.count )
-			{
-				[array addObject:node.domId];
-			}
-			else
-			{
-				[array insertObject:node.domId atIndex:0];
-			}
-		}
-	}
-
-	return [array join:@"."];
-}
-
-- (NSString *)computeTagPath
-{
-	if ( nil == self.domTag )
-		return nil;
-	
-	NSMutableArray * array = [NSMutableArray nonRetainingArray];
-	
-	for ( SamuraiDomNode * node = self; nil != node; node = (SamuraiDomNode *)node.parent )
-	{
-		if ( node.domTag )
-		{
-			if ( 0 == array.count )
-			{
-				[array addObject:node.domTag];
-			}
-			else
-			{
-				[array insertObject:node.domTag atIndex:0];
-			}
-		}
-	}
-
-	return [array join:@"."];
-}
-
-- (NSString *)computeNamePath
-{
-	if ( nil == self.domName )
-		return nil;
-	
-	NSMutableArray * array = [NSMutableArray nonRetainingArray];
-	
-	for ( SamuraiDomNode * node = self; nil != node; node = (SamuraiDomNode *)node.parent )
-	{
-		if ( node.domName )
-		{
-			if ( 0 == array.count )
-			{
-				[array addObject:node.domName];
-			}
-			else
-			{
-				[array insertObject:node.domName atIndex:0];
-			}
-		}
-	}
-
-	return [array join:@"."];
-}
-
 - (NSString *)computeInnerText
 {
 	if ( 0 == self.childs.count )
@@ -257,7 +170,7 @@ static NSUInteger __domSeed = 0;
 		}
 		else
 		{
-			return nil;	
+			return nil;
 		}
 	}
 	else if ( 1 == self.childs.count )
@@ -307,7 +220,7 @@ static NSUInteger __domSeed = 0;
 			return;
 		}
 	}
-
+	
 	for ( SamuraiDomNode * child in self.childs )
 	{
 		[child getElementsById:domId toArray:array limitCount:limitCount];
@@ -319,7 +232,7 @@ static NSUInteger __domSeed = 0;
 	if ( [self.domName isEqualToString:domName] )
 	{
 		[array addObject:self];
-
+		
 		if ( NSUIntegerMax != limitCount && [array count] >= limitCount )
 		{
 			return;
@@ -406,12 +319,22 @@ static NSUInteger __domSeed = 0;
 	return [array firstObject];
 }
 
+
 #pragma mark -
+
+- (NSString *)description
+{
+	[[SamuraiLogger sharedInstance] outputCapture];
+	
+	[self dump];
+	
+	[[SamuraiLogger sharedInstance] outputRelease];
+	
+	return [SamuraiLogger sharedInstance].output;
+}
 
 - (void)dump
 {
-#if __SAMURAI_DEBUG__
-
 	if ( self.domTag )
 	{
 		if ( self.childs.count )
@@ -465,9 +388,8 @@ static NSUInteger __domSeed = 0;
 	{
 		INFO( @"</%@>", self.domTag );
 	}
-	
-#endif	// #if __SAMURAI_DEBUG__
 }
+
 
 @end
 

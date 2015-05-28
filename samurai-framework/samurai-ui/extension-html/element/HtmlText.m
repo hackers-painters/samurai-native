@@ -52,12 +52,32 @@
 	{
 		self.textAlignment = NSTextAlignmentLeft;
 		self.lineBreakMode = NSLineBreakByWordWrapping;
+		
+		self.trimmed = YES;
+		self.normalized = YES;
 	}
 	return self;
 }
 
 - (void)dealloc
 {
+}
+
+#pragma mark -
+
+- (id)serialize
+{
+	return [super serialize];
+}
+
+- (void)unserialize:(id)obj
+{
+	[super unserialize:obj];
+}
+
+- (void)zerolize
+{
+	[super zerolize];
 }
 
 #pragma mark -

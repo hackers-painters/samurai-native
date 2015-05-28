@@ -74,7 +74,7 @@
 		{
 			[self parseDocument:(SamuraiHtmlDocument *)resource];
 
-			SamuraiDomNode * rootElement = [(SamuraiHtmlDocument *)resource getRoot];
+			SamuraiHtmlDomNode * rootElement = [(SamuraiHtmlDocument *)resource getRootDomNode];
 
 			if ( rootElement && rootElement.domName )
 			{
@@ -86,19 +86,19 @@
 	[self mergeDomTree:document.domTree withElements:elementMap];
 }
 
-- (void)mergeDomTree:(SamuraiDomNode *)domNode withElements:(NSDictionary *)elementMap
+- (void)mergeDomTree:(SamuraiHtmlDomNode *)domNode withElements:(NSDictionary *)elementMap
 {
 	SamuraiHtmlDocument * shadowElement = [elementMap objectForKey:domNode.domTag];
 
 	if ( shadowElement && shadowElement.domTree )
 	{
-		domNode.shadowRoot = [[shadowElement getBody] clone];
+		domNode.shadowRoot = [[shadowElement getBodyDomNode] clone];
 		domNode.shadowRoot.shadowHost = domNode;
 
 		[domNode.shadowRoot attach:shadowElement];
 	}
 
-	for ( SamuraiDomNode * childDom in domNode.childs )
+	for ( SamuraiHtmlDomNode * childDom in domNode.childs )
 	{
 		[self mergeDomTree:childDom withElements:elementMap];
 	}

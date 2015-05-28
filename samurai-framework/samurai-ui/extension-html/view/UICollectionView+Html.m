@@ -225,7 +225,7 @@
 	
 	// Compute size
 	
-	NSString * columnCount = [self.collectionView.renderer.dom.domAttributes objectForKey:@"columns"];
+	NSString * columnCount = [self.collectionView.renderer.dom.attributes objectForKey:@"columns"];
 	
 	if ( columnCount )
 	{
@@ -233,8 +233,8 @@
 		_layoutColumnCount = (_layoutColumnCount > 0) ? _layoutColumnCount : 1;
 	}
 	
-	NSString * isVertical = [self.collectionView.renderer.dom.domAttributes objectForKey:@"is-vertical"];
-	NSString * isHorizontal = [self.collectionView.renderer.dom.domAttributes objectForKey:@"is-horizontal"];
+	NSString * isVertical = [self.collectionView.renderer.dom.attributes objectForKey:@"is-vertical"];
+	NSString * isHorizontal = [self.collectionView.renderer.dom.attributes objectForKey:@"is-horizontal"];
 	
 	if ( isVertical )
 	{
@@ -260,14 +260,14 @@
 		if ( 0 == rowCount )
 			continue;
 		
-		NSString *	isStickTop = [section.document.domTree.domAttributes objectForKey:@"stick-top"];
-		NSString *	isStickBottom = [section.document.domTree.domAttributes objectForKey:@"stick-bottom"];
+		NSString *	isStickTop = [section.document.domTree.attributes objectForKey:@"stick-top"];
+		NSString *	isStickBottom = [section.document.domTree.attributes objectForKey:@"stick-bottom"];
 		
-		NSString *	isFixedTop = [section.document.domTree.domAttributes objectForKey:@"fixed-top"];
-		NSString *	isFixedBottom = [section.document.domTree.domAttributes objectForKey:@"fixed-bottom"];
+		NSString *	isFixedTop = [section.document.domTree.attributes objectForKey:@"fixed-top"];
+		NSString *	isFixedBottom = [section.document.domTree.attributes objectForKey:@"fixed-bottom"];
 		
-		NSString *	isCol = [section.document.domTree.domAttributes objectForKey:@"is-column"];
-		NSString *	isRow = [section.document.domTree.domAttributes objectForKey:@"is-row"];
+		NSString *	isCol = [section.document.domTree.attributes objectForKey:@"is-column"];
+		NSString *	isRow = [section.document.domTree.attributes objectForKey:@"is-row"];
 		
 		NSUInteger	itemType = LAYOUT_PATTERN_COL;
 		
@@ -725,7 +725,7 @@
 {
 	[super html_applyDom:dom];
 
-	Class layoutClass = NSClassFromString( [dom.domAttributes objectForKey:@"layout"] );
+	Class layoutClass = NSClassFromString( [dom.attributes objectForKey:@"layout"] );
 	if ( layoutClass )
 	{
 		self.collectionViewLayout = [[layoutClass alloc] init];
@@ -737,7 +737,7 @@
 
 	for ( SamuraiUICollectionViewSection * section in [self collectionViewAgent].sections )
 	{
-		NSString * isStatic = [section.document.domTree.domAttributes objectForKey:@"is-static"];
+		NSString * isStatic = [section.document.domTree.attributes objectForKey:@"is-static"];
 
 		if ( isStatic )
 		{
@@ -764,8 +764,8 @@
 {
 	[super html_applyFrame:newFrame];
 
-	NSString * isVertical = [self.renderer.dom.domAttributes objectForKey:@"is-vertical"];
-	NSString * isHorizontal = [self.renderer.dom.domAttributes objectForKey:@"is-horizontal"];
+	NSString * isVertical = [self.renderer.dom.attributes objectForKey:@"is-vertical"];
+	NSString * isHorizontal = [self.renderer.dom.attributes objectForKey:@"is-horizontal"];
 
 	if ( isVertical )
 	{

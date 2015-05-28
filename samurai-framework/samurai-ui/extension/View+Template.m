@@ -68,15 +68,15 @@
 	
 	if ( viewTemplate.loading )
 	{
-	#if __SAMURAI_USE_UI_CALLCHAIN__
+	#if __SAMURAI_UI_USE_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onTemplateLoading) reversed:YES];
-	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#else	// #if __SAMURAI_UI_USE_CALLCHAIN__
 		[self onTemplateLoading];
-	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#endif	// #if __SAMURAI_UI_USE_CALLCHAIN__
 	}
 	else if ( viewTemplate.loaded )
 	{
-		[viewTemplate.document configuringForView:self];
+		[viewTemplate.document configureForView:self];
 
 		SamuraiRenderObject * rootRender = viewTemplate.document.renderTree;
 		
@@ -106,36 +106,36 @@
 			[rootRender rechain];
 		//	[rootRender relayout];
 
-		#if __SAMURAI_USE_UI_CALLCHAIN__
+		#if __SAMURAI_UI_USE_CALLCHAIN__
 			[self performCallChainWithSelector:@selector(onTemplateLoaded) reversed:YES];
-		#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+		#else	// #if __SAMURAI_UI_USE_CALLCHAIN__
 			[self onTemplateLoaded];
-		#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
+		#endif	// #if __SAMURAI_UI_USE_CALLCHAIN__
 		}
 		else
 		{
-		#if __SAMURAI_USE_UI_CALLCHAIN__
+		#if __SAMURAI_UI_USE_CALLCHAIN__
 			[self performCallChainWithSelector:@selector(onTemplateFailed) reversed:YES];
-		#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+		#else	// #if __SAMURAI_UI_USE_CALLCHAIN__
 			[self onTemplateFailed];
-		#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
+		#endif	// #if __SAMURAI_UI_USE_CALLCHAIN__
 		}
 	}
 	else if ( viewTemplate.failed )
 	{
-	#if __SAMURAI_USE_UI_CALLCHAIN__
+	#if __SAMURAI_UI_USE_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onTemplateFailed) reversed:YES];
-	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#else	// #if __SAMURAI_UI_USE_CALLCHAIN__
 		[self onTemplateFailed];
-	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#endif	// #if __SAMURAI_UI_USE_CALLCHAIN__
 	}
 	else if ( viewTemplate.cancelled )
 	{
-	#if __SAMURAI_USE_UI_CALLCHAIN__
+	#if __SAMURAI_UI_USE_CALLCHAIN__
 		[self performCallChainWithSelector:@selector(onTemplateCancelled) reversed:YES];
-	#else	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#else	// #if __SAMURAI_UI_USE_CALLCHAIN__
 		[self onTemplateCancelled];
-	#endif	// #if __SAMURAI_USE_UI_CALLCHAIN__
+	#endif	// #if __SAMURAI_UI_USE_CALLCHAIN__
 	}
 }
 

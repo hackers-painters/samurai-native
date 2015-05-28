@@ -59,7 +59,6 @@
 
 - (void)onCreate
 {
-	self.navigationBarTitle = [UIImage imageNamed:@"dribbble-logo.png"];
 	self.navigationBarDoneButton = @"Theme";
 
 	self.model1 = [PopularShotListModel new];
@@ -127,7 +126,7 @@
 															  delegate:self
 													 cancelButtonTitle:@"Cancel"
 												destructiveButtonTitle:nil
-													 otherButtonTitles:@"Pink", @"Blue", nil];
+													 otherButtonTitles:@"Pink", @"Black", @"White", nil];
 	
 	[actionSheet showInView:self.view];
 }
@@ -143,7 +142,11 @@
 	}
 	else if ( 1 == buttonIndex )
 	{
-		[[ThemeConfig sharedInstance] changeTheme:@"blue"];
+		[[ThemeConfig sharedInstance] changeTheme:@"black"];
+	}
+	else if ( 2 == buttonIndex )
+	{
+		[[ThemeConfig sharedInstance] changeTheme:@"white"];
 	}
 }
 
@@ -342,9 +345,21 @@
 			
 			for ( SHOT * shot in _currentModel.shots )
 			{
-				[shots addObject:@{
-					@"shot-url" : shot.images.teaser ?: @"",
-					@"author-avatar" : shot.user.avatar_url ?: @"",
+				[shots addObject : @{
+									 
+					@"author" : @{
+						@"avatar" : shot.user.avatar_url ?: @"", // @"https://d13yacurqjgara.cloudfront.net/users/162360/avatars/normal/logo.png?1402322917",
+						@"title" : shot.title ?: @"", // @"Product Homepage",
+						@"name" : shot.user.name ?: @"", // @"Unity"
+					},
+
+					@"shot-url" : shot.images.normal ?: @"", // @"https://d13yacurqjgara.cloudfront.net/users/162360/screenshots/1914272/home_dribbble.png"
+
+					@"attr" : @{
+						@"views" : @(shot.views_count), // @"6770",
+						@"comments" : @(shot.comments_count), // @"19",
+						@"likes" : @(shot.likes_count), // @"591"
+					}
 				}];
 			}
 

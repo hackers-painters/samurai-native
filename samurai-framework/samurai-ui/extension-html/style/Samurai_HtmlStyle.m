@@ -35,6 +35,7 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_HtmlUserAgent.h"
 #import "Samurai_HtmlNumberAutomatic.h"
 #import "Samurai_HtmlNumberPercentage.h"
 
@@ -44,147 +45,148 @@
 
 #pragma mark -
 
-#undef	HTML_DEFAULT_FONT_SIZE
-#define HTML_DEFAULT_FONT_SIZE		(12.0f)
-
-#undef	HTML_DEFAULT_FONT_WEIGHT
-#define HTML_DEFAULT_FONT_WEIGHT	(200)
-
-#pragma mark -
-
 @implementation SamuraiHtmlStyle
 
-@def_html_value( top, setTop,											@"top" );
-@def_html_value( left, setLeft,											@"left");
-@def_html_value( right, setRight,										@"right");
-@def_html_value( bottom, setBottom,										@"bottom" );
+@def_html_style_value( top, setTop,											@"top" );
+@def_html_style_value( left, setLeft,										@"left");
+@def_html_style_value( right, setRight,										@"right");
+@def_html_style_value( bottom, setBottom,									@"bottom" );
 
-@def_html_value( width, setWidth,										@"width" );
-@def_html_value( minWidth, setMinWidth,									@"min-width" );
-@def_html_value( maxWidth, setMaxWidth,									@"max-width" );
+@def_html_style_value( width, setWidth,										@"width" );
+@def_html_style_value( minWidth, setMinWidth,								@"min-width" );
+@def_html_style_value( maxWidth, setMaxWidth,								@"max-width" );
 
-@def_html_value( height, setHeight,										@"height" );
-@def_html_value( minHeight, setMinHeight,								@"min-height" );
-@def_html_value( maxHeight, setMaxHeight,								@"max-height" );
+@def_html_style_value( height, setHeight,									@"height" );
+@def_html_style_value( minHeight, setMinHeight,								@"min-height" );
+@def_html_style_value( maxHeight, setMaxHeight,								@"max-height" );
 
-@def_html_value( position, setPosition,									@"position" );
-@def_html_value( floating, setFloating,									@"float" );
+@def_html_style_value( position, setPosition,								@"position" );
+@def_html_style_value( floating, setFloating,								@"float" );
 
-@def_html_value( zIndex, setZIndex,										@"z-index" );
-@def_html_value( display, setDisplay,									@"display" );
-@def_html_value( overflow, setOverflow,									@"overflow" );
-@def_html_value( visibility, setVisibility,								@"visibility" );
-@def_html_value( opacity, setOpacity,									@"opacity" );
+@def_html_style_value( zIndex, setZIndex,									@"z-index" );
+@def_html_style_value( display, setDisplay,									@"display" );
+@def_html_style_value( overflow, setOverflow,								@"overflow" );
+@def_html_style_value( visibility, setVisibility,							@"visibility" );
+@def_html_style_value( opacity, setOpacity,									@"opacity" );
 
-@def_html_array( boxShadow, setBoxShadow,								@"box-shadow" );
+@def_html_style_value( boxSizing, setBoxSizing,								@"box-sizing" );
+@def_html_style_array( boxShadow, setBoxShadow,								@"box-shadow" );
 
-@def_html_value( baseline, setBaseline,									@"baseline" );
-@def_html_value( wordWrap, setWordWrap,									@"word-wrap" );
-@def_html_value( contentMode, setContentMode,							@"content-mode" );
+@def_html_style_value( baseline, setBaseline,								@"baseline" );
+@def_html_style_value( wordWrap, setWordWrap,								@"word-wrap" );
+@def_html_style_value( contentMode, setContentMode,							@"content-mode" );
 
-@def_html_value( color, setColor,										@"color" );
-@def_html_value( direction, setDirection,								@"direction" );
-@def_html_value( letterSpacing, setLetterSpacing,						@"letter-spacing" );
-@def_html_value( lineHeight, setLineHeight,								@"line-height" );
-@def_html_value( textAlign, setTextAlign,								@"text-align" );
-@def_html_value( textDecoration, setTextDecoration,						@"text-decoration" );
-@def_html_value( textIndent, setTextIndent,								@"text-indent" );
-@def_html_array( textShadow, setTextShadow,								@"text-shadow" );
-@def_html_value( textTransform, setTextTransform,						@"text-transform" );
-@def_html_value( textOverflow, setTextOverflow,							@"text-overflow" );
-@def_html_value( unicodeBidi, setUnicodeBidi,							@"unicode-bidi" );
-@def_html_value( whiteSpace, setWhiteSpace,								@"white-space" );
-@def_html_value( wordSpacing, setWordSpacing,							@"word-spacing" );
+@def_html_style_value( color, setColor,										@"color" );
+@def_html_style_value( direction, setDirection,								@"direction" );
+@def_html_style_value( letterSpacing, setLetterSpacing,						@"letter-spacing" );
+@def_html_style_value( lineHeight, setLineHeight,							@"line-height" );
+@def_html_style_value( align, setAlign,										@"align" );
+@def_html_style_value( verticalAlign, setVerticalAlign,						@"vertical-align" );
+@def_html_style_value( textAlign, setTextAlign,								@"text-align" );
+@def_html_style_value( textDecoration, setTextDecoration,					@"text-decoration" );
+@def_html_style_value( textIndent, setTextIndent,							@"text-indent" );
+@def_html_style_array( textShadow, setTextShadow,							@"text-shadow" );
+@def_html_style_value( textTransform, setTextTransform,						@"text-transform" );
+@def_html_style_value( textOverflow, setTextOverflow,						@"text-overflow" );
+@def_html_style_value( unicodeBidi, setUnicodeBidi,							@"unicode-bidi" );
+@def_html_style_value( whiteSpace, setWhiteSpace,							@"white-space" );
+@def_html_style_value( wordSpacing, setWordSpacing,							@"word-spacing" );
 
 // list
 
-@def_html_value( listStyleType, setListStyleType,						@"list-style-type" );
-@def_html_value( listStyleImage, setListStyleImage,						@"list-style-image" );
-@def_html_value( listStylePosition, setListStylePosition,				@"list-style-position" );
+@def_html_style_value( listStyleType, setListStyleType,						@"list-style-type" );
+@def_html_style_value( listStyleImage, setListStyleImage,					@"list-style-image" );
+@def_html_style_value( listStylePosition, setListStylePosition,				@"list-style-position" );
 
 // background
 
-@def_html_array( background, setBackground,								@"background" );
-@def_html_value( backgroundColor, setBackgroundColor,					@"background-color" );
-@def_html_value( backgroundImage, setBackgroundImage,					@"background-image" );
+@def_html_style_array( background, setBackground,							@"background" );
+@def_html_style_value( backgroundColor, setBackgroundColor,					@"background-color" );
+@def_html_style_value( backgroundImage, setBackgroundImage,					@"background-image" );
 
 // flex box
 
-@def_html_value( flex, setFlex,											@"flex" );
-@def_html_value( flexWrap, setFlexWrap,									@"flex-wrap" );
-@def_html_value( flexFlow, setFlexFlow,									@"flex-flow" );
-@def_html_value( flexDirection, setFlexDirection,						@"flex-direction" );
+@def_html_style_value( flex, setFlex,										@"flex" );
+@def_html_style_value( flexWrap, setFlexWrap,								@"flex-wrap" );
+@def_html_style_value( flexFlow, setFlexFlow,								@"flex-flow" );
+@def_html_style_value( flexDirection, setFlexDirection,						@"flex-direction" );
 
 // font
 
-@def_html_array( font, setFont,											@"font" );
-@def_html_array( fontFamily, setFontFamily,								@"font-family" );
-@def_html_value( fontSize, setFontSize,									@"font-size" );
-@def_html_value( fontWeight, setFontWeight,								@"font-weight" );
-@def_html_value( fontStyle, setFontStyle,								@"font-style" );
-@def_html_value( fontVariant, setFontVariant,							@"font-variant" );
+@def_html_style_array( font, setFont,										@"font" );
+@def_html_style_array( fontFamily, setFontFamily,							@"font-family" );
+@def_html_style_value( fontSize, setFontSize,								@"font-size" );
+@def_html_style_value( fontWeight, setFontWeight,							@"font-weight" );
+@def_html_style_value( fontStyle, setFontStyle,								@"font-style" );
+@def_html_style_value( fontVariant, setFontVariant,							@"font-variant" );
 
 // border
 
-@def_html_array( border, setBorder,										@"border" );
-@def_html_value( borderWidth, setBorderWidth,							@"border-width" );
-@def_html_value( borderStyle, setBorderStyle,							@"border-style" );
-@def_html_value( borderColor, setBorderColor,							@"border-color" );
+@def_html_style_value( borderCollapse, setBorderCollapse,					@"border-collapse" );
+@def_html_style_value( borderSpacing, setBorderSpacing,						@"border-spacing" );
 
-@def_html_value( borderRadius, setBorderRadius,							@"border-radius" );
-@def_html_value( borderTopLeftRadius, setBorderTopLeftRadius,			@"border-top-left-radius" );
-@def_html_value( borderTopRightRadius, setBorderTopRightRadius,			@"border-top-right-radius" );
-@def_html_value( borderBottomLeftRadius, setBorderBottomLeftRadius,		@"border-bottom-left-radius" );
-@def_html_value( borderBottomRightRadius, setBorderBottomRightRadius,	@"border-bottom-right-radius" );
+@def_html_style_value( cellSpacing, setCellSpacing,							@"cell-spacing" );
+@def_html_style_value( cellPadding, setCellPadding,							@"cell-padding" );
 
-@def_html_array( borderTop, setBorderTop,								@"border-top" );
-@def_html_value( borderTopColor, setBorderTopColor,						@"border-top-color" );
-@def_html_value( borderTopStyle, setBorderTopStyle,						@"border-top-style" );
-@def_html_value( borderTopWidth, setBorderTopWidth,						@"border-top-width" );
+@def_html_style_array( border, setBorder,									@"border" );
+@def_html_style_value( borderWidth, setBorderWidth,							@"border-width" );
+@def_html_style_value( borderStyle, setBorderStyle,							@"border-style" );
+@def_html_style_value( borderColor, setBorderColor,							@"border-color" );
 
-@def_html_array( borderLeft, setBorderLeft,								@"border-left" );
-@def_html_value( borderLeftColor, setBorderLeftColor,					@"border-left-color" );
-@def_html_value( borderLeftStyle, setBorderLeftStyle,					@"border-left-style" );
-@def_html_value( borderLeftWidth, setBorderLeftWidth,					@"border-left-width" );
+@def_html_style_value( borderRadius, setBorderRadius,						@"border-radius" );
+@def_html_style_value( borderTopLeftRadius, setBorderTopLeftRadius,			@"border-top-left-radius" );
+@def_html_style_value( borderTopRightRadius, setBorderTopRightRadius,		@"border-top-right-radius" );
+@def_html_style_value( borderBottomLeftRadius, setBorderBottomLeftRadius,	@"border-bottom-left-radius" );
+@def_html_style_value( borderBottomRightRadius, setBorderBottomRightRadius,	@"border-bottom-right-radius" );
 
-@def_html_array( borderRight, setBorderRight,							@"border-right" );
-@def_html_value( borderRightColor, setBorderRightColor,					@"border-right-color" );
-@def_html_value( borderRightStyle, setBorderRightStyle,					@"border-right-style" );
-@def_html_value( borderRightWidth, setBorderRightWidth,					@"border-right-width" );
+@def_html_style_array( borderTop, setBorderTop,								@"border-top" );
+@def_html_style_value( borderTopColor, setBorderTopColor,					@"border-top-color" );
+@def_html_style_value( borderTopStyle, setBorderTopStyle,					@"border-top-style" );
+@def_html_style_value( borderTopWidth, setBorderTopWidth,					@"border-top-width" );
 
-@def_html_array( borderBottom, setBorderBottom,							@"border-bottom" );
-@def_html_value( borderBottomColor, setBorderBottomColor,				@"border-bottom-color" );
-@def_html_value( borderBottomStyle, setBorderBottomStyle,				@"border-bottom-style" );
-@def_html_value( borderBottomWidth, setBorderBottomWidth,				@"border-bottom-width" );
+@def_html_style_array( borderLeft, setBorderLeft,							@"border-left" );
+@def_html_style_value( borderLeftColor, setBorderLeftColor,					@"border-left-color" );
+@def_html_style_value( borderLeftStyle, setBorderLeftStyle,					@"border-left-style" );
+@def_html_style_value( borderLeftWidth, setBorderLeftWidth,					@"border-left-width" );
+
+@def_html_style_array( borderRight, setBorderRight,							@"border-right" );
+@def_html_style_value( borderRightColor, setBorderRightColor,				@"border-right-color" );
+@def_html_style_value( borderRightStyle, setBorderRightStyle,				@"border-right-style" );
+@def_html_style_value( borderRightWidth, setBorderRightWidth,				@"border-right-width" );
+
+@def_html_style_array( borderBottom, setBorderBottom,						@"border-bottom" );
+@def_html_style_value( borderBottomColor, setBorderBottomColor,				@"border-bottom-color" );
+@def_html_style_value( borderBottomStyle, setBorderBottomStyle,				@"border-bottom-style" );
+@def_html_style_value( borderBottomWidth, setBorderBottomWidth,				@"border-bottom-width" );
 
 // margin
 
-@def_html_box( margin, setMargin,										@"margin" );
-@def_html_value( marginTop, setMarginTop,								@"margin-top" );
-@def_html_value( marginLeft, setMarginLeft,								@"margin-left" );
-@def_html_value( marginRight, setMarginRight,							@"margin-right" );
-@def_html_value( marginBottom, setMarginBottom,							@"margin-bottom" );
+@def_html_style_box( margin, setMargin,										@"margin" );
+@def_html_style_value( marginTop, setMarginTop,								@"margin-top" );
+@def_html_style_value( marginLeft, setMarginLeft,							@"margin-left" );
+@def_html_style_value( marginRight, setMarginRight,							@"margin-right" );
+@def_html_style_value( marginBottom, setMarginBottom,						@"margin-bottom" );
 
 // padding
 
-@def_html_box( padding, setPadding,										@"padding" );
-@def_html_value( paddingTop, setPaddingTop,								@"padding-top" );
-@def_html_value( paddingLeft, setPaddingLeft,							@"padding-left" );
-@def_html_value( paddingRight, setPaddingRight,							@"padding-right" );
-@def_html_value( paddingBottom, setPaddingBottom,						@"padding-bottom" );
+@def_html_style_box( padding, setPadding,									@"padding" );
+@def_html_style_value( paddingTop, setPaddingTop,							@"padding-top" );
+@def_html_style_value( paddingLeft, setPaddingLeft,							@"padding-left" );
+@def_html_style_value( paddingRight, setPaddingRight,						@"padding-right" );
+@def_html_style_value( paddingBottom, setPaddingBottom,						@"padding-bottom" );
 
 // inset
 
-@def_html_box( inset, setInset,											@"inset" );
-@def_html_value( insetTop, setInsetTop,									@"inset-top" );
-@def_html_value( insetLeft, setInsetLeft,								@"inset-left" );
-@def_html_value( insetRight, setInsetRight,								@"inset-right" );
-@def_html_value( insetBottom, setInsetBottom,							@"inset-bottom" );
+@def_html_style_box( inset, setInset,										@"inset" );
+@def_html_style_value( insetTop, setInsetTop,								@"inset-top" );
+@def_html_style_value( insetLeft, setInsetLeft,								@"inset-left" );
+@def_html_style_value( insetRight, setInsetRight,							@"inset-right" );
+@def_html_style_value( insetBottom, setInsetBottom,							@"inset-bottom" );
 
 // render-model
 
-@def_html_string( renderModel, setRenderModel,							@"-samurai-render-model" );
-@def_html_string( renderClass, setRenderClass,							@"-samurai-render-class" );
+@def_html_style_string( renderModel, setRenderModel,						@"-samurai-render-model" );
+@def_html_style_string( renderClass, setRenderClass,						@"-samurai-render-class" );
 
 #pragma makr -
 
@@ -375,7 +377,12 @@
 
 - (BOOL)isAutoWidth
 {
-	if ( self.width && [self.width isAutomatic] )
+//	if ( nil == self.width )
+//	{
+//		return YES;
+//	}
+	
+	if ( [self.width isAutomatic] )
 	{
 		return YES;
 	}
@@ -385,7 +392,12 @@
 
 - (BOOL)isAutoHeight
 {
-	if ( self.height && [self.height isAutomatic] )
+//	if ( nil == self.height )
+//	{
+//		return YES;
+//	}
+	
+	if ( [self.height isAutomatic] )
 	{
 		return YES;
 	}
@@ -473,7 +485,7 @@
 			
 			componentIndex += 1;
 		}
-		
+
 	// font-weight (optional)
 		
 		component = [self.font objectAtIndex:componentIndex];
@@ -533,43 +545,44 @@
 		}
 	}
 
-	CGFloat fontHeight = HTML_DEFAULT_FONT_SIZE;
+	CGFloat defaultFontHeight = [SamuraiHtmlUserAgent sharedInstance].defaultFont.lineHeight;
+	CGFloat fontHeight = defaultFontHeight;
 
 	if ( fontSize )
 	{
 		if ( [fontSize isNumber] )
 		{
-			fontHeight = [fontSize computeValue:HTML_DEFAULT_FONT_SIZE];
+			fontHeight = [fontSize computeValue:defaultFontHeight];
 		}
 		else if ( [fontSize isString] )
 		{
 			if ( [fontSize isString:@"xx-small"] )
 			{
-				fontHeight = HTML_DEFAULT_FONT_SIZE * 0.4f;
+				fontHeight = defaultFontHeight * 0.4f;
 			}
 			else if ( [fontSize isString:@"x-small"] )
 			{
-				fontHeight = HTML_DEFAULT_FONT_SIZE * 0.6f;
+				fontHeight = defaultFontHeight * 0.6f;
 			}
 			else if ( [fontSize isString:@"small"] )
 			{
-				fontHeight = HTML_DEFAULT_FONT_SIZE * 0.8f;
+				fontHeight = defaultFontHeight * 0.8f;
 			}
 			else if ( [fontSize isString:@"medium"] )
 			{
-				fontHeight = HTML_DEFAULT_FONT_SIZE * 1.0f;
+				fontHeight = defaultFontHeight * 1.0f;
 			}
 			else if ( [fontSize isString:@"large"] )
 			{
-				fontHeight = HTML_DEFAULT_FONT_SIZE * 1.2f;
+				fontHeight = defaultFontHeight * 1.2f;
 			}
 			else if ( [fontSize isString:@"x-large"] )
 			{
-				fontHeight = HTML_DEFAULT_FONT_SIZE * 1.4f;
+				fontHeight = defaultFontHeight * 1.4f;
 			}
 			else if ( [fontSize isString:@"xx-large"] )
 			{
-				fontHeight = HTML_DEFAULT_FONT_SIZE * 1.6f;
+				fontHeight = defaultFontHeight * 1.6f;
 			}
 //			else if ( [fontSize isString:@"larger"] )
 //			{
@@ -644,9 +657,9 @@
 			}
 			else if ( [fontWeight isNumber] )
 			{
-				CGFloat value = [fontWeight computeValue:HTML_DEFAULT_FONT_WEIGHT];
-				
-				if ( value >= 600 )
+				CGFloat value = [fontWeight computeValue:200.0f];
+
+				if ( value >= 600.0f )
 				{
 					result = [UIFont boldSystemFontOfSize:fontHeight];
 				}
@@ -846,7 +859,7 @@
 
 #pragma mark -
 
-- (RenderWrap)computeWrap:(RenderWrap)defaultValue
+- (HtmlRenderWrap)computeWrap:(HtmlRenderWrap)defaultValue
 {
 	SamuraiHtmlStyleObject * flexWrap = self.flexWrap;
 	
@@ -854,26 +867,70 @@
 	{
 		if ( [flexWrap isString:@"nowrap"] )
 		{
-			return RenderWrap_NoWrap;
+			return HtmlRenderWrap_NoWrap;
 		}
 		else if ( [flexWrap isString:@"wrap"] )
 		{
-			return RenderWrap_Wrap;
+			return HtmlRenderWrap_Wrap;
 		}
 		else if ( [flexWrap isString:@"wrap-reverse"] )
 		{
-			return RenderWrap_WrapReverse;
+			return HtmlRenderWrap_WrapReverse;
 		}
 		else if ( [flexWrap isString:@"inherit"] )
 		{
-			return RenderWrap_Inherit;
+			return HtmlRenderWrap_Inherit;
 		}
 	}
 	
 	return defaultValue;
 }
 
-- (RenderDisplay)computeDisplay:(RenderDisplay)defaultValue
+- (HtmlRenderAlign)computeAlign:(HtmlRenderAlign)defaultValue
+{
+	SamuraiHtmlStyleObject * align = self.align;
+	SamuraiHtmlStyleObject * textAlign = self.textAlign;
+
+	if ( align )
+	{
+		if ( [align isString:@"left"] )
+		{
+			return HtmlRenderAlign_Left;
+		}
+		else if ( [align isString:@"right"] )
+		{
+			return HtmlRenderAlign_Right;
+		}
+		else if ( [align isString:@"center"] )
+		{
+			return HtmlRenderAlign_Center;
+		}
+		else if ( [align isString:@"inherit"] )
+		{
+			return HtmlRenderAlign_Inherit;
+		}
+	}
+	
+	if ( textAlign )
+	{
+		if ( [textAlign isString:@"left"] )
+		{
+			return HtmlRenderAlign_Left;
+		}
+		else if ( [textAlign isString:@"right"] )
+		{
+			return HtmlRenderAlign_Right;
+		}
+		else if ( [textAlign isString:@"center"] )
+		{
+			return HtmlRenderAlign_Center;
+		}
+	}
+
+	return defaultValue;
+}
+
+- (HtmlRenderDisplay)computeDisplay:(HtmlRenderDisplay)defaultValue
 {
 	SamuraiHtmlStyleObject * display = self.display;
 	
@@ -881,38 +938,78 @@
 	{
 		if ( [display isString:@"none"] )
 		{
-			return RenderDisplay_None;
+			return HtmlRenderDisplay_None;
 		}
 		else if ( [display isString:@"block"] )
 		{
-			return RenderDisplay_Block;
+			return HtmlRenderDisplay_Block;
 		}
 		else if ( [display isString:@"inline"] )
 		{
-			return RenderDisplay_Inline;
+			return HtmlRenderDisplay_Inline;
 		}
 		else if ( [display isString:@"inline-block"] )
 		{
-			return RenderDisplay_InlineBlock;
+			return HtmlRenderDisplay_InlineBlock;
 		}
 		else if ( [display isString:@"flex"] )
 		{
-			return RenderDisplay_Flex;
+			return HtmlRenderDisplay_Flex;
 		}
 		else if ( [display isString:@"inline-flex"] )
 		{
-			return RenderDisplay_InlineFlex;
+			return HtmlRenderDisplay_InlineFlex;
+		}
+		else if ( [display isString:@"table"] )
+		{
+			return HtmlRenderDisplay_Table;
+		}
+		else if ( [display isString:@"inline-table"] )
+		{
+			return HtmlRenderDisplay_InlineTable;
+		}
+		else if ( [display isString:@"table-row-group"] )
+		{
+			return HtmlRenderDisplay_TableRowGroup;
+		}
+		else if ( [display isString:@"table-header-group"] )
+		{
+			return HtmlRenderDisplay_TableHeaderGroup;
+		}
+		else if ( [display isString:@"table-footer-group"] )
+		{
+			return HtmlRenderDisplay_TableFooterGroup;
+		}
+		else if ( [display isString:@"table-row"] )
+		{
+			return HtmlRenderDisplay_TableRow;
+		}
+		else if ( [display isString:@"table-column-group"] )
+		{
+			return HtmlRenderDisplay_TableColumnGroup;
+		}
+		else if ( [display isString:@"table-column"] )
+		{
+			return HtmlRenderDisplay_TableColumn;
+		}
+		else if ( [display isString:@"table-cell"] )
+		{
+			return HtmlRenderDisplay_TableCell;
+		}
+		else if ( [display isString:@"table-caption"] )
+		{
+			return HtmlRenderDisplay_TableCaption;
 		}
 		else if ( [display isString:@"inherit"] )
 		{
-			return RenderDisplay_Inherit;
+			return HtmlRenderDisplay_Inherit;
 		}
 	}
-	
+
 	return defaultValue;
 }
 
-- (RenderFloating)computeFloating:(RenderFloating)defaultValue
+- (HtmlRenderFloating)computeFloating:(HtmlRenderFloating)defaultValue
 {
 	SamuraiHtmlStyleObject * floating = self.floating;
 	
@@ -920,26 +1017,26 @@
 	{
 		if ( [floating isString:@"none"] )
 		{
-			return RenderFloating_None;
+			return HtmlRenderFloating_None;
 		}
 		else if ( [floating isString:@"left"] )
 		{
-			return RenderFloating_Left;
+			return HtmlRenderFloating_Left;
 		}
 		else if ( [floating isString:@"right"] )
 		{
-			return RenderFloating_Right;
+			return HtmlRenderFloating_Right;
 		}
 		else if ( [floating isString:@"inherit"] )
 		{
-			return RenderFloating_Inherit;
+			return HtmlRenderFloating_Inherit;
 		}
 	}
 	
 	return defaultValue;
 }
 
-- (RenderPosition)computePosition:(RenderPosition)defaultValue
+- (HtmlRenderPosition)computePosition:(HtmlRenderPosition)defaultValue
 {
 	SamuraiHtmlStyleObject * position = self.position;
 	
@@ -947,30 +1044,30 @@
 	{
 		if ( [position isString:@"static"] )
 		{
-			return RenderPosition_Static;
+			return HtmlRenderPosition_Static;
 		}
 		else if ( [position isString:@"relative"] )
 		{
-			return RenderPosition_Relative;
+			return HtmlRenderPosition_Relative;
 		}
 		else if ( [position isString:@"absolute"] )
 		{
-			return RenderPosition_Absolute;
+			return HtmlRenderPosition_Absolute;
 		}
 		else if ( [position isString:@"fixed"] )
 		{
-			return RenderPosition_Fixed;
+			return HtmlRenderPosition_Fixed;
 		}
 		else if ( [position isString:@"inherit"] )
 		{
-			return RenderPosition_Inherit;
+			return HtmlRenderPosition_Inherit;
 		}
 	}
 	
 	return defaultValue;
 }
 
-- (RenderDirection)computeDirection:(RenderDirection)defaultValue
+- (HtmlRenderDirection)computeDirection:(HtmlRenderDirection)defaultValue
 {
 	SamuraiHtmlStyleObject * direction = self.flexDirection;
 	
@@ -978,23 +1075,70 @@
 	{
 		if ( [direction isString:@"column"] )
 		{
-			return RenderDirection_Column;
+			return HtmlRenderDirection_Column;
 		}
 		else if ( [direction isString:@" column-reverse"] )
 		{
-			return RenderDirection_ColumnReverse;
+			return HtmlRenderDirection_ColumnReverse;
 		}
 		else if ( [direction isString:@"row"] )
 		{
-			return RenderDirection_Row;
+			return HtmlRenderDirection_Row;
 		}
 		else if ( [direction isString:@"row-reverse"] )
 		{
-			return RenderDirection_RowReverse;
+			return HtmlRenderDirection_RowReverse;
 		}
 		else if ( [direction isString:@"inherit"] )
 		{
-			return RenderDirection_Inherit;
+			return HtmlRenderDirection_Inherit;
+		}
+	}
+	
+	return defaultValue;
+}
+
+- (HtmlRenderVerticalAlign)computeVerticalAlign:(HtmlRenderVerticalAlign)defaultValue
+{
+	SamuraiHtmlStyleObject * align = self.align;
+	
+	if ( align )
+	{
+		if ( [align isString:@"baseline"] )
+		{
+			return HtmlRenderVerticalAlign_Baseline;
+		}
+		else if ( [align isString:@"sub"] )
+		{
+			return HtmlRenderVerticalAlign_Sub;
+		}
+		else if ( [align isString:@"super"] )
+		{
+			return HtmlRenderVerticalAlign_Super;
+		}
+		else if ( [align isString:@"top"] )
+		{
+			return HtmlRenderVerticalAlign_Top;
+		}
+		else if ( [align isString:@"text-top"] )
+		{
+			return HtmlRenderVerticalAlign_TextTop;
+		}
+		else if ( [align isString:@"middle"] )
+		{
+			return HtmlRenderVerticalAlign_Middle;
+		}
+		else if ( [align isString:@"bottom"] )
+		{
+			return HtmlRenderVerticalAlign_Bottom;
+		}
+		else if ( [align isString:@"text-bottom"] )
+		{
+			return HtmlRenderVerticalAlign_TextBottom;
+		}
+		else if ( [align isString:@"inherit"] )
+		{
+			return HtmlRenderVerticalAlign_Inherit;
 		}
 	}
 	

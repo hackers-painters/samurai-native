@@ -47,8 +47,9 @@
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
-	UIImageView * imageView = [super createInstanceWithRenderer:renderer identifier:identifier];
+	UIImageView * imageView = [[self alloc] initWithFrame:CGRectZero];
 	
+	imageView.renderer = renderer;
 	imageView.clipsToBounds = YES;
 	imageView.layer.masksToBounds = YES;
 	
@@ -190,7 +191,17 @@
 {
 	if ( INVALID_VALUE == width )
 	{
-		return [self computeSizeBySize:CGSizeMake( width, INVALID_VALUE )];
+		if ( self.image )
+		{
+			CGSize result = self.image.size;
+			result.width = ceilf( result.width );
+			result.height = ceilf( result.height );
+			return result;
+		}
+		else
+		{
+			return CGSizeZero;
+		}
 	}
 	else
 	{
@@ -215,7 +226,17 @@
 {
 	if ( INVALID_VALUE == height )
 	{
-		return [self computeSizeBySize:CGSizeMake( INVALID_VALUE, height )];
+		if ( self.image )
+		{
+			CGSize result = self.image.size;
+			result.width = ceilf( result.width );
+			result.height = ceilf( result.height );
+			return result;
+		}
+		else
+		{
+			return CGSizeZero;
+		}
 	}
 	else
 	{

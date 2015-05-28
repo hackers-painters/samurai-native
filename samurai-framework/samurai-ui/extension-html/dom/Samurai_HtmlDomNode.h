@@ -37,7 +37,44 @@
 
 #pragma mark -
 
+// object
+
+#undef	html_dom_object
+#define	html_dom_object( type, name ) \
+		property (nonatomic, readonly) type * name
+
+#undef	def_html_dom_object
+#define	def_html_dom_object( type, getter, setter, key ) \
+		dynamic getter; \
+		- (type *)getter { return [self.attributes objectForKey:key]; } \
+		- (void)setter:(type *)obj { [self.attributes setObject:obj forKey:key]; }
+
+// string
+
+#undef	html_dom_string
+#define	html_dom_string( name ) \
+		html_dom_object( NSString, name )
+
+#undef	def_html_dom_string
+#define	def_html_dom_string( getter, setter, key ) \
+		def_html_dom_object( NSString, getter, setter, key )
+
+#pragma mark -
+
 @interface SamuraiHtmlDomNode : SamuraiDomNode<SamuraiCSSProtocol>
+
+@html_dom_string( align );
+@html_dom_string( width );
+@html_dom_string( height );
+@html_dom_string( cellSpacing );
+@html_dom_string( cellPadding );
+@html_dom_string( colSpan );
+@html_dom_string( rowSpan );
+@html_dom_string( selected );
+
+@html_dom_string( value );
+@html_dom_string( min );
+@html_dom_string( max );
 
 @prop_assign( BOOL,	implied );
 
@@ -48,10 +85,6 @@
 @prop_unsafe( SamuraiHtmlDomNode *,			shadowHost );
 @prop_strong( SamuraiHtmlDomNode *,			shadowRoot );
 
-- (SamuraiHtmlDomNode *)getFirstElementById:(NSString *)domId;
-- (SamuraiHtmlDomNode *)getFirstElementByName:(NSString *)domName;
-- (SamuraiHtmlDomNode *)getFirstElementByTagName:(NSString *)domTag;
-
 @end
 
 #pragma mark -
@@ -60,7 +93,7 @@
 
 #undef	DEBUG_HTML_DOM
 #define DEBUG_HTML_DOM( __x ) \
-		if ( [__x.domAttributes hasObjectForKey:@"debug"] || [__x.domAttributes hasObjectForKey:@"debug-dom"] ) \
+		if ( [__x.attributes hasObjectForKey:@"debug"] || [__x.attributes hasObjectForKey:@"debug-dom"] ) \
 		{ \
 			INFO( @"Debug dom at >>" ); \
 			[__x dump]; \
@@ -69,7 +102,7 @@
 
 #undef	DEBUG_HTML_CSS
 #define DEBUG_HTML_CSS( __x ) \
-		if ( [__x.domAttributes hasObjectForKey:@"debug"] || [__x.domAttributes hasObjectForKey:@"debug-css"] ) \
+		if ( [__x.attributes hasObjectForKey:@"debug"] || [__x.attributes hasObjectForKey:@"debug-css"] ) \
 		{ \
 			INFO( @"Debug style at >>" ); \
 			[__x dump]; \

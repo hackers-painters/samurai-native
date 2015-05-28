@@ -28,7 +28,7 @@
 //	THE SOFTWARE.
 //
 
-#define __SAMURAI_DEBUG__		(__OFF__)	/// 是否开启调试模式
-#define __SAMURAI_LOGGING__		(__OFF__)	/// 是否开启日志记录
-#define __SAMURAI_TESTING__		(__OFF__)	/// 是否开启单元测试
-#define __SAMURAI_SERVICE__		(__ON__)	/// 是否开启后台服务
+#define __SAMURAI_DEBUG__		(__OFF__)	/// 調試模式
+#define __SAMURAI_LOGGING__		(__OFF__)	/// 日誌模式
+#define __SAMURAI_TESTING__		(__OFF__)	/// 單元測試
+#define __SAMURAI_SERVICE__		(__ON__)	/// 後臺服務

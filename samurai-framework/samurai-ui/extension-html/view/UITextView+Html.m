@@ -55,11 +55,11 @@
 {
 	[super html_applyDom:dom];
 	
-	self.text = [[dom computeInnerText] normalize];
+	self.text = [dom computeInnerText];
 	
-	NSString * autoCapitalize = [dom.domAttributes objectForKey:@"auto-capitalization"];
-	NSString * autoCorrection = [dom.domAttributes objectForKey:@"auto-correction"];
-	NSString * spellChecking = [dom.domAttributes objectForKey:@"spell-checking"];
+	NSString * autoCapitalize = [dom.attributes objectForKey:@"auto-capitalization"];
+	NSString * autoCorrection = [dom.attributes objectForKey:@"auto-correction"];
+	NSString * spellChecking = [dom.attributes objectForKey:@"spell-checking"];
 	
 	if ( autoCapitalize )
 	{
@@ -88,7 +88,7 @@
 		self.spellCheckingType = UITextSpellCheckingTypeNo;
 	}
 	
-	NSString * keyboardType = [dom.domAttributes objectForKey:@"keyboard-type"];
+	NSString * keyboardType = [dom.attributes objectForKey:@"keyboard-type"];
 	
 	if ( [keyboardType isEqualToString:@"ascii"] )
 	{
@@ -135,7 +135,7 @@
 		self.keyboardType = UIKeyboardTypeDefault;
 	}
 	
-	NSString * keyboardAppearance = [dom.domAttributes objectForKey:@"keyboard-appearance"];
+	NSString * keyboardAppearance = [dom.attributes objectForKey:@"keyboard-appearance"];
 	
 	if ( [keyboardAppearance isEqualToString:@"dark"] )
 	{
@@ -150,7 +150,7 @@
 		self.keyboardAppearance = UIKeyboardAppearanceDefault;
 	}
 	
-	NSString * returnKeyType = [dom.domAttributes objectForKey:@"return-key-type"];
+	NSString * returnKeyType = [dom.attributes objectForKey:@"return-key-type"];
 	
 	if ( [returnKeyType isEqualToString:@"go"] )
 	{
@@ -199,10 +199,10 @@
 	
 	self.enablesReturnKeyAutomatically = NO;
 	
-	NSString * isSecure = [dom.domAttributes objectForKey:@"is-secure"];
-	NSString * isEditable = [dom.domAttributes objectForKey:@"is-editable"];
-	NSString * isSelectable = [dom.domAttributes objectForKey:@"is-selectable"];
-	
+	NSString * isSecure = [dom.attributes objectForKey:@"is-secure"];
+//	NSString * isEditable = [dom.attributes objectForKey:@"is-editable"];
+//	NSString * isSelectable = [dom.attributes objectForKey:@"is-selectable"];
+
 	if ( isSecure )
 	{
 		self.secureTextEntry = YES;
@@ -212,23 +212,23 @@
 		self.secureTextEntry = NO;
 	}
 	
-	if ( isEditable )
-	{
-		self.editable = YES;
-	}
-	else
-	{
-		self.editable = NO;
-	}
-
-	if ( isSelectable )
-	{
-		self.selectable = YES;
-	}
-	else
-	{
-		self.selectable = NO;
-	}
+//	if ( isEditable )
+//	{
+//		self.editable = YES;
+//	}
+//	else
+//	{
+//		self.editable = NO;
+//	}
+//
+//	if ( isSelectable )
+//	{
+//		self.selectable = YES;
+//	}
+//	else
+//	{
+//		self.selectable = NO;
+//	}
 }
 
 - (void)html_applyStyle:(SamuraiHtmlStyle *)style
@@ -241,6 +241,8 @@
 //	self.baselineAdjustment = [style computeBaselineAdjustment:self.baselineAdjustment];
 //	self.lineBreakMode = [style computeLineBreakMode:self.lineBreakMode];
 //	self.numberOfLines = 0;
+
+	self.textContainerInset = UIEdgeInsetsMake( 8.0f, 8.0f, 8.0f, 8.0f );
 }
 
 - (void)html_applyFrame:(CGRect)newFrame

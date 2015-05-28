@@ -86,7 +86,7 @@ typedef enum
 
 #pragma mark -
 
-- (void)parseDomNode:(SamuraiDomNode *)domNode forDocument:(SamuraiHtmlDocument *)document
+- (void)parseDomNode:(SamuraiHtmlDomNode *)domNode forDocument:(SamuraiHtmlDocument *)document
 {
 	if ( nil == domNode || nil == document )
 		return;
@@ -126,19 +126,19 @@ typedef enum
 	_domain = prevDomain;
 }
 
-- (void)parseDomNodeDocument:(SamuraiDomNode *)domNode forDocument:(SamuraiHtmlDocument *)document
+- (void)parseDomNodeDocument:(SamuraiHtmlDomNode *)domNode forDocument:(SamuraiHtmlDocument *)document
 {
-	for ( SamuraiDomNode * childNode in domNode.childs )
+	for ( SamuraiHtmlDomNode * childNode in domNode.childs )
 	{
 		[self parseDomNode:childNode forDocument:document];
 	}
 }
 
-- (void)parseDomNodeElement:(SamuraiDomNode *)domNode forDocument:(SamuraiHtmlDocument *)document
+- (void)parseDomNodeElement:(SamuraiHtmlDomNode *)domNode forDocument:(SamuraiHtmlDocument *)document
 {
 	if ( [domNode.domTag isEqualToString:@"link"] )
 	{
-		NSString * rel = [domNode.domAttributes objectForKey:@"rel"];
+		NSString * rel = [domNode.attributes objectForKey:@"rel"];
 		
 		if ( [rel isEqualToString:@"stylesheet"] )
 		{
@@ -172,27 +172,27 @@ typedef enum
 		}
 	}
 
-	for ( SamuraiDomNode * childNode in domNode.childs )
+	for ( SamuraiHtmlDomNode * childNode in domNode.childs )
 	{
 		[self parseDomNode:childNode forDocument:document];
 	}
 }
 
-- (void)parseDomNodeText:(SamuraiDomNode *)domNode forDocument:(SamuraiHtmlDocument *)document
+- (void)parseDomNodeText:(SamuraiHtmlDomNode *)domNode forDocument:(SamuraiHtmlDocument *)document
 {
 }
 
-- (void)parseDomNodeData:(SamuraiDomNode *)domNode forDocument:(SamuraiHtmlDocument *)document
+- (void)parseDomNodeData:(SamuraiHtmlDomNode *)domNode forDocument:(SamuraiHtmlDocument *)document
 {
 }
 
 #pragma mark -
 
-- (SamuraiStyleSheet *)parseStyleSheet:(SamuraiDomNode *)node basePath:(NSString * )basePath
+- (SamuraiStyleSheet *)parseStyleSheet:(SamuraiHtmlDomNode *)node basePath:(NSString * )basePath
 {
-	NSString * type = [node.domAttributes objectForKey:@"type"];
-	NSString * href = [node.domAttributes objectForKey:@"href"];
-	NSString * media = [node.domAttributes objectForKey:@"media"];
+	NSString * type = [node.attributes objectForKey:@"type"];
+	NSString * href = [node.attributes objectForKey:@"href"];
+	NSString * media = [node.attributes objectForKey:@"media"];
 	NSString * content = [node computeInnerText];
 	
 	if ( nil == type || 0 == [type length] )
@@ -279,9 +279,9 @@ typedef enum
 	return styleSheet;
 }
 
-- (SamuraiDocument *)parseImport:(SamuraiDomNode *)node basePath:(NSString * )basePath
+- (SamuraiDocument *)parseImport:(SamuraiHtmlDomNode *)node basePath:(NSString * )basePath
 {
-	NSString * href = [node.domAttributes objectForKey:@"href"];
+	NSString * href = [node.attributes objectForKey:@"href"];
 
 	SamuraiHtmlDocument * document = nil;
 

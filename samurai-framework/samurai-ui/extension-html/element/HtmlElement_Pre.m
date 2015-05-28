@@ -44,7 +44,7 @@
 
 #pragma mark -
 
-@implementation HtmlElementPre
+@implementation HtmlElement_Pre
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -52,6 +52,9 @@
 	if ( self )
 	{
 		self.layer.masksToBounds = NO;
+		
+		self.trimmed = NO;
+		self.normalized = NO;
 	}
 	return self;
 }
@@ -63,20 +66,18 @@
 - (void)html_applyDom:(SamuraiHtmlDomNode *)dom
 {
 	[super html_applyDom:dom];
-	
-	self.text = [[dom computeInnerText] trim];
 }
 
 - (void)html_applyStyle:(SamuraiHtmlStyle *)style
 {
 	[super html_applyStyle:style];
 
-	self.font = [style computeFont:[SamuraiHtmlUserAgent sharedInstance].defaultFont];
-	self.textColor = [style computeColor:self.textColor];
-	self.textAlignment = [style computeTextAlignment:self.textAlignment];
-	self.baselineAdjustment = [style computeBaselineAdjustment:self.baselineAdjustment];
-	self.lineBreakMode = [style computeLineBreakMode:self.lineBreakMode];
-	self.numberOfLines = 0;
+//	self.font = [style computeFont:[SamuraiHtmlUserAgent sharedInstance].defaultFont];
+//	self.textColor = [style computeColor:self.textColor];
+//	self.textAlignment = [style computeTextAlignment:self.textAlignment];
+//	self.baselineAdjustment = [style computeBaselineAdjustment:self.baselineAdjustment];
+//	self.lineBreakMode = [style computeLineBreakMode:self.lineBreakMode];
+//	self.numberOfLines = 0;
 }
 
 - (void)html_applyFrame:(CGRect)newFrame

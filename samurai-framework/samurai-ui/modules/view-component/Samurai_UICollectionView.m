@@ -132,7 +132,7 @@
 		return CGSizeZero;
 	}
 	
-	NSString *	cachedKey = [NSString stringWithFormat:@"%ld-%ld", indexPath.section, indexPath.row];
+	NSString *	cachedKey = [NSString stringWithFormat:@"%ld-%ld", (long)indexPath.section, (long)indexPath.row];
 	NSValue *	cachedSize = [_cachedHeight objectForKey:cachedKey];
 
 	if ( cachedSize )
@@ -145,12 +145,14 @@
 	if ( nil == reuseCell )
 	{
 		reuseCell = (UICollectionViewCell *)[self.document.renderTree createViewWithIdentifier:nil];
+		
 		[reuseCell.renderer bindOutletsTo:reuseCell];
 	}
 	
 	if ( nil == reuseCell )
 	{
 		reuseCell = [[UICollectionViewCell alloc] initWithFrame:CGRectZero];
+		
 		[reuseCell.renderer bindOutletsTo:reuseCell];
 	}
 	
@@ -420,7 +422,7 @@
 			}
 			else
 			{
-				sectionKey = [NSString stringWithFormat:@"%lu", section.index];
+				sectionKey = [NSString stringWithFormat:@"%lu", (unsigned long)section.index];
 			}
 			
 			sectionData = [section serialize];
@@ -457,7 +459,7 @@
 			}
 			else
 			{
-				sectionKey = [NSString stringWithFormat:@"%lu", section.index];
+				sectionKey = [NSString stringWithFormat:@"%lu", (unsigned long)section.index];
 			}
 			
 			if ( [obj isKindOfClass:[NSDictionary class]] || [obj conformsToProtocol:@protocol(NSDictionaryProtocol)] )

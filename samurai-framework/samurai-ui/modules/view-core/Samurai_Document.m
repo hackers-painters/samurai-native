@@ -102,10 +102,6 @@ BASE_CLASS( SamuraiDocument )
 	self.type = nil;
 	self.media = nil;
 	
-	self.rootTag = nil;
-	self.headTag = nil;
-	self.bodyTag = nil;
-
 	self.domTree = nil;
 	self.styleTree = nil;
 	self.renderTree = nil;
@@ -119,23 +115,6 @@ BASE_CLASS( SamuraiDocument )
 
 - (void)deepCopyFrom:(id)obj
 {
-}
-
-#pragma mark -
-
-- (SamuraiDomNode *)getRoot
-{
-	return [self.domTree getFirstElementByTagName:self.rootTag];
-}
-
-- (SamuraiDomNode *)getHead
-{
-	return [self.domTree getFirstElementByTagName:self.headTag];
-}
-
-- (SamuraiDomNode *)getBody
-{
-	return [self.domTree getFirstElementByTagName:self.bodyTag];
 }
 
 #pragma mark -
@@ -158,14 +137,21 @@ BASE_CLASS( SamuraiDocument )
 
 #pragma mark -
 
-- (void)configuringForView:(UIView *)view
+- (void)configureForView:(UIView *)view
 {
 	
 }
 
-- (void)configuringForViewController:(UIViewController *)viewController
+- (void)configureForViewController:(UIViewController *)viewController
 {
 	
+}
+
+#pragma mark -
+
+- (NSString *)uniqueIdentifier
+{
+	return nil;
 }
 
 @end

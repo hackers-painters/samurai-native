@@ -82,7 +82,37 @@
 	{
 		DEBUG_RENDERER_FRAME( renderObject );
 
-		[renderObject.view html_applyFrame:renderObject.frame];
+		CGRect viewFrame = renderObject.bounds;
+		
+		viewFrame.origin.x += renderObject.inset.left;
+		viewFrame.origin.y += renderObject.inset.top;
+		viewFrame.size.width -= renderObject.inset.left;
+		viewFrame.size.width -= renderObject.inset.right;
+		viewFrame.size.height -= renderObject.inset.top;
+		viewFrame.size.height -= renderObject.inset.bottom;
+
+		viewFrame.origin.x += renderObject.margin.left;
+		viewFrame.origin.y += renderObject.margin.top;
+		viewFrame.size.width -= renderObject.margin.left;
+		viewFrame.size.width -= renderObject.margin.right;
+		viewFrame.size.height -= renderObject.margin.top;
+		viewFrame.size.height -= renderObject.margin.bottom;
+
+//		viewFrame.origin.x += renderObject.border.left;
+//		viewFrame.origin.y += renderObject.border.top;
+//		viewFrame.size.width -= renderObject.border.left;
+//		viewFrame.size.width -= renderObject.border.right;
+//		viewFrame.size.height -= renderObject.border.top;
+//		viewFrame.size.height -= renderObject.border.bottom;
+//
+//		viewFrame.origin.x += renderObject.padding.left;
+//		viewFrame.origin.y += renderObject.padding.top;
+//		viewFrame.size.width -= renderObject.padding.left;
+//		viewFrame.size.width -= renderObject.padding.right;
+//		viewFrame.size.height -= renderObject.padding.top;
+//		viewFrame.size.height -= renderObject.padding.bottom;
+
+		[renderObject.view html_applyFrame:viewFrame];
 		
 		DEBUG_RENDERER_STYLE( renderObject );
 		

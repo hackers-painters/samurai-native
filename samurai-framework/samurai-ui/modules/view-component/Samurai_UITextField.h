@@ -42,7 +42,7 @@
 
 @interface SamuraiUITextFieldAgent : NSObject<UITextFieldDelegate>
 
-@prop_unsafe( UITextField *,	textField );
+@prop_unsafe( UITextField *,			textField );
 
 - (void)enableEvents;
 - (void)disableEvents;
