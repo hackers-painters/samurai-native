@@ -456,11 +456,7 @@
 		BOOL needReload = [self document:self.document includeResourceOfPath:path];
 		if ( needReload )
 		{
-		#if TARGET_IPHONE_SIMULATOR
-			[self loadFile:path];
-		#else	// #if TARGET_IPHONE_SIMULATOR
 			[self loadFile:self.document.resPath];
-		#endif	// #if TARGET_IPHONE_SIMULATOR
 		}
 	}
 }
