@@ -54,6 +54,7 @@
 - (void)onTemplateLoaded
 {
     [self refresh];
+	[self reloadData];
 }
 
 - (void)onTemplateFailed
