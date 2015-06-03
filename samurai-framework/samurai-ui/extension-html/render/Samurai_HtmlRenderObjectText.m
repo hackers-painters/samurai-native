@@ -341,7 +341,25 @@
 	
 	if ( self.parent )
 	{
-		CGFloat lineHeight = [self.parent computeLineHeight:bound.height];
+		CGFloat lineHeight = INVALID_VALUE;
+		
+		if ( [self.view respondsToSelector:@selector(font)] )
+		{
+			UIFont * font = [self.view performSelector:@selector(font) withObject:nil];
+			
+			if ( font )
+			{
+				lineHeight = [self.parent computeLineHeight:font.lineHeight];
+			}
+			else
+			{
+				lineHeight = [self.parent computeLineHeight:bound.height];
+			}
+		}
+		else
+		{
+			lineHeight = [self.parent computeLineHeight:bound.height];
+		}
 		
 		if ( INVALID_VALUE != lineHeight )
 		{

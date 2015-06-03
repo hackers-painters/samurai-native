@@ -116,9 +116,12 @@
 	{
 		signal.arrived = YES;
 	}
+
 #if __SAMURAI_DEBUG__
+#if __SAMURAI_LOGGING__
 	NSString * newline = @"\n   > ";
-#endif // #if __SAMURAI_DEBUG__
+#endif	// #if __SAMURAI_LOGGING__
+#endif	// #if __SAMURAI_DEBUG__
 
 	if ( signal.arrived )
 	{
@@ -404,6 +407,75 @@
 			SEL			selector = nil;
 			BOOL		performed = NO;
 
+		// native selector
+
+			if ( [signal.name hasPrefix:@"signal."] )
+			{
+				if ( NO == performed )
+				{
+					selectorName = [signal.name substringFromIndex:@"signal.".length];
+					selectorName = [selectorName stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
+					selectorName = [selectorName stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+					selectorName = [selectorName stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+					
+					selector = NSSelectorFromString( selectorName );
+					
+					performed = [self signal:signal perform:selector class:targetClass target:target];
+					if ( performed )
+					{
+						[_handlers setObject:selectorName forKey:cacheName];
+						break;
+					}
+				}
+			}
+			
+			if ( [signal.name hasPrefix:@"selector."] )
+			{
+				if ( NO == performed )
+				{
+					selectorName = [signal.name substringFromIndex:@"selector.".length];
+//					selectorName = [selectorName stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
+//					selectorName = [selectorName stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+//					selectorName = [selectorName stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+					
+					selector = NSSelectorFromString( selectorName );
+					
+					performed = [self signal:signal perform:selector class:targetClass target:target];
+					if ( performed )
+					{
+						[_handlers setObject:selectorName forKey:cacheName];
+						break;
+					}
+				}
+			}
+
+			if ( NO == performed )
+			{
+				if ( [signal.name hasSuffix:@":"] )
+				{
+					selectorName = signal.name;
+				}
+				else
+				{
+					selectorName = [NSString stringWithFormat:@"%@:", signal.name];
+				}
+				
+				selectorName = [selectorName stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
+				selectorName = [selectorName stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+				selectorName = [selectorName stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+				
+				selector = NSSelectorFromString( selectorName );
+				
+				performed = [self signal:signal perform:selector class:targetClass target:target];
+				if ( performed )
+				{
+					[_handlers setObject:selectorName forKey:cacheName];
+					break;
+				}
+			}
+			
+		// high priority selector
+			
 			if ( prioAlias )
 			{
 				if ( [prioAlias isKindOfClass:[NSArray class]] )
@@ -491,6 +563,8 @@
 			{
 				break;
 			}
+			
+		// signal selector
 
 			if ( prioSelector )
 			{

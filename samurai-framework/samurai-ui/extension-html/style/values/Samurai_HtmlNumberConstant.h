@@ -43,6 +43,9 @@
 #pragma mark -
 
 @interface SamuraiHtmlStyleObject(NumberConstant)
+
+- (BOOL)isConstant;
+
 @end
 
 #pragma mark -

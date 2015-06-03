@@ -1444,8 +1444,23 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 	{
 		if ( [self.style.lineHeight isNumber] )
 		{
-			lineHeight = [self.style.lineHeight computeValue:height];
-			lineHeight = NORMALIZE_VALUE( lineHeight );
+			if ( [self.style.lineHeight isConstant] )
+			{
+				lineHeight = [self.style.lineHeight computeValue:height];
+				lineHeight = NORMALIZE_VALUE( lineHeight );
+				lineHeight = height * lineHeight;
+			}
+			else if ( [self.style.lineHeight isPercentage] )
+			{
+				lineHeight = [self.style.lineHeight computeValue:height];
+				lineHeight = NORMALIZE_VALUE( lineHeight );
+				lineHeight = height * lineHeight;
+			}
+			else
+			{
+				lineHeight = [self.style.lineHeight computeValue:height];
+				lineHeight = NORMALIZE_VALUE( lineHeight );	
+			}
 		}
 	}
 	

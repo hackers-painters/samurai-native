@@ -130,12 +130,7 @@
 
 #pragma mark -
 
-handleSignal( t4, eventReturn )
-{
-	[self submitForm];
-}
-
-handleSignal( submit )
+- (void)submit:(SamuraiSignal *)signal
 {
 	[self submitForm];
 }

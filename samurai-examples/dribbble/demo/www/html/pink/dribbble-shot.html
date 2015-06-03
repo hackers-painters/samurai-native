@@ -17,7 +17,7 @@
 		<meta name="navbar-tint-color" content="white"/>
 		<meta name="navbar-text-color" content="white"/>
 
-		<link rel="stylesheet" type="text/css" href="../../css/normalize.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css"/>
 		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
 		<link rel="stylesheet" type="text/css" href="SDWebImageView.css"/>
 		<link rel="stylesheet" type="text/css" href="EMStringLabel.css"/>
@@ -29,7 +29,7 @@
 		<RefreshCollectionView id="list" name="shot" class="list" columns="1" is-vertical>
 
 			<UICollectionViewCell name="author" is-static is-row>
-				<div class="author-wrapper" onclick="signal('view-profile')">
+				<div class="author-wrapper" onclick="@selector(viewProfile:)">
 					<img class="author-avatar" name="avatar"/>
 					<div class="author-attribution">
 						<div class="author-title" name="title">Portfolio concept</div>
@@ -41,7 +41,7 @@
 			<UICollectionViewCell name="shot" is-static is-row>
 				<div class="shot-wrapper">
 					<img name="img" class="shot-img" src="http://img.hb.aicdn.com/90b96d207b752453ca2cef1d29af382637342086f507-9rHNhW_fw658"
-					 onclick="signal('view-photo')" />
+					 onclick="@selector(viewPhoto:)" />
 				</div>
 			</UICollectionViewCell>
 
@@ -82,7 +82,7 @@
 			</UICollectionViewCell>
 			 -->
 
-			<UICollectionViewCell name="comments" class="comment-cell" is-row onclick="signal('view-comments')">
+			<UICollectionViewCell name="comments" class="comment-cell" is-row onclick="@selector(viewComments:)">
 				<img class="comment-avatar-img" name="avatar"/>
 				<div class="comment-attribution">
 					<p class="comment-name" name="name">Eddy Gann</p>
@@ -99,14 +99,13 @@
 				padding: 0;
 				width: 100%;
 				height: 100%;
-				background-color: #e5508c;
 			}
 
 			.list {
 				display: block;
 				width: 100%;
 				height: 100%;
-				background-color: transparent;
+				background-color: #e5508c;
 			}
 
 			.author-wrapper {
@@ -152,7 +151,7 @@
 				width: auto;
 				height: 50%;
 				line-height: 22px;
-				color: #fff 0.5;
+				color: rgba( 255, 255, 255, 0.5 );
 				text-align: left;
 				font-size: 12px;
 				font-weight: lighter;
@@ -163,6 +162,7 @@
 				height: 100%;
 				line-height: 22px;
 				color: #fff;
+				font-size: 14px;
 				font-weight: lighter;
 			}
 		
@@ -240,7 +240,7 @@
 				width: auto;
 				height: 100%;
 				line-height: 34px;
-				color: #fff 0.6;
+				color: rgba( 255, 255, 255, 0.6 );
 				text-align: center;
 				font-size: 12px;
 				font-weight: lighter;
@@ -310,7 +310,7 @@
 				height: auto;
 				font-weight: lighter;
 				font-size: 14px;
-				color: #fff 0.5;
+				color: rgba( 255, 255, 255, 0.5 );
 			}
 
 			.comment-body {

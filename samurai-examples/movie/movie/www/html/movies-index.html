@@ -23,7 +23,7 @@
         
         <RefreshCollectionView id="list" name="list" class="list" columns="1" is-vertical>
             
-            <MovieListCell name="movies" class="list-item" is-row onclick="signal('view-cover')">
+            <MovieListCell name="movies" class="list-item" is-row onclick="@selector(viewCover:)">
 
 				<div class="line"></div>
 				<img class="cover" name="cover"/>

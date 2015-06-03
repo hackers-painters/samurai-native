@@ -79,7 +79,7 @@
 
 #pragma mark -
 
-handleSignal( test )
+- (void)test:(SamuraiSignal *)signal
 {
 	UITableViewCell *	cell = signal.sourceTableCell;
 	NSIndexPath *		index = signal.sourceIndexPath;

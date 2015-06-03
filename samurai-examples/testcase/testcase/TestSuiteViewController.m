@@ -121,7 +121,7 @@
 
 #pragma mark -
 
-handleSignal( test )
+- (void)test:(SamuraiSignal *)signal
 {
 	BOOL isDir = NO;
 	

@@ -57,6 +57,62 @@
 	self.listModel.player_id = self.player.id;
 	[self.listModel addSignalResponder:self];
 	[self.listModel modelLoad];
+
+	@weakify( self );
+	
+	self.onSignal( RefreshCollectionView.eventPullToRefresh, ^{
+		
+		@strongify( self );
+		
+		[self refresh];
+	});
+	
+	self.onSignal( RefreshCollectionView.eventLoadMore, ^{
+		
+		@strongify( self );
+		
+		[self loadMore];
+	});
+	
+	self.onSignal( PlayerModel.eventLoading, ^{
+		
+	});
+
+	self.onSignal( PlayerModel.eventLoaded, ^{
+		
+		@strongify( self );
+		
+		[self.list stopLoading];
+		
+		[self reloadData];
+	});
+	
+	self.onSignal( PlayerModel.eventError, ^{
+		
+		@strongify( self );
+		
+		[self.list stopLoading];
+	});
+
+	self.onSignal( PlayerShotListModel.eventLoading, ^{
+		
+	});
+	
+	self.onSignal( PlayerShotListModel.eventLoaded, ^{
+		
+		@strongify( self );
+		
+		[self.list stopLoading];
+		
+		[self reloadData];
+	});
+	
+	self.onSignal( PlayerShotListModel.eventError, ^{
+		
+		@strongify( self );
+		
+		[self.list stopLoading];
+	});
 }
 
 - (void)onDestroy
@@ -177,61 +233,13 @@
 
 #pragma mark -
 
-handleSignal( view_shot )
+- (void)viewShot:(SamuraiSignal *)signal
 {
 	SHOT * shot = [self.listModel.shots objectAtIndex:signal.sourceIndexPath.row];
 
     shot.user = self.player;
     
 	[self startURL:@"/shot" params:@{ @"shot" : shot }];
-}
-
-#pragma mark -
-
-handleSignal( RefreshCollectionView, eventPullToRefresh )
-{
-	[self refresh];
-}
-
-handleSignal( RefreshCollectionView, eventLoadMore )
-{
-	[self loadMore];
-}
-
-#pragma mark -
-
-handleSignal( PlayerModel, eventLoading )
-{
-}
-
-handleSignal( PlayerModel, eventLoaded )
-{
-	[self.list stopLoading];
-	
-	[self reloadData];
-}
-
-handleSignal( PlayerModel, eventError )
-{
-	[self.list stopLoading];
-}
-
-#pragma mark -
-
-handleSignal( PlayerShotListModel, eventLoading )
-{
-}
-
-handleSignal( PlayerShotListModel, eventLoaded )
-{
-	[self.list stopLoading];
-	
-	[self reloadData];
-}
-
-handleSignal( PlayerShotListModel, eventError )
-{
-	[self.list stopLoading];
 }
 
 @end

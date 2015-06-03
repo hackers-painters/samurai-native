@@ -40,6 +40,17 @@
 
 #pragma mark -
 
+@implementation SamuraiHtmlStyleObject(NumberConstant)
+
+- (BOOL)isConstant
+{
+	return NO;
+}
+
+@end
+
+#pragma mark -
+
 @implementation SamuraiHtmlNumberConstant
 
 + (instancetype)object:(id)any
@@ -101,6 +112,11 @@
 - (NSString *)description
 {
 	return [super description];
+}
+
+- (BOOL)isConstant
+{
+	return YES;
 }
 
 - (BOOL)isAbsolute

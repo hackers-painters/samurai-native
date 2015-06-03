@@ -47,6 +47,9 @@
 
 - (BOOL)test:(NSString *)condition
 {
+	if ( nil == condition )
+		return YES;
+	
     KatanaOutput * output = [[SamuraiCSSParser sharedInstance] parseMedia:condition];
     
     if ( NULL != output )
@@ -66,14 +69,14 @@
     
     BOOL passed = YES;
         
-    for (int i=0; i<medias->length; i++)
+    for ( int i=0; i<medias->length; i++ )
     {
         KatanaMediaQuery * mediaQuery = medias->data[i];
 
         if ( NULL == mediaQuery->expressions )
             return YES;
         
-        for (int i = 0; i < mediaQuery->expressions->length; i++)
+        for ( int i = 0; i < mediaQuery->expressions->length; i++ )
         {
             BOOL matches = [self testMediaQueryExpression:mediaQuery->expressions->data[i]];
             
@@ -82,6 +85,7 @@
                 case KatanaMediaQueryRestrictorNot:
                     passed = passed && !matches;
                     break;
+
                 default:
                     passed = passed && matches;
                     break;

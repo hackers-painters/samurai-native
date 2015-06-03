@@ -86,7 +86,7 @@
 
 #pragma mark -
 
-handleSignal( test )
+- (void)test:(SamuraiSignal *)signal
 {
 	NSString * controlName = [_controls objectAtIndex:signal.sourceIndexPath.row];
 	NSString * controllerName = [NSString stringWithFormat:@"Test_%@", controlName];

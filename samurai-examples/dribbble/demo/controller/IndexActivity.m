@@ -72,6 +72,52 @@
 	[self.model1 modelLoad];
 	[self.model2 modelLoad];
 	[self.model3 modelLoad];
+	
+	@weakify( self );
+
+	self.onSignal( RefreshCollectionView.eventPullToRefresh, ^{
+		
+		@strongify( self );
+
+		[self refresh];
+	});
+	
+	self.onSignal( RefreshCollectionView.eventLoadMore, ^{
+		
+		@strongify( self );
+
+		[self loadMore];
+	});
+
+	self.onSignal( ShotListModel.eventLoading, ^{
+		
+		@strongify( self );
+
+		if ( 0 == [_currentModel.shots count] )
+		{
+			[self showLoading];
+		}
+	});
+	
+	self.onSignal( ShotListModel.eventLoaded, ^{
+		
+		@strongify( self );
+
+		[self hideLoading];
+		
+		[self.list stopLoading];
+		
+		[self reloadData];
+	});
+	
+	self.onSignal( ShotListModel.eventError, ^{
+		
+		@strongify( self );
+
+		[self hideLoading];
+		
+		[self.list stopLoading];
+	});
 
 	_currentIndex = 0;
 	_currentModel = self.model1;
@@ -256,8 +302,6 @@
 	[self.tab2 restyle];
 	[self.tab3 restyle];
 	
-//	[self relayout];
-
 	[self.list setContentOffset:CGPointZero animated:NO];
 	
 	[_currentModel refresh];
@@ -374,22 +418,22 @@
 
 #pragma mark -
 
-handleSignal( switch_tab1 )
+- (void)switchTab1:(SamuraiSignal *)signal
 {
 	[self switchTab:0];
 }
 
-handleSignal( switch_tab2 )
+- (void)switchTab2:(SamuraiSignal *)signal
 {
 	[self switchTab:1];
 }
 
-handleSignal( switch_tab3 )
+- (void)switchTab3:(SamuraiSignal *)signal
 {
 	[self switchTab:2];
 }
 
-handleSignal( prev_tab )
+- (void)prevTab:(SamuraiSignal *)signal
 {
 	if ( _currentIndex > 0 )
 	{
@@ -401,7 +445,7 @@ handleSignal( prev_tab )
 	}
 }
 
-handleSignal( next_tab )
+- (void)nextTab:(SamuraiSignal *)signal
 {
 	if ( _currentIndex < 2 )
 	{
@@ -413,49 +457,11 @@ handleSignal( next_tab )
 	}
 }
 
-handleSignal( view_shot )
+- (void)viewShot:(SamuraiSignal *)signal
 {
 	SHOT * shot = [_currentModel.shots objectAtIndex:signal.sourceIndexPath.row];
 	
 	[self startURL:@"/shot" params:@{ @"shot" : shot }];
-}
-
-#pragma mark -
-
-handleSignal( RefreshCollectionView, eventPullToRefresh )
-{
-	[self refresh];
-}
-
-handleSignal( RefreshCollectionView, eventLoadMore )
-{
-	[self loadMore];
-}
-
-#pragma mark -
-
-handleSignal( ShotListModel, eventLoading )
-{
-	if ( 0 == [_currentModel.shots count] )
-	{
-		[self showLoading];
-	}
-}
-
-handleSignal( ShotListModel, eventLoaded )
-{
-	[self hideLoading];
-	
-	[self.list stopLoading];
-	
-	[self reloadData];
-}
-
-handleSignal( ShotListModel, eventError )
-{
-	[self hideLoading];
-	
-	[self.list stopLoading];
 }
 
 @end

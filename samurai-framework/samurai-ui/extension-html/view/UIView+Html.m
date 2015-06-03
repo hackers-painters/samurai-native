@@ -766,19 +766,79 @@
 
 #pragma mark -
 
+- (NSString *)html_parseEvent:(NSString *)property
+{
+	if ( nil == property )
+		return nil;
+	
+	NSString * eventName = nil;
+	
+	eventName = eventName ?: [self html_parseSignal:property];
+	eventName = eventName ?: [self html_parseSelector:property];
+	eventName = eventName ?: [self html_parseFunction:property];
+	
+	return eventName;
+}
+
 - (NSString *)html_parseSignal:(NSString *)property
 {
-	NSString * prefix = @"signal(";
-	NSString * suffix = @")";
+	property = [property trim];
 	
-	if ( [property hasPrefix:prefix] && [property hasSuffix:suffix] )
+	if ( property && property.length )
 	{
-		NSRange		range = NSMakeRange( prefix.length, property.length - prefix.length - suffix.length );
-		NSString *	signal = [property substringWithRange:range];
+		NSString * prefix = @"signal(";
+		NSString * suffix = @")";
+		
+		if ( [property hasPrefix:prefix] && [property hasSuffix:suffix] )
+		{
+			NSRange		range = NSMakeRange( prefix.length, property.length - prefix.length - suffix.length );
+			NSString *	signal = [[property substringWithRange:range] trim];
 
-		return [[[signal trim] unwrap] trim];
+			return [NSString stringWithFormat:@"signal.%@", signal];
+		}
+	}
+	
+	return nil;
+}
+
+- (NSString *)html_parseSelector:(NSString *)property
+{
+	property = [property trim];
+	
+	if ( property && property.length )
+	{
+		NSString * prefix = @"@selector(";
+		NSString * suffix = @")";
+		
+		if ( [property hasPrefix:prefix] && [property hasSuffix:suffix] )
+		{
+			NSRange		range = NSMakeRange( prefix.length, property.length - prefix.length - suffix.length );
+			NSString *	selector = [[[[property substringWithRange:range] trim] unwrap] trim];
+
+			return [NSString stringWithFormat:@"selector.%@", selector];
+		}
 	}
 
+	return nil;
+}
+
+- (NSString *)html_parseFunction:(NSString *)property
+{
+	property = [property trim];
+	
+	if ( property && property.length )
+	{
+		NSString * suffix = @"()";
+		
+		if ( [property hasSuffix:suffix] )
+		{
+			NSRange		range = NSMakeRange( 0, property.length - suffix.length );
+			NSString *	signal = [[[[property substringWithRange:range] trim] unwrap] trim];
+
+			return signal;
+		}
+	}
+	
 	return nil;
 }
 
@@ -786,72 +846,56 @@
 {
 	[super html_applyDom:dom];
 	
-	NSString * onClick		= [dom.attributes objectForKey:@"onclick"];
-	NSString * onSwipe		= [dom.attributes objectForKey:@"onswipe"];
-	NSString * onSwipeLeft	= [dom.attributes objectForKey:@"onswipe-left"];
-	NSString * onSwipeRight	= [dom.attributes objectForKey:@"onswipe-right"];
-	NSString * onSwipeUp	= [dom.attributes objectForKey:@"onswipe-up"];
-	NSString * onSwipeDown	= [dom.attributes objectForKey:@"onswipe-down"];
-	NSString * onPinch		= [dom.attributes objectForKey:@"onpinch"];
-	NSString * onPan		= [dom.attributes objectForKey:@"onpan"];
+	NSString * onClick		= [self html_parseEvent:[dom.attributes objectForKey:@"onclick"]];
+	NSString * onSwipe		= [self html_parseEvent:[dom.attributes objectForKey:@"onswipe"]];
+	NSString * onSwipeLeft	= [self html_parseEvent:[dom.attributes objectForKey:@"onswipe-left"]];
+	NSString * onSwipeRight	= [self html_parseEvent:[dom.attributes objectForKey:@"onswipe-right"]];
+	NSString * onSwipeUp	= [self html_parseEvent:[dom.attributes objectForKey:@"onswipe-up"]];
+	NSString * onSwipeDown	= [self html_parseEvent:[dom.attributes objectForKey:@"onswipe-down"]];
+	NSString * onPinch		= [self html_parseEvent:[dom.attributes objectForKey:@"onpinch"]];
+	NSString * onPan		= [self html_parseEvent:[dom.attributes objectForKey:@"onpan"]];
 
 	if ( onClick )
 	{
-		NSString * signal = [self html_parseSignal:onClick];
-		
-		[self enableTapGestureWithSignal:signal];
+		[self enableTapGestureWithSignal:onClick];
 	}
 
 	if ( onSwipe )
 	{
-		NSString * signal = [self html_parseSignal:onSwipe];
-
-		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionUp withSignal:signal];
-		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionDown withSignal:signal];
-		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionLeft withSignal:signal];
-		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionRight withSignal:signal];
+		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionUp withSignal:onSwipe];
+		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionDown withSignal:onSwipe];
+		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionLeft withSignal:onSwipe];
+		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionRight withSignal:onSwipe];
 	}
 
 	if ( onSwipeLeft )
 	{
-		NSString * signal = [self html_parseSignal:onSwipeLeft];
-		
-		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionLeft withSignal:signal];
+		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionLeft withSignal:onSwipeLeft];
 	}
 
 	if ( onSwipeRight )
 	{
-		NSString * signal = [self html_parseSignal:onSwipeRight];
-		
-		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionRight withSignal:signal];
+		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionRight withSignal:onSwipeRight];
 	}
 
 	if ( onSwipeUp )
 	{
-		NSString * signal = [self html_parseSignal:onSwipeUp];
-		
-		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionUp withSignal:signal];
+		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionUp withSignal:onSwipeUp];
 	}
 
 	if ( onSwipeDown )
 	{
-		NSString * signal = [self html_parseSignal:onSwipeDown];
-		
-		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionDown withSignal:signal];
+		[self enableSwipeGesture:UISwipeGestureRecognizerDirectionDown withSignal:onSwipeDown];
 	}
 
 	if ( onPinch )
 	{
-		NSString * signal = [self html_parseSignal:onPinch];
-		
-		[self enablePinchGestureWithSignal:signal];
+		[self enablePinchGestureWithSignal:onPinch];
 	}
 
 	if ( onPan )
 	{
-		NSString * signal = [self html_parseSignal:onPan];
-		
-		[self enablePanGestureWithSignal:signal];
+		[self enablePanGestureWithSignal:onPan];
 	}
 }
 

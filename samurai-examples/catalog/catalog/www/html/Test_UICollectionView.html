@@ -22,7 +22,7 @@
 
 		<UICollectionView name="sections" columns="2" is-vertical>
 
-			<UICollectionViewCell name="section0" class="cell0" is-static is-row onclick="signal('test')">
+			<UICollectionViewCell name="section0" class="cell0" is-static is-row onclick="@selector(test:)">
 				
 				<UICollectionView id="banners" class="scroller" is-horizontal is-paging>
 					<UICollectionViewCell class="banner1" is-static is-row>
@@ -40,27 +40,27 @@
 				
 			</UICollectionViewCell>
 
-			<UICollectionViewCell name="section1" class="cell1" is-static is-row stick-top onclick="signal('test')">
+			<UICollectionViewCell name="section1" class="cell1" is-static is-row stick-top onclick="@selector(test:)">
 				<p>Section 1 - Static row</p>
 			</UICollectionViewCell>
 
-			<UICollectionViewCell name="section2" class="cell2" is-dynamic is-row onclick="signal('test')">
+			<UICollectionViewCell name="section2" class="cell2" is-dynamic is-row onclick="@selector(test:)">
 				<p>Section 2 - Dynamic row</p>
 			</UICollectionViewCell>
 
-			<UICollectionViewCell name="section3" class="cell3" is-static is-column onclick="signal('test')">
+			<UICollectionViewCell name="section3" class="cell3" is-static is-column onclick="@selector(test:)">
 				<p>Section 3 - Static column</p>
 			</UICollectionViewCell>
 
-			<UICollectionViewCell name="section4" class="cell4" is-dynamic is-column onclick="signal('test')">
+			<UICollectionViewCell name="section4" class="cell4" is-dynamic is-column onclick="@selector(test:)">
 				<p>Section 4 - Dynamic column</p>
 			</UICollectionViewCell>
 
-			<UICollectionViewCell name="section5" class="cell5" is-dynamic is-row stick-top onclick="signal('test')">
+			<UICollectionViewCell name="section5" class="cell5" is-dynamic is-row stick-top onclick="@selector(test:)">
 				<p>Section 5 - Dynamic row - Stick top</p>
 			</UICollectionViewCell>
 
-			<UICollectionViewCell name="section6" class="cell6" is-dynamic is-column onclick="signal('test')">
+			<UICollectionViewCell name="section6" class="cell6" is-dynamic is-column onclick="@selector(test:)">
 				<p>Section 6 - Dynamic column</p>
 			</UICollectionViewCell>
 

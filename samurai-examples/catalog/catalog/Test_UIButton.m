@@ -21,24 +21,6 @@
 	// Do any additional setup after loading the view, typically from a nib.
 	
 	[self loadViewTemplate:@"/www/html/Test_UIButton.html"];
-	
-	self.onSignal( makeSignal(test1), ^{
-		
-		[[[UIAlertView alloc] initWithTitle:@"Button 1 was clicked"
-									message:nil
-								   delegate:nil
-						  cancelButtonTitle:@"OK"
-						  otherButtonTitles:nil] show];
-	});
-
-	self.onSignal( makeSignal(test3), ^{
-
-		[[[UIAlertView alloc] initWithTitle:@"Button 3 was clicked"
-									message:nil
-								   delegate:nil
-						  cancelButtonTitle:@"OK"
-						  otherButtonTitles:nil] show];
-	});
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,7 +52,16 @@
 
 #pragma mark -
 
-handleSignal( test2 )
+- (void)test1:(SamuraiSignal *)signal
+{
+	[[[UIAlertView alloc] initWithTitle:@"Button 1 was clicked"
+								message:nil
+							   delegate:nil
+					  cancelButtonTitle:@"OK"
+					  otherButtonTitles:nil] show];
+}
+
+- (void)test2:(SamuraiSignal *)signal
 {
 	[[[UIAlertView alloc] initWithTitle:@"Button 2 was clicked"
 								message:nil
@@ -79,9 +70,9 @@ handleSignal( test2 )
 					  otherButtonTitles:nil] show];
 }
 
-handleSignal( test4 )
+- (void)test3:(SamuraiSignal *)signal
 {
-	[[[UIAlertView alloc] initWithTitle:@"Button 4 was clicked"
+	[[[UIAlertView alloc] initWithTitle:@"Button 3 was clicked"
 								message:nil
 							   delegate:nil
 					  cancelButtonTitle:@"OK"

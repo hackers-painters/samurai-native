@@ -17,7 +17,7 @@
 		<meta name="navbar-tint-color" content="white"/>
 		<meta name="navbar-text-color" content="white"/>
 
-		<link rel="stylesheet" type="text/css" href="../../css/normalize.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css"/>
 		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
 		<link rel="stylesheet" type="text/css" href="SDWebImageView.css"/>
 		<link rel="stylesheet" type="text/css" href="EMStringLabel.css"/>
@@ -26,16 +26,23 @@
 
 	<body>
 
-		<!-- <UIScrollView class="zoom-container"> -->
-			<img id="photo" class="content" name="photo"/>
-		<!-- </UIScrollView> -->
+		<div class="wrapper">
+			<!-- <UIScrollView class="zoom-container"> -->
+				<img id="photo" class="content" name="photo"/>
+			<!-- </UIScrollView> -->
+		</div>
 
 		<style>
 
 			body {
 				width: 100%;
 				height: 100%;
-				background-color: #444;
+			}
+		
+			.wrapper {
+				width: 100%;
+				height: 100%;
+				background-color: #444;				
 			}
 
 			/*

@@ -529,8 +529,6 @@
 			{
 				ERROR( @"unknown font-size unit" );
 			}
-
-			TODO( "line-height" );	// optional
 		}
 
 	// font-family
@@ -552,7 +550,14 @@
 	{
 		if ( [fontSize isNumber] )
 		{
-			fontHeight = [fontSize computeValue:defaultFontHeight];
+			if ( [fontSize isPercentage] )
+			{
+				fontHeight = [fontSize computeValue:defaultFont.lineHeight];
+			}
+			else
+			{
+				fontHeight = [fontSize computeValue:defaultFontHeight];
+			}
 		}
 		else if ( [fontSize isString] )
 		{

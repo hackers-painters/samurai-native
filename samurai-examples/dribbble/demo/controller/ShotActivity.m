@@ -56,6 +56,62 @@
 	self.listModel.shot_id = self.shot.id;
 	[self.listModel addSignalResponder:self];
 	[self.listModel modelLoad];
+
+	@weakify( self );
+	
+	self.onSignal( RefreshCollectionView.eventPullToRefresh, ^{
+		
+		@strongify( self );
+		
+		[self refresh];
+	});
+	
+	self.onSignal( RefreshCollectionView.eventLoadMore, ^{
+		
+		@strongify( self );
+		
+		[self loadMore];
+	});
+
+	self.onSignal( ShotModel.eventLoading, ^{
+		
+	});
+	
+	self.onSignal( ShotModel.eventLoaded, ^{
+		
+		@strongify( self );
+		
+		[self.list stopLoading];
+		
+		[self reloadData];
+	});
+
+	self.onSignal( ShotModel.eventError, ^{
+		
+		@strongify( self );
+		
+		[self.list stopLoading];
+	});
+	
+	self.onSignal( ShotCommentListModel.eventLoading, ^{
+		
+	});
+	
+	self.onSignal( ShotCommentListModel.eventLoaded, ^{
+		
+		@strongify( self );
+		
+		[self.list stopLoading];
+		
+		[self reloadData];
+	});
+	
+	self.onSignal( ShotCommentListModel.eventError, ^{
+		
+		@strongify( self );
+		
+		[self.list stopLoading];
+	});
 }
 
 - (void)onDestroy
@@ -179,69 +235,21 @@
 
 #pragma mark -
 
-handleSignal( view_profile )
+- (void)viewProfile:(SamuraiSignal *)signal
 {
 	[self startURL:@"/player" params:@{ @"player" : self.shot.user }];
 }
 
-handleSignal( view_comments )
+- (void)viewComments:(SamuraiSignal *)signal
 {
 	COMMENT * comment = [self.listModel.comments objectAtIndex:signal.sourceIndexPath.row];
 	
 	[self startURL:@"/player" params:@{ @"player" : comment.user }];
 }
 
-handleSignal( view_photo )
+- (void)viewPhoto:(SamuraiSignal *)signal
 {
 	[self startURL:@"/photo" params:@{ @"shot" : self.shot }];
-}
-
-#pragma mark -
-
-handleSignal( RefreshCollectionView, eventPullToRefresh )
-{
-	[self refresh];
-}
-
-handleSignal( RefreshCollectionView, eventLoadMore )
-{
-	[self loadMore];
-}
-
-#pragma mark -
-
-handleSignal( ShotModel, eventLoading )
-{
-}
-
-handleSignal( ShotModel, eventLoaded )
-{
-	[self.list stopLoading];
-	
-	[self reloadData];
-}
-
-handleSignal( ShotModel, eventError )
-{
-	[self.list stopLoading];
-}
-
-#pragma mark -
-
-handleSignal( ShotCommentListModel, eventLoading )
-{
-}
-
-handleSignal( ShotCommentListModel, eventLoaded )
-{
-	[self.list stopLoading];
-	
-	[self reloadData];
-}
-
-handleSignal( ShotCommentListModel, eventError )
-{
-	[self.list stopLoading];
 }
 
 @end

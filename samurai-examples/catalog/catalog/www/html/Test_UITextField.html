@@ -42,10 +42,11 @@
 		<UITextField id="t4" class="field" tabindex="4" placeholder="4 - (Required) Confirm password"
 			return-key-type="done"
 			is-secure
-			auto-clears>
+			auto-clears
+			onreturn="@selector(submit:)">
 		</UITextField>
 
-		<UIButton class="button" onclick="signal('submit')">Submit</UIButton>
+		<UIButton class="button" onclick="@selector(submit:)">Submit</UIButton>
 
 		<style>
 			

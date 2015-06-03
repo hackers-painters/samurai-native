@@ -60,7 +60,7 @@
 
 #pragma mark -
 
-handleSignal( test )
+- (void)test:(SamuraiSignal *)signal
 {
 	UICollectionViewCell *	cell = signal.sourceCollectionCell;
 	NSIndexPath *			index = signal.sourceIndexPath;

@@ -23,14 +23,33 @@
 }
 
 - (void)viewDidLoad {
+	
     [super viewDidLoad];
+	
     // Do any additional setup after loading the view.
+	
     self.model = [MovieModel new];
-    [self.model addSignalResponder:self];
-    
     self.model.id = self.movie.id;
+	[self.model addSignalResponder:self];
     [self.model modelLoad];
-    
+
+	@weakify( self )
+	
+	self.onSignal( MovieModel.eventLoading, ^{
+		
+	});
+
+	self.onSignal( MovieModel.eventLoaded, ^{
+
+		@strongify( self )
+
+		[self reloadData];
+	});
+
+	self.onSignal( MovieModel.eventLoading, ^{
+		
+	});
+
     [self loadViewTemplate:@"/www/html/movies-detail.html"];
 }
 
@@ -102,21 +121,6 @@
     };
 	
 	[self relayout];
-}
-
-#pragma mark -
-
-handleSignal( MovieModel, eventLoading )
-{
-}
-
-handleSignal( MovieModel, eventLoaded )
-{
-    [self reloadData];
-}
-
-handleSignal( MovieModel, eventError )
-{
 }
 
 @end
