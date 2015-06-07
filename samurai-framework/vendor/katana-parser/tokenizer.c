@@ -28,6 +28,9 @@
 #include "parser.h"
 #include "foundation.h"
 
+#undef	assert
+#define assert
+
 static inline double katana_characters_to_double(const char* data, size_t length, bool* ok);
 static inline bool katana_is_html_space(char c);
 static inline char* katana_normalize_text(yy_size_t* length, char *origin_text, yy_size_t origin_length, int tok);

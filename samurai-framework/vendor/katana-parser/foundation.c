@@ -13,6 +13,9 @@
 #include <stdbool.h>
 #include <assert.h>
 
+#undef	assert
+#define assert
+
 struct KatanaInternalParser;
 
 const KatanaParserString kKatanaAsteriskString = {"*", 1};

@@ -35,6 +35,9 @@
 
 #include "foundation.h"
 
+#undef	assert
+#define assert
+
 #define breakpoint
 #define KATANA_PARSER_STRING(literal) { literal, sizeof(literal) - 1 }
 
