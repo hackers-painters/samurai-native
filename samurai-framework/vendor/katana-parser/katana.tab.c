@@ -3038,6 +3038,9 @@ yyreduce:
   case 159:
 
     {
+		(yyval.selector) = katana_new_selector(parser);
+		(yyval.selector)->match = KatanaSelectorMatchTag;
+		(yyval.selector)->tag = katana_new_qualified_name(parser, &(yyvsp[-1].string), &(yyvsp[0].string), &(yyvsp[-1].string));
         // $$ = parser->createFloatingSelectorWithTagName(parser->determineNameInNamespace($1, $2));
         // if (!$$)
         //     YYERROR;

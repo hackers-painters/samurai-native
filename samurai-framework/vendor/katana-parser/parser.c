@@ -1069,7 +1069,6 @@ KatanaSelector* katana_rewrite_specifier_with_element_name(KatanaParser* parser,
     if ( supported ) {
         KatanaSelector* prepend = katana_new_selector(parser);
         prepend->tag = katana_new_qualified_name(parser, NULL, tag, &parser->default_namespace);
-        ;
         prepend->match = KatanaSelectorMatchTag;
         prepend->tagHistory = katana_sink_floating_selector(parser, specifier);
         prepend->relation = KatanaSelectorRelationSubSelector;
