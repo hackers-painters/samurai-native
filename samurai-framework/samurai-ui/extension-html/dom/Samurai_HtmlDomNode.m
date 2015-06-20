@@ -106,9 +106,9 @@
 	return self.domStyleClasses;
 }
 
-- (NSArray *)cssAttributes
+- (NSDictionary *)cssAttributes
 {
-	return nil;
+	return self.attributes;
 }
 
 - (NSArray *)cssPseudos

@@ -823,7 +823,7 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (NSArray *)cssAttributes
 {
-    return nil;
+    return self.dom.attributes;
 }
 
 - (NSArray *)cssPseudos

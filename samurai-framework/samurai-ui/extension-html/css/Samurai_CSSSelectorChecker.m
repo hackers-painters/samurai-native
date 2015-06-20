@@ -379,6 +379,7 @@ static id<SamuraiCSSProtocol> parentElement(const SamuraiCSSSelectorCheckingCont
                 NSString * value = [NSString stringWithUTF8String:selector->data->value];
                 return [[element cssClasses] containsObject:value];
             }
+			return NO;
         }
         case KatanaSelectorMatchId:
         {
@@ -387,6 +388,7 @@ static id<SamuraiCSSProtocol> parentElement(const SamuraiCSSSelectorCheckingCont
                 NSString * value = [NSString stringWithUTF8String:selector->data->value];
                 return [[element cssId] isEqualToString:value];
             }
+			return NO;
         }
         case KatanaSelectorMatchAttributeExact:
         case KatanaSelectorMatchAttributeSet:
@@ -395,7 +397,6 @@ static id<SamuraiCSSProtocol> parentElement(const SamuraiCSSSelectorCheckingCont
         case KatanaSelectorMatchAttributeContain:
         case KatanaSelectorMatchAttributeBegin:
         case KatanaSelectorMatchAttributeEnd:
-            return NO;
             return [self anyAttributeMatches:element match:selector->match selector:selector];
 //
         case KatanaSelectorMatchPseudoClass:
@@ -417,47 +418,116 @@ static id<SamuraiCSSProtocol> parentElement(const SamuraiCSSSelectorCheckingCont
     return YES;
 }
 
+static inline bool attributeMatches(const KatanaQualifiedName* qualifiedName, NSString * local, NSString * prefix, NSString * uri)
+{
+	if ( strcasecmp(qualifiedName->local, local.UTF8String) )
+		return false;
+	// TODO:(@QFish:check prefix and namespace of element)
+	return true;
+//	return qualifiedName.prefix() == starAtom || qualifiedName.namespaceURI() == namespaceURI();
+}
+
+static inline bool isHTMLSpace(char character)
+{
+	// Histogram from Apple's page load test combined with some ad hoc browsing some other test suites.
+	//
+	//     82%: 216330 non-space characters, all > U+0020
+	//     11%:  30017 plain space characters, U+0020
+	//      5%:  12099 newline characters, U+000A
+	//      2%:   5346 tab characters, U+0009
+	//
+	// No other characters seen. No U+000C or U+000D, and no other control characters.
+	// Accordingly, we check for non-spaces first, then space, then newline, then tab, then the other characters.
+	
+	return character <= ' ' && (character == ' ' || character == '\n' || character == '\t' || character == '\r' || character == '\f');
+}
+
+static inline bool containsHTMLSpace(const char * string)
+{
+	size_t length = strlen(string);
+	for (size_t i = 0; i < length; ++i)
+		if (isHTMLSpace(string[i]))
+			return true;
+	return false;
+}
+
+static bool attributeValueMatches(NSString * value, KatanaSelectorMatch match, const char * selectorValue)
+{
+	if (!value)
+		return false;
+	
+	switch (match) {
+		case KatanaSelectorMatchAttributeExact:
+			if (0 != strcasecmp(selectorValue, value.UTF8String))
+				return false;
+			break;
+		case KatanaSelectorMatchAttributeList:
+		{
+			// Ignore empty selectors or selectors containing HTML spaces
+			if (selectorValue == NULL || containsHTMLSpace(selectorValue))
+				return false;
+			NSArray * words = [value componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+			bool found = false;
+			for ( NSString * word in words ) {
+				if ( !strcasecmp(selectorValue, word.UTF8String) ) {
+					found = true;
+					break;
+				}
+			}
+			return found;
+			break;
+		}
+		case KatanaSelectorMatchAttributeContain:
+			if (![value containsString:[NSString stringWithUTF8String:selectorValue]] || NULL == selectorValue)
+				return false;
+			break;
+		case KatanaSelectorMatchAttributeBegin:
+			if (![value hasPrefix:[NSString stringWithUTF8String:selectorValue]] || NULL == selectorValue)
+				return false;
+			break;
+		case KatanaSelectorMatchAttributeEnd:
+			if (![value hasSuffix:[NSString stringWithUTF8String:selectorValue]] || NULL == selectorValue)
+				return false;
+			break;
+		case KatanaSelectorMatchAttributeHyphen:
+		{
+			size_t length = strlen(selectorValue);
+			if (value.length < length)
+				return false;
+			if (![value hasPrefix:[NSString stringWithUTF8String:selectorValue]])
+				return false;
+			// It they start the same, check for exact match or following '-':
+			if (value.length != length && [value characterAtIndex:length] != '-')
+				return false;
+		}
+			break;
+		case KatanaSelectorMatchPseudoClass:
+		case KatanaSelectorMatchPseudoElement:
+		default:
+			break;
+	}
+	
+	return true;
+}
+
 - (BOOL)anyAttributeMatches:(id<SamuraiCSSProtocol>)element match:(KatanaSelectorMatch)match selector:(const KatanaSelector *)selector
 {
-//    const KatanaQualifiedName * selectorAttr = selector->data->attribute;
-//    ASSERT( !strcasecmp(selectorAttr->local, "*") ); // Should not be possible from the CSS grammar.
-    
-    // Synchronize the attribute in case it is lazy-computed.
-    // Currently all lazy properties have a null namespace, so only pass localName().
-//    element.synchronizeAttribute(selectorAttr.localName());
-    
-//    const char* selectorValue = selector->data->value;
-//    TextCaseSensitivity caseSensitivity = (selector->attributeMatchType == KatanaAttributeMatchTypeCaseInsensitive) ? TextCaseInsensitive : TextCaseSensitive;
-    
-//    NSArray * attributes = [element cssAttributes];
-//    for (const auto& attributeItem: attributes) {
-//        if (!attributeItem.matches(selectorAttr))
-//            continue;
-//        
-//        if (attributeValueMatches(attributeItem, match, selectorValue, caseSensitivity))
-//            return true;
-//        
-//        if (caseSensitivity == TextCaseInsensitive) {
-//            if (selectorAttr.namespaceURI() != starAtom)
-//                return false;
-//            continue;
-//        }
-//        
-//        // Legacy dictates that values of some attributes should be compared in
-//        // a case-insensitive manner regardless of whether the case insensitive
-//        // flag is set or not.
-//        bool legacyCaseInsensitive = element.document().isHTMLDocument() && !HTMLDocument::isCaseSensitiveAttribute(selectorAttr);
-//        
-//        // If case-insensitive, re-check, and count if result differs.
-//        // See http://code.google.com/p/chromium/issues/detail?id=327060
-//        if (legacyCaseInsensitive && attributeValueMatches(attributeItem, match, selectorValue, TextCaseInsensitive)) {
-//            UseCounter::count(element.document(), UseCounter::CaseInsensitiveAttrSelectorMatch);
-//            return true;
-//        }
-//        if (selectorAttr.namespaceURI() != starAtom)
-//            return false;
-//    }
-    
+    const KatanaQualifiedName * selectorAttr = selector->data->attribute;
+    const char * selectorValue = selector->data->value;
+	NSDictionary * attributes = [element cssAttributes];
+//	NSLog( @"%s", selectorAttr->local );
+//	NSLog( @"%s", selectorValue );
+//	NSLog( @"%@", attributes );
+	
+	for ( NSString * key in attributes.allKeys )
+	{
+		if ( !attributeMatches(selectorAttr, key, nil, nil) )
+			continue;
+		
+		if (attributeValueMatches(attributes[key], selector->match, selectorValue))
+			return true;
+	}
+	
     return false;
 }
 
