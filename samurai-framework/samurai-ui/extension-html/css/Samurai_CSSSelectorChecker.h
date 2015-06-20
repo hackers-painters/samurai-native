@@ -88,21 +88,31 @@ SamuraiCSSPseudoId SamuraiCSSPseudoIdFromType(KatanaPseudoType type);
 
 /**
  *  Supported Selector:
+ *
  *  - tag
  *  - #id
  *  - .class
  *  - :pseudo
- *      - :nth-child(an+b|odd|even) 
+		- :nth-child(an+b|odd|even)
         - :first-child
         - :last-child
         - :only-child
  *  - Group
- *      - <selector><selector>
+		- <selector><selector>
  *  - Combinator
- *  - <selector> <selector>
- *  - <selector> > <selector>
- *  - <selector> + <selector>
- *  - <selector> ~ <selector>
+		- <selector> <selector>
+ 		- <selector> > <selector>
+ 		- <selector> + <selector>
+ 		- <selector> ~ <selector>
+ *	- Attribute
+		- [attribute]
+		- [attribute=value]
+		- [attribute|=value]
+		- [attribute^=value]
+		- [attribute$=value]
+		- [attribute~=value]
+		- [attribute*=value]
+ *
  */
 
 @interface SamuraiCSSSelectorChecker : NSObject

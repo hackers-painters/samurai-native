@@ -42,7 +42,7 @@
 - (NSString *)cssPseudos;
 - (NSString *)cssShadowPseudoId;
 - (NSArray *)cssClasses;
-- (NSArray *)cssAttributes;
+- (NSDictionary *)cssAttributes;
 - (id<SamuraiCSSProtocol>)cssParent;
 - (id<SamuraiCSSProtocol>)cssPreviousSibling;
 - (id<SamuraiCSSProtocol>)cssFollowingSibling;

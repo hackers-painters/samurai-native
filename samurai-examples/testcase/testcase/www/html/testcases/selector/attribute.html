@@ -1,5 +1,74 @@
-<!DOCTYPE HTML>
-<style>
-</style>
-<body>
-</body>
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			.title {
+				font-size: 20px;
+				font-weight: bold;
+			}
+			div {
+				width: 300px; height: 20px;
+			}
+			[colorful] {
+				background-color:green;
+			}
+			div[color=blue]
+			{
+				background-color:blue;
+			}
+			div[color|=purple]
+			{
+				background-color:purple;
+			}
+			div[color^=red]
+			{
+				background-color:red;
+			}
+			div[color$=gray]
+			{
+				background-color:gray;
+			}
+			div[color~=lime]
+			{
+				background-color:lime;
+			}
+			div[color*=steelblue]
+			{
+				background-color:steelblue;
+			}
+		</style>
+	</head>
+	<body>
+		<p class="title">[attribute]</p>
+		<div colorful>Should be green</div>
+		
+		<p class="title">[attribute=value]</p>
+		<div color="blue">Should be blue</div>
+		<div color="bluex">Should not be blue</div>
+		
+		<p class="title">[attribute|=value]</p>
+		<div color="purple">Should be purple</div>
+		<div color="purple-wow">Should be purple</div>
+		<div color="purplex">Should not be purple</div>
+		
+		<p class="title">[attribute^=value]</p>
+		<div color="blackred">Should be not red</div>
+		<div color="redblack">Should be red</div>
+		
+		<p class="title">[attribute$=value]</p>
+		<div color="blackgray">Should be gray</div>
+		<div color="grayblack">Should be not gray</div>
+
+		<p class="title">[attribute~=value]</p>
+		<div color="wow lime uptown funk">Should be lime</div>
+		<div color="wowlime uptown funk">Should not be lime</div>
+
+		<p class="title">[attribute*=value]</p>
+		<div color="wowsteelblueuptownfunk">Should be steelblue</div>
+		<div color="wow steelblu uptown funk">Should not be steelblue</div>
+
+		<p class="title">[]</p>
+		<div>Should be clear</div>
+		<p><b>注释：</b>对于 IE8 及更早版本的浏览器中的 [<i>attribute</i>]，必须声明 <!DOCTYPE>。</p>
+	</body>
+</html>

@@ -25,6 +25,9 @@
 #include "string.h"
 #include <assert.h>
 
+#undef	assert
+#define assert
+
 // Refs:
 // http://www.w3.org/TR/css3-selectors/
 //
