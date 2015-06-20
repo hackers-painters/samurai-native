@@ -190,11 +190,22 @@
 {
 	if ( [self isViewLoaded] )
 	{
-		if ( self.viewTemplate )
+		CGSize viewSize = self.view.frame.size;
+		
+		if ( CGSizeEqualToSize( viewSize, CGSizeZero ) )
 		{
-			if ( self.viewTemplate.document && self.viewTemplate.document.renderTree )
+			self.view.layer.hidden = YES;
+		}
+		else
+		{
+			self.view.layer.hidden = NO;
+			
+			if ( self.viewTemplate )
 			{
-				[self.viewTemplate.document.renderTree relayout];
+				if ( self.viewTemplate.document && self.viewTemplate.document.renderTree )
+				{
+					[self.viewTemplate.document.renderTree relayout];
+				}
 			}
 		}
 	}

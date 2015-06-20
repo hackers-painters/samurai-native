@@ -57,22 +57,22 @@
 
 + (BOOL)supportTapGesture
 {
-	return YES;
+	return NO;
 }
 
 + (BOOL)supportSwipeGesture
 {
-	return YES;
+	return NO;
 }
 
 + (BOOL)supportPinchGesture
 {
-	return YES;
+	return NO;
 }
 
 + (BOOL)supportPanGesture
 {
-	return YES;
+	return NO;
 }
 
 #pragma mark -

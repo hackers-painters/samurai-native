@@ -169,6 +169,8 @@
 	return pinchGesture;
 }
 
+#pragma mark -
+
 - (void)enablePinchGesture
 {
 	[self enablePinchGestureWithSignal:nil];
@@ -176,12 +178,20 @@
 
 - (void)enablePinchGestureWithSignal:(NSString *)signal
 {
+	if ( NO == [[self class] supportPinchGesture] )
+	{
+		return;
+	}
+
 	__PinchGestureRecognizer * pinchGesture = [self pinchGesture];
 	
 	if ( nil == pinchGesture )
 	{
 		pinchGesture = [[__PinchGestureRecognizer alloc] initWithTarget:self action:@selector(__pinchGestureInternalCallback:)];
-		
+		pinchGesture.cancelsTouchesInView = NO;
+		pinchGesture.delaysTouchesBegan = NO;
+		pinchGesture.delaysTouchesEnded = NO;
+
 		[self addGestureRecognizer:pinchGesture];
 	}
 	

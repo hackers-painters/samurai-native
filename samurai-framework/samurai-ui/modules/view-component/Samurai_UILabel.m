@@ -44,9 +44,11 @@
 
 @implementation UILabel(Samurai)
 
-@def_prop_dynamic( BOOL,							trimmed );
-@def_prop_dynamic( BOOL,							normalized );
-@def_prop_dynamic_strong( NSMutableDictionary *,	mutableAttributes, setMutableAttributes )
+@def_prop_dynamic( BOOL,				trimmed );
+@def_prop_dynamic( BOOL,				normalized );
+@def_prop_dynamic( CGFloat,				lineHeight );
+@def_prop_dynamic( CGFloat,				letterSpacing );
+@def_prop_dynamic( UITextDecoration,	textDecoration );
 
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
@@ -119,6 +121,63 @@
 
 #pragma mark -
 
+- (CGFloat)lineHeight
+{
+	NSNumber * lineHeight = [self getAssociatedObjectForKey:"lineHeight"];
+	
+	if ( lineHeight )
+	{
+		return [lineHeight floatValue];
+	}
+	
+	return INVALID_VALUE;
+}
+
+- (void)setLineHeight:(CGFloat)value
+{
+	[self retainAssociatedObject:@(value) forKey:"lineHeight"];
+}
+
+#pragma mark -
+
+- (CGFloat)letterSpacing
+{
+	NSNumber * letterSpacing = [self getAssociatedObjectForKey:"letterSpacing"];
+	
+	if ( letterSpacing )
+	{
+		return [letterSpacing floatValue];
+	}
+	
+	return INVALID_VALUE;
+}
+
+- (void)setLetterSpacing:(CGFloat)value
+{
+	[self retainAssociatedObject:@(value) forKey:"letterSpacing"];
+}
+
+#pragma mark -
+
+- (UITextDecoration)textDecoration
+{
+	NSNumber * textDecoration = [self getAssociatedObjectForKey:"textDecoration"];
+	
+	if ( textDecoration )
+	{
+		return (UITextDecoration)[textDecoration integerValue];
+	}
+	
+	return UITextDecoration_None;
+}
+
+- (void)setTextDecoration:(UITextDecoration)value
+{
+	[self retainAssociatedObject:@(value) forKey:"textDecoration"];
+}
+
+#pragma mark -
+
 - (id)serialize
 {
 	return self.attributedText ? self.attributedText.string : self.text;
@@ -151,8 +210,51 @@
 		
 		if ( content )
 		{
+			UITextDecoration	decoration = self.textDecoration;
+//			CGFloat				lineHeight = self.lineHeight;
+//			CGFloat				letterSpacing = self.letterSpacing;
+			
 			NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:content];
-			[attributedString setAttributes:self.mutableAttributes range:NSMakeRange(0, [content length])];
+			
+			if ( UITextDecoration_Overline == decoration )
+			{
+				TODO( "overline" );
+			}
+			else if ( UITextDecoration_Underline == decoration )
+			{
+				[attributedString addAttribute:(NSString *)kCTUnderlineStyleAttributeName
+										 value:[NSNumber numberWithInt:kCTUnderlineStyleSingle]
+										 range:NSMakeRange(0, [content length])];
+			}
+			else if ( UITextDecoration_LineThrough == decoration )
+			{
+				[attributedString addAttribute:(NSString *)NSStrikethroughStyleAttributeName
+										 value:[NSNumber numberWithInt:NSUnderlinePatternSolid|NSUnderlineStyleSingle]
+										 range:NSMakeRange(0, [content length])];
+				[attributedString addAttribute:(NSString *)NSStrikethroughColorAttributeName
+										 value:self.textColor
+										 range:NSMakeRange(0, [content length])];
+			}
+
+//			NSMutableParagraphStyle * paragraphStyle = nil;
+//			
+//			if ( INVALID_VALUE != lineHeight && lineHeight > 0 )
+//			{
+//				if ( nil == paragraphStyle )
+//				{
+//					paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+//				}
+//				
+//				paragraphStyle.lineSpacing = lineHeight;
+//			}
+//
+//			if ( paragraphStyle )
+//			{
+//				[attributedString addAttribute:(NSString *)kCTParagraphStyleAttributeName
+//										 value:paragraphStyle
+//										 range:NSMakeRange(0, [content length])];
+//			}
+
 			self.attributedText = attributedString;
 		}
 		else
@@ -216,47 +318,51 @@
 	NSDictionary *			attribute = [NSDictionary dictionaryWithObject:self.font forKey:NSFontAttributeName];
 	NSStringDrawingOptions	options = NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading;
 
+	CGSize result = CGSizeZero;
+	
 	if ( INVALID_VALUE == size.width && INVALID_VALUE == size.height )
 	{
-		CGSize bound = CGSizeMake(HUGE_VALF, HUGE_VALF/*fmaxf(self.font.lineHeight, self.font.pointSize)*/);
-		CGSize result = [self.attributedText.string boundingRectWithSize:bound options:options attributes:attribute context:nil].size;
-		result.width = ceilf( result.width );
-		result.height = ceilf( result.height );
-		return result;
+		result = [self.attributedText.string boundingRectWithSize:CGSizeMake( HUGE_VALF, HUGE_VALF )
+														  options:options
+													   attributes:attribute
+														  context:nil].size;
 	}
 	else if ( INVALID_VALUE != size.width && INVALID_VALUE != size.height )
 	{
-		CGSize result = [self.attributedText.string boundingRectWithSize:size options:options attributes:attribute context:nil].size;
-		result.width = ceilf( result.width );
-		result.height = ceilf( result.height );
-		return result;
+		result = [self.attributedText.string boundingRectWithSize:size
+														  options:options
+													   attributes:attribute
+														  context:nil].size;
 	}
 	else
 	{
 		if ( INVALID_VALUE != size.width )
 		{
-			CGSize bound = CGSizeMake(size.width, HUGE_VALF);
-			CGSize result = [self.attributedText.string boundingRectWithSize:bound options:options attributes:attribute context:nil].size;
-			result.width = ceilf( result.width );
-			result.height = ceilf( result.height );
-			return result;
+			result = [self.attributedText.string boundingRectWithSize:CGSizeMake( size.width, HUGE_VALF )
+															  options:options
+														   attributes:attribute
+															  context:nil].size;
 		}
 		else if ( INVALID_VALUE != size.height )
 		{
-			CGSize bound = CGSizeMake(HUGE_VALF, size.height);
-			CGSize result = [self.attributedText.string boundingRectWithSize:bound options:options attributes:attribute context:nil].size;
-			result.width = ceilf( result.width );
-			result.height = ceilf( result.height );
-			return result;
+			result = [self.attributedText.string boundingRectWithSize:CGSizeMake( HUGE_VALF, size.height )
+															  options:options
+														   attributes:attribute
+															  context:nil].size;
 		}
 		else
 		{
-			CGSize result = [self.attributedText.string boundingRectWithSize:size options:options attributes:attribute context:nil].size;
-			result.width = ceilf( result.width );
-			result.height = ceilf( result.height );
-			return result;
+			result = [self.attributedText.string boundingRectWithSize:size
+															  options:options
+														   attributes:attribute
+															  context:nil].size;
 		}
 	}
+	
+//	result.width = ceilf( result.width + 1 );
+//	result.height = ceilf( result.height + 1 );
+	
+	return result;
 }
 
 - (CGSize)computeSizeByWidth:(CGFloat)width
@@ -275,9 +381,14 @@
 		NSDictionary *			attribute = [NSDictionary dictionaryWithObject:self.font forKey:NSFontAttributeName];
 		NSStringDrawingOptions	options = NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading;
 		
-		CGSize result = [self.attributedText.string boundingRectWithSize:CGSizeMake(width, HUGE_VALF) options:options attributes:attribute context:nil].size;
-		result.width = ceilf( result.width );
-		result.height = ceilf( result.height );
+		CGSize result = [self.attributedText.string boundingRectWithSize:CGSizeMake( width, HUGE_VALF )
+																 options:options
+															  attributes:attribute
+																 context:nil].size;
+		
+//		result.width = ceilf( result.width + 1 );
+//		result.height = ceilf( result.height + 1 );
+		
 		return result;
 	}
 }
@@ -298,9 +409,14 @@
 		NSDictionary *			attribute = [NSDictionary dictionaryWithObject:self.font forKey:NSFontAttributeName];
 		NSStringDrawingOptions	options = NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading;
 
-		CGSize result = [self.attributedText.string boundingRectWithSize:CGSizeMake(HUGE_VALF, height) options:options attributes:attribute context:nil].size;
-		result.width = ceilf( result.width );
-		result.height = ceilf( result.height );
+		CGSize result = [self.attributedText.string boundingRectWithSize:CGSizeMake( HUGE_VALF, height )
+																 options:options
+															  attributes:attribute
+																 context:nil].size;
+		
+//		result.width = ceilf( result.width + 1 );
+//		result.height = ceilf( result.height + 1 );
+		
 		return result;
 	}
 }

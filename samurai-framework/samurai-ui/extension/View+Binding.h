@@ -43,7 +43,14 @@
 
 @interface UIView(Binding)<NSDictionaryProtocol, NSMutableDictionaryProtocol>
 
-@prop_readonly( SamuraiRenderStoreScope *,	viewStorage );
+- (id)getViewData;
+- (id)getViewDataWithPath:(NSString *)path;
+
+- (void)setViewData:(NSObject *)data;
+- (void)setViewData:(NSObject *)data withPath:(NSString *)path;
+
+- (void)clearViewData;
+- (void)clearViewDataWithPath:(NSString *)path;
 
 @end
 

@@ -163,6 +163,8 @@
 	return panGesture;
 }
 
+#pragma mark -
+
 - (void)enablePanGesture
 {
 	[self enablePanGestureWithSignal:nil];
@@ -170,12 +172,20 @@
 
 - (void)enablePanGestureWithSignal:(NSString *)signal
 {
+	if ( NO == [[self class] supportPanGesture] )
+	{
+		return;
+	}
+
 	__PanGestureRecognizer * panGesture = [self panGesture];
 	
 	if ( nil == panGesture )
 	{
 		panGesture = [[__PanGestureRecognizer alloc] initWithTarget:self action:@selector(__panGestureInternalCallback:)];
-		
+		panGesture.cancelsTouchesInView = NO;
+		panGesture.delaysTouchesBegan = NO;
+		panGesture.delaysTouchesEnded = NO;
+
 		[self addGestureRecognizer:panGesture];
 	}
 	

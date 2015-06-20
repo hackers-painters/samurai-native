@@ -184,10 +184,15 @@ BASE_CLASS( SamuraiResource )
 			return nil;
 		
 		NSString * extension = [[url.path lastPathComponent] pathExtension];
-		if ( nil == extension )
-			return nil;
-		
-		resource = [self resourceForExtension:extension];
+
+		if ( nil == extension || 0 == [extension length] )
+		{
+			resource = [self resourceForType:@"text/html"];
+		}
+		else
+		{
+			resource = [self resourceForExtension:extension];	
+		}
 	}
 	else
 	{

@@ -75,10 +75,12 @@
 
 #pragma mark -
 
-- (BOOL)store_isValid
+- (UIView *)createViewWithIdentifier:(NSString *)identifier
 {
-	return YES;
+	return [super createViewWithIdentifier:identifier];
 }
+
+#pragma mark -
 
 - (BOOL)store_hasChildren
 {
@@ -114,9 +116,9 @@
 	return [super layoutShouldWrapAfter];
 }
 
-- (BOOL)layoutShouldBoundsToWindow
+- (BOOL)layoutShouldAutoSizing
 {
-	return [super layoutShouldBoundsToWindow];
+	return [super layoutShouldAutoSizing];
 }
 
 - (BOOL)layoutShouldCenteringInRow
@@ -127,6 +129,16 @@
 - (BOOL)layoutShouldCenteringInCol
 {
 	return [super layoutShouldCenteringInCol];
+}
+
+- (BOOL)layoutShouldLeftJustifiedInRow
+{
+	return [super layoutShouldLeftJustifiedInRow];
+}
+
+- (BOOL)layoutShouldRightJustifiedInRow
+{
+	return [super layoutShouldRightJustifiedInRow];
 }
 
 - (BOOL)layoutShouldPositioningChildren
@@ -191,286 +203,82 @@
 
 #pragma mark -
 
-- (CGRect)computeFrame:(CGSize)bound origin:(CGPoint)origin;
+- (CGRect)layoutWithContext:(SamuraiHtmlLayoutContext *)context
+			  parentContext:(SamuraiHtmlLayoutContext *)parentContext
 {
 	DEBUG_RENDERER_LAYOUT( self );
-
-	if ( HtmlRenderDisplay_None == self.display )
-	{
-		return [self zerolizeFrame];
-	}
-
-// compute min/max size
-
-	CGFloat minWidth = INVALID_VALUE;
-	CGFloat maxWidth = INVALID_VALUE;
-	CGFloat minHeight = INVALID_VALUE;
-	CGFloat maxHeight = INVALID_VALUE;
 	
-	if ( self.style.minWidth )
-	{
-		minWidth = [self.style.minWidth computeValue:bound.width];
-	}
+	htmlLayoutInit( context );
 	
-	if ( self.style.minHeight )
+	if ( HtmlRenderDisplay_None != self.display )
 	{
-		minHeight = [self.style.minHeight computeValue:bound.height];
-	}
+		htmlLayoutBegin( context );
 
-	if ( self.style.maxWidth )
-	{
-		maxWidth = [self.style.maxWidth computeValue:bound.width];
-	}
-	
-	if ( self.style.maxHeight )
-	{
-		maxHeight = [self.style.maxHeight computeValue:bound.height];
-	}
+		CGSize textBounds = context->computedSize;
 
-// compute width/height
-	
-	CGSize computedSize = bound;
-
-	if ( self.style.width )
-	{
-		if ( [self.style.width isNumber] )
+		if ( INVALID_VALUE == textBounds.width )
 		{
-			computedSize.width = [self.style.width computeValue:bound.width];
+			textBounds.width = context->bounds.width;
 		}
-	}
-	
-	if ( self.style.height )
-	{
-		if ( [self.style.height isNumber] )
-		{
-			computedSize.height = [self.style.height computeValue:bound.height];
-		}
-	}
 
-// compute function
-	
-	if ( self.style.width )
-	{
-		if ( [self.style.width isFunction:@"equals"] )
-		{
-			NSString * firstParam = [[self.style.width params] firstObject];
-			
-			if ( [firstParam isEqualToString:@"height"] )
-			{
-				computedSize.width = computedSize.height;
-			}
-		}
-	}
-	
-	if ( self.style.height )
-	{
-		if ( [self.style.height isFunction:@"equals"] )
-		{
-			NSString * firstParam = [[self.style.height params] firstObject];
-			
-			if ( [firstParam isEqualToString:@"width"] )
-			{
-				computedSize.height = computedSize.width;
-			}
-		}
-	}
+		CGSize contentSize = CGSizeZero;
 
-// compute min/max size
-	
-	if ( self.style.minWidth )
-	{
-		if ( INVALID_VALUE != minWidth && computedSize.width < minWidth )
+		if ( INVALID_VALUE == textBounds.width && INVALID_VALUE == textBounds.height )
 		{
-			computedSize.width = minWidth;
+			contentSize = [self.view computeSizeBySize:textBounds];
 		}
-	}
-	
-	if ( self.style.minHeight )
-	{
-		if ( INVALID_VALUE != minHeight && computedSize.height < minHeight )
+		else if ( INVALID_VALUE == textBounds.width )
 		{
-			computedSize.height = minHeight;
+			contentSize = [self.view computeSizeByHeight:textBounds.height];
 		}
-	}
-	
-	if ( self.style.maxWidth )
-	{
-		if ( INVALID_VALUE != maxWidth && computedSize.width > maxWidth )
+		else if ( INVALID_VALUE == textBounds.height )
 		{
-			computedSize.width = maxWidth;
-		}
-	}
-	
-	if ( self.style.maxHeight )
-	{
-		if ( INVALID_VALUE != maxHeight && computedSize.height > maxHeight )
-		{
-			computedSize.height = maxHeight;
-		}
-	}
-
-// compute border/margin/padding
-	
-	UIEdgeInsets computedInset = [self computeInset:computedSize];
-	UIEdgeInsets computedBorder = [self computeBorder:computedSize];
-	UIEdgeInsets computedMargin = [self computeMargin:computedSize];
-	UIEdgeInsets computedPadding = [self computePadding:computedSize];
-
-// compute size
-	
-	CGSize textSize = CGSizeZero;
-	
-	if ( INVALID_VALUE == computedSize.width && INVALID_VALUE == computedSize.height )
-	{
-		textSize = [self.view computeSizeBySize:computedSize];
-	}
-	else if ( INVALID_VALUE == computedSize.width )
-	{
-		textSize = [self.view computeSizeByHeight:computedSize.height];
-	}
-	else if ( INVALID_VALUE == computedSize.height )
-	{
-		textSize = [self.view computeSizeByWidth:computedSize.width];
-	}
-	else
-	{
-		textSize = [self.view computeSizeBySize:computedSize];
-		textSize.width	= fminf( computedSize.width, textSize.width );
-		textSize.height	= fminf( computedSize.height, textSize.height );
-	}
-	
-	if ( self.parent )
-	{
-		CGFloat lineHeight = INVALID_VALUE;
-		
-		if ( [self.view respondsToSelector:@selector(font)] )
-		{
-			UIFont * font = [self.view performSelector:@selector(font) withObject:nil];
-			
-			if ( font )
-			{
-				lineHeight = [self.parent computeLineHeight:font.lineHeight];
-			}
-			else
-			{
-				lineHeight = [self.parent computeLineHeight:bound.height];
-			}
+			contentSize = [self.view computeSizeByWidth:textBounds.width];
 		}
 		else
 		{
-			lineHeight = [self.parent computeLineHeight:bound.height];
+			contentSize = [self.view computeSizeBySize:textBounds];
+			contentSize.width = fminf( textBounds.width, contentSize.width );
+			contentSize.height = fminf( textBounds.height, contentSize.height );
 		}
 		
-		if ( INVALID_VALUE != lineHeight )
+		if ( self.parent )
 		{
-			if ( textSize.height < lineHeight )
+			if ( [self.view respondsToSelector:@selector(font)] )
 			{
-				textSize.height = lineHeight;
+				UIFont * font = [self.view performSelector:@selector(font) withObject:nil];
+				
+				htmlComputeLineHeight( context, font ? font.lineHeight : context->bounds.height );
 			}
-		}	
-	}
-	
-	computedSize = textSize;
-
-// compute function
-	
-	if ( self.style.width )
-	{
-		if ( [self.style.width isFunction:@"equals"] )
-		{
-			NSString * firstParam = [[self.style.width params] firstObject];
+			else
+			{
+				htmlComputeLineHeight( context, context->bounds.height );
+			}
 			
-			if ( [firstParam isEqualToString:@"height"] )
+			if ( INVALID_VALUE != context->computedLineHeight )
 			{
-				computedSize.width = computedSize.height;
-			}
+				if ( contentSize.height < context->computedLineHeight )
+				{
+					contentSize.height = context->computedLineHeight;
+				}
+			}	
 		}
+
+		htmlLayoutResize( context, contentSize );
+		htmlLayoutFinish( context );
 	}
 	
-	if ( self.style.height )
-	{
-		if ( [self.style.height isFunction:@"equals"] )
-		{
-			NSString * firstParam = [[self.style.height params] firstObject];
-			
-			if ( [firstParam isEqualToString:@"width"] )
-			{
-				computedSize.height = computedSize.width;
-			}
-		}
-	}
+	self.lines		= 1;
+	self.start		= CGPointMake( CGRectGetMinX( context->computedBounds ), CGRectGetMinY( context->computedBounds ) );
+	self.end		= CGPointMake( CGRectGetMaxX( context->computedBounds ), CGRectGetMinY( context->computedBounds ) );
 
-// normalize value
-
-	computedSize.width = NORMALIZE_VALUE( computedSize.width );
-	computedSize.height = NORMALIZE_VALUE( computedSize.height );
+	self.inset		= context->computedInset;
+	self.border		= context->computedBorder;
+	self.margin		= context->computedMargin;
+	self.padding	= context->computedPadding;
+	self.bounds		= context->computedBounds;
 	
-// compute min/max size
-	
-	if ( INVALID_VALUE != minWidth )
-	{
-		if ( computedSize.width < minWidth )
-		{
-			computedSize.width = minWidth;
-		}
-	}
-	
-	if ( INVALID_VALUE != minHeight )
-	{
-		if ( computedSize.height < minHeight )
-		{
-			computedSize.height = minHeight;
-		}
-	}
-	
-	if ( INVALID_VALUE != maxWidth )
-	{
-		if ( computedSize.width > maxWidth )
-		{
-			computedSize.width = maxWidth;
-		}
-	}
-	
-	if ( INVALID_VALUE != maxHeight )
-	{
-		if ( computedSize.height > maxHeight )
-		{
-			computedSize.height = maxHeight;
-		}
-	}
-
-// compute inset / border / margin /padding
-	
-	self.inset = computedInset;
-	self.border = computedBorder;
-	self.margin = computedMargin;
-	self.padding = computedPadding;
-	
-// compute bounds
-	
-	CGRect computedBounds;
-	
-	computedBounds.origin = origin;
-	
-	computedBounds.size.width = computedSize.width;
-	computedBounds.size.width += computedPadding.left;
-	computedBounds.size.width += computedPadding.right;
-	computedBounds.size.width += computedBorder.left;
-	computedBounds.size.width += computedBorder.right;
-	computedBounds.size.width += computedMargin.left;
-	computedBounds.size.width += computedMargin.right;
-
-	computedBounds.size.height = computedSize.height;
-	computedBounds.size.height += computedPadding.top;
-	computedBounds.size.height += computedPadding.bottom;
-	computedBounds.size.height += computedBorder.top;
-	computedBounds.size.height += computedBorder.bottom;
-	computedBounds.size.height += computedMargin.top;
-	computedBounds.size.height += computedMargin.bottom;
-
-	self.bounds = computedBounds;
-
-	return computedBounds;
+	return self.bounds;
 }
 
 #pragma mark -

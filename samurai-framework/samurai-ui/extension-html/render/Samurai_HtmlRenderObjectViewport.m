@@ -28,7 +28,11 @@
 //	THE SOFTWARE.
 //
 
+#import "Samurai_HtmlRenderObjectContainer.h"
 #import "Samurai_HtmlRenderObjectViewport.h"
+#import "Samurai_HtmlRenderObjectElement.h"
+#import "Samurai_HtmlRenderObjectTable.h"
+#import "Samurai_HtmlRenderObjectText.h"
 
 #import "_pragma_push.h"
 
@@ -75,10 +79,12 @@
 
 #pragma mark -
 
-- (BOOL)store_isValid
+- (UIView *)createViewWithIdentifier:(NSString *)identifier
 {
-	return YES;
+	return [super createViewWithIdentifier:identifier];
 }
+
+#pragma mark -
 
 - (BOOL)store_hasChildren
 {
@@ -114,9 +120,9 @@
 	return [super layoutShouldWrapAfter];
 }
 
-- (BOOL)layoutShouldBoundsToWindow
+- (BOOL)layoutShouldAutoSizing
 {
-	return [super layoutShouldBoundsToWindow];
+	return [super layoutShouldAutoSizing];
 }
 
 - (BOOL)layoutShouldCenteringInRow
@@ -127,6 +133,16 @@
 - (BOOL)layoutShouldCenteringInCol
 {
 	return [super layoutShouldCenteringInCol];
+}
+
+- (BOOL)layoutShouldLeftJustifiedInRow
+{
+	return [super layoutShouldLeftJustifiedInRow];
+}
+
+- (BOOL)layoutShouldRightJustifiedInRow
+{
+	return [super layoutShouldRightJustifiedInRow];
 }
 
 - (BOOL)layoutShouldPositioningChildren
@@ -189,6 +205,102 @@
 	return [super layoutShouldVerticalAlignBottom];
 }
 
+#pragma mark -
+
+- (CGRect)layoutWithContext:(SamuraiHtmlLayoutContext *)context
+			  parentContext:(SamuraiHtmlLayoutContext *)parentContext
+{
+	DEBUG_RENDERER_LAYOUT( self );
+	
+	htmlLayoutInit( context );
+	
+	if ( HtmlRenderDisplay_None != self.display )
+	{
+		htmlLayoutBegin( context );
+		htmlLayoutResize( context, context->bounds );
+
+		for ( SamuraiHtmlRenderObject * child in self.childs )
+		{
+			if ( HtmlRenderDisplay_None == child.display )
+			{
+				SamuraiHtmlLayoutContext childContext = {
+					.style		= child.style,
+					.bounds		= CGSizeZero,
+					.origin		= CGPointZero,
+					.collapse	= context->computedMargin
+				};
+				
+				[child layoutWithContext:&childContext parentContext:NULL];
+			}
+			else
+			{
+				SamuraiHtmlLayoutContext childContext = {
+					.style		= child.style,
+					.bounds		= context->bounds,
+					.origin		= CGPointZero,
+					.collapse	= context->computedMargin
+				};
+				
+				[child layoutWithContext:&childContext parentContext:NULL];
+			}
+		}
+
+		htmlLayoutFinish( context );
+	}
+
+	self.lines		= 1;
+	self.start		= CGPointMake( CGRectGetMinX( context->computedBounds ), CGRectGetMinY( context->computedBounds ) );
+	self.end		= CGPointMake( CGRectGetMaxX( context->computedBounds ), CGRectGetMinY( context->computedBounds ) );
+
+	self.inset		= context->computedInset;
+	self.border		= context->computedBorder;
+	self.margin		= context->computedMargin;
+	self.padding	= context->computedPadding;
+	self.bounds		= context->computedBounds;
+	
+	return self.bounds;
+}
+
+#pragma mark -
+
+- (id)serialize
+{
+	if ( 0 == [self.childs count] )
+	{
+		return nil;
+	}
+	
+	if ( 1 == [self.childs count] )
+	{
+		return [[self.childs firstObject] serialize];
+	}
+	else
+	{
+		return [self.childs serialize];
+	}
+}
+
+- (void)unserialize:(id)obj
+{
+	if ( 1 == [self.childs count] )
+	{
+		SamuraiRenderObject * childRender = [self.childs firstObject];
+		
+		if ( DomNodeType_Text == childRender.dom.type )
+		{
+			[childRender unserialize:obj];
+		}
+	}
+}
+
+- (void)zerolize
+{
+	for ( SamuraiRenderObject * child in self.childs )
+	{
+		[child zerolize];
+	}
+}
+
 @end
 
 // ----------------------------------
@@ -199,7 +311,7 @@
 
 #if __SAMURAI_TESTING__
 
-TEST_CASE( UI, HtmlRenderObjectViewport )
+TEST_CASE( UI, HtmlRenderViewport )
 
 DESCRIBE( before )
 {

@@ -50,7 +50,7 @@
 	self = [super initWithFrame:frame];
 	if ( self )
 	{
-		self.backgroundColor = [UIColor whiteColor];
+		self.backgroundColor = [UIColor clearColor];
 		self.autoresizesSubviews = YES;
 		self.layer.masksToBounds = NO;
 	}

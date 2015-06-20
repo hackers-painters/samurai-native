@@ -103,6 +103,9 @@
 
 @prop_assign( NSInteger,				index );
 @prop_assign( CGRect,					bounds );
+@prop_assign( NSUInteger,				lines );
+@prop_assign( CGPoint,					start );
+@prop_assign( CGPoint,					end );
 
 @prop_assign( UIEdgeInsets,				inset );
 @prop_assign( UIEdgeInsets,				border );
@@ -120,40 +123,37 @@
 + (instancetype)renderObject;
 + (instancetype)renderObjectWithDom:(SamuraiDomNode *)dom andStyle:(SamuraiRenderStyle *)style;
 
-+ (Class)defaultViewClass;										// override point
++ (Class)defaultViewClass;											// override point
 
 - (void)bindOutletsTo:(NSObject *)container;
 - (void)unbindOutletsFrom:(NSObject *)container;
 
 - (SamuraiRenderObject *)queryById:(NSString *)domId;
 - (SamuraiRenderObject *)queryByDom:(SamuraiDomNode *)domNode;
+- (SamuraiRenderObject *)queryByName:(NSString *)name;
 
 - (SamuraiRenderObject *)prevObject;
 - (SamuraiRenderObject *)nextObject;
 - (SamuraiRenderObject *)findObjectWithTabIndex:(NSInteger)tabIndex exclude:(SamuraiRenderObject *)sourceObject;
 
-- (CGRect)zerolizeFrame;
+- (UIView *)createViewWithIdentifier:(NSString *)identifier;		// override point
 
-- (CGFloat)computeWidth:(CGFloat)height;
-- (CGFloat)computeHeight:(CGFloat)width;
+- (void)bindView:(UIView *)view;									// override point
+- (void)unbindView;													// override point
 
-- (CGRect)computeFrame:(CGSize)bound;							// override point
-- (CGRect)computeFrame:(CGSize)bound origin:(CGPoint)origin;	// override point
+- (void)bindDom:(SamuraiDomNode *)newDom;							// override point
+- (void)unbindDom;													// override point
 
-- (UIView *)createViewWithIdentifier:(NSString *)identifier;	// override point
+- (void)bindStyle:(SamuraiRenderStyle *)newStyle;					// override point
+- (void)unbindStyle;												// override point
 
-- (void)bindView:(UIView *)view;								// override point
-- (void)unbindView;												// override point
+- (void)relayout;													// override point
+- (void)restyle;													// override point
+- (void)rechain;													// override point
 
-- (void)bindDom:(SamuraiDomNode *)newDom;						// override point
-- (void)unbindDom;												// override point
-
-- (void)bindStyle:(SamuraiRenderStyle *)newStyle;				// override point
-- (void)unbindStyle;											// override point
-
-- (void)relayout;												// override point
-- (void)restyle;												// override point
-- (void)rechain;												// override point
+- (CGSize)computeSize:(CGSize)bound;								// override point
+- (CGFloat)computeWidth:(CGFloat)height;							// override point
+- (CGFloat)computeHeight:(CGFloat)width;							// override point
 
 @end
 

@@ -62,19 +62,31 @@
 @implementation SamuraiRenderStoreScope
 
 @def_prop_strong( SamuraiRenderStoreNode *,	storeTree );
-@def_prop_strong( NSString *,				storePath );
 
 BASE_CLASS( SamuraiRenderStoreScope )
 
-+ (SamuraiRenderStoreScope *)storeScope
-{
-	return [[self alloc] init];
-}
-
 + (SamuraiRenderStoreScope *)storeScope:(id)sourceOrTarget
 {
+	SamuraiRenderObject * renderer = nil;
+	
+	if ( [sourceOrTarget isKindOfClass:[UIViewController class]] )
+	{
+		renderer = [[sourceOrTarget view] renderer];
+	}
+	else if ( [sourceOrTarget isKindOfClass:[UIView class]] )
+	{
+		renderer = [sourceOrTarget renderer];
+	}
+	else if ( [sourceOrTarget isKindOfClass:[SamuraiRenderObject class]] )
+	{
+		renderer = sourceOrTarget;
+	}
+	
+	if ( nil == renderer )
+		return nil;
+
 	SamuraiRenderStoreScope * scope = [[self alloc] init];
-	[scope attach:sourceOrTarget];
+	[scope attach:renderer];
 	return scope;
 }
 
@@ -92,67 +104,18 @@ BASE_CLASS( SamuraiRenderStoreScope )
 - (void)dealloc
 {
 	self.storeTree = nil;
-	self.storePath = nil;
 }
 
 #pragma mark -
 
-- (void)attach:(id)sourceOrTarget
+- (void)attach:(SamuraiRenderObject *)renderer
 {
-	[self attach:sourceOrTarget path:nil];
-}
-
-- (void)attach:(id)sourceOrTarget path:(NSString *)path
-{
-	SamuraiRenderObject * renderer = nil;
+	self.storeTree = [SamuraiRenderStoreNode storeNode];
 	
-	if ( [sourceOrTarget isKindOfClass:[UIViewController class]] )
-	{
-		renderer = [[sourceOrTarget view] renderer];
-	}
-	else if ( [sourceOrTarget isKindOfClass:[UIView class]] )
-	{
-		renderer = [sourceOrTarget renderer];
-	}
-	else if ( [sourceOrTarget isKindOfClass:[SamuraiRenderObject class]] )
-	{
-		renderer = sourceOrTarget;
-	}
-
-	self.storeTree = [self buildStoreTree:renderer];
-	self.storePath = path;
-	
-	[self didAttached];
+	[self attach:renderer forStore:self.storeTree];
 }
 
-- (void)detach
-{
-	self.storeTree = nil;
-	self.storePath = nil;
-	
-	[self didDetached];
-}
-
-- (void)didAttached
-{
-	
-}
-
-- (void)didDetached
-{
-	
-}
-
-#pragma mark -
-
-- (SamuraiRenderStoreNode *)buildStoreTree:(SamuraiRenderObject *)renderer
-{
-	SamuraiRenderStoreNode * storeNode = [SamuraiRenderStoreNode storeNode];
-	[self parseRenderer:renderer forContainer:storeNode];
-	return storeNode;
-}
-
-- (void)parseRenderer:(SamuraiRenderObject *)renderer forContainer:(SamuraiRenderStoreNode *)parentStore
+- (void)attach:(SamuraiRenderObject *)renderer forStore:(SamuraiRenderStoreNode *)parentStore
 {
 	if ( NO == [renderer store_isValid] )
 		return;
@@ -175,7 +138,7 @@ BASE_CLASS( SamuraiRenderStoreScope )
 	{
 		for ( SamuraiRenderObject * childRenderer in renderer.childs )
 		{
-			[self parseRenderer:childRenderer forContainer:thisStore];
+			[self attach:childRenderer forStore:thisStore];
 		}
 	}
 }
@@ -195,18 +158,6 @@ BASE_CLASS( SamuraiRenderStoreScope )
 	if ( nil == self.storeTree )
 		return nil;
 
-	if ( self.storePath )
-	{
-		if ( nil == path )
-		{
-			path = self.storePath;
-		}
-		else
-		{
-			path = [NSString stringWithFormat:@"%@.%@", self.storePath, path];
-		}
-	}
-	
 	if ( nil == path )
 	{
 		return [self getDataFromStore:self.storeTree];
@@ -254,11 +205,11 @@ BASE_CLASS( SamuraiRenderStoreScope )
 
 		for ( SamuraiRenderStoreNode * childStore in store.childs )
 		{
-			if ( [childStore.target.dom.domName hasSuffix:@"[]"] )
+			if ( [childStore.renderer.dom.domName hasSuffix:@"[]"] )
 			{
 				NSString * childPath = nil;
 				
-				childPath = childStore.target.dom.domName;
+				childPath = childStore.renderer.dom.domName;
 				childPath = [childPath substringToIndex:childPath.length - 2];
 
 				NSMutableArray * array = [dict objectForKey:childPath];
@@ -281,7 +232,7 @@ BASE_CLASS( SamuraiRenderStoreScope )
 				NSObject * value = [self getDataFromStore:childStore];
 				if ( value )
 				{
-					[dict setObject:value forKey:childStore.target.dom.domName];
+					[dict setObject:value forKey:childStore.renderer.dom.domName];
 				}
 			}
 		}
@@ -290,9 +241,11 @@ BASE_CLASS( SamuraiRenderStoreScope )
 	}
 	else
 	{
-		return [store.target serialize];
+		return [store.renderer serialize];
 	}
 }
+
+#pragma mark -
 
 - (void)setData:(NSObject *)data
 {
@@ -307,24 +260,14 @@ BASE_CLASS( SamuraiRenderStoreScope )
 	if ( nil == self.storeTree )
 		return;
 
-	if ( self.storePath )
-	{
-		if ( nil == path )
-		{
-			path = self.storePath;
-		}
-		else
-		{
-			path = [NSString stringWithFormat:@"%@.%@", self.storePath, path];
-		}
-	}
-
 	if ( nil == path )
 	{
 		[self setData:data forStore:self.storeTree];
 	}
 	else
 	{
+		[self.storeTree dump];
+		
 		NSArray * storeNodes = [self.storeTree find:path];
 		
 		if ( nil == storeNodes || 0 == storeNodes.count )
@@ -384,17 +327,17 @@ BASE_CLASS( SamuraiRenderStoreScope )
 	if ( nil == store )
 		return;
 
-	if ( store.target && store.target.dom.domName )
+	if ( store.renderer && store.renderer.dom.domName )
 	{
-		INFO( @"Set data for '%@'", store.target.dom.domName );
+		INFO( @"Set data for '%@'", store.renderer.dom.domName );
 		
 		if ( data )
 		{
-			[store.target unserialize:data];
+			[store.renderer unserialize:data];
 		}
 //		else
 //		{
-//			[store.target zerolize];
+//			[store.renderer zerolize];
 //		}
 	}
 
@@ -402,20 +345,20 @@ BASE_CLASS( SamuraiRenderStoreScope )
 
 	for ( SamuraiRenderStoreNode * childStore in store.childs )
 	{
-		if ( childStore.target )
+		if ( childStore.renderer )
 		{
 			NSObject * value = nil;
 			
-			if ( [childStore.target.dom.domName hasSuffix:@"[]"] )
+			if ( [childStore.renderer.dom.domName hasSuffix:@"[]"] )
 			{
 				NSString * childPath = nil;
 
-				childPath = childStore.target.dom.domName;
+				childPath = childStore.renderer.dom.domName;
 				childPath = [childPath substringToIndex:childPath.length - 2];
 
 				if ( [data isKindOfClass:[NSDictionary class]] || [data conformsToProtocol:@protocol(NSDictionaryProtocol)] )
 				{
-					value = [(NSDictionary *)data objectForKey:childStore.target.dom.domName];
+					value = [(NSDictionary *)data objectForKey:childStore.renderer.dom.domName];
 					
 					if ( nil == value )
 					{
@@ -424,7 +367,7 @@ BASE_CLASS( SamuraiRenderStoreScope )
 				}
 				else
 				{
-					value = [(NSObject *)data valueForKey:childStore.target.dom.domName];
+					value = [(NSObject *)data valueForKey:childStore.renderer.dom.domName];
 
 					if ( nil == value )
 					{
@@ -459,11 +402,11 @@ BASE_CLASS( SamuraiRenderStoreScope )
 			{
 				if ( [data isKindOfClass:[NSDictionary class]] || [data conformsToProtocol:@protocol(NSDictionaryProtocol)] )
 				{
-					value = [(NSDictionary *)data objectForKey:childStore.target.dom.domName];
+					value = [(NSDictionary *)data objectForKey:childStore.renderer.dom.domName];
 				}
 				else
 				{
-					value = [(NSObject *)data valueForKey:childStore.target.dom.domName];
+					value = [(NSObject *)data valueForKey:childStore.renderer.dom.domName];
 				}
 			}
 			
@@ -475,6 +418,8 @@ BASE_CLASS( SamuraiRenderStoreScope )
 		}
 	}
 }
+
+#pragma mark -
 
 - (void)clearData
 {
@@ -488,18 +433,6 @@ BASE_CLASS( SamuraiRenderStoreScope )
 {
 	if ( nil == self.storeTree )
 		return;
-
-	if ( self.storePath )
-	{
-		if ( nil == path )
-		{
-			path = self.storePath;
-		}
-		else
-		{
-			path = [NSString stringWithFormat:@"%@.%@", self.storePath, path];
-		}
-	}
 
 	if ( nil == path )
 	{
@@ -523,9 +456,9 @@ BASE_CLASS( SamuraiRenderStoreScope )
 		return;
 	}
 
-	if ( store.target && store.target.dom.domName )
+	if ( store.renderer && store.renderer.dom.domName )
 	{
-		[store.target zerolize];
+		[store.renderer zerolize];
 	}
 
 	for ( SamuraiRenderStoreNode * childStore in store.childs )

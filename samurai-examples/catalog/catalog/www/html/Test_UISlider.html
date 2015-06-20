@@ -24,6 +24,8 @@
 		<UILabel class="label" for="s2">0.0</UILabel>
 		<UILabel class="label" for="s3">0.0</UILabel>
 
+		<br/>
+
 		<UISlider id="s1" class="slider1" min-value="2.0" max-value="3.0" is-continuous></UISlider>
 		<UISlider id="s2" class="slider2" min-value="1.0" max-value="2.0" is-continuous></UISlider>
 		<UISlider id="s3" class="slider3" min-value="0.0" max-value="1.0" is-continuous></UISlider>
@@ -40,21 +42,22 @@
 			}
 
 			.label {
-				display: inline-block;
+				display: block;
 				margin-top: 40px;
-				width: 33.3%;
+				float: left;
+				width: 33%;
 				height: 44px;
 				text-align: center;
 				color: black;
 				border-color: black;
-				border-width: 1px;
+				border-width: 0.5px;
 			}
 
 			.slider1 {
 				display: block;
-				margin: 0 auto;
+				float: left;
 				margin-top: 40px;
-				width: 80%;
+				width: 33%;
 				height: 44px;
 				color: red;
 				background-color: white;
@@ -62,8 +65,9 @@
 
 			.slider2 {
 				display: block;
-				margin: 0 auto;
-				width: 80%;
+				float: left;
+				margin-top: 40px;
+				width: 33%;
 				height: 44px;
 				color: blue;
 				background-color: white;
@@ -71,8 +75,9 @@
 
 			.slider3 {
 				display: block;
-				margin: 0 auto;
-				width: 80%;
+				float: left;
+				margin-top: 40px;
+				width: 33%;
 				height: 44px;
 				color: green;
 				background-color: white;

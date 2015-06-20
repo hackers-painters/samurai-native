@@ -37,7 +37,6 @@
 #import "Samurai_HtmlDocumentWorkflow.h"
 
 #import "Samurai_HtmlMediaQuery.h"
-
 #import "Samurai_HtmlDomNode.h"
 
 #import "Samurai_HtmlRenderQuery.h"

@@ -65,6 +65,8 @@
 
 - (BOOL)isColor;
 
+- (UIColor *)colorValue;
+
 @end
 
 #pragma mark -

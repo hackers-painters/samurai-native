@@ -168,31 +168,13 @@
 
 - (void)onDonePressed
 {
-	UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose theme"
-															  delegate:self
-													 cancelButtonTitle:@"Cancel"
-												destructiveButtonTitle:nil
-													 otherButtonTitles:@"Pink", @"Black", @"White", nil];
-	
-	[actionSheet showInView:self.view];
-}
-
-#pragma mark -
-
-// Called when a button is clicked. The view will be automatically dismissed after this call returns
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-	if ( 0 == buttonIndex )
-	{
-		[[ThemeConfig sharedInstance] changeTheme:@"pink"];
-	}
-	else if ( 1 == buttonIndex )
-	{
-		[[ThemeConfig sharedInstance] changeTheme:@"black"];
-	}
-	else if ( 2 == buttonIndex )
+	if ( [[ThemeConfig sharedInstance].theme isEqualToString:@"pink"] )
 	{
 		[[ThemeConfig sharedInstance] changeTheme:@"white"];
+	}
+	else
+	{
+		[[ThemeConfig sharedInstance] changeTheme:@"pink"];
 	}
 }
 
@@ -253,44 +235,29 @@
 //		$(@"#tab3").REMOVE_CLASS( @"active" );
 		
 		_currentModel = self.model1;
-	}
-	else if ( 1 == _currentIndex )
-	{
-//		$(@"#tab1").REMOVE_CLASS( @"active" );
-//		$(@"#tab2").ADD_CLASS( @"active" );
-//		$(@"#tab3").REMOVE_CLASS( @"active" );
 		
-		_currentModel = self.model2;
-	}
-	else if ( 2 == _currentIndex )
-	{
-//		$(@"#tab1").REMOVE_CLASS( @"active" );
-//		$(@"#tab2").REMOVE_CLASS( @"active" );
-//		$(@"#tab3").ADD_CLASS( @"active" );
-		
-		_currentModel = self.model3;
-	}
-
-	if ( 0 == _currentIndex )
-	{
 		[self.tab1 addCssStyleClass:@"active"];
 	}
 	else
 	{
 		[self.tab1 removeCssStyleClass:@"active"];
 	}
-
+	
 	if ( 1 == _currentIndex )
 	{
+		_currentModel = self.model2;
+		
 		[self.tab2 addCssStyleClass:@"active"];
 	}
 	else
 	{
 		[self.tab2 removeCssStyleClass:@"active"];
 	}
-
+	
 	if ( 2 == _currentIndex )
 	{
+		_currentModel = self.model3;
+		
 		[self.tab3 addCssStyleClass:@"active"];
 	}
 	else
@@ -301,12 +268,12 @@
 	[self.tab1 restyle];
 	[self.tab2 restyle];
 	[self.tab3 restyle];
-	
+
 	[self.list setContentOffset:CGPointZero animated:NO];
 	
-	[_currentModel refresh];
-	
 	[self reloadData];
+	
+	[_currentModel refresh];
 }
 
 #pragma mark -
@@ -330,85 +297,36 @@
 
 - (void)reloadData
 {
-	self[ @"tabbar" ] = @{
-	
-		@"popular" : ({
-			
-			NSString * text = nil;
-			
-			if ( _currentModel == self.model1 )
-			{
-				text = @"/Popular/";
-			}
-			else
-			{
-				text = @"Popular";
-			}
-			
-			text;
-		}),
-		
-		@"debuts" : ({
-			
-			NSString * text = nil;
-			
-			if ( _currentModel == self.model2 )
-			{
-				text = @"/Debuts/";
-			}
-			else
-			{
-				text = @"Debuts";
-			}
-			
-			text;
-			
-		}),
-		
-		@"everyone" : ({
-			
-			NSString * text = nil;
-			
-			if ( _currentModel == self.model3 )
-			{
-				text = @"/Everyone/";
-			}
-			else
-			{
-				text = @"Everyone";
-			}
-			
-			text;
-		}),
-		
-	};
+	self[ @"tabbar.popular" ]	= _currentModel == self.model1 ? @"/Popular/" : @"Popular";
+	self[ @"tabbar.debuts" ]	= _currentModel == self.model2 ? @"/Debuts/" : @"Debuts";
+	self[ @"tabbar.everyone" ]	= _currentModel == self.model3 ? @"/Everyone/" : @"Everyone";
 
 	self[ @"list" ] = @{
-
-		@"shots" : ({
+						
+		@"section-shots" : ({
 			
 			NSMutableArray * shots = [NSMutableArray array];
-			
+
 			for ( SHOT * shot in _currentModel.shots )
 			{
 				[shots addObject : @{
-									 
+
 					@"author" : @{
-						@"avatar" : shot.user.avatar_url ?: @"", // @"https://d13yacurqjgara.cloudfront.net/users/162360/avatars/normal/logo.png?1402322917",
-						@"title" : shot.title ?: @"", // @"Product Homepage",
-						@"name" : shot.user.name ?: @"", // @"Unity"
+						@"avatar"	: shot.user.avatar_url ?: @"", // @"https://d13yacurqjgara.cloudfront.net/users/162360/avatars/normal/logo.png?1402322917",
+						@"title"	: shot.title ?: @"", // @"Product Homepage",
+						@"name"		: shot.user.name ?: @"", // @"Unity"
 					},
 
-					@"shot-url" : shot.images.normal ?: @"", // @"https://d13yacurqjgara.cloudfront.net/users/162360/screenshots/1914272/home_dribbble.png"
+					@"shot-url"		: shot.images.normal ?: @"", // @"https://d13yacurqjgara.cloudfront.net/users/162360/screenshots/1914272/home_dribbble.png"
 
 					@"attr" : @{
-						@"views" : @(shot.views_count), // @"6770",
-						@"comments" : @(shot.comments_count), // @"19",
-						@"likes" : @(shot.likes_count), // @"591"
+						@"views"	: @(shot.views_count), // @"6770",
+						@"comments"	: @(shot.comments_count), // @"19",
+						@"likes"	: @(shot.likes_count), // @"591"
 					}
 				}];
 			}
-
+			
 			shots;
 		})
 	};
@@ -462,6 +380,13 @@
 	SHOT * shot = [_currentModel.shots objectAtIndex:signal.sourceIndexPath.row];
 	
 	[self startURL:@"/shot" params:@{ @"shot" : shot }];
+}
+
+- (void)viewProfile:(SamuraiSignal *)signal
+{
+	SHOT * shot = [_currentModel.shots objectAtIndex:signal.sourceIndexPath.row];
+	
+	[self startURL:@"/player" params:@{ @"player" : shot.user }];
 }
 
 @end

@@ -35,6 +35,7 @@
 
 #import "Samurai_CSSProtocol.h"
 
+#import "Samurai_HtmlLayout.h"
 #import "Samurai_HtmlDomNode.h"
 #import "Samurai_HtmlStyle.h"
 
@@ -91,6 +92,7 @@ typedef enum
 
 @prop_assign( HtmlRenderWrap,				wrap );
 @prop_assign( HtmlRenderAlign,				align );
+@prop_assign( HtmlRenderClear,				clear );
 @prop_assign( HtmlRenderDisplay,			display );
 @prop_assign( HtmlRenderFloating,			floating );
 @prop_assign( HtmlRenderPosition,			position );
@@ -110,13 +112,18 @@ typedef enum
 @prop_unsafe( SamuraiHtmlRenderObject *,	prev );		// override
 @prop_unsafe( SamuraiHtmlRenderObject *,	next );		// override
 
+- (void)renderWillLoad;						// override point
+- (void)renderDidLoad;						// override point
+
 - (BOOL)layoutShouldWrapLine;				// override point
 - (BOOL)layoutShouldWrapBefore;				// override point
 - (BOOL)layoutShouldWrapAfter;				// override point
 
-- (BOOL)layoutShouldBoundsToWindow;			// override point
+- (BOOL)layoutShouldAutoSizing;				// override point
 - (BOOL)layoutShouldCenteringInRow;			// override point
 - (BOOL)layoutShouldCenteringInCol;			// override point
+- (BOOL)layoutShouldLeftJustifiedInRow;		// override point
+- (BOOL)layoutShouldRightJustifiedInRow;	// override point
 
 - (BOOL)layoutShouldPositioningChildren;	// override point
 
@@ -135,23 +142,11 @@ typedef enum
 - (BOOL)layoutShouldVerticalAlignMiddle;	// override point
 - (BOOL)layoutShouldVerticalAlignBottom;	// override point
 
-- (UIEdgeInsets)computeInset:(CGSize)size;
-- (UIEdgeInsets)computeBorder:(CGSize)size;
-- (UIEdgeInsets)computeMargin:(CGSize)size;
-- (UIEdgeInsets)computeOffset:(CGSize)size;
-- (UIEdgeInsets)computePadding:(CGSize)size;
-
-- (CGFloat)computeLineHeight:(CGFloat)height;
-
-- (CGFloat)computeBorderSpacing;
-- (CGFloat)computeCellSpacing;
-- (CGFloat)computeCellPadding;
-
 - (void)applyStyle;
 - (void)applyStyleInheritesFrom:(SamuraiHtmlRenderObject * )parent;
 
-- (void)renderWillLoad;		// override point
-- (void)renderDidLoad;		// override point
+- (CGRect)layoutWithContext:(SamuraiHtmlLayoutContext *)context
+			  parentContext:(SamuraiHtmlLayoutContext *)parentContext;	// override point
 
 @end
 
@@ -159,11 +154,20 @@ typedef enum
 
 #if __SAMURAI_DEBUG__
 
+#undef	DEBUG_RENDERER_DOM
+#define DEBUG_RENDERER_DOM( __x ) \
+		if ( [__x.dom.attributes hasObjectForKey:@"debug"] || [__x.dom.attributes hasObjectForKey:@"debug-dom"] ) \
+		{ \
+			PRINT( @">>>> Debug layout at >>" ); \
+			[__x dump]; \
+			TRAP(); \
+		}
+
 #undef	DEBUG_RENDERER_LAYOUT
 #define DEBUG_RENDERER_LAYOUT( __x ) \
 		if ( [__x.dom.attributes hasObjectForKey:@"debug"] || [__x.dom.attributes hasObjectForKey:@"debug-layout"] ) \
 		{ \
-			INFO( @"Debug layout at >>" ); \
+			PRINT( @">>>> Debug layout at >>" ); \
 			[__x dump]; \
 			TRAP(); \
 		}
@@ -172,7 +176,7 @@ typedef enum
 #define DEBUG_RENDERER_STYLE( __x ) \
 		if ( [__x.dom.attributes hasObjectForKey:@"debug"] || [__x.dom.attributes hasObjectForKey:@"debug-style"] ) \
 		{ \
-			INFO( @"Debug style at >>" ); \
+			PRINT( @">>>> Debug style at >>" ); \
 			[__x dump]; \
 			TRAP(); \
 		}
@@ -181,7 +185,7 @@ typedef enum
 #define DEBUG_RENDERER_FRAME( __x ) \
 		if ( [__x.dom.attributes hasObjectForKey:@"debug"] || [__x.dom.attributes hasObjectForKey:@"debug-frame"] ) \
 		{ \
-			INFO( @"Debug frame at >>" ); \
+			PRINT( @">>>> Debug frame at >>" ); \
 			[__x dump]; \
 			TRAP(); \
 		}

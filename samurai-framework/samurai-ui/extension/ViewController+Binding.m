@@ -42,41 +42,83 @@
 
 @implementation UIViewController(Binding)
 
-@def_prop_dynamic( SamuraiRenderStoreScope *,	viewStorage );
-
-#pragma mark -
-
-- (SamuraiRenderStoreScope *)viewStorage
+- (id)getViewData
 {
-	return [SamuraiRenderStoreScope storeScope:[[self view] renderer]];
+	SamuraiRenderStoreScope * scope = [SamuraiRenderStoreScope storeScope:[self.view renderer]];
+	
+	return [scope getData];
+}
+
+- (id)getViewDataWithPath:(NSString *)path
+{
+	SamuraiRenderStoreScope * scope = [SamuraiRenderStoreScope storeScope:[self.view renderer]];
+	
+	return [scope getDataWithPath:path];
+}
+
+- (void)setViewData:(NSObject *)data
+{
+	SamuraiRenderStoreScope * scope = [SamuraiRenderStoreScope storeScope:[self.view renderer]];
+	
+	[scope setData:data];
+}
+
+- (void)setViewData:(NSObject *)data withPath:(NSString *)path
+{
+	SamuraiRenderStoreScope * scope = [SamuraiRenderStoreScope storeScope:[self.view renderer]];
+	
+	[scope setData:data withPath:path];
+}
+
+- (void)clearViewData
+{
+	SamuraiRenderStoreScope * scope = [SamuraiRenderStoreScope storeScope:[self.view renderer]];
+	
+	[scope clearData];
+}
+
+- (void)clearViewDataWithPath:(NSString *)path
+{
+	SamuraiRenderStoreScope * scope = [SamuraiRenderStoreScope storeScope:[self.view renderer]];
+	
+	[scope clearDataWithPath:path];
 }
 
 #pragma mark -
 
 - (id)objectForKey:(id)key
 {
-	return [[self viewStorage] getDataWithPath:key];
+	return [self getViewDataWithPath:key];
 }
 
 - (BOOL)hasObjectForKey:(id)key
 {
-	return [[self viewStorage] getDataWithPath:key] ? YES : NO;
+	return [self getViewDataWithPath:key] ? YES : NO;
 }
 
 - (void)setObject:(id)value forKey:(id)key
 {
-	[[self viewStorage] setData:value withPath:key];
+	if ( nil == value )
+	{
+		[self clearViewDataWithPath:key];
+	}
+	else
+	{
+		[self setViewData:value withPath:key];
+	}
 }
 
 - (void)removeObjectForKey:(id)key
 {
-	[[self viewStorage] clearDataWithPath:key];
+	[self clearViewDataWithPath:key];
 }
 
 - (void)removeAllObjects
 {
-	[[self viewStorage] clearData];
+	[self clearViewData];
 }
+
+#pragma mark -
 
 - (id)objectForKeyedSubscript:(id)key;
 {

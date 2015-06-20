@@ -36,29 +36,13 @@
 
 #pragma mark -
 
-typedef enum
-{
-	TapState_Idle = 0,
-	TapState_Pressing,
-	TapState_Raised,
-	TapState_Cancelled
-} TapState;
-
-#pragma mark -
-
 @interface UIView(EventTapGesture)
-
-@joint( tapStateChanged );
 
 @signal( eventTapPressing );	/// 按下
 @signal( eventTapRaised );		/// 抬起
 @signal( eventTapCancelled );	/// 取消
 
 @prop_strong( NSString *,	tapSignalName );
-@prop_assign( TapState,		tapState );
-@prop_readonly( BOOL,		tapPressing );
-@prop_readonly( BOOL,		tapRaised );
-@prop_readonly( BOOL,		tapCancelled );
 
 + (BOOL)supportTapGesture;
 

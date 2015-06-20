@@ -150,7 +150,7 @@ static BOOL __enabled = NO;
 		borderLayer.frame = CGRectInset( CGRectMake( 0, 0, container.bounds.size.width, container.bounds.size.height ), 0.1f, 0.1f );
 		
 		borderLayer.masksToBounds = YES;
-		borderLayer.cornerRadius = container.layer.cornerRadius;
+	//	borderLayer.cornerRadius = container.layer.cornerRadius;
 		
 		[container.layer insertSublayer:borderLayer atIndex:0];
 	}

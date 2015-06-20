@@ -484,6 +484,9 @@ static NSMutableArray * __activities = nil;
 
 - (void)viewDidLayoutSubviews
 {
+//	if ( self.state != ActivityState_Activated )
+//		return;
+
 	PERF( @"Activity '%p', '%@' viewDidLayoutSubviews", self, [[self class] description] );
 
 	[super viewDidLayoutSubviews];

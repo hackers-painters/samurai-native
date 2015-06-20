@@ -341,22 +341,22 @@ static NSUInteger __domSeed = 0;
 		{
 			if ( self.domId && self.domId.length )
 			{
-				INFO( @"<%@ id='%@'>", self.domTag, self.domId );
+				PRINT( @"<%@ id='%@'>", self.domTag, self.domId );
 			}
 			else
 			{
-				INFO( @"<%@>", self.domTag );
+				PRINT( @"<%@>", self.domTag );
 			}
 		}
 		else
 		{
 			if ( self.domId && self.domId.length )
 			{
-				INFO( @"<%@ id='%@'/>", self.domTag, self.domId );
+				PRINT( @"<%@ id='%@'/>", self.domTag, self.domId );
 			}
 			else
 			{
-				INFO( @"<%@/>", self.domTag );
+				PRINT( @"<%@/>", self.domTag );
 			}
 		}
 	}
@@ -366,11 +366,11 @@ static NSUInteger __domSeed = 0;
 		{
 			if ( self.domText.length > 32 )
 			{
-				INFO( @"\"%@\" ...", [[[self.domText substringToIndex:32] trim] normalize] );
+				PRINT( @"\"%@\" ...", [[[self.domText substringToIndex:32] trim] normalize] );
 			}
 			else
 			{
-				INFO( @"\"%@\"", [[self.domText trim] normalize] );
+				PRINT( @"\"%@\"", [[self.domText trim] normalize] );
 			}
 		}
 	}
@@ -386,7 +386,7 @@ static NSUInteger __domSeed = 0;
 	
 	if ( self.childs.count )
 	{
-		INFO( @"</%@>", self.domTag );
+		PRINT( @"</%@>", self.domTag );
 	}
 }
 

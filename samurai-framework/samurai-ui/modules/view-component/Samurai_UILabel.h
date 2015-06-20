@@ -40,11 +40,23 @@
 
 #pragma mark -
 
+typedef enum
+{
+	UITextDecoration_None = 0,
+	UITextDecoration_Overline,
+	UITextDecoration_Underline,
+	UITextDecoration_LineThrough
+} UITextDecoration;
+
+#pragma mark -
+
 @interface UILabel(Samurai)
 
-@prop_assign( BOOL,						trimmed );
-@prop_assign( BOOL,						normalized );
-@prop_strong( NSMutableDictionary *,	mutableAttributes )
+@prop_assign( BOOL,					trimmed );
+@prop_assign( BOOL,					normalized );
+@prop_assign( CGFloat,				lineHeight );
+@prop_assign( CGFloat,				letterSpacing );
+@prop_assign( UITextDecoration,		textDecoration );
 
 @end
 

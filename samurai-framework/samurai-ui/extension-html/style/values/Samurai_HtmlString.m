@@ -57,6 +57,11 @@
 	return NO;
 }
 
+- (NSString *)stringValue
+{
+	return nil;
+}
+
 @end
 
 #pragma mark -
@@ -132,6 +137,11 @@
 	}
 	
 	return NO;
+}
+
+- (NSString *)stringValue
+{
+	return self.value;
 }
 
 @end

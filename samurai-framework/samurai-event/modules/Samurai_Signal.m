@@ -332,11 +332,13 @@ BASE_CLASS( SamuraiSignal )
 
 - (NSString *)prettyName
 {
-	NSString * name = [self.name stringByReplacingOccurrencesOfString:@"signal." withString:@""];
-	NSString * normalizedName = name;
-	normalizedName = [normalizedName stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
-	normalizedName = [normalizedName stringByReplacingOccurrencesOfString:@":" withString:@"_"];
-	return normalizedName;
+//	NSString * name = [self.name stringByReplacingOccurrencesOfString:@"signal." withString:@""];
+//	NSString * normalizedName = name;
+//	normalizedName = [normalizedName stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
+//	normalizedName = [normalizedName stringByReplacingOccurrencesOfString:@":" withString:@"_"];
+//	return normalizedName;
+
+	return self.name;
 }
 
 - (NSString *)description

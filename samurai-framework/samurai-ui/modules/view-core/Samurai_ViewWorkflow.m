@@ -98,6 +98,8 @@
 
 	for ( SamuraiViewWorklet * worklet in self.worklets )
 	{
+		INFO( @"  [%@]", [[worklet class] description] );
+
 		[[SamuraiLogger sharedInstance] indent:2];
 	//	[[SamuraiLogger sharedInstance] disable];
 
@@ -105,8 +107,6 @@
 
 	//	[[SamuraiLogger sharedInstance] enable];
 		[[SamuraiLogger sharedInstance] unindent:2];
-		
-		INFO( @"  %@ [%@]", succeed ? @"✔" : @"✖", [[worklet class] description] );
 		
 		if ( NO == succeed )
 			break;

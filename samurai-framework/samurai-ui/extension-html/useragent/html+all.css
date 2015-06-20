@@ -1,0 +1,689 @@
+/*
+ *    ____    _                        __     _      _____
+ *   / ___\  /_\     /\/\    /\ /\    /__\   /_\     \_   \
+ *   \ \    //_\\   /    \  / / \ \  / \//  //_\\     / /\/
+ * /\_\ \  /  _  \ / /\/\ \ \ \_/ / / _  \ /  _  \ /\/ /_
+ * \____/  \_/ \_/ \/    \/  \___/  \/ \_/ \_/ \_/ \____/
+ *
+ * Copyright Samurai development team and other contributors
+ *
+ * http://www.samurai-framework.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+html {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Html';
+}
+
+head {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+title {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+meta {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+base {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+link {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+style {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+script {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+body {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Body';
+}
+
+element {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Element';
+}
+
+template {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Template';
+}
+
+article {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Article';
+}
+
+aside {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Aside';
+}
+
+div {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Div';
+}
+
+footer {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Footer';
+}
+
+header {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Header';
+}
+
+hgroup {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Hgroup';
+}
+
+main {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Main';
+}
+
+nav {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Nav';
+}
+
+section {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Section';
+}
+
+span {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Span';
+}
+
+dir {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Dir';
+}
+
+ul {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Ul';
+}
+
+ol {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Ol';
+}
+
+li {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Li';
+}
+
+dl {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Dl';
+}
+
+dt {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Dt';
+}
+
+dd {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Dd';
+}
+
+table {
+	-samurai-render-model: 'table';
+	-samurai-render-class: 'HtmlElement_Table';
+}
+
+caption {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Caption';
+}
+
+thead {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Thead';
+}
+
+tbody {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Tbody';
+}
+
+tfoot {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Tfoot';
+}
+
+tr {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Tr';
+}
+
+td {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Td';
+}
+
+th {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Th';
+}
+
+col {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Col';
+}
+
+colgroup {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Colgroup';
+}
+
+form {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Form';
+}
+
+fieldset {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Fieldset';
+}
+
+legend {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Legend';
+}
+
+keygen {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+menu {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+menuitem {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+button {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Button';
+}
+
+canvas {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Canvas';
+}
+
+datalist {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Datalist';
+}
+
+img, image {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Img';
+}
+
+input, input[type="text"] {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Input_Text';
+}
+
+input[type="button"] {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Input_Button';
+}
+
+input[type="checkbox"] {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Input_Checkbox';
+}
+
+input[type="file"] {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Input_File';
+}
+
+input[type="hidden"] {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Input_Hidden';
+}
+
+input[type="image"] {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Input_Image';
+}
+
+input[type="password"] {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Input_Password';
+}
+
+input[type="radio"] {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Input_Radio';
+}
+
+input[type="reset"] {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Input_Reset';
+}
+
+input[type="submit"] {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Input_Submit';
+}
+
+label {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Label';
+}
+
+output {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Output';
+}
+
+progress {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Progress';
+}
+
+select {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Select';
+}
+
+optgroup {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+option {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+textarea {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Textarea';
+}
+
+time {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Time';
+}
+
+meter {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Meter';
+}
+
+h1 {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_H1';
+}
+
+h2 {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_H2';
+}
+
+h3 {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_H3';
+}
+
+h4 {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_H4';
+}
+
+h5 {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_H5';
+}
+
+h6 {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_H6';
+}
+
+hr {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Hr';
+}
+
+a {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+b {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+i {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+q {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+u {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+wbr {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+abbr {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+address {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+acronym {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+code {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Code';
+}
+
+strong {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+small {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+big {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+del {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+ins {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+s, strike {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+rp {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+rt {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+ruby {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+em {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+tt {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+cite {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+dfn {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+kbd {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+samp {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+var {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+mark {
+	-samurai-render-model: 'inline';
+	-samurai-render-class: '';
+}
+
+sub {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Sub';
+}
+
+sup {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Sup';
+}
+
+basefont {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+font {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+bdi {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+bdo {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+br {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Br';
+}
+
+blockquote {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_Blockquote';
+}
+
+p {
+	-samurai-render-model: 'container';
+	-samurai-render-class: 'HtmlElement_P';
+}
+
+pre {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'HtmlElement_Pre';
+}
+
+figcaption {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+figure {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+details {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+summary {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+area {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+map {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+frame {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+frameset {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+iframe {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+noframes {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+noscript {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+dialog {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+object {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+param {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+audio {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+source {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+video {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+track {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+applet {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+command {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}
+
+embed {
+	-samurai-render-model: 'hidden';
+	-samurai-render-class: '';
+}

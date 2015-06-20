@@ -249,8 +249,6 @@
 //	}
 
 	[reuseCell.renderer rechain];
-	[reuseCell.renderer relayout];
-//	[reuseCell tableViewCellAgent].dirty = YES;
 
 	return reuseCell;
 }
@@ -281,6 +279,8 @@
 
 - (void)dealloc
 {
+	[NSObject cancelPreviousPerformRequestsWithTarget:self];
+	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[self.sections removeAllObjects];
@@ -442,10 +442,24 @@
 
 #pragma mark -
 
+- (void)deselectCurrentRow
+{
+	NSIndexPath * indexPath = [self.tableView indexPathForSelectedRow];
+	
+	if ( indexPath )
+	{
+		[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+	}
+}
+
+#pragma mark -
+
 // Display customization
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	[cell cellWillDisplay];
+
 	[cell.renderer relayout];
 }
 
@@ -461,6 +475,7 @@
 
 - (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath NS_AVAILABLE_IOS(6_0)
 {
+	[cell cellDidDisplay];
 }
 
 - (void)tableView:(UITableView *)tableView didEndDisplayingHeaderView:(UIView *)view forSection:(NSInteger)section NS_AVAILABLE_IOS(6_0)
@@ -552,17 +567,44 @@
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(6_0)
 {
-	return NO;
+	UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+	
+	if ( cell )
+	{
+		if ( NO == cell.highlighted )
+		{
+			[cell cellWillUnhighlight];
+		}
+	}
+
+	return YES;
 }
 
 - (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(6_0)
 {
+	UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
 	
+	if ( cell )
+	{
+		if ( cell.highlighted )
+		{
+			[cell cellDidHighlight];
+		}
+	}
 }
 
 - (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(6_0)
 {
+	UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
 	
+	if ( cell )
+	{
+		if ( cell.highlighted )
+		{
+			[cell cellWillUnhighlight];
+			[cell cellDidUnhighlight];
+		}
+	}
 }
 
 // Called before the user changes the selection. Return a new indexPath, or nil, to change the proposed selection.
@@ -571,12 +613,17 @@
 {
 	[tableView sendSignal:UITableView.eventWillSelectRow withObject:indexPath];
 
-	return indexPath;
-}
-
-- (NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(3_0)
-{
-	[tableView sendSignal:UITableView.eventWillDeselectRow withObject:indexPath];
+	UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+	
+	if ( cell )
+	{
+		if ( NO == cell.selected )
+		{
+			[cell cellWillSelect];
+		}
+	}
+	
+	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(deselectCurrentRow) object:nil];
 	
 	return indexPath;
 }
@@ -587,11 +634,55 @@
 {
 	[tableView sendSignal:UITableView.eventDidSelectRow withObject:indexPath];
 
+	UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+
+	if ( cell )
+	{
+		if ( cell.selected )
+		{
+			[cell cellDidSelect];
+		}
+	}
+	
+	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(deselectCurrentRow) object:nil];
+	
+	[self performSelector:@selector(deselectCurrentRow) withObject:nil afterDelay:1.0f];
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(3_0)
+{
+	[tableView sendSignal:UITableView.eventWillDeselectRow withObject:indexPath];
+	
+	UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+	
+	if ( cell )
+	{
+		if ( cell.selected )
+		{
+			[cell cellWillDeselect];
+		}
+	}
+	
+	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(deselectCurrentRow) object:nil];
+	
+	return indexPath;
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(3_0)
 {
 	[tableView sendSignal:UITableView.eventDidDeselectRow withObject:indexPath];
+	
+	UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+	
+	if ( cell )
+	{
+		if ( NO == cell.selected )
+		{
+			[cell cellDidDeselect];
+		}
+	}
+	
+	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(deselectCurrentRow) object:nil];
 }
 
 // Editing
@@ -788,6 +879,9 @@
 + (id)createInstanceWithRenderer:(SamuraiRenderObject *)renderer identifier:(NSString *)identifier
 {
 	UITableView * tableView = [[self alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+
+	tableView.allowsSelection = NO;
+	tableView.allowsMultipleSelection = NO;
 
 	tableView.renderer = renderer;
 

@@ -64,17 +64,17 @@
 		if ( 0 == str.length )
 			return nil;
 
-		for ( NSString * suffix in @[ @"cm" ] )
+		NSString * unit = @"cm";
+		
+		BOOL matched = [str isNumberWithUnit:unit];
+		if ( matched )
 		{
-			if ( [str hasSuffix:suffix] )
-			{
-				SamuraiHtmlNumberCm * value = [[self alloc] init];
+			SamuraiHtmlNumberCm * value = [[self alloc] init];
 
-				value.value = [[str substringToIndex:(str.length - suffix.length)] floatValue];
-				value.unit = [str substringFromIndex:(str.length - suffix.length)];
+			value.value = [[str substringToIndex:(str.length - unit.length)] floatValue];
+			value.unit = [str substringFromIndex:(str.length - unit.length)];
 
-				return value;
-			}
+			return value;
 		}
 	}
 	else if ( [any isKindOfClass:[NSNumber class]] )

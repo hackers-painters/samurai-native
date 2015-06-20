@@ -44,13 +44,16 @@
 #pragma mark -
 
 @implementation HtmlElement_Html
+{
+	BOOL _noScroll;
+}
 
 - (id)initWithFrame:(CGRect)frame
 {
 	self = [super initWithFrame:frame];
 	if ( self )
 	{
-		self.backgroundColor = [UIColor whiteColor];
+		self.backgroundColor = [UIColor clearColor];
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 		self.autoresizesSubviews = YES;
 		self.layer.masksToBounds = NO;

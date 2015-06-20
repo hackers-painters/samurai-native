@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Samurai.h"
 
-@interface TestCaseViewController : UIViewController
+@interface TestCaseViewController : SamuraiActivity
 
 @property (nonatomic, strong) NSString * testCase;
 

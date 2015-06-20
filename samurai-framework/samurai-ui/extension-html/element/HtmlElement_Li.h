@@ -35,7 +35,23 @@
 
 #pragma mark -
 
+typedef enum
+{
+	HtmlListType_None = 0,
+	HtmlListType_Disc,
+	HtmlListType_Circle,
+	HtmlListType_Square,
+	HtmlListType_Decimal
+} HtmlListType;
+
+#pragma mark -
+
 @interface HtmlElement_Li : UIView
+
+@prop_strong( UILabel *,	listIcon )
+@prop_assign( HtmlListType,	listType )
+@prop_assign( NSUInteger,	listIndex )
+
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

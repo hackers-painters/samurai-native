@@ -20,8 +20,6 @@
 
 		<link rel="stylesheet" type="text/css" href="../../css/reset.css"/>
 		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
-		<link rel="stylesheet" type="text/css" href="SDWebImageView.css"/>
-		<link rel="stylesheet" type="text/css" href="EMStringLabel.css"/>
 
 	</head>
 
@@ -29,7 +27,7 @@
 
 		<div name="tabbar" class="tab-bar">
 			<div class="tab-col">
-				<div id="tab1" name="popular" class="tab" onclick="@selector(switchTab1:)">Popular</div>
+				<div id="tab1" name="popular" class="tab" onclick="@selector(switchTab1:)" debug-layout>Popular</div>
 			</div>
 			<div class="tab-col">
 				<div id="tab2" name="debuts" class="tab" onclick="@selector(switchTab2:)">Debuts</div>
@@ -43,7 +41,7 @@
 			onswipe-left="@selector(nextTab:)"
 			onswipe-right="@selector(prevTab:)">
 
-			<UICollectionViewCell name="shots" class="list-item" is-column onclick="@selector(viewShot:)">
+			<UICollectionViewCell name="section-shots" class="list-item" is-column onclick="@selector(viewShot:)">
 				<img name="shot-url" class="shot-img"/>
 				<!--
 				<div class="shot-author">
@@ -91,7 +89,7 @@
 			.active {
 				color: #fff;
 				font-size: 14px;
-				font-weight: bold;
+			/*	font-weight: bold; */
 				background-color: #e5508c;
 				border-bottom-color: white;
 				border-bottom-width: 2px;

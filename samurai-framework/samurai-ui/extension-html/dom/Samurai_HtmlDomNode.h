@@ -95,7 +95,7 @@
 #define DEBUG_HTML_DOM( __x ) \
 		if ( [__x.attributes hasObjectForKey:@"debug"] || [__x.attributes hasObjectForKey:@"debug-dom"] ) \
 		{ \
-			INFO( @"Debug dom at >>" ); \
+			PRINT( @">>>> Debug dom at >>" ); \
 			[__x dump]; \
 			TRAP(); \
 		}
@@ -104,7 +104,7 @@
 #define DEBUG_HTML_CSS( __x ) \
 		if ( [__x.attributes hasObjectForKey:@"debug"] || [__x.attributes hasObjectForKey:@"debug-css"] ) \
 		{ \
-			INFO( @"Debug style at >>" ); \
+			PRINT( @">>>> Debug style at >>" ); \
 			[__x dump]; \
 			TRAP(); \
 		} \

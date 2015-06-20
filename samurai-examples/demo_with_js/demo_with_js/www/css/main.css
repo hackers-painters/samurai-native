@@ -1,0 +1,22 @@
+
+html {
+	background-color: white;
+}
+
+.no-scroll {
+	-samurai-render-class: 'UIView';
+}
+
+p {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'EMStringLabel';
+}
+
+img, image {
+	-samurai-render-model: 'element';
+	-samurai-render-class: 'SDWebImageView';
+}

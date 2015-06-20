@@ -36,6 +36,7 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#import "Samurai_HtmlLayout.h"
 #import "Samurai_HtmlRenderObject.h"
 #import "Samurai_HtmlStyle.h"
 #import "Samurai_UIView.h"
@@ -48,6 +49,7 @@
 
 #define HTML_DEFAULT_WRAP		HtmlRenderWrap_Wrap
 #define HTML_DEFAULT_ALIGN		HtmlRenderAlign_None
+#define HTML_DEFAULT_CLEAR		HtmlRenderClear_None
 #define HTML_DEFAULT_DISPLAY	HtmlRenderDisplay_InlineBlock
 #define HTML_DEFAULT_FLOATING	HtmlRenderFloating_None
 #define HTML_DEFAULT_POSITION	HtmlRenderPosition_Relative
@@ -217,6 +219,7 @@
 
 @def_prop_assign( HtmlRenderWrap,				wrap );
 @def_prop_assign( HtmlRenderAlign,				align );
+@def_prop_assign( HtmlRenderClear,				clear );
 @def_prop_assign( HtmlRenderDisplay,			display );
 @def_prop_assign( HtmlRenderFloating,			floating );
 @def_prop_assign( HtmlRenderPosition,			position );
@@ -314,21 +317,12 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 #pragma mark -
 
-- (BOOL)store_isValid
+- (void)renderWillLoad
 {
-	return NO;
 }
 
-- (BOOL)store_hasChildren
+- (void)renderDidLoad
 {
-	return NO;
-}
-
-#pragma mark -
-
-- (CGRect)computeFrame:(CGSize)bound origin:(CGPoint)origin;
-{
-	return [super zerolizeFrame];
 }
 
 #pragma mark -
@@ -369,6 +363,14 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 		}
 	}
 	
+	if ( self.prev )
+	{
+		if ( HtmlRenderClear_Right == self.prev.clear || HtmlRenderClear_Both == self.prev.clear )
+		{
+			return YES;
+		}
+	}
+
 	if ( HtmlRenderDisplay_Inline == self.display ) // inline
 	{
 		return NO;
@@ -388,6 +390,10 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 	else if ( HtmlRenderDisplay_InlineFlex == self.display ) // inline-flex
 	{
 		return NO;
+	}
+	else if ( HtmlRenderDisplay_ListItem == self.display )
+	{
+		return YES;
 	}
 	else if ( HtmlRenderDisplay_Table == self.display ) // table
 	{
@@ -450,6 +456,14 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 		}
 	}
 	
+	if ( self.next )
+	{
+		if ( HtmlRenderClear_Left == self.next.clear || HtmlRenderClear_Both == self.next.clear )
+		{
+			return YES;
+		}
+	}
+
 	if ( HtmlRenderDisplay_Inline == self.display ) // inline
 	{
 		return NO;
@@ -469,6 +483,10 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 	else if ( HtmlRenderDisplay_InlineFlex == self.display ) // inline-flex
 	{
 		return NO;
+	}
+	else if ( HtmlRenderDisplay_ListItem == self.display ) // table
+	{
+		return YES;
 	}
 	else if ( HtmlRenderDisplay_Table == self.display ) // table
 	{
@@ -532,7 +550,7 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 	{
 		return YES;
 	}
-	
+
 	return NO;
 }
 
@@ -556,7 +574,47 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 	return NO;
 }
 
-- (BOOL)layoutShouldBoundsToWindow
+- (BOOL)layoutShouldLeftJustifiedInRow
+{
+	if ( HtmlRenderFloating_None != self.floating )
+	{
+		return NO;
+	}
+	
+	if ( HtmlRenderDisplay_Block != self.display )
+	{
+		return NO;
+	}
+	
+	if ( NO == [self.style isAutoMarginLeft] && [self.style isAutoMarginRight] )
+	{
+		return YES;
+	}
+	
+	return NO;
+}
+
+- (BOOL)layoutShouldRightJustifiedInRow
+{
+	if ( HtmlRenderFloating_None != self.floating )
+	{
+		return NO;
+	}
+	
+	if ( HtmlRenderDisplay_Block != self.display )
+	{
+		return NO;
+	}
+	
+	if ( [self.style isAutoMarginLeft] && NO == [self.style isAutoMarginRight] )
+	{
+		return YES;
+	}
+	
+	return NO;
+}
+
+- (BOOL)layoutShouldAutoSizing
 {
 	if ( HtmlRenderDisplay_Inline == self.display )
 	{
@@ -748,7 +806,12 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 			PERF( @"RenderObject '%p', create view '%@' for \"%@ ...\"", self, self.viewClass, self.dom.domText.length > 20 ? [self.dom.domText substringToIndex:20] : self.dom.domText );
 		}
 
+		DEBUG_RENDERER_DOM( self );
+
 		[newView html_applyDom:self.dom];
+		
+		DEBUG_RENDERER_STYLE( self );
+
 		[newView html_applyStyle:self.style];	// TODO: useless code
 	}
 	else
@@ -983,546 +1046,82 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 - (void)applyStyleInheritesFrom:(SamuraiHtmlRenderObject * )parent
 {
 	Class classType = nil;
-
-	classType = classType ?: NSClassFromString( self.style.renderClass.value );
+	
+	classType = classType ?: NSClassFromString( self.style.samuraiRenderClass.value );
 	classType = classType ?: NSClassFromString( self.dom.domTag );
 	classType = classType ?: [[self class] defaultViewClass];
-
+	
 	self.viewClass = classType;
 	
 	self.wrap = [self.style computeWrap:HTML_DEFAULT_WRAP];
 	self.align = [self.style computeAlign:HTML_DEFAULT_ALIGN];
+	self.clear = [self.style computeClear:HTML_DEFAULT_CLEAR];
 	self.display = [self.style computeDisplay:HTML_DEFAULT_DISPLAY];
 	self.floating = [self.style computeFloating:HTML_DEFAULT_FLOATING];
 	self.position = [self.style computePosition:HTML_DEFAULT_POSITION];
 	self.direction = [self.style computeDirection:HTML_DEFAULT_DIRECTION];
 	self.verticalAlign = [self.style computeVerticalAlign:HTML_DEFAULT_VALIGN];
 
-	while ( nil != parent )
-	{
-		self.wrap = (HtmlRenderWrap_Inherit == self.wrap) ? parent.wrap : self.wrap;
-		self.align = (HtmlRenderAlign_Inherit == self.align) ? parent.align : self.align;
-		self.display = (HtmlRenderDisplay_Inherit == self.display) ? parent.display : self.display;
-		self.floating = (HtmlRenderFloating_Inherit == self.floating) ? parent.floating : self.floating;
-		self.position = (HtmlRenderPosition_Inherit == self.position) ? parent.position : self.position;
-		self.direction = (HtmlRenderDirection_Inherit == self.direction) ? parent.direction : self.direction;
-		self.verticalAlign = (HtmlRenderVerticalAlign_Inherit == self.verticalAlign) ? parent.verticalAlign : self.verticalAlign;
-
-		parent = (SamuraiHtmlRenderObject *)parent.parent;
-	}
-
 	self.wrap = (HtmlRenderWrap_Inherit == self.wrap) ? HTML_DEFAULT_WRAP : self.wrap;
 	self.align = (HtmlRenderAlign_Inherit == self.align) ? HTML_DEFAULT_ALIGN : self.align;
+//	self.clear = (HtmlRenderClear_Inherit == self.clear) ? HTML_DEFAULT_CLEAR : self.clear;
 	self.display = (HtmlRenderDisplay_Inherit == self.display) ? HTML_DEFAULT_DISPLAY : self.display;
 	self.floating = (HtmlRenderFloating_Inherit == self.floating) ? HTML_DEFAULT_FLOATING : self.floating;
 	self.position = (HtmlRenderPosition_Inherit == self.position) ? HTML_DEFAULT_POSITION : self.position;
 	self.direction = (HtmlRenderDirection_Inherit == self.direction) ? HTML_DEFAULT_DIRECTION : self.direction;
 	self.verticalAlign = (HtmlRenderVerticalAlign_Inherit == self.verticalAlign) ? HTML_DEFAULT_VALIGN : self.verticalAlign;
-	
-	if ( self.view )
-	{
-		DEBUG_RENDERER_STYLE( self );
-
-		[self.view html_applyStyle:self.style];
-	}
 }
 
 #pragma mark -
 
-- (UIEdgeInsets)computeInset:(CGSize)size
+- (CGSize)computeSize:(CGSize)bound
 {
-	UIEdgeInsets inset = UIEdgeInsetsZero;
-	
-	SamuraiHtmlStyleObject * top = self.style.insetTop ?: self.style.inset.top;
-	SamuraiHtmlStyleObject * left = self.style.insetLeft ?: self.style.inset.left;
-	SamuraiHtmlStyleObject * right = self.style.insetRight ?: self.style.inset.right;
-	SamuraiHtmlStyleObject * bottom = self.style.insetBottom ?: self.style.inset.bottom;
-	
-	if ( top )
-	{
-		if ( [top isNumber] )
-		{
-			inset.top = [top computeValue:size.height];
-		}
-//		else if ( [top isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	if ( bottom )
-	{
-		if ( [bottom isNumber] )
-		{
-			inset.bottom = [bottom computeValue:size.height];
-		}
-//		else if ( [bottom isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	if ( left )
-	{
-		if ( [left isNumber] )
-		{
-			inset.left = [left computeValue:size.width];
-		}
-//		else if ( [left isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	if ( right )
-	{
-		if ( [right isNumber] )
-		{
-			inset.right = [right computeValue:size.width];
-		}
-//		else if ( [right isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	inset.top		= NORMALIZE_VALUE( inset.top );
-	inset.left		= NORMALIZE_VALUE( inset.left );
-	inset.right		= NORMALIZE_VALUE( inset.right );
-	inset.bottom	= NORMALIZE_VALUE( inset.bottom );
-	
-	return inset;
+	SamuraiHtmlLayoutContext context = {
+		.style		= self.style,
+		.bounds		= bound,
+		.origin		= CGPointZero,
+		.collapse	= UIEdgeInsetsZero
+	};
+
+	[self layoutWithContext:&context parentContext:NULL];
+
+	return context.computedBounds.size;
 }
 
-- (UIEdgeInsets)computePadding:(CGSize)size
+- (CGFloat)computeWidth:(CGFloat)height
 {
-	UIEdgeInsets inset = UIEdgeInsetsZero;
+	SamuraiHtmlLayoutContext context = {
+		.style		= self.style,
+		.bounds		= { INVALID_VALUE, height },
+		.origin		= CGPointZero,
+		.collapse	= UIEdgeInsetsZero
+	};
+
+	[self layoutWithContext:&context parentContext:NULL];
 	
-	SamuraiHtmlStyleObject * top = self.style.paddingTop ?: self.style.padding.top;
-	SamuraiHtmlStyleObject * left = self.style.paddingLeft ?: self.style.padding.left;
-	SamuraiHtmlStyleObject * right = self.style.paddingRight ?: self.style.padding.right;
-	SamuraiHtmlStyleObject * bottom = self.style.paddingBottom ?: self.style.padding.bottom;
-	
-	if ( top )
-	{
-		if ( [top isNumber] )
-		{
-			inset.top = [top computeValue:size.height];
-		}
-//		else if ( [top isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	if ( bottom )
-	{
-		if ( [bottom isNumber] )
-		{
-			inset.bottom = [bottom computeValue:size.height];
-		}
-//		else if ( [bottom isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	if ( left )
-	{
-		if ( [left isNumber] )
-		{
-			inset.left = [left computeValue:size.width];
-		}
-//		else if ( [left isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	if ( right )
-	{
-		if ( [right isNumber] )
-		{
-			inset.right = [right computeValue:size.width];
-		}
-//		else if ( [right isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	inset.top		= NORMALIZE_VALUE( inset.top );
-	inset.left		= NORMALIZE_VALUE( inset.left );
-	inset.right		= NORMALIZE_VALUE( inset.right );
-	inset.bottom	= NORMALIZE_VALUE( inset.bottom );
-	
-	return inset;
+	return context.computedBounds.size.width;
 }
 
-- (UIEdgeInsets)computeBorder:(CGSize)size
+- (CGFloat)computeHeight:(CGFloat)width
 {
-	UIEdgeInsets inset = UIEdgeInsetsZero;
-	
-	SamuraiHtmlStyleObject * top = self.style.borderTop ?: [self.style.border objectAtIndex:0];
-	SamuraiHtmlStyleObject * left = self.style.borderLeft ?: [self.style.border objectAtIndex:0];
-	SamuraiHtmlStyleObject * right = self.style.borderRight ?: [self.style.border objectAtIndex:0];
-	SamuraiHtmlStyleObject * bottom = self.style.borderBottom ?: [self.style.border objectAtIndex:0];
-	
-	TODO( "border" )
+	SamuraiHtmlLayoutContext context = {
+		.style		= self.style,
+		.bounds		= { width, INVALID_VALUE },
+		.origin		= CGPointZero,
+		.collapse	= UIEdgeInsetsZero
+	};
 
-	if ( top )
-	{
-		if ( [top isNumber] )
-		{
-			inset.top = [top computeValue:size.height];
-		}
-//		else if ( [top isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
+	[self layoutWithContext:&context parentContext:NULL];
 	
-	if ( bottom )
-	{
-		if ( [bottom isNumber] )
-		{
-			inset.bottom = [bottom computeValue:size.height];
-		}
-//		else if ( [bottom isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	if ( left )
-	{
-		if ( [left isNumber] )
-		{
-			inset.left = [left computeValue:size.width];
-		}
-//		else if ( [left isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	if ( right )
-	{
-		if ( [right isNumber] )
-		{
-			inset.right = [right computeValue:size.width];
-		}
-//		else if ( [right isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	inset.top		= NORMALIZE_VALUE( inset.top );
-	inset.left		= NORMALIZE_VALUE( inset.left );
-	inset.right		= NORMALIZE_VALUE( inset.right );
-	inset.bottom	= NORMALIZE_VALUE( inset.bottom );
-	
-	return inset;
-}
-
-- (UIEdgeInsets)computeMargin:(CGSize)size
-{
-	UIEdgeInsets inset = UIEdgeInsetsZero;
-	
-	SamuraiHtmlStyleObject * top = self.style.marginTop ?: self.style.margin.top;
-	SamuraiHtmlStyleObject * left = self.style.marginLeft ?: self.style.margin.left;
-	SamuraiHtmlStyleObject * right = self.style.marginRight ?: self.style.margin.right;
-	SamuraiHtmlStyleObject * bottom = self.style.marginBottom ?: self.style.margin.bottom;
-	
-	if ( top )
-	{
-		if ( [top isNumber] )
-		{
-			inset.top = [top computeValue:size.height];
-		}
-//		else if ( [top isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	if ( bottom )
-	{
-		if ( [bottom isNumber] )
-		{
-			inset.bottom = [bottom computeValue:size.height];
-		}
-//		else if ( [bottom isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	if ( left )
-	{
-		if ( [left isNumber] )
-		{
-			inset.left = [left computeValue:size.width];
-		}
-//		else if ( [left isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	if ( right )
-	{
-		if ( [right isNumber] )
-		{
-			inset.right = [right computeValue:size.width];
-		}
-//		else if ( [right isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	inset.top		= NORMALIZE_VALUE( inset.top );
-	inset.left		= NORMALIZE_VALUE( inset.left );
-	inset.right		= NORMALIZE_VALUE( inset.right );
-	inset.bottom	= NORMALIZE_VALUE( inset.bottom );
-
-	return inset;
-}
-
-- (UIEdgeInsets)computeOffset:(CGSize)size
-{
-	UIEdgeInsets inset = UIEdgeInsetsZero;
-	
-	SamuraiHtmlStyleObject * top = self.style.top;
-	SamuraiHtmlStyleObject * left = self.style.left;
-	SamuraiHtmlStyleObject * right = self.style.right;
-	SamuraiHtmlStyleObject * bottom = self.style.bottom;
-	
-	if ( top )
-	{
-		if ( [top isNumber] )
-		{
-			inset.top = [top computeValue:size.height];
-		}
-//		else if ( [top isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	if ( bottom )
-	{
-		if ( [bottom isNumber] )
-		{
-			inset.bottom = [bottom computeValue:size.height];
-		}
-//		else if ( [bottom isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	if ( left )
-	{
-		if ( [left isNumber] )
-		{
-			inset.left = [left computeValue:size.width];
-		}
-//		else if ( [left isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-	
-	if ( right )
-	{
-		if ( [right isNumber] )
-		{
-			inset.right = [right computeValue:size.width];
-		}
-//		else if ( [right isFunction] )
-//		{
-//			TODO( "" );
-//		}
-//		else
-//		{
-//			TODO( "" );
-//		}
-	}
-
-	inset.top		= NORMALIZE_VALUE( inset.top );
-	inset.left		= NORMALIZE_VALUE( inset.left );
-	inset.right		= NORMALIZE_VALUE( inset.right );
-	inset.bottom	= NORMALIZE_VALUE( inset.bottom );
-
-	return inset;
-}
-
-- (CGFloat)computeLineHeight:(CGFloat)height
-{
-	CGFloat lineHeight = 0.0f;
-	
-	if ( self.style.lineHeight )
-	{
-		if ( [self.style.lineHeight isNumber] )
-		{
-			if ( [self.style.lineHeight isConstant] )
-			{
-				lineHeight = [self.style.lineHeight computeValue:height];
-				lineHeight = NORMALIZE_VALUE( lineHeight );
-				lineHeight = height * lineHeight;
-			}
-			else if ( [self.style.lineHeight isPercentage] )
-			{
-				lineHeight = [self.style.lineHeight computeValue:height];
-				lineHeight = NORMALIZE_VALUE( lineHeight );
-				lineHeight = height * lineHeight;
-			}
-			else
-			{
-				lineHeight = [self.style.lineHeight computeValue:height];
-				lineHeight = NORMALIZE_VALUE( lineHeight );	
-			}
-		}
-	}
-	
-	return lineHeight;
-}
-
-- (CGFloat)computeBorderSpacing
-{
-	CGFloat borderSpacing = 0.0f;
-
-	if ( self.style.borderSpacing )
-	{
-		if ( [self.style.borderSpacing isNumber] )
-		{
-			borderSpacing = [self.style.borderSpacing computeValue];
-			borderSpacing = NORMALIZE_VALUE( borderSpacing );
-		}
-	}
-	
-	return borderSpacing;
-}
-
-- (CGFloat)computeCellSpacing
-{
-	CGFloat cellSpacing = 0.0f;
-	
-	if ( self.style.cellSpacing )
-	{
-		if ( [self.style.cellSpacing isNumber] )
-		{
-			cellSpacing = [self.style.cellSpacing computeValue];
-			cellSpacing = NORMALIZE_VALUE( cellSpacing );
-		}
-	}
-	
-	return cellSpacing;
-}
-
-- (CGFloat)computeCellPadding
-{
-	CGFloat cellPadding = 0.0f;
-	
-	if ( self.style.cellPadding )
-	{
-		if ( [self.style.cellPadding isNumber] )
-		{
-			cellPadding = [self.style.cellPadding computeValue];
-			cellPadding = NORMALIZE_VALUE( cellPadding );
-		}
-	}
-
-	return cellPadding;
+	return context.computedBounds.size.height;
 }
 
 #pragma mark -
 
-- (void)renderWillLoad
+- (CGRect)layoutWithContext:(__unused SamuraiHtmlLayoutContext *)context
+			  parentContext:(SamuraiHtmlLayoutContext *)parentContext
 {
-}
-
-- (void)renderDidLoad
-{
+	return CGRectZero;
 }
 
 @end

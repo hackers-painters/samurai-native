@@ -20,10 +20,14 @@
 	
 	<body>
 		
-		<div class="wrapper">
-			<button class="row button1" onclick="@selector(test1:)">Button 1</button>
-			<button class="row button2" onclick="@selector(test2:)">Button 2</button>
-			<UIButton class="row button3" onclick="signal('test3')">Button 3</UIButton>
+		<div class="wrapper" onclick="@selector(xx:)">
+			<div class="wrapper" onclick="@selector(yy:)">
+				<div class="wrapper" onclick="@selector(zz:)">
+					<button class="row button1" onclick="@selector(test1:)">Button 1</button>
+					<button class="row button2" onclick="@selector(test2:)">Button 2</button>
+					<UIButton class="row button3" onclick="@selector(test3:)">Button 3</UIButton>
+				</div>
+			</div>
 		</div>
 
 		<style>

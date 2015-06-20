@@ -87,6 +87,7 @@
 - (BOOL)isValueOf:(NSArray *)array caseInsens:(BOOL)caseInsens;
 
 - (BOOL)isNumber;
+- (BOOL)isNumberWithUnit:(NSString *)unit;
 - (BOOL)isEmail;
 - (BOOL)isUrl;
 - (BOOL)isIPAddress;

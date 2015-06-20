@@ -22,6 +22,23 @@
 	[self unloadViewTemplate];
 }
 
+- (void)setView:(UIView *)newView
+{
+	[super setView:newView];
+	
+	if ( IOS7_OR_LATER )
+	{
+		self.edgesForExtendedLayout = UIRectEdgeNone;
+		self.extendedLayoutIncludesOpaqueBars = NO;
+		self.modalPresentationCapturesStatusBarAppearance = NO;
+		self.automaticallyAdjustsScrollViewInsets = YES;
+	}
+	
+	self.view.userInteractionEnabled = YES;
+	self.view.backgroundColor = [UIColor whiteColor];
+	self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+}
+
 - (void)viewDidLoad {
 	
 	[super viewDidLoad];
@@ -52,7 +69,7 @@
 			{
 				[_files addObject:fullPath];
 			}
-			else if ( [fullPath hasSuffix:@".html"] )
+			else if ( [fullPath hasSuffix:@".html"] || [fullPath hasSuffix:@".htm"] )
 			{
 				[_files addObject:fullPath];
 			}
@@ -62,6 +79,7 @@
 	[_files sortUsingSelector:@selector(compare:)];
 
 	[self loadViewTemplate:@"/www/html/test-suite.html"];
+//	[self loadViewTemplate:@"http://www.36kr.com"];
 
 	self.navigationBarTitle = self.testSuite;
 	self.navigationBarTitle = [self.testSuite lastPathComponent];
@@ -71,6 +89,16 @@
 	
 	[super didReceiveMemoryWarning];
 	// Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillLayoutSubviews
+{
+	[super viewWillLayoutSubviews];
+}
+
+- (void)viewDidLayoutSubviews
+{
+	[self relayout];
 }
 
 #pragma mark -

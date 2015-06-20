@@ -162,15 +162,15 @@
 	{
 		[reuseCell unserialize:reuseData];
 	}
-//		else
-//		{
-//			[reuseCell zerolize];
-//		}
-	
-	CGSize cellSize = [reuseCell.renderer computeFrame:bounds].size;
+//	else
+//	{
+//		[reuseCell zerolize];
+//	}
+
+	CGSize cellSize = [reuseCell.renderer computeSize:bounds];
 
 	[_cachedHeight setObject:[NSValue valueWithCGSize:cellSize] forKey:cachedKey];
-	
+
 	return cellSize;
 }
 
@@ -287,7 +287,6 @@
 //		}
 
 		[reuseRenderer rechain];
-		[reuseRenderer relayout];
 	}
 	
 	return reuseCell;
@@ -495,52 +494,117 @@
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	return NO;
+	UICollectionViewCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
+	
+	if ( cell )
+	{
+		if ( NO == cell.highlighted )
+		{
+			[cell cellWillHighlight];
+		}
+	}
+	
+	return YES;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
+	UICollectionViewCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
 	
+	if ( cell )
+	{
+		if ( cell.highlighted )
+		{
+			[cell cellDidHighlight];
+		}
+	}
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
+	UICollectionViewCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
 	
+	if ( cell )
+	{
+		if ( cell.highlighted )
+		{
+			[cell cellWillUnhighlight];
+			[cell cellDidUnhighlight];
+		}
+	}
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath // called when the user taps on an already-selected item in multi-select mode
-{
-	return NO;
+	UICollectionViewCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
+	
+	if ( cell )
+	{
+		if ( NO == cell.selected )
+		{
+			[cell cellWillSelect];
+		}
+	}
+	
+	return YES;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+	UICollectionViewCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
 	
+	if ( cell )
+	{
+		if ( cell.selected )
+		{
+			[cell cellDidSelect];
+		}
+	}
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath // called when the user taps on an already-selected item in multi-select mode
+{
+	UICollectionViewCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
+	
+	if ( cell )
+	{
+		if ( cell.selected )
+		{
+			[cell cellWillDeselect];
+		}
+	}
+
+	return YES;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+	UICollectionViewCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
 	
+	if ( cell )
+	{
+		if ( NO == cell.selected )
+		{
+			[cell cellDidDeselect];
+		}
+	}
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(8_0)
 {
+	[cell cellWillDisplay];
 	
+	[cell.renderer relayout];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplaySupplementaryView:(UICollectionReusableView *)view forElementKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(8_0)
 {
-	
+	[view.renderer relayout];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	
+	[cell cellDidDisplay];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingSupplementaryView:(UICollectionReusableView *)view forElementOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath
@@ -625,7 +689,11 @@
 	UICollectionViewLayout *	collectionLayout = [[UICollectionViewLayout alloc] init];
 	UICollectionView *			collectionView = [[self alloc] initWithFrame:CGRectZero collectionViewLayout:collectionLayout];
 	
+	collectionView.allowsSelection = NO;
+	collectionView.allowsMultipleSelection = NO;
+	
 	collectionView.renderer = renderer;
+	
 	[[collectionView collectionViewAgent] constructSections:renderer];
 
 	return collectionView;

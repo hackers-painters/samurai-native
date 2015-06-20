@@ -51,7 +51,7 @@
 	if ( self )
 	{
 		self.textAlignment = NSTextAlignmentLeft;
-		self.lineBreakMode = NSLineBreakByWordWrapping;
+		self.lineBreakMode = NSLineBreakByCharWrapping;
 		
 		self.trimmed = YES;
 		self.normalized = YES;

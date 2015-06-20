@@ -34,11 +34,10 @@
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
 #import "Samurai_HtmlRenderObject.h"
-#import "Samurai_HtmlRenderObjectContainer.h"
 
 #pragma mark -
 
-@interface SamuraiHtmlRenderObjectViewport : SamuraiHtmlRenderObjectContainer
+@interface SamuraiHtmlRenderObjectViewport : SamuraiHtmlRenderObject
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

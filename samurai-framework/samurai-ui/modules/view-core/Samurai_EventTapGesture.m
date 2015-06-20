@@ -40,109 +40,23 @@
 
 #pragma mark -
 
-@interface __TapGestureRecognizer : UITapGestureRecognizer
+@interface __TapGestureRecognizer : UITapGestureRecognizer<UIGestureRecognizerDelegate>
 @end
 
 #pragma mark -
 
 @implementation __TapGestureRecognizer
-
-- (id)initWithTarget:(id)target action:(SEL)action
-{
-	self = [super initWithTarget:target action:action];
-	if ( self )
-	{
-	}
-	return self;
-}
-
-- (void)dealloc
-{
-}
-
-#pragma mark -
-
-- (void)reset
-{
-	TapState currState = [self.view tapState];
-	
-	if ( TapState_Pressing == currState )
-	{
-		[self.view setTapState:TapState_Cancelled];
-	}
-
-	[self.view setTapState:TapState_Idle];
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	[super touchesBegan:touches withEvent:event];
-
-	if ( UIGestureRecognizerStatePossible == self.state )
-	{
-		TapState currState = [self.view tapState];
-
-		if ( TapState_Idle == currState )
-		{
-			[self.view setTapState:TapState_Pressing];
-		}
-	}
-}
-
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	[super touchesMoved:touches withEvent:event];
-
-	TapState currState = [self.view tapState];
-
-	if ( TapState_Pressing != currState )
-	{
-		[self.view setTapState:TapState_Pressing];
-	}
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	[super touchesEnded:touches withEvent:event];
-
-	TapState currState = [self.view tapState];
-
-	if ( TapState_Pressing == currState )
-	{
-		[self.view setTapState:TapState_Raised];
-	}
-}
-
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	[super touchesCancelled:touches withEvent:event];
-
-	TapState currState = [self.view tapState];
-
-	if ( TapState_Pressing == currState )
-	{
-		[self.view setTapState:TapState_Cancelled];
-	}
-}
-
 @end
 
 #pragma mark -
 
 @implementation UIView(EventTapGesture)
 
-@def_joint( tapStateChanged );
-
 @def_signal( eventTapPressing );	/// 按下
 @def_signal( eventTapRaised );		/// 抬起
 @def_signal( eventTapCancelled );	/// 取消
 
 @def_prop_dynamic_strong( NSString *,	tapSignalName, setTapSignalName );
-
-@def_prop_dynamic( TapState,	tapState );
-@def_prop_dynamic( BOOL,		tapPressing );
-@def_prop_dynamic( BOOL,		tapRaised );
-@def_prop_dynamic( BOOL,		tapCancelled );
 
 #pragma mark -
 
@@ -153,69 +67,58 @@
 
 #pragma mark -
 
-- (TapState)tapState
+- (void)__tapGestureInternalCallback:(__TapGestureRecognizer *)gesture
 {
-	return (TapState)[[self getAssociatedObjectForKey:"UIView.tapState"] integerValue];
-}
-
-- (void)setTapState:(TapState)newState
-{
-	TapState currState = [self tapState];
-
-	if ( newState != currState )
+	if ( UIGestureRecognizerStatePossible == gesture.state )
 	{
-		triggerBefore( self, tapStateChanged );
+		// the recognizer has not yet recognized its gesture, but may be evaluating touch events. this is the default state
 		
-		[self retainAssociatedObject:@(newState) forKey:"UIView.tapState"];
+		[self sendSignal:UIView.eventTapPressing];
+	}
+	else if ( UIGestureRecognizerStateBegan == gesture.state )
+	{
+		// the recognizer has received touches recognized as the gesture. the action method will be called at the next turn of the run loop
+	}
+	else if ( UIGestureRecognizerStateChanged == gesture.state )
+	{
+		// the recognizer has received touches recognized as a change to the gesture. the action method will be called at the next turn of the run loop
 		
-		if ( TapState_Pressing == newState )
+	}
+	else if ( UIGestureRecognizerStateEnded == gesture.state )
+	{
+		// the recognizer has received touches recognized as the end of the gesture. the action method will be called at the next turn of the run loop and the recognizer will be reset to UIGestureRecognizerStatePossible
+		
+		if ( self.tapSignalName )
 		{
-			[self sendSignal:UIView.eventTapPressing];
+			[self sendSignal:self.tapSignalName];
 		}
-		else if ( TapState_Raised == newState )
+		else
 		{
 			[self sendSignal:UIView.eventTapRaised];
-
-			if ( self.tapSignalName )
-			{
-				[self sendSignal:self.tapSignalName];
-			}
 		}
-		else if ( TapState_Cancelled == newState )
-		{
-			[self sendSignal:UIView.eventTapCancelled];
-		}
-
-		triggerAfter( self, tapStateChanged );
+	}
+	else if ( UIGestureRecognizerStateCancelled == gesture.state )
+	{
+		// the recognizer has received touches resulting in the cancellation of the gesture. the action method will be called at the next turn of the run loop. the recognizer will be reset to UIGestureRecognizerStatePossible
+		
+		[self sendSignal:UIView.eventTapCancelled];
+	}
+	else if ( UIGestureRecognizerStateFailed == gesture.state )
+	{
+		// the recognizer has received a touch sequence that can not be recognized as the gesture. the action method will not be called and the recognizer will be reset to UIGestureRecognizerStatePossible
+		
 	}
 }
-
-- (BOOL)tapPressing
-{
-	return ( TapState_Pressing == [self tapState] ) ? YES : NO;
-}
-
-- (BOOL)tapRaised
-{
-	return ( TapState_Raised == [self tapState] ) ? YES : NO;
-}
-
-- (BOOL)tapCancelled
-{
-	return ( TapState_Cancelled == [self tapState] ) ? YES : NO;
-}
-
-#pragma mark -
 
 - (__TapGestureRecognizer *)tapGesture
 {
 	__TapGestureRecognizer * tapGesture = nil;
-
-	for ( UIGestureRecognizer * subGesture in self.gestureRecognizers )
+	
+	for ( UIGestureRecognizer * gesture in self.gestureRecognizers )
 	{
-		if ( [subGesture isKindOfClass:[__TapGestureRecognizer class]] )
+		if ( [gesture isKindOfClass:[__TapGestureRecognizer class]] )
 		{
-			tapGesture = (__TapGestureRecognizer *)subGesture;
+			tapGesture = (__TapGestureRecognizer *)gesture;
 			break;
 		}
 	}
@@ -238,11 +141,11 @@
 	}
 	
 	__TapGestureRecognizer * tapGesture = [self tapGesture];
-	
+
 	if ( nil == tapGesture )
 	{
-		tapGesture = [[__TapGestureRecognizer alloc] init];
-
+		tapGesture = [[__TapGestureRecognizer alloc] initWithTarget:self action:@selector(__tapGestureInternalCallback:)];
+		
 		tapGesture.numberOfTouchesRequired = 1;
 		tapGesture.cancelsTouchesInView = NO;
 		tapGesture.delaysTouchesBegan = NO;
@@ -254,9 +157,9 @@
 	if ( tapGesture )
 	{
 		tapGesture.enabled = YES;
-
+	
 		self.tapSignalName = signal;
-		
+
 		if ( NO == self.userInteractionEnabled )
 		{
 			self.userInteractionEnabled = YES;

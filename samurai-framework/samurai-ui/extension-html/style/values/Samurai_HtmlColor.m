@@ -47,6 +47,11 @@
 	return NO;
 }
 
+- (UIColor *)colorValue
+{
+	return nil;
+}
+
 @end
 
 #pragma mark -
@@ -332,6 +337,11 @@
 - (BOOL)isColor
 {
 	return YES;
+}
+
+- (UIColor *)colorValue
+{
+	return self.value;
 }
 
 @end

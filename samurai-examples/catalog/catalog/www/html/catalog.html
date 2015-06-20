@@ -20,7 +20,7 @@
 	
 	<body>
 		
-		<UITableView id="tableView" name="list" class="list">
+		<UITableView id="tableView" name="list" class="list" onclick="@selector(tableView:)">
 
 			<UITableViewCell name="items" class="item" onclick="@selector(test:)">
 
@@ -51,9 +51,8 @@
 			}
 		
 			.title {
-				margin-left: auto;
-				margin-right: auto;
-				width: 90%;
+				margin-left: 24px;
+				width: 80%;
 				height: 100%;
 				color: #333;
 				text-align: left;

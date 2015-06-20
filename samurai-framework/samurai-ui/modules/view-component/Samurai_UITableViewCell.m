@@ -86,6 +86,56 @@
 {
 }
 
+- (void)cellWillHighlight
+{
+	
+}
+
+- (void)cellDidHighlight
+{
+	
+}
+
+- (void)cellWillUnhighlight
+{
+	
+}
+
+- (void)cellDidUnhighlight
+{
+	
+}
+
+- (void)cellWillDisplay
+{
+	
+}
+
+- (void)cellDidDisplay
+{
+	
+}
+
+- (void)cellWillSelect
+{
+	
+}
+
+- (void)cellDidSelect
+{
+	
+}
+
+- (void)cellWillDeselect
+{
+	
+}
+
+- (void)cellDidDeselect
+{
+	
+}
+
 #pragma mark -
 
 - (id)serialize

@@ -55,6 +55,8 @@
 #import "Samurai_HtmlString.h"
 #import "Samurai_HtmlUrl.h"
 
+#import "Samurai_ViewComponent.h"
+
 #pragma mark -
 
 // object
@@ -161,6 +163,8 @@ typedef enum
 	HtmlRenderDisplay_Flex,				/// 伸缩显示
 	HtmlRenderDisplay_InlineFlex,		/// 行内伸缩显示
 
+	HtmlRenderDisplay_ListItem,			/// 列表项
+	
 	HtmlRenderDisplay_Table,			/// 此元素会作为块级表格来显示（类似 <table>），表格前后带有换行符。
 	HtmlRenderDisplay_InlineTable,		/// 此元素会作为内联表格来显示（类似 <table>），表格前后没有换行符。
 	HtmlRenderDisplay_TableRowGroup,	/// 此元素会作为一个或多个行的分组来显示（类似 <tbody>）。
@@ -195,10 +199,18 @@ typedef enum
 typedef enum
 {
 	HtmlRenderFloating_Inherit = 0,		/// 继承自父级
-	HtmlRenderFloating_None,			/// 非浮动
 	HtmlRenderFloating_Left,			/// 左浮动
+	HtmlRenderFloating_None,			/// 非浮动
 	HtmlRenderFloating_Right			/// 右浮动
 } HtmlRenderFloating;
+
+typedef enum
+{
+	HtmlRenderClear_None = 0,		/// 继承自父级
+	HtmlRenderClear_Left,			/// 左浮动
+	HtmlRenderClear_Right,			/// 非浮动
+	HtmlRenderClear_Both			/// 右浮动
+} HtmlRenderClear;
 
 typedef enum
 {
@@ -231,6 +243,21 @@ typedef enum
 	HtmlRenderVerticalAlign_TextBottom			/// 把元素的底端与父元素字体的底端对齐
 } HtmlRenderVerticalAlign;
 
+typedef enum
+{
+	HtmlRenderBorderStyle_Inherit = 0,
+	HtmlRenderBorderStyle_None,
+	HtmlRenderBorderStyle_Hidden,
+	HtmlRenderBorderStyle_Dotted,
+	HtmlRenderBorderStyle_Dashed,
+	HtmlRenderBorderStyle_Solid,
+	HtmlRenderBorderStyle_Double,
+	HtmlRenderBorderStyle_Groove,
+	HtmlRenderBorderStyle_Ridge,
+	HtmlRenderBorderStyle_Inset,
+	HtmlRenderBorderStyle_Outset
+} HtmlRenderBorderStyle;
+
 #pragma mark -
 
 @interface SamuraiHtmlStyle : SamuraiRenderStyle
@@ -250,6 +277,7 @@ typedef enum
 
 @html_style_value( position );
 @html_style_value( floating );
+@html_style_value( clear );
 
 @html_style_value( zIndex );
 @html_style_value( display );
@@ -317,15 +345,15 @@ typedef enum
 @html_style_value( cellPadding );
 
 @html_style_array( border );
-@html_style_value( borderWidth );
-@html_style_value( borderStyle );
-@html_style_value( borderColor );
+@html_style_box( borderWidth );
+@html_style_box( borderStyle );
+@html_style_box( borderColor );
 
-@html_style_value( borderRadius );
-@html_style_value( borderTopLeftRadius );
-@html_style_value( borderTopRightRadius );
-@html_style_value( borderBottomLeftRadius );
-@html_style_value( borderBottomRightRadius );
+@html_style_array( borderRadius );
+@html_style_array( borderTopLeftRadius );
+@html_style_array( borderTopRightRadius );
+@html_style_array( borderBottomLeftRadius );
+@html_style_array( borderBottomRightRadius );
 
 @html_style_array( borderTop );
 @html_style_value( borderTopColor );
@@ -373,8 +401,18 @@ typedef enum
 
 // custom
 
-@html_style_string( renderModel );
-@html_style_string( renderClass );
+@html_style_value( webkitMarginBefore );
+@html_style_value( webkitMarginAfter );
+@html_style_value( webkitMarginStart );
+@html_style_value( webkitMarginEnd );
+
+@html_style_value( webkitPaddingBefore );
+@html_style_value( webkitPaddingAfter );
+@html_style_value( webkitPaddingStart );
+@html_style_value( webkitPaddingEnd );
+
+@html_style_string( samuraiRenderModel );
+@html_style_string( samuraiRenderClass );
 
 #pragma mark -
 
@@ -387,6 +425,9 @@ typedef enum
 - (BOOL)isAutoWidth;
 - (BOOL)isAutoHeight;
 
+- (BOOL)isWidthEqualsToHeight;
+- (BOOL)isHeightEqualsToWidth;
+
 - (BOOL)isAutoMarginTop;
 - (BOOL)isAutoMarginLeft;
 - (BOOL)isAutoMarginRight;
@@ -398,14 +439,71 @@ typedef enum
 - (NSLineBreakMode)computeLineBreakMode:(NSLineBreakMode)defaultMode;
 - (UIViewContentMode)computeContentMode:(UIViewContentMode)defaultMode;
 - (UIBaselineAdjustment)computeBaselineAdjustment:(UIBaselineAdjustment)defaultMode;
+- (UITextDecoration)computeTextDecoration:(UITextDecoration)defaultDecoration;
 
 - (HtmlRenderWrap)computeWrap:(HtmlRenderWrap)defaultValue;
 - (HtmlRenderAlign)computeAlign:(HtmlRenderAlign)defaultValue;
+- (HtmlRenderClear)computeClear:(HtmlRenderClear)defaultValue;
 - (HtmlRenderDisplay)computeDisplay:(HtmlRenderDisplay)defaultValue;
 - (HtmlRenderFloating)computeFloating:(HtmlRenderFloating)defaultValue;
 - (HtmlRenderPosition)computePosition:(HtmlRenderPosition)defaultValue;
 - (HtmlRenderDirection)computeDirection:(HtmlRenderDirection)defaultValue;
 - (HtmlRenderVerticalAlign)computeVerticalAlign:(HtmlRenderVerticalAlign)defaultValue;
+
+- (CGFloat)computeTop:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeLeft:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeRight:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeBottom:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+
+- (CGFloat)computeWidth:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeHeight:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+
+- (CGFloat)computeMinWidth:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeMaxWidth:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeMinHeight:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeMaxHeight:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+
+- (CGFloat)computeInsetTopSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeInsetLeftSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeInsetRightSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeInsetBottomSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+
+- (CGFloat)computePaddingTopSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computePaddingLeftSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computePaddingRightSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computePaddingBottomSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+
+- (CGFloat)computeMarginTopSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeMarginLeftSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeMarginRightSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeMarginBottomSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+
+- (UIColor *)computeBorderTopColor:(UIColor *)defaultColor;
+- (UIColor *)computeBorderLeftColor:(UIColor *)defaultColor;
+- (UIColor *)computeBorderRightColor:(UIColor *)defaultColor;
+- (UIColor *)computeBorderBottomColor:(UIColor *)defaultColor;
+
+- (CGFloat)computeBorderTopSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeBorderLeftSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeBorderRightSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeBorderBottomSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+
+- (HtmlRenderBorderStyle)computeBorderTopStyle:(HtmlRenderBorderStyle)style;
+- (HtmlRenderBorderStyle)computeBorderLeftStyle:(HtmlRenderBorderStyle)style;
+- (HtmlRenderBorderStyle)computeBorderRightStyle:(HtmlRenderBorderStyle)style;
+- (HtmlRenderBorderStyle)computeBorderBottomStyle:(HtmlRenderBorderStyle)style;
+
+- (CGFloat)computeBorderTopLeftRadius:(CGFloat)bounds defaultRadius:(CGFloat)defaultRadius;
+- (CGFloat)computeBorderTopRightRadius:(CGFloat)bounds defaultRadius:(CGFloat)defaultRadius;
+- (CGFloat)computeBorderBottomLeftRadius:(CGFloat)bounds defaultRadius:(CGFloat)defaultRadius;
+- (CGFloat)computeBorderBottomRightRadius:(CGFloat)bounds defaultRadius:(CGFloat)defaultRadius;
+
+- (CGFloat)computeBorderSpacing:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeCellSpacing:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeCellPadding:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
+
+- (CGFloat)computeLineHeight:(CGFloat)fontHeight defaultSize:(CGFloat)defaultSize;
+- (CGFloat)computeLetterSpacing:(CGFloat)defaultSize;
 
 @end
 

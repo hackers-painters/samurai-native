@@ -144,18 +144,32 @@
 	}
 }
 
-- (void)enableSwipeDirection:(UISwipeGestureRecognizerDirection)direction withSignal:(NSString *)signal
+- (__SwipeGestureRecognizer *)swipeGesture
 {
 	__SwipeGestureRecognizer * swipeGesture = nil;
 	
-	for ( UISwipeGestureRecognizer * gesture in self.gestureRecognizers )
+	for ( UIGestureRecognizer * gesture in self.gestureRecognizers )
 	{
-		if ( [gesture isKindOfClass:[__SwipeGestureRecognizer class]] && gesture.direction == direction )
+		if ( [gesture isKindOfClass:[__SwipeGestureRecognizer class]] )
 		{
 			swipeGesture = (__SwipeGestureRecognizer *)gesture;
 			break;
 		}
 	}
+	
+	return swipeGesture;
+}
+
+#pragma mark -
+
+- (void)enableSwipeDirection:(UISwipeGestureRecognizerDirection)direction withSignal:(NSString *)signal
+{
+	if ( NO == [[self class] supportSwipeGesture] )
+	{
+		return;
+	}
+	
+	__SwipeGestureRecognizer * swipeGesture = [self swipeGesture];
 
 	if ( nil == swipeGesture )
 	{

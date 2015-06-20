@@ -94,7 +94,7 @@
 
 - (void)touchDown:(id)sender
 {
-	[self.button setTapState:TapState_Pressing];
+	[self.button sendSignal:UIView.eventTapPressing];
 }
 
 - (void)touchDownRepeat:(id)sender
@@ -124,17 +124,24 @@
 
 - (void)touchUpInside:(id)sender
 {
-	[self.button setTapState:TapState_Raised];
+	if ( self.button.tapSignalName )
+	{
+		[self.button sendSignal:self.button.tapSignalName];
+	}
+	else
+	{
+		[self.button sendSignal:UIView.eventTapRaised];
+	}
 }
 
 - (void)touchUpOutside:(id)sender
 {
-	[self.button setTapState:TapState_Cancelled];
+	[self.button sendSignal:UIView.eventTapCancelled];
 }
 
 - (void)touchCancel:(id)sender
 {
-	[self.button setTapState:TapState_Cancelled];
+	[self.button sendSignal:UIView.eventTapCancelled];
 }
 
 @end
@@ -175,22 +182,22 @@
 
 + (BOOL)supportTapGesture
 {
-	return YES;
+	return NO;
 }
 
 + (BOOL)supportSwipeGesture
 {
-	return YES;
+	return NO;
 }
 
 + (BOOL)supportPinchGesture
 {
-	return YES;
+	return NO;
 }
 
 + (BOOL)supportPanGesture
 {
-	return YES;
+	return NO;
 }
 
 #pragma mark -

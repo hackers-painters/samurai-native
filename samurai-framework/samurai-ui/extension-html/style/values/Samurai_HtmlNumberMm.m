@@ -64,17 +64,17 @@
 		if ( 0 == str.length )
 			return nil;
 
-		for ( NSString * suffix in @[ @"mm" ] )
+		NSString * unit = @"mm";
+		
+		BOOL matched = [str isNumberWithUnit:unit];
+		if ( matched )
 		{
-			if ( [str hasSuffix:suffix] )
-			{
-				SamuraiHtmlNumberMm * value = [[self alloc] init];
-
-				value.value = [[str substringToIndex:(str.length - suffix.length)] floatValue];
-				value.unit = [str substringFromIndex:(str.length - suffix.length)];
-
-				return value;
-			}
+			SamuraiHtmlNumberMm * value = [[self alloc] init];
+			
+			value.value = [[str substringToIndex:(str.length - unit.length)] floatValue];
+			value.unit = [str substringFromIndex:(str.length - unit.length)];
+			
+			return value;
 		}
 	}
 	else if ( [any isKindOfClass:[NSNumber class]] )
@@ -133,7 +133,7 @@
 {
 	// 25.4mm = 6pc = 16px
 
-	return self.value * (25.4f / 6.0f * 16.0f);	// mm to px
+	return self.value * (25.4f / 6.0f * 16.0f / 10.0f);	// mm to px
 }
 
 @end

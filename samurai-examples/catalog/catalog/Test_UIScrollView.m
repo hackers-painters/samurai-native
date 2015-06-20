@@ -51,4 +51,22 @@
 	
 }
 
+- (void)banner:(SamuraiSignal *)signal
+{
+	[[[UIAlertView alloc] initWithTitle:@"Banner was clicked"
+								message:nil
+							   delegate:nil
+					  cancelButtonTitle:@"OK"
+					  otherButtonTitles:nil] show];
+}
+
+- (void)button:(SamuraiSignal *)signal
+{
+	[[[UIAlertView alloc] initWithTitle:@"Button was clicked"
+								message:nil
+							   delegate:nil
+					  cancelButtonTitle:@"OK"
+					  otherButtonTitles:nil] show];
+}
+
 @end

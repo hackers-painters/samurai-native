@@ -118,6 +118,12 @@
 {
 	// TODO: if animation
 	
+	newFrame.origin.x = isnan( newFrame.origin.x ) ? 0.0f : newFrame.origin.x;
+	newFrame.origin.y = isnan( newFrame.origin.y ) ? 0.0f : newFrame.origin.y;
+
+	newFrame.size.width = isnan( newFrame.size.width ) ? 0.0f : newFrame.size.width;
+	newFrame.size.height = isnan( newFrame.size.height ) ? 0.0f : newFrame.size.height;
+	
 	[self setFrame:newFrame];
 }
 

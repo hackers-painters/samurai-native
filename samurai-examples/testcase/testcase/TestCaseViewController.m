@@ -7,20 +7,32 @@
 //
 
 #import "TestCaseViewController.h"
+#import "TestSafariViewController.h"
 
 @implementation TestCaseViewController
-{
-	UIWebView * _webView;
-}
 
 @synthesize testCase;
 
 - (void)dealloc
 {
 	[self unloadViewTemplate];
+}
+
+- (void)setView:(UIView *)newView
+{
+	[super setView:newView];
 	
-	[_webView removeFromSuperview];
-	_webView = nil;
+	if ( IOS7_OR_LATER )
+	{
+		self.edgesForExtendedLayout = UIRectEdgeNone;
+		self.extendedLayoutIncludesOpaqueBars = NO;
+		self.modalPresentationCapturesStatusBarAppearance = NO;
+		self.automaticallyAdjustsScrollViewInsets = YES;
+	}
+	
+	self.view.userInteractionEnabled = YES;
+	self.view.backgroundColor = [UIColor whiteColor];
+	self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 }
 
 - (void)viewDidLoad {
@@ -42,38 +54,21 @@
 	// Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillLayoutSubviews
+{
+	[super viewWillLayoutSubviews];
+}
+
 - (void)viewDidLayoutSubviews
 {
-	CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
-	CGFloat navigationBarHeight = self.navigationController.navigationBar.frame.size.height;
-	
-	CGRect webFrame;
-	webFrame.origin.x = 0.0f;
-	webFrame.origin.y = statusBarHeight + navigationBarHeight;
-	webFrame.size.width = self.view.frame.size.width;
-	webFrame.size.height = self.view.frame.size.height - (statusBarHeight + navigationBarHeight);
-	
-	_webView.frame = webFrame;
+	[self relayout];
 }
 
 - (void)onDonePressed
 {
-	if ( nil == _webView )
-	{
-		_webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
-		_webView.alpha = 0.95f;
-		_webView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.1f];
-		
-		[self.view addSubview:_webView];
-		[self viewDidLayoutSubviews];
-		
-		[_webView loadHTMLString:[NSString stringWithContentsOfFile:self.testCase encoding:NSUTF8StringEncoding error:NULL] baseURL:nil];
-	}
-	else
-	{
-		[_webView removeFromSuperview];
-		_webView = nil;
-	}
+	TestSafariViewController * viewController = [[TestSafariViewController alloc] init];
+	viewController.html = [NSString stringWithContentsOfFile:self.testCase encoding:NSUTF8StringEncoding error:NULL];
+	[self.navigationController pushViewController:viewController animated:YES];
 }
 
 @end

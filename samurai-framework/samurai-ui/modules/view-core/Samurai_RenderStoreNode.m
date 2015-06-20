@@ -44,7 +44,7 @@
 
 @implementation SamuraiRenderStoreNode
 
-@def_prop_strong( SamuraiRenderObject *, target );
+@def_prop_strong( SamuraiRenderObject *, renderer );
 
 + (SamuraiRenderStoreNode *)storeNode
 {
@@ -54,7 +54,7 @@
 + (SamuraiRenderStoreNode *)storeNode:(SamuraiRenderObject *)object
 {
 	SamuraiRenderStoreNode * store = [[self alloc] init];
-	store.target = object;
+	store.renderer = object;
 	return store;
 }
 
@@ -71,7 +71,7 @@
 
 - (void)dealloc
 {
-	self.target = nil;
+	self.renderer = nil;
 }
 
 #pragma mark -
@@ -91,7 +91,7 @@
 
 - (BOOL)match:(NSString *)dataPath
 {
-	NSString * leftDataPath = self.target.dom.domName ?: self.target.dom.domTag;
+	NSString * leftDataPath = self.renderer.dom.domName ?: self.renderer.dom.domTag;
 	NSString * rightDataPath = dataPath;
 	
 	if ( [leftDataPath hasSuffix:@"[]"] )
@@ -147,9 +147,9 @@
 
 - (void)dump
 {
-	if ( self.target && self.target.dom.domName )
+	if ( self.renderer && self.renderer.dom.domName )
 	{
-		PERF( @"<%@ name='%@'>", self.target.dom.domTag, self.target.dom.domName );
+		PRINT( @"<%@ name='%@'>", self.renderer.dom.domTag, self.renderer.dom.domName );
 		
 		[[SamuraiLogger sharedInstance] indent];
 	}
@@ -159,11 +159,11 @@
 		[child dump];
 	}
 	
-	if ( self.target && self.target.dom.domName )
+	if ( self.renderer && self.renderer.dom.domName )
 	{
 		[[SamuraiLogger sharedInstance] unindent];
 
-		PERF( @"</%@>", self.target.dom.domTag, self.target.dom.domName );
+		PRINT( @"</%@>", self.renderer.dom.domTag, self.renderer.dom.domName );
 	}
 }
 

@@ -53,7 +53,7 @@
 	{
 		self.layer.masksToBounds = NO;
 		
-		self.trimmed = NO;
+		self.trimmed = YES;
 		self.normalized = NO;
 	}
 	return self;

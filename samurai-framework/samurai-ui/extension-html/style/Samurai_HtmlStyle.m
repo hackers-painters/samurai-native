@@ -45,6 +45,124 @@
 
 #pragma mark -
 
+@interface SamuraiHtmlStyleObject(Extension)
+
+- (BOOL)isBorderSize;
+- (BOOL)isBorderStyle;
+
+- (CGFloat)computeBorderSize:(CGFloat)bounds;
+- (HtmlRenderBorderStyle)computeBorderStyle:(HtmlRenderBorderStyle)defaultStyle;
+
+@end
+
+#pragma mark -
+
+@implementation SamuraiHtmlStyleObject(Extension)
+
+- (BOOL)isBorderSize
+{
+	if ( [self isNumber] )
+	{
+		return YES;
+	}
+	else if ( [self inStrings:@[@"thin", @"medium", @"thick"]] )
+	{
+		return YES;
+	}
+	
+	return NO;
+}
+
+- (BOOL)isBorderStyle
+{
+	if ( [self inStrings:@[@"none", @"hidden", @"dotted", @"dashed", @"solid", @"double", @"groove", @"ridge", @"inset", @"outset", @"inherit"]] )
+	{
+		return YES;
+	}
+
+	return NO;
+}
+
+- (CGFloat)computeBorderSize:(CGFloat)bounds
+{
+	if ( [self isNumber] )
+	{
+		return [self computeValue:bounds];
+	}
+	else if ( [self isString:@"thin"] )
+	{
+		return [SamuraiHtmlUserAgent sharedInstance].thinSize;
+	}
+	else if ( [self isString:@"medium"] )
+	{
+		return [SamuraiHtmlUserAgent sharedInstance].mediumSize;
+	}
+	else if ( [self isString:@"thick"] )
+	{
+		return [SamuraiHtmlUserAgent sharedInstance].thickSize;
+	}
+	else
+	{
+		return INVALID_VALUE;
+	}
+}
+
+- (HtmlRenderBorderStyle)computeBorderStyle:(HtmlRenderBorderStyle)defaultStyle
+{
+	if ( [self isString:@"inherit"] )
+	{
+		return HtmlRenderBorderStyle_Inherit;
+	}
+	else if ( [self isString:@"none"] )
+	{
+		return HtmlRenderBorderStyle_None;
+	}
+	else if ( [self isString:@"hidden"] )
+	{
+		return HtmlRenderBorderStyle_Hidden;
+	}
+	else if ( [self isString:@"dotted"] )
+	{
+		return HtmlRenderBorderStyle_Dotted;
+	}
+	else if ( [self isString:@"dashed"] )
+	{
+		return HtmlRenderBorderStyle_Dashed;
+	}
+	else if ( [self isString:@"solid"] )
+	{
+		return HtmlRenderBorderStyle_Solid;
+	}
+	else if ( [self isString:@"double"] )
+	{
+		return HtmlRenderBorderStyle_Double;
+	}
+	else if ( [self isString:@"groove"] )
+	{
+		return HtmlRenderBorderStyle_Groove;
+	}
+	else if ( [self isString:@"ridge"] )
+	{
+		return HtmlRenderBorderStyle_Ridge;
+	}
+	else if ( [self isString:@"inset"] )
+	{
+		return HtmlRenderBorderStyle_Inset;
+	}
+	else if ( [self isString:@"outset"] )
+	{
+		return HtmlRenderBorderStyle_Outset;
+	}
+	else
+	{
+		return defaultStyle;
+	}
+}
+
+@end
+
+#pragma mark -
+
 @implementation SamuraiHtmlStyle
 
 @def_html_style_value( top, setTop,											@"top" );
@@ -62,6 +180,7 @@
 
 @def_html_style_value( position, setPosition,								@"position" );
 @def_html_style_value( floating, setFloating,								@"float" );
+@def_html_style_value( clear, setClear,										@"clear" );
 
 @def_html_style_value( zIndex, setZIndex,									@"z-index" );
 @def_html_style_value( display, setDisplay,									@"display" );
@@ -129,15 +248,15 @@
 @def_html_style_value( cellPadding, setCellPadding,							@"cell-padding" );
 
 @def_html_style_array( border, setBorder,									@"border" );
-@def_html_style_value( borderWidth, setBorderWidth,							@"border-width" );
-@def_html_style_value( borderStyle, setBorderStyle,							@"border-style" );
-@def_html_style_value( borderColor, setBorderColor,							@"border-color" );
+@def_html_style_box( borderWidth, setBorderWidth,							@"border-width" );
+@def_html_style_box( borderStyle, setBorderStyle,							@"border-style" );
+@def_html_style_box( borderColor, setBorderColor,							@"border-color" );
 
-@def_html_style_value( borderRadius, setBorderRadius,						@"border-radius" );
-@def_html_style_value( borderTopLeftRadius, setBorderTopLeftRadius,			@"border-top-left-radius" );
-@def_html_style_value( borderTopRightRadius, setBorderTopRightRadius,		@"border-top-right-radius" );
-@def_html_style_value( borderBottomLeftRadius, setBorderBottomLeftRadius,	@"border-bottom-left-radius" );
-@def_html_style_value( borderBottomRightRadius, setBorderBottomRightRadius,	@"border-bottom-right-radius" );
+@def_html_style_array( borderRadius, setBorderRadius,						@"border-radius" );
+@def_html_style_array( borderTopLeftRadius, setBorderTopLeftRadius,			@"border-top-left-radius" );
+@def_html_style_array( borderTopRightRadius, setBorderTopRightRadius,		@"border-top-right-radius" );
+@def_html_style_array( borderBottomLeftRadius, setBorderBottomLeftRadius,	@"border-bottom-left-radius" );
+@def_html_style_array( borderBottomRightRadius, setBorderBottomRightRadius,	@"border-bottom-right-radius" );
 
 @def_html_style_array( borderTop, setBorderTop,								@"border-top" );
 @def_html_style_value( borderTopColor, setBorderTopColor,					@"border-top-color" );
@@ -185,8 +304,18 @@
 
 // render-model
 
-@def_html_style_string( renderModel, setRenderModel,						@"-samurai-render-model" );
-@def_html_style_string( renderClass, setRenderClass,						@"-samurai-render-class" );
+@def_html_style_value( webkitMarginBefore, setWebkitMarginBefore,			@"-webkit-margin-before" );
+@def_html_style_value( webkitMarginAfter, setWebkitMarginAfter,				@"-webkit-margin-after" );
+@def_html_style_value( webkitMarginStart, setWebkitMarginStart,				@"-webkit-margin-start" );
+@def_html_style_value( webkitMarginEnd, setWebkitMarginEnd,					@"-webkit-margin-end" );
+
+@def_html_style_value( webkitPaddingBefore, setWebkitPaddingBefore,			@"-webkit-padding-before" );
+@def_html_style_value( webkitPaddingAfter, setWebkitPaddingAfter,			@"-webkit-padding-after" );
+@def_html_style_value( webkitPaddingStart, setWebkitPaddingStart,			@"-webkit-padding-start" );
+@def_html_style_value( webkitPaddingEnd, setWebkitPaddingEnd,				@"-webkit-padding-end" );
+
+@def_html_style_string( samuraiRenderModel, setSamuraiRenderModel,			@"-samurai-render-model" );
+@def_html_style_string( samuraiRenderClass, setSamuraiRenderClass,			@"-samurai-render-class" );
 
 #pragma makr -
 
@@ -377,12 +506,7 @@
 
 - (BOOL)isAutoWidth
 {
-//	if ( nil == self.width )
-//	{
-//		return YES;
-//	}
-	
-	if ( [self.width isAutomatic] )
+	if ( self.width && [self.width isAutomatic] )
 	{
 		return YES;
 	}
@@ -392,12 +516,7 @@
 
 - (BOOL)isAutoHeight
 {
-//	if ( nil == self.height )
-//	{
-//		return YES;
-//	}
-	
-	if ( [self.height isAutomatic] )
+	if ( self.height && [self.height isAutomatic] )
 	{
 		return YES;
 	}
@@ -481,8 +600,6 @@
 		{
 			fontVariant = fontVariant ?: component;
 			
-			TODO( "font-variant" );	// optional
-			
 			componentIndex += 1;
 		}
 
@@ -503,16 +620,22 @@
 		
 		if ( component )
 		{
-			if ( [component inStrings:@[@"xx-small", @"x-small", @"small", @"medium", @"large", @"x-large", @"xx-large", @"larger", @"smaller", @"inherit"]] )
+			if ( [component inStrings:@[@"xx-small", @"x-small", @"small", @"medium", @"large", @"x-large", @"xx-large"]] )
 			{
 				fontSize = fontSize ?: component;
 				
 				componentIndex += 1;
 			}
-			else if ( [component inStrings:@[@"larger", @"smaller", @"inherit"]] )
+			else if ( [component inStrings:@[@"larger", @"smaller"]] )
 			{
 				fontSize = fontSize ?: component;
 
+				componentIndex += 1;
+			}
+			else if ( [component inStrings:@[@"inherit"]] )
+			{
+				fontSize = fontSize ?: component;
+				
 				componentIndex += 1;
 			}
 			else if ( [component isNumber] )
@@ -521,13 +644,9 @@
 				
 				componentIndex += 1;
 			}
-//			else if ( [component isFunction] )
-//			{
-//				TODO( "" );
-//			}
 			else
 			{
-				ERROR( @"unknown font-size unit" );
+			//	ERROR( @"unknown font-size unit" );
 			}
 		}
 
@@ -589,49 +708,49 @@
 			{
 				fontHeight = defaultFontHeight * 1.6f;
 			}
-//			else if ( [fontSize isString:@"larger"] )
-//			{
-//				TODO( "" )
-//			}
-//			else if ( [fontSize isString:@"smaller"] )
-//			{
-//				TODO( "" )
-//			}
-//			else
-//			{
-//				TODO( "" )
-//			}
+			else if ( [fontSize isString:@"larger"] )
+			{
+				fontHeight = defaultFontHeight * 1.2f;
+			}
+			else if ( [fontSize isString:@"smaller"] )
+			{
+				fontHeight = defaultFontHeight * 0.8f;
+			}
 		}
-//		else if ( [fontSize isFunction] )
-//		{
-//			TODO( "" )
-//		}
 		else
 		{
 			ERROR( @"unknown font-size unit" );
 		}
 	}
 
-// custom font
-	
-	for ( SamuraiHtmlString * family in fontFamily.items )
+	if ( fontVariant )
 	{
-		if ( [family isString] )
+		if ( [fontVariant isString:@"small-caps"] )
 		{
-			NSArray * names = [UIFont fontNamesForFamilyName:family.value];
-
-			for ( NSString * name in names )
-			{
-				result = [UIFont fontWithName:name size:fontHeight];
-
-				if ( result )
-					break;
-			}
+			fontHeight = defaultFontHeight / 2.0f;
 		}
-
-		if ( result )
-			break;
 	}
+	
+//// custom font
+//	
+//	for ( SamuraiHtmlString * family in fontFamily.items )
+//	{
+//		if ( [family isString] )
+//		{
+//			NSArray * names = [UIFont fontNamesForFamilyName:family.value];
+//
+//			for ( NSString * name in names )
+//			{
+//				result = [UIFont fontWithName:name size:fontHeight];
+//
+//				if ( result )
+//					break;
+//			}
+//		}
+//
+//		if ( result )
+//			break;
+//	}
 	
 // italic font
 	
@@ -862,6 +981,33 @@
 	return defaultMode;
 }
 
+- (UITextDecoration)computeTextDecoration:(UITextDecoration)defaultDecoration
+{
+	SamuraiHtmlValue * textDecoration = self.textDecoration;
+
+	if ( textDecoration )
+	{
+		if ( [textDecoration isString:@"none"] || [textDecoration isString:@"inherit"] )
+		{
+			return UITextDecoration_None;
+		}
+		else if ( [textDecoration isString:@"overline"] )
+		{
+			return UITextDecoration_Overline;
+		}
+		else if ( [textDecoration isString:@"underline"] )
+		{
+			return UITextDecoration_Underline;
+		}
+		else if ( [textDecoration isString:@"line-through"] )
+		{
+			return UITextDecoration_LineThrough;
+		}
+	}
+	
+	return defaultDecoration;
+}
+
 #pragma mark -
 
 - (HtmlRenderWrap)computeWrap:(HtmlRenderWrap)defaultValue
@@ -935,6 +1081,33 @@
 	return defaultValue;
 }
 
+- (HtmlRenderClear)computeClear:(HtmlRenderClear)defaultValue
+{
+	SamuraiHtmlStyleObject * clear = self.clear;
+	
+	if ( clear )
+	{
+		if ( [clear isString:@"none"] )
+		{
+			return HtmlRenderClear_None;
+		}
+		else if ( [clear isString:@"left"] )
+		{
+			return HtmlRenderClear_Left;
+		}
+		else if ( [clear isString:@"right"] )
+		{
+			return HtmlRenderClear_Right;
+		}
+		else if ( [clear isString:@"both"] )
+		{
+			return HtmlRenderClear_Both;
+		}
+	}
+	
+	return defaultValue;
+}
+
 - (HtmlRenderDisplay)computeDisplay:(HtmlRenderDisplay)defaultValue
 {
 	SamuraiHtmlStyleObject * display = self.display;
@@ -964,6 +1137,10 @@
 		else if ( [display isString:@"inline-flex"] )
 		{
 			return HtmlRenderDisplay_InlineFlex;
+		}
+		else if ( [display isString:@"list-item"] )
+		{
+			return HtmlRenderDisplay_ListItem;
 		}
 		else if ( [display isString:@"table"] )
 		{
@@ -1148,6 +1325,1114 @@
 	}
 	
 	return defaultValue;
+}
+
+#pragma mark -
+
+- (BOOL)isWidthEqualsToHeight
+{
+	if ( self.width )
+	{
+		if ( [self.width isFunction:@"equals"] )
+		{
+			NSString * firstParam = [[self.width params] firstObject];
+			
+			if ( [firstParam isEqualToString:@"height"] )
+			{
+				return YES;
+			}
+		}
+	}
+	
+	return NO;
+}
+
+- (BOOL)isHeightEqualsToWidth
+{
+	if ( self.height )
+	{
+		if ( [self.height isFunction:@"equals"] )
+		{
+			NSString * firstParam = [[self.height params] firstObject];
+			
+			if ( [firstParam isEqualToString:@"width"] )
+			{
+				return YES;
+			}
+		}
+	}
+
+	return NO;
+}
+
+#pragma mark -
+
+- (CGFloat)computeTop:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	if ( self.top )
+	{
+		CGFloat value = [self.top computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeLeft:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	if ( self.left )
+	{
+		CGFloat value = [self.left computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeRight:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	if ( self.right )
+	{
+		CGFloat value = [self.right computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeBottom:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	if ( self.bottom )
+	{
+		CGFloat value = [self.bottom computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+#pragma mark -
+
+- (CGFloat)computeWidth:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	if ( self.width )
+	{
+		CGFloat value = [self.width computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeHeight:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	if ( self.height )
+	{
+		CGFloat value = [self.height computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+#pragma mark -
+
+- (CGFloat)computeMinWidth:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	if ( self.minWidth )
+	{
+		CGFloat value = [self.minWidth computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeMaxWidth:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	if ( self.maxWidth )
+	{
+		CGFloat value = [self.maxWidth computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeMinHeight:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	if ( self.minHeight )
+	{
+		CGFloat value = [self.minHeight computeValue:bounds];
+
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeMaxHeight:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	if ( self.maxHeight )
+	{
+		CGFloat value = [self.maxHeight computeValue:bounds];
+
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+#pragma mark -
+
+- (CGFloat)computeInsetTopSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	SamuraiHtmlStyleObject * top = self.insetTop ?: self.inset.top;
+	
+	if ( top )
+	{
+		CGFloat value = [top computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeInsetLeftSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	SamuraiHtmlStyleObject * left = self.insetLeft ?: self.inset.left;
+	
+	if ( left )
+	{
+		CGFloat value = [left computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeInsetRightSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	SamuraiHtmlStyleObject * right = self.insetRight ?: self.inset.right;
+	
+	if ( right )
+	{
+		CGFloat value = [right computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeInsetBottomSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	SamuraiHtmlStyleObject * bottom = self.insetBottom ?: self.inset.bottom;
+	
+	if ( bottom )
+	{
+		CGFloat value = [bottom computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+#pragma mark -
+
+- (CGFloat)computePaddingTopSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	SamuraiHtmlStyleObject * top = self.paddingTop ?: (self.padding.top ?: self.webkitPaddingBefore);
+	
+	if ( top )
+	{
+		CGFloat value = [top computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computePaddingLeftSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	SamuraiHtmlStyleObject * left = self.paddingLeft ?: (self.padding.left ?: self.webkitPaddingStart);
+	
+	if ( left )
+	{
+		CGFloat value = [left computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computePaddingRightSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	SamuraiHtmlStyleObject * right = self.paddingRight ?: (self.padding.right ?: self.webkitPaddingEnd);
+	
+	if ( right )
+	{
+		CGFloat value = [right computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computePaddingBottomSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	SamuraiHtmlStyleObject * bottom = self.paddingBottom ?: (self.padding.bottom ?: self.webkitPaddingAfter);
+	
+	if ( bottom )
+	{
+		CGFloat value = [bottom computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+#pragma mark -
+
+- (CGFloat)computeMarginTopSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	SamuraiHtmlStyleObject * top = self.marginTop ?: (self.margin.top ?: self.webkitMarginBefore);
+	
+	if ( top )
+	{
+		CGFloat value = [top computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeMarginLeftSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	SamuraiHtmlStyleObject * left = self.marginLeft ?: (self.margin.left ?: self.webkitMarginStart);
+	
+	if ( left )
+	{
+		CGFloat value = [left computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeMarginRightSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	SamuraiHtmlStyleObject * right = self.marginRight ?: (self.margin.right ?: self.webkitMarginEnd);
+	
+	if ( right )
+	{
+		CGFloat value = [right computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeMarginBottomSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	SamuraiHtmlStyleObject * bottom = self.marginBottom ?: (self.margin.bottom ?: self.webkitMarginAfter);
+	
+	if ( bottom )
+	{
+		CGFloat value = [bottom computeValue:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+#pragma mark -
+
+- (UIColor *)computeBorderTopColor:(UIColor *)defaultColor
+{
+	SamuraiHtmlStyleObject * borderColor = nil;
+
+	if ( nil == borderColor )
+	{
+		borderColor = self.borderTopColor;
+	}
+
+	if ( nil == borderColor )
+	{
+		borderColor = self.borderColor.top;
+	}
+
+	if ( nil == borderColor )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.borderTop.items )
+		{
+			if ( [item isColor] )
+			{
+				borderColor = borderColor ?: item;
+			}
+		}
+	}
+	
+	if ( nil == borderColor )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.border.items )
+		{
+			if ( [item isColor] )
+			{
+				borderColor = borderColor ?: item;
+			}
+		}
+	}
+	
+	if ( borderColor && [borderColor isColor] )
+	{
+		return [borderColor colorValue];
+	}
+	else
+	{
+		return defaultColor;
+	}
+}
+
+- (UIColor *)computeBorderLeftColor:(UIColor *)defaultColor
+{
+	SamuraiHtmlStyleObject * borderColor = nil;
+	
+	if ( nil == borderColor )
+	{
+		borderColor = self.borderLeftColor;
+	}
+	
+	if ( nil == borderColor )
+	{
+		borderColor = self.borderColor.left;
+	}
+
+	if ( nil == borderColor )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.borderLeft.items )
+		{
+			if ( [item isColor] )
+			{
+				borderColor = borderColor ?: item;
+			}
+		}
+	}
+	
+	if ( nil == borderColor )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.border.items )
+		{
+			if ( [item isColor] )
+			{
+				borderColor = borderColor ?: item;
+			}
+		}
+	}
+
+	if ( borderColor && [borderColor isColor] )
+	{
+		return [borderColor colorValue];
+	}
+	else
+	{
+		return defaultColor;
+	}
+}
+
+- (UIColor *)computeBorderRightColor:(UIColor *)defaultColor
+{
+	SamuraiHtmlStyleObject * borderColor = nil;
+	
+	if ( nil == borderColor )
+	{
+		borderColor = self.borderRightColor;
+	}
+
+	if ( nil == borderColor )
+	{
+		borderColor = self.borderColor.right;
+	}
+
+	if ( nil == borderColor )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.borderRight.items )
+		{
+			if ( [item isColor] )
+			{
+				borderColor = borderColor ?: item;
+			}
+		}
+	}
+	
+	if ( nil == borderColor )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.border.items )
+		{
+			if ( [item isColor] )
+			{
+				borderColor = borderColor ?: item;
+			}
+		}
+	}
+
+	if ( borderColor && [borderColor isColor] )
+	{
+		return [borderColor colorValue];
+	}
+	else
+	{
+		return defaultColor;
+	}
+}
+
+- (UIColor *)computeBorderBottomColor:(UIColor *)defaultColor
+{
+	SamuraiHtmlStyleObject * borderColor = nil;
+	
+	if ( nil == borderColor )
+	{
+		borderColor = self.borderBottomColor;
+	}
+	
+	if ( nil == borderColor )
+	{
+		borderColor = self.borderColor.bottom;
+	}
+
+	if ( nil == borderColor )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.borderBottom.items )
+		{
+			if ( [item isColor] )
+			{
+				borderColor = borderColor ?: item;
+			}
+		}
+	}
+	
+	if ( nil == borderColor )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.border.items )
+		{
+			if ( [item isColor] )
+			{
+				borderColor = borderColor ?: item;
+			}
+		}
+	}
+
+	if ( borderColor && [borderColor isColor] )
+	{
+		return [borderColor colorValue];
+	}
+	else
+	{
+		return defaultColor;
+	}
+}
+
+#pragma mark -
+
+- (CGFloat)computeBorderTopSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	SamuraiHtmlStyleObject * borderSize = nil;
+
+	if ( nil == borderSize )
+	{
+		borderSize = self.borderTopWidth;
+	}
+	
+	if ( nil == borderSize )
+	{
+		borderSize = self.borderWidth.top;
+	}
+
+	if ( nil == borderSize )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.borderTop.items )
+		{
+			if ( [item isBorderSize] )
+			{
+				borderSize = borderSize ?: item;
+			}
+		}
+	}
+
+	if ( nil == borderSize )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.border.items )
+		{
+			if ( [item isBorderSize] )
+			{
+				borderSize = borderSize ?: item;
+			}
+		}
+	}
+
+	if ( borderSize )
+	{
+		CGFloat value = [borderSize computeBorderSize:bounds];
+
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeBorderLeftSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	SamuraiHtmlStyleObject * borderSize = nil;
+	
+	if ( nil == borderSize )
+	{
+		borderSize = self.borderLeftWidth;
+	}
+	
+	if ( nil == borderSize )
+	{
+		borderSize = self.borderWidth.left;
+	}
+
+	if ( nil == borderSize )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.borderLeft.items )
+		{
+			if ( [item isBorderSize] )
+			{
+				borderSize = borderSize ?: item;
+			}
+		}
+	}
+	
+	if ( nil == borderSize )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.border.items )
+		{
+			if ( [item isBorderSize] )
+			{
+				borderSize = borderSize ?: item;
+			}
+		}
+	}
+
+	if ( borderSize )
+	{
+		CGFloat value = [borderSize computeBorderSize:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeBorderRightSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	SamuraiHtmlStyleObject * borderSize = nil;
+	
+	if ( nil == borderSize )
+	{
+		borderSize = self.borderRightWidth;
+	}
+	
+	if ( nil == borderSize )
+	{
+		borderSize = self.borderWidth.right;
+	}
+
+	if ( nil == borderSize )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.borderRight.items )
+		{
+			if ( [item isBorderSize] )
+			{
+				borderSize = borderSize ?: item;
+			}
+		}
+	}
+	
+	if ( nil == borderSize )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.border.items )
+		{
+			if ( [item isBorderSize] )
+			{
+				borderSize = borderSize ?: item;
+			}
+		}
+	}
+
+	if ( borderSize )
+	{
+		CGFloat value = [borderSize computeBorderSize:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeBorderBottomSize:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	SamuraiHtmlStyleObject * borderSize = nil;
+	
+	if ( nil == borderSize )
+	{
+		borderSize = self.borderBottomWidth;
+	}
+	
+	if ( nil == borderSize )
+	{
+		borderSize = self.borderWidth.bottom;
+	}
+
+	if ( nil == borderSize )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.borderBottom.items )
+		{
+			if ( [item isBorderSize] )
+			{
+				borderSize = borderSize ?: item;
+			}
+		}
+	}
+	
+	if ( nil == borderSize )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.border.items )
+		{
+			if ( [item isBorderSize] )
+			{
+				borderSize = borderSize ?: item;
+			}
+		}
+	}
+
+	if ( borderSize )
+	{
+		CGFloat value = [borderSize computeBorderSize:bounds];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+#pragma mark -
+
+- (HtmlRenderBorderStyle)computeBorderTopStyle:(HtmlRenderBorderStyle)defaultStyle
+{
+	SamuraiHtmlStyleObject * borderStyle = nil;
+	
+	if ( nil == borderStyle )
+	{
+		borderStyle = self.borderTopStyle;
+	}
+
+	if ( nil == borderStyle )
+	{
+		borderStyle = self.borderStyle.top;
+	}
+
+	if ( nil == borderStyle )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.borderTop.items )
+		{
+			if ( [item isBorderStyle] )
+			{
+				borderStyle = borderStyle ?: item;
+			}
+		}
+	}
+
+	if ( nil == borderStyle )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.border.items )
+		{
+			if ( [item isBorderStyle] )
+			{
+				borderStyle = borderStyle ?: item;
+			}
+		}
+	}
+
+	if ( borderStyle && [borderStyle isBorderStyle] )
+	{
+		return [borderStyle computeBorderStyle:defaultStyle];
+	}
+	else
+	{
+		return defaultStyle;
+	}
+}
+
+- (HtmlRenderBorderStyle)computeBorderLeftStyle:(HtmlRenderBorderStyle)defaultStyle
+{
+	SamuraiHtmlStyleObject * borderStyle = nil;
+	
+	if ( nil == borderStyle )
+	{
+		borderStyle = self.borderLeftStyle;
+	}
+	
+	if ( nil == borderStyle )
+	{
+		borderStyle = self.borderStyle.top;
+	}
+
+	if ( nil == borderStyle )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.borderLeft.items )
+		{
+			if ( [item isBorderStyle] )
+			{
+				borderStyle = borderStyle ?: item;
+			}
+		}
+	}
+	
+	if ( nil == borderStyle )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.border.items )
+		{
+			if ( [item isBorderStyle] )
+			{
+				borderStyle = borderStyle ?: item;
+			}
+		}
+	}
+
+	if ( borderStyle && [borderStyle isBorderStyle] )
+	{
+		return [borderStyle computeBorderStyle:defaultStyle];
+	}
+	else
+	{
+		return defaultStyle;
+	}
+}
+
+- (HtmlRenderBorderStyle)computeBorderRightStyle:(HtmlRenderBorderStyle)defaultStyle
+{
+	SamuraiHtmlStyleObject * borderStyle = nil;
+	
+	if ( nil == borderStyle )
+	{
+		borderStyle = self.borderRightStyle;
+	}
+
+	if ( nil == borderStyle )
+	{
+		borderStyle = self.borderStyle.top;
+	}
+
+	if ( nil == borderStyle )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.borderRight.items )
+		{
+			if ( [item isBorderStyle] )
+			{
+				borderStyle = borderStyle ?: item;
+			}
+		}
+	}
+	
+	if ( nil == borderStyle )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.border.items )
+		{
+			if ( [item isBorderStyle] )
+			{
+				borderStyle = borderStyle ?: item;
+			}
+		}
+	}
+
+	if ( borderStyle && [borderStyle isBorderStyle] )
+	{
+		return [borderStyle computeBorderStyle:defaultStyle];
+	}
+	else
+	{
+		return defaultStyle;
+	}
+}
+
+- (HtmlRenderBorderStyle)computeBorderBottomStyle:(HtmlRenderBorderStyle)defaultStyle
+{
+	SamuraiHtmlStyleObject * borderStyle = nil;
+	
+	if ( nil == borderStyle )
+	{
+		borderStyle = self.borderBottomStyle;
+	}
+
+	if ( nil == borderStyle )
+	{
+		borderStyle = self.borderStyle.top;
+	}
+
+	if ( nil == borderStyle )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.borderBottom.items )
+		{
+			if ( [item isBorderStyle] )
+			{
+				borderStyle = borderStyle ?: item;
+			}
+		}
+	}
+
+	if ( nil == borderStyle )
+	{
+		for ( SamuraiHtmlStyleObject * item in self.border.items )
+		{
+			if ( [item isBorderStyle] )
+			{
+				borderStyle = borderStyle ?: item;
+			}
+		}
+	}
+
+	if ( borderStyle && [borderStyle isBorderStyle] )
+	{
+		return [borderStyle computeBorderStyle:defaultStyle];
+	}
+	else
+	{
+		return defaultStyle;
+	}
+}
+
+#pragma mark -
+
+- (CGFloat)computeBorderTopLeftRadius:(CGFloat)bounds defaultRadius:(CGFloat)defaultRadius
+{
+	TODO( "border radius" )
+	
+	if ( self.borderRadius && [self.borderRadius count] > 0 )
+	{
+		CGFloat radius = [[self.borderRadius objectAtIndex:0] computeValue:bounds];
+		
+		return INVALID_VALUE == radius ? defaultRadius : radius;
+	}
+	else
+	{
+		return defaultRadius;
+	}
+}
+
+- (CGFloat)computeBorderTopRightRadius:(CGFloat)bounds defaultRadius:(CGFloat)defaultRadius
+{
+	TODO( "border radius" )
+	
+	if ( self.borderRadius && [self.borderRadius count] > 0 )
+	{
+		CGFloat radius = [[self.borderRadius objectAtIndex:0] computeValue:bounds];
+		
+		return INVALID_VALUE == radius ? defaultRadius : radius;
+	}
+	else
+	{
+		return defaultRadius;
+	}
+}
+
+- (CGFloat)computeBorderBottomLeftRadius:(CGFloat)bounds defaultRadius:(CGFloat)defaultRadius
+{
+	TODO( "border radius" )
+	
+	if ( self.borderRadius && [self.borderRadius count] > 0 )
+	{
+		CGFloat radius = [[self.borderRadius objectAtIndex:0] computeValue:bounds];
+		
+		return INVALID_VALUE == radius ? defaultRadius : radius;
+	}
+	else
+	{
+		return defaultRadius;
+	}
+}
+
+- (CGFloat)computeBorderBottomRightRadius:(CGFloat)bounds defaultRadius:(CGFloat)defaultRadius
+{
+	TODO( "border radius" )
+	
+	if ( self.borderRadius && [self.borderRadius count] > 0 )
+	{
+		CGFloat radius = [[self.borderRadius objectAtIndex:0] computeValue:bounds];
+		
+		return INVALID_VALUE == radius ? defaultRadius : radius;
+	}
+	else
+	{
+		return defaultRadius;
+	}
+}
+
+#pragma mark -
+
+- (CGFloat)computeBorderSpacing:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	if ( self.borderSpacing )
+	{
+		CGFloat value = [self.borderSpacing computeValue];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeCellSpacing:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	if ( self.cellSpacing )
+	{
+		CGFloat value = [self.cellSpacing computeValue];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeCellPadding:(CGFloat)bounds defaultSize:(CGFloat)defaultSize
+{
+	if ( self.cellPadding )
+	{
+		CGFloat value = [self.cellPadding computeValue];
+		
+		return INVALID_VALUE == value ? defaultSize : value;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeLineHeight:(CGFloat)fontHeight defaultSize:(CGFloat)defaultSize
+{
+	if ( self.lineHeight )
+	{
+		CGFloat lineHeight = 0.0f;
+		
+		if ( [self.lineHeight isConstant] )
+		{
+			lineHeight = [self.lineHeight computeValue:fontHeight];
+			lineHeight = NORMALIZE_VALUE( lineHeight );
+
+			lineHeight = fontHeight * lineHeight;
+		}
+		else if ( [self.lineHeight isPercentage] )
+		{
+			lineHeight = [self.lineHeight computeValue:fontHeight];
+			lineHeight = NORMALIZE_VALUE( lineHeight );
+		}
+		else if ( [self.lineHeight isString:@"normal"] )
+		{
+			lineHeight = [SamuraiHtmlUserAgent sharedInstance].defaultFont.lineHeight;
+		}
+		else
+		{
+			lineHeight = [self.lineHeight computeValue:fontHeight];
+			lineHeight = NORMALIZE_VALUE( lineHeight );
+		}
+
+		return lineHeight;
+	}
+	else
+	{
+		return defaultSize;
+	}
+}
+
+- (CGFloat)computeLetterSpacing:(CGFloat)defaultSize
+{
+	if ( self.letterSpacing )
+	{
+		CGFloat letterSpacing = [self.letterSpacing computeValue];
+		
+		return INVALID_VALUE == letterSpacing ? defaultSize : letterSpacing;
+	}
+	else
+	{
+		return INVALID_VALUE;
+	}
 }
 
 @end

@@ -53,6 +53,8 @@
 
 - (BOOL)inStrings:(NSArray *)set;
 
+- (NSString *)stringValue;
+
 @end
 
 #pragma mark -

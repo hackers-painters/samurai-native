@@ -41,8 +41,7 @@
 
 @class SamuraiDomNode;
 @class SamuraiStyleSheet;
-@class SamuraiRenderStoreNode;
-@class SamuraiRenderStoreScope;
+@class SamuraiRenderStore;
 @class SamuraiRenderObject;
 
 @interface SamuraiDocument : SamuraiResource

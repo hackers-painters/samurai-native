@@ -43,7 +43,7 @@
 
 @interface SamuraiRenderStoreNode : SamuraiTreeNode
 
-@prop_strong( SamuraiRenderObject *, target );
+@prop_strong( SamuraiRenderObject *, renderer );
 
 + (SamuraiRenderStoreNode *)storeNode;
 + (SamuraiRenderStoreNode *)storeNode:(SamuraiRenderObject *)object;

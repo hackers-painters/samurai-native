@@ -53,21 +53,8 @@
 @interface SamuraiRenderStoreScope : NSObject
 
 @prop_strong( SamuraiRenderStoreNode *,	storeTree );
-@prop_strong( NSString *,				storePath );
 
-+ (SamuraiRenderStoreScope *)storeScope;
 + (SamuraiRenderStoreScope *)storeScope:(id)sourceOrTarget;
-
-// build store tree
-
-- (void)attach:(id)sourceOrTarget;
-- (void)attach:(id)sourceOrTarget path:(NSString *)path;
-- (void)detach;
-
-- (void)didAttached;	// override point
-- (void)didDetached;	// override point
-
-// serialization
 
 - (id)getData;
 - (id)getDataWithPath:(NSString *)path;

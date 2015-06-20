@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 
-<html class="no-js no-scroll" lang="">
+<html class="no-js" lang="" no-scroll>
 	
 	<head>
 		
@@ -24,15 +24,19 @@
 
 			<UITableViewCell name="items" class="item" onclick="@selector(test:)">
 
-				<label name="title" class="title"/>
-				<label class="arrow"> > </label>
-				
+				<label name="title" class="title"></label>
+
 			</UITableViewCell>
 
 		</UITableView>
 		
 		<style>
-			
+
+			html {
+				width: 100%;
+				height: 100%;
+			}
+
 			body {
 				width: 100%;
 				height: 100%;
@@ -47,30 +51,27 @@
 			.item {
 				width: 100%;
 				height: 64px;
+				border-style: solid;
 				border-color: #333;
 				border-width: 0.5px;
 			}
 		
 			.title {
-				margin-left: auto;
-				margin-right: auto;
-				width: 90%;
+				margin-left: 24px;
+				width: 80%;
 				height: 100%;
 				color: #333;
 				text-align: left;
 			}
 		
-			.arrow {
-				position: absolute;
-				right: 10px;
-				width: auto;
+			.button {
+				width: 30%;
 				height: 100%;
-				color: #333;
-				font-size: 18px;
-				font-weight: bold;
-				text-align: right;
+				color: white;
+				text-align: center;
+				background-color: black;
 			}
-		
+
 		</style>
 		
 	</body>

@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+
+<html class="no-js no-scroll" lang="">
+	
+	<head>
+		
+		<title>Home</title>
+
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		
+		<meta name="description" content=""/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+		<meta name="navbar-logo" content="url(dribbble-logo-dark.png)"/>
+		<meta name="navbar-bg-color" content="#eaeaea"/>
+		<meta name="navbar-tint-color" content="#333"/>
+		<meta name="navbar-text-color" content="#333"/>
+
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="SDWebImageView.css"/>
+		<link rel="stylesheet" type="text/css" href="EMStringLabel.css"/>
+
+	</head>
+
+	<body>
+
+		<RefreshCollectionView id="list" name="list" class="list" columns="1" is-vertical
+			onswipe-left="@selector(nextTab:)"
+			onswipe-right="@selector(prevTab:)">
+
+			<UICollectionViewCell name="shots" class="list-item" is-column onclick="@selector(viewShot:)">
+				<div class="shot-wrapper">
+					<div class="author-wrapper" name="author" onclick="@selector(viewProfile:)">
+						<img class="author-avatar" name="avatar"/>
+						<div class="author-attribution">
+							<div class="author-title" name="title">Portfolio concept</div>
+							<div class="author-subtitle" name="name">Vadim Sherbakov</div>
+						</div>
+					</div>
+					<img class="shot-img" name="shot-url"/>
+					<div class="shot-attribution-wrapper" name="attr">
+						<div class="shot-attribution">
+							<div class="shot-segment">
+								<div class="shot-segment-wrapper">
+									<!-- <img class="shot-segment-icon" src="icon-views.png"/> -->
+									<span class="shot-segment-count" name="views">6770</span>
+									<span class="shot-segment-suffix">Views</span>
+								</div>
+							</div>
+							<div class="shot-segment">
+								<div class="shot-segment-wrapper">
+									<!-- <img class="shot-segment-icon" src="icon-views.png"/> -->
+									<span class="shot-segment-count" name="comments">19</span>
+									<span class="shot-segment-suffix">Comments</span>
+								</div>
+							</div>
+							<div class="shot-segment">
+								<div class="shot-segment-wrapper">
+									<!-- <img class="shot-segment-icon" src="icon-views.png"/> -->
+									<span class="shot-segment-count" name="likes">591</span>
+									<span class="shot-segment-suffix">Likes</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</UICollectionViewCell>
+
+		</RefreshCollectionView>
+
+		<style>
+
+			body {
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				height: 100%;
+			}
+
+			.list {
+				display: block;
+				width: 100%;
+				height: 100%;
+				z-index: 1;
+				background-color: #eaeaea;
+				border-top: 1px solid transparent;
+			}
+
+			.list-item {
+				width: 100%;
+				height: auto;
+				border-top: 1px solid transparent;
+			}
+		
+			.shot-wrapper {
+				margin: 0 auto;
+				margin-top: 10px;
+				width: 95%;
+				height: auto;
+				border-radius: 3px;
+				background-color: white;
+				border-top: 1px solid transparent;
+			}
+
+			.author-wrapper {
+				display: block;
+				margin: 0 auto;
+				margin-top: 8px;
+				width: 96%;
+				height: 54px;
+				border-top: 1px solid transparent;
+			}
+		
+			.author-avatar {
+				display: block;
+				float: left;
+				margin-left: 6px;
+				width: 54px;
+				height: 54px;
+				border-radius: 29px;
+				border-width: 2px;
+				border-color: white;
+				background-color: #999;
+			}
+			
+			.author-attribution {
+				display: block;
+				float: left;
+				margin-top: 6px;
+				margin-left: 12px;
+				width: 60%;
+				height: 44px;
+			}
+			
+			.author-title {
+				display: block;
+				width: auto;
+				height: 50%;
+				line-height: 22px;
+				color: #333;
+				text-align: left;
+				font-size: 16px;
+				font-weight: lighter;
+			}
+			
+			.author-subtitle {
+				display: block;
+				width: auto;
+				height: 50%;
+				line-height: 22px;
+				color: #333;
+				text-align: left;
+				font-size: 14px;
+				font-weight: lighter;
+			}
+		
+			.shot-img {
+				margin-left: 2.5%;
+				margin-top: 10px;
+				width: 95%;
+				height: auto;
+				max-width: 100%;
+				min-height: 200px;
+				content-mode: fill;
+			}
+
+			.shot-attribution-wrapper {
+				display: block;
+				width: 100%;
+				height: auto;
+				margin-top: 10px;
+				margin-bottom: 10px;
+			}
+		
+			.shot-attribution {
+				display: block;
+				width: 100%;
+				height: 34px;
+				margin-bottom: 10px;
+			}
+			
+			.shot-segment {
+				display: block;
+				width: 33.3%;
+				height: 100%;
+				text-align: center;
+				float: left;
+			}
+		
+			.shot-segment-icon {
+				display: inline-block;
+				margin-top: 6px;
+				width: 18px;
+				height: 18px;
+				content-mode: center;
+			}
+			
+			.shot-segment-count {
+				display: inline-block;
+				margin-left: 4px;
+				width: auto;
+				height: 100%;
+				line-height: 34px;
+				color: #333;
+				text-align: center;
+				font-size: 14px;
+				font-weight: lighter;
+			}
+			
+			.shot-segment-suffix {
+				display: inline-block;
+				margin-left: 4px;
+				width: auto;
+				height: 100%;
+				line-height: 34px;
+				color: rgba( 51, 51, 51, 0.6 );
+				text-align: center;
+				font-size: 12px;
+				font-weight: lighter;
+			}
+
+		</style>
+		
+	</body>
+	
+</html>

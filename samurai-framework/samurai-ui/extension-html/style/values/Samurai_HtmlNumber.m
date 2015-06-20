@@ -32,6 +32,7 @@
 #import "Samurai_HtmlNumberAutomatic.h"
 #import "Samurai_HtmlNumberCm.h"
 #import "Samurai_HtmlNumberEm.h"
+#import "Samurai_HtmlNumberQem.h"
 #import "Samurai_HtmlNumberEx.h"
 #import "Samurai_HtmlNumberIn.h"
 #import "Samurai_HtmlNumberMm.h"
@@ -75,7 +76,7 @@
 
 - (CGFloat)computeValue:(CGFloat)value
 {
-	return 0.0f;
+	return INVALID_VALUE;
 }
 
 @end
@@ -116,6 +117,7 @@
 			[valueClasses addObject:[SamuraiHtmlNumberMm class]];
 			[valueClasses addObject:[SamuraiHtmlNumberPc class]];
 			[valueClasses addObject:[SamuraiHtmlNumberPt class]];
+			[valueClasses addObject:[SamuraiHtmlNumberQem class]];
 			[valueClasses addObject:[SamuraiHtmlNumberConstant class]]; // default type
 		});
 		

@@ -41,7 +41,7 @@
 #pragma mark -
 
 #undef	__SAMURAI_UI_USE_AFNETWORKING__
-#define __SAMURAI_UI_USE_AFNETWORKING__	(__ON__)
+#define __SAMURAI_UI_USE_AFNETWORKING__		(__ON__)
 
 #undef	__SAMURAI_UI_USE_CALLCHAIN__
-#define __SAMURAI_UI_USE_CALLCHAIN__	(__ON__)
+#define __SAMURAI_UI_USE_CALLCHAIN__		(__ON__)

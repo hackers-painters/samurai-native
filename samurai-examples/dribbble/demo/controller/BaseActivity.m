@@ -68,6 +68,7 @@
 
 - (void)onResume
 {
+	[self relayout];
 }
 
 - (void)onPause

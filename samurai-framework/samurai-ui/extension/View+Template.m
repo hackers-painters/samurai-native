@@ -172,9 +172,20 @@
 
 - (void)relayout
 {
-	if ( self.renderer )
+	CGSize viewSize = self.frame.size;
+	
+	if ( CGSizeEqualToSize( viewSize, CGSizeZero ) )
 	{
-		[self.renderer relayout];
+		self.layer.hidden = YES;
+	}
+	else
+	{
+		self.layer.hidden = NO;
+
+		if ( self.renderer )
+		{
+			[self.renderer relayout];
+		}
 	}
 }
 

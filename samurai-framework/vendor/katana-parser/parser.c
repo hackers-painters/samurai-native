@@ -816,7 +816,7 @@ void katana_parser_reset_declarations(KatanaParser* parser)
 
 KatanaRule* katana_new_media_rule(KatanaParser* parser, KatanaArray* medias, KatanaArray* rules)
 {
-    assert(NULL != medias && NULL != rules);
+//	assert(NULL != medias && NULL != rules);
     
     if ( medias == NULL || rules == NULL )
         return NULL;
@@ -1279,10 +1279,11 @@ void katanaerror(YYLTYPE* yyloc, void* scanner, struct KatanaInternalParser * pa
            katanaget_text(parser->scanner));
 
     YYSTYPE * s = katanaget_lval(parser->scanner);
-    struct yy_buffer_state state = katana_get_previous_state(parser->scanner);
-    s, (*yy_buffer_stack[0]).yy_ch_buf);
-    
-    katana_print("%s", s->);
+
+//	struct yy_buffer_state state = katana_get_previous_state(parser->scanner);
+//    s, (*yy_buffer_stack[0]).yy_ch_buf);
+//    
+//    katana_print("%s", s->);
 #endif // #if KATANA_PARSER_DEBUG
 #endif // #ifdef KATANA_PARSER_DEBUG
 
@@ -1351,6 +1352,7 @@ void katana_print(const char * format, ...)
     va_list args;
     va_start(args, format);
     vprintf(format, args);
+	printf("\n");
     va_end(args);
     fflush(stdout);
 }
