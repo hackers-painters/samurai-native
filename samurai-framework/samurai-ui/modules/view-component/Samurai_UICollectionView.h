@@ -43,33 +43,18 @@
 
 @interface SamuraiUICollectionViewSection : NSObject
 
-@prop_assign( NSUInteger,				minCount );
-@prop_assign( NSUInteger,				maxCount );
-
-@prop_strong( NSObject *,				cachedData );
-@prop_strong( NSMutableDictionary *,	cachedHeight );
-
-@prop_assign( NSUInteger,				index );
-@prop_strong( SamuraiDocument *,		document );
-@prop_unsafe( UICollectionView *,		collectionView );
-@prop_strong( NSString *,				reuseIdentifier );
-
-- (void)clearCache;
-
-- (CGSize)getSizeForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (CGFloat)getWidthForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (CGFloat)getWidthForRowAtIndexPath:(NSIndexPath *)indexPath byHeight:(CGFloat)height;
+- (CGFloat)getHeightForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (CGFloat)getHeightForRowAtIndexPath:(NSIndexPath *)indexPath byWidth:(CGFloat)width;
 - (CGSize)getSizeForRowAtIndexPath:(NSIndexPath *)indexPath byBounds:(CGSize)bounds;
 - (CGSize)getSizeForRowAtIndexPath:(NSIndexPath *)indexPath byWidth:(CGFloat)width;
 - (CGSize)getSizeForRowAtIndexPath:(NSIndexPath *)indexPath byHeight:(CGFloat)height;
 
-- (CGFloat)getWidthForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (CGFloat)getWidthForRowAtIndexPath:(NSIndexPath *)indexPath byHeight:(CGFloat)height;
-
-- (CGFloat)getHeightForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (CGFloat)getHeightForRowAtIndexPath:(NSIndexPath *)indexPath byWidth:(CGFloat)width;
-
-- (NSUInteger)getRowCount;
-- (NSObject *)getDataForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (UICollectionViewCell *)getCellForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (NSUInteger)getRowCount;														// override point
+- (CGSize)getSizeForRowAtIndexPath:(NSIndexPath *)indexPath;					// override point
+- (NSObject *)getDataForRowAtIndexPath:(NSIndexPath *)indexPath;				// override point
+- (UICollectionViewCell *)getCellForRowAtIndexPath:(NSIndexPath *)indexPath;	// override point
 
 @end
 
@@ -80,7 +65,9 @@
 @prop_strong( NSMutableArray *,		sections );
 @prop_unsafe( UICollectionView *,	collectionView );
 
-- (void)constructSections:(SamuraiRenderObject *)renderObject;
+- (void)appendSection:(SamuraiUICollectionViewSection *)section;
+- (void)insertSection:(SamuraiUICollectionViewSection *)section atIndex:(NSUInteger)index;
+- (void)removeAllSections;
 
 @end
 

@@ -7,6 +7,7 @@
 //
 
 #import "Samurai.h"
+#import "Samurai_WebCore.h"
 
 #import "PlayerModel.h"
 #import "PlayerShotListModel.h"

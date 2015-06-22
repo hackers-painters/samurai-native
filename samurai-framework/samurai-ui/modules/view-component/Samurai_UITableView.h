@@ -38,21 +38,16 @@
 
 #import "Samurai_UIView.h"
 #import "Samurai_UIScrollView.h"
+#import "Samurai_UITableViewCell.h"
 
 #pragma mark -
 
 @interface SamuraiUITableViewSection : NSObject
 
-@prop_unsafe( UITableView *,		tableView );
-@prop_assign( NSUInteger,			index );
-@prop_strong( SamuraiDocument *,	document );
-
-- (CGFloat)getHeightForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (NSUInteger)getRowCount;
-- (NSObject *)getDataForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (UITableViewCell *)getCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-
-- (void)clearCache;
+- (NSUInteger)getRowCount;												// override point
+- (CGFloat)getHeightForRowAtIndexPath:(NSIndexPath *)indexPath;			// override point
+- (NSObject *)getDataForRowAtIndexPath:(NSIndexPath *)indexPath;		// override point
+- (UITableViewCell *)getCellForRowAtIndexPath:(NSIndexPath *)indexPath;	// override point
 
 @end
 
@@ -63,7 +58,9 @@
 @prop_unsafe( UITableView *,		tableView );
 @prop_strong( NSMutableArray *,		sections );
 
-- (void)constructSections:(SamuraiRenderObject *)renderObject;
+- (void)appendSection:(SamuraiUITableViewSection *)section;
+- (void)insertSection:(SamuraiUITableViewSection *)section atIndex:(NSUInteger)index;
+- (void)removeAllSections;
 
 @end
 

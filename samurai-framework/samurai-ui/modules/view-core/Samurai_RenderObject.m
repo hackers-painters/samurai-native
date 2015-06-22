@@ -276,6 +276,8 @@ static NSUInteger __objectSeed = 0;
 		Class classType = NSClassFromString( className );
 		if ( classType && ([classType isSubclassOfClass:[UIView class]] || [classType isSubclassOfClass:[UIViewController class]]) )
 		{
+			PERF( @"RenderObject '%p', set %@ '%p' to property '%@'", self, self.viewClass, self.view, name );
+			
 			[container setValue:view forKey:name];
 		}
 	}
@@ -284,6 +286,8 @@ static NSUInteger __objectSeed = 0;
 		Ivar ivar = class_getInstanceVariable( [container class], [name UTF8String] );
 		if ( ivar )
 		{
+			PERF( @"RenderObject '%p', set %@ '%p' to ivar '%@'", self, self.viewClass, self.view, name );
+			
 			[container setValue:view forKey:name];
 		}
 	}
@@ -444,10 +448,7 @@ static NSUInteger __objectSeed = 0;
 
 	if ( self.view )
 	{
-		if ( nil == self.view.renderer )
-		{
-			self.view.renderer = self;
-		}
+		self.view.renderer = self;
 
 		UIView * contentView = nil;
 
@@ -497,18 +498,15 @@ static NSUInteger __objectSeed = 0;
 		
 		if ( self.view )
 		{
-			if ( nil == self.view.renderer )
-			{
-				self.view.renderer = self;
-			}
+			self.view.renderer = self;
 			
 			if ( self.dom.domTag )
 			{
-				PERF( @"RenderObject '%p', bind view '%@' for <%@/>", self, self.viewClass, self.dom.domTag );
+				PERF( @"RenderObject '%p', bind view '%@ %p' for <%@/>", self, self.viewClass, self.view, self.dom.domTag );
 			}
 			else
 			{
-				PERF( @"RenderObject '%p', bind view '%@' for \"%@ ...\"", self, self.viewClass, self.dom.domText.length > 20 ? [self.dom.domText substringToIndex:20] : self.dom.domText );
+				PERF( @"RenderObject '%p', bind view '%@ %p' for \"%@ ...\"", self, self.viewClass, self.view, self.dom.domText.length > 20 ? [self.dom.domText substringToIndex:20] : self.dom.domText );
 			}
 			
 			UIView * contentView = nil;
@@ -533,7 +531,7 @@ static NSUInteger __objectSeed = 0;
 						[contentView addSubview:childView];
 					}
 					
-				//	[child bindOutletsTo:self.view];
+//					[child bindOutletsTo:self.view];
 				}
 			}
 			

@@ -38,7 +38,7 @@
 
 - (void)onTemplateLoaded
 {
-	self[@"list"] = @{
+	self.viewStorage[@"list"] = @{
 					  
 	  @"section1" : ({
 		  

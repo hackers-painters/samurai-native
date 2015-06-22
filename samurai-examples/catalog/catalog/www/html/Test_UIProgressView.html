@@ -20,23 +20,27 @@
 	
 	<body>
 
-		<UICollectionView name="banners" id="list" class="list" is-horizontal is-paging>
+		<div class="wrapper">
+	
+			<UICollectionView name="banners" id="list" class="list" is-horizontal is-paging>
 
-			<UICollectionViewCell name="banner1" class="cell1" is-static is-row>
-				Banner 1
-			</UICollectionViewCell>
-			
-			<UICollectionViewCell name="banner2" class="cell2" is-static is-row>
-				Banner 2
-			</UICollectionViewCell>
-			
-			<UICollectionViewCell name="banner3" class="cell3" is-static is-row>
-				Banner 3
-			</UICollectionViewCell>
+				<UICollectionViewCell name="banner1" class="cell1" is-static is-row>
+					Banner 1
+				</UICollectionViewCell>
+				
+				<UICollectionViewCell name="banner2" class="cell2" is-static is-row>
+					Banner 2
+				</UICollectionViewCell>
+				
+				<UICollectionViewCell name="banner3" class="cell3" is-static is-row>
+					Banner 3
+				</UICollectionViewCell>
 
-		</UICollectionView>
-		
-		<UIPageControl class="pager" for="list"></UIPageControl>
+			</UICollectionView>
+			
+			<UIPageControl class="pager" for="list"></UIPageControl>
+			
+		</div>
 
 		<UIProgressView class="progress1" for="list"></UIProgressView>
 		<UIProgressView class="progress2" for="list"></UIProgressView>
@@ -53,9 +57,24 @@
 				text-align: left;
 			}
 		
-			.list {
+			.wrapper {
 				width: 100%;
 				height: 300px;
+			}
+			
+			.pager {
+				position: absolute;
+				display: block;
+				width: 100%;
+				height: 44px;
+				left: 0px;
+				bottom: 0px;
+				color: white;
+			}
+
+			.list {
+				width: 100%;
+				height: 100%;
 			}
 		
 			.cell1 {

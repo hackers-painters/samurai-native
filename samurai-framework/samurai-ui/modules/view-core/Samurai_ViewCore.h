@@ -49,10 +49,6 @@
 #import "Samurai_RenderObject.h"
 #import "Samurai_RenderStyle.h"
 
-#import "Samurai_RenderQuery.h"
-#import "Samurai_RenderStoreNode.h"
-#import "Samurai_RenderStoreScope.h"
-
 #import "Samurai_Resource.h"
 #import "Samurai_ResourceFetcher.h"
 

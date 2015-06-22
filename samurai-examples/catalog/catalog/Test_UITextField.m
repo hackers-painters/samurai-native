@@ -65,67 +65,73 @@
 
 - (void)submitForm
 {
+	BOOL valid = YES;
+	
 	if ( 0 == [_t1.text length] )
 	{
-		[_t1 performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.25f];
-		[_t1 addCssStyleClass:@"error"];
-		[_t1 restyle];
+		[_t1 style_addClass:@"error"];
 		
-		return;
+		valid = NO;
 	}
 	else
 	{
-		[_t1 removeCssStyleClass:@"error"];
-		[_t1 restyle];
+		[_t1 style_removeClass:@"error"];
 	}
 	
 	if ( 0 == [_t2.text length] )
 	{
-		[_t2 performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.25f];
-		[_t2 addCssStyleClass:@"error"];
-		[_t2 restyle];
+		[_t2 style_addClass:@"error"];
 		
-		return;
+		valid = NO;
 	}
 	else
 	{
-		[_t2 removeCssStyleClass:@"error"];
-		[_t2 restyle];
+		[_t2 style_removeClass:@"error"];
 	}
 
 	if ( 0 == [_t3.text length] )
 	{
-		[_t3 performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.25f];
-		[_t3 addCssStyleClass:@"error"];
-		[_t3 restyle];
+		[_t3 style_addClass:@"error"];
 		
-		return;
+		valid = NO;
 	}
 	else
 	{
-		[_t3 removeCssStyleClass:@"error"];
-		[_t3 restyle];
+		[_t3 style_removeClass:@"error"];
 	}
 
 	if ( 0 == [_t4.text length] || NO == [_t3.text isEqualToString:_t4.text] )
 	{
-		[_t4 performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.25f];
-		[_t4 addCssStyleClass:@"error"];
-		[_t4 restyle];
+		[_t4 style_addClass:@"error"];
 		
-		return;
+		valid = NO;
 	}
 	else
 	{
-		[_t4 removeCssStyleClass:@"error"];
-		[_t4 restyle];
+		[_t4 style_removeClass:@"error"];
 	}
 
-	[[[UIAlertView alloc] initWithTitle:@"Welcome"
-								message:nil
-							   delegate:nil
-					  cancelButtonTitle:@"OK"
-					  otherButtonTitles:nil] show];
+	[_t1 restyle];
+	[_t2 restyle];
+	[_t3 restyle];
+	[_t4 restyle];
+
+	if ( NO == valid )
+	{
+		[[[UIAlertView alloc] initWithTitle:@"Invalid content"
+									message:nil
+								   delegate:nil
+						  cancelButtonTitle:@"OK"
+						  otherButtonTitles:nil] show];
+	}
+	else
+	{
+		[[[UIAlertView alloc] initWithTitle:@"Thank you"
+									message:nil
+								   delegate:nil
+						  cancelButtonTitle:@"OK"
+						  otherButtonTitles:nil] show];
+	}
 }
 
 #pragma mark -

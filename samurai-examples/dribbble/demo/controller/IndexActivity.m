@@ -59,7 +59,7 @@
 
 - (void)onCreate
 {
-	self.navigationBarDoneButton = @"Theme";
+	self.navigationBarDoneButton = @"Change theme";
 
 	self.model1 = [PopularShotListModel new];
 	self.model2 = [DebutsShotListModel new];
@@ -205,25 +205,25 @@
 {
 	if ( _currentIndex != newIndex )
 	{
-		CATransition * animation = [CATransition animation];
-		if ( animation )
-		{
-			[animation setDuration:0.5f];
-			[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault]];
-			[animation setType:kCATransitionPush];
-			[animation setRemovedOnCompletion:YES];
-			
-			if ( newIndex < _currentIndex )
-			{
-				[animation setSubtype:kCATransitionFromLeft];
-			}
-			else
-			{
-				[animation setSubtype:kCATransitionFromRight];
-			}
-
-			[self.list.layer addAnimation:animation forKey:@"push"];
-		}
+//		CATransition * animation = [CATransition animation];
+//		if ( animation )
+//		{
+//			[animation setDuration:0.5f];
+//			[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault]];
+//			[animation setType:kCATransitionPush];
+//			[animation setRemovedOnCompletion:YES];
+//			
+//			if ( newIndex < _currentIndex )
+//			{
+//				[animation setSubtype:kCATransitionFromLeft];
+//			}
+//			else
+//			{
+//				[animation setSubtype:kCATransitionFromRight];
+//			}
+//
+//			[self.list.layer addAnimation:animation forKey:@"push"];
+//		}
 		
 		_currentIndex = newIndex;
 	}
@@ -236,44 +236,45 @@
 		
 		_currentModel = self.model1;
 		
-		[self.tab1 addCssStyleClass:@"active"];
+		[self.tab1.styleClasses addObject:@"active"];
 	}
 	else
 	{
-		[self.tab1 removeCssStyleClass:@"active"];
+		[self.tab1.styleClasses removeObject:@"active"];
 	}
 	
 	if ( 1 == _currentIndex )
 	{
 		_currentModel = self.model2;
 		
-		[self.tab2 addCssStyleClass:@"active"];
+		[self.tab2.styleClasses addObject:@"active"];
 	}
 	else
 	{
-		[self.tab2 removeCssStyleClass:@"active"];
+		[self.tab2.styleClasses removeObject:@"active"];
 	}
 	
 	if ( 2 == _currentIndex )
 	{
 		_currentModel = self.model3;
 		
-		[self.tab3 addCssStyleClass:@"active"];
+		[self.tab3.styleClasses addObject:@"active"];
 	}
 	else
 	{
-		[self.tab3 removeCssStyleClass:@"active"];
+		[self.tab3.styleClasses removeObject:@"active"];
 	}
 
 	[self.tab1 restyle];
 	[self.tab2 restyle];
 	[self.tab3 restyle];
-
-	[self.list setContentOffset:CGPointZero animated:NO];
 	
 	[self reloadData];
 	
 	[_currentModel refresh];
+	
+	[self.list setContentOffset:CGPointZero animated:NO];
+//	[self.list reloadData];
 }
 
 #pragma mark -
@@ -297,11 +298,10 @@
 
 - (void)reloadData
 {
-	self[ @"tabbar.popular" ]	= _currentModel == self.model1 ? @"/Popular/" : @"Popular";
-	self[ @"tabbar.debuts" ]	= _currentModel == self.model2 ? @"/Debuts/" : @"Debuts";
-	self[ @"tabbar.everyone" ]	= _currentModel == self.model3 ? @"/Everyone/" : @"Everyone";
-
-	self[ @"list" ] = @{
+	self.viewStorage[ @"tabbar.popular" ]	= _currentModel == self.model1 ? @"/Popular/" : @"Popular";
+	self.viewStorage[ @"tabbar.debuts" ]	= _currentModel == self.model2 ? @"/Debuts/" : @"Debuts";
+	self.viewStorage[ @"tabbar.everyone" ]	= _currentModel == self.model3 ? @"/Everyone/" : @"Everyone";
+	self.viewStorage[ @"list" ] = @{
 						
 		@"section-shots" : ({
 			

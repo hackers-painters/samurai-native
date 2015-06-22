@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+
 #import "Samurai.h"
+#import "Samurai_WebCore.h"
 
 @interface CatalogViewController : UIViewController
 @end

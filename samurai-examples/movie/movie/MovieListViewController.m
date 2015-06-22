@@ -124,24 +124,25 @@
 
 - (void)reloadData
 {
-    self[@"list"] = @{
+	self.viewStorage[@"list" ] = @{
 								  
-                      @"movies" : ({
-                          
-                          NSMutableArray * movies = [NSMutableArray array];
-                          
-                          for ( MOVIE * movie in _model.movies )
-                          {
-                              [movies addObject:@{
-                                                  @"cover" : movie.posters.thumbnail ?: @"",
-                                                  @"title" : movie.title ?: @"",
-                                                  @"year" : @(movie.year) ?: @"",
-                                                  @"critics" : @(movie.ratings.critics_score) ?: @"",
-                                                 }];
-                          }
-                          
-                          movies;
-                      })
+		  @"movies" : ({
+			  
+			  NSMutableArray * movies = [NSMutableArray array];
+			  
+			  for ( MOVIE * movie in _model.movies )
+			  {
+				  [movies addObject:@{
+									  @"cover" : movie.posters.thumbnail ?: @"",
+									  @"title" : movie.title ?: @"",
+									  @"year" : @(movie.year) ?: @"",
+									  @"critics" : @(movie.ratings.critics_score) ?: @"",
+									 }];
+			  }
+			  
+			  movies;
+		  })
+		  
     };
 
     [_list reloadData];

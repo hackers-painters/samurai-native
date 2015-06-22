@@ -9,6 +9,9 @@
 #import "TestSuiteViewController.h"
 #import "TestCaseViewController.h"
 
+#import "Samurai.h"
+#import "Samurai_WebCore.h"
+
 @implementation TestSuiteViewController
 {
 	UITableView *		_tableView;
@@ -110,7 +113,7 @@
 
 - (void)onTemplateLoaded
 {
-	self[@"list"] = @{
+	[self setViewData:@{
 					  
 		@"items" : ({
 			
@@ -134,7 +137,8 @@
 
 			array;
 		})
-	};
+		
+	} withPath:@"list"];
 }
 
 - (void)onTemplateFailed

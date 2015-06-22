@@ -42,215 +42,27 @@
 #pragma mark -
 
 @implementation SamuraiUITableViewSection
-{
-	NSObject *				_cachedData;
-	NSMutableDictionary *	_cachedHeight;
-}
-
-@def_prop_unsafe( UITableView *,		tableView );
-@def_prop_assign( NSUInteger,			index );
-@def_prop_strong( SamuraiDocument *,	document );
-
-- (id)init
-{
-	self = [super init];
-	if ( self )
-	{
-		_cachedHeight = [[NSMutableDictionary alloc] init];
-	}
-	return self;
-}
-
-- (void)dealloc
-{
-	_cachedHeight = nil;
-	_cachedData = nil;
-	
-	self.tableView = nil;
-	self.document = nil;
-}
-
-#pragma mark -
-
-- (id)serialize
-{
-	return _cachedData;
-}
-
-- (void)unserialize:(id)obj
-{
-	[_cachedHeight removeAllObjects];
-
-	_cachedData = obj;
-}
-
-- (void)zerolize
-{
-	[_cachedHeight removeAllObjects];
-
-	_cachedData = nil;
-}
-
-#pragma mark -
-
-- (void)clearCache
-{
-//	_cachedData = nil;
-	
-	[_cachedHeight removeAllObjects];
-}
-
-#pragma mark -
 
 - (NSUInteger)getRowCount
 {
-	if ( nil == self.document || nil == self.document.domTree || nil == self.document.renderTree )
-	{
-		return 0;
-	}
-	
-	if ( nil == _cachedData )
-	{
-		return 0;
-	}
-
-	if ( [_cachedData isKindOfClass:[NSArray class]] || [_cachedData conformsToProtocol:@protocol(NSArrayProtocol)] )
-	{
-		return [(NSArray *)_cachedData count];
-	}
-	else
-	{
-		return 0; // 1;
-	}
-}
-
-- (NSObject *)getDataForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	ASSERT( indexPath );
-
-	if ( _cachedData )
-	{
-		if ( [_cachedData isKindOfClass:[NSArray class]] || [_cachedData conformsToProtocol:@protocol(NSArrayProtocol)] )
-		{
-			if ( indexPath.row >= [(NSArray *)_cachedData count] )
-			{
-				return nil;
-			}
-			else
-			{
-				return [(NSArray *)_cachedData objectAtIndex:indexPath.row];
-			}
-		}
-		else
-		{
-			return _cachedData;
-		}
-	}
-	
-	return nil;
+	return 0;
 }
 
 - (CGFloat)getHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if ( CGRectEqualToRect( self.tableView.frame, CGRectZero ) )
-	{
-		return 0.0f;
-	}
-	
-	ASSERT( indexPath );
+	return 0.0f;
+}
 
-	NSString * cachedKey = [NSString stringWithFormat:@"%ld-%ld", (long)indexPath.section, (long)indexPath.row];
-	NSNumber * cachedHeight = [_cachedHeight objectForKey:cachedKey];
-	
-	if ( cachedHeight )
-	{
-		return cachedHeight.floatValue;
-	}
-
-	UITableViewCell * reuseCell = (UITableViewCell *)self.document.renderTree.view;
-	
-	if ( nil == reuseCell )
-	{
-		reuseCell = (UITableViewCell *)[self.document.renderTree createViewWithIdentifier:nil];
-		
-		[reuseCell.renderer bindOutletsTo:reuseCell];
-	}
-	
-	if ( nil == reuseCell )
-	{
-		reuseCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-		
-		[reuseCell.renderer bindOutletsTo:reuseCell];
-	}
-	
-	NSObject * reuseData = [self getDataForRowAtIndexPath:indexPath];
-	
-	if ( reuseData )
-	{
-		[reuseCell unserialize:reuseData];
-	}
-//	else
-//	{
-//		[reuseCell zerolize];
-//	}
-
-	CGFloat cellHeight = [reuseCell.renderer computeHeight:self.tableView.frame.size.width];
-	
-// use default height
-	
-	if ( INVALID_VALUE == cellHeight )
-	{
-		cellHeight = self.tableView.rowHeight;
-	}
-
-	[_cachedHeight setObject:@(cellHeight) forKey:cachedKey];
-
-	return cellHeight;
+- (NSObject *)getDataForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return nil;
 }
 
 - (UITableViewCell *)getCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	ASSERT( indexPath );
+	ASSERT( 0 );
 
-	NSString *			reuseIdentifier = [NSString stringWithFormat:@"%@-%@", self.document.domTree.domTag, self.document.renderTree.id];
-	UITableViewCell *	reuseCell = [self.tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-
-	if ( nil == reuseCell )
-	{
-		PERF( @"UITableView '%p', creating cell '%@' for row #%d", self, reuseIdentifier, indexPath.row );
-		
-		SamuraiRenderObject * reuseRenderer = [self.document.renderTree clone];
-
-		reuseCell = (UITableViewCell *)[reuseRenderer createViewWithIdentifier:reuseIdentifier];
-
-		if ( nil == reuseCell )
-		{
-			reuseCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
-		}
-
-		[reuseRenderer bindOutletsTo:reuseCell];
-
-		[self.tableView.renderer appendNode:reuseRenderer];
-	}
-	else
-	{
-		PERF( @"UITableView '%p', reusing cell '%@' for row #%d", self, reuseIdentifier, indexPath.row );
-	}
-
-	NSObject * resueData = [self getDataForRowAtIndexPath:indexPath];
-	
-	if ( resueData )
-	{
-		[reuseCell unserialize:resueData];
-	}
-//	else
-//	{
-//		[reuseCell zerolize];
-//	}
-
-	[reuseCell.renderer rechain];
-
-	return reuseCell;
+	return nil;
 }
 
 @end
@@ -268,188 +80,37 @@
 	if ( self )
 	{
 		self.sections = [[NSMutableArray alloc] init];
-		
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(UIApplicationWillChangeStatusBarOrientationNotification:)
-													 name:UIApplicationWillChangeStatusBarOrientationNotification
-												   object:nil];
 	}
 	return self;
 }
 
 - (void)dealloc
 {
-	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
 	[self.sections removeAllObjects];
 	self.sections = nil;
 }
 
 #pragma mark -
 
-- (void)UIApplicationWillChangeStatusBarOrientationNotification:(NSNotification *)notification
+- (void)appendSection:(SamuraiUITableViewSection *)section
 {
-	for ( SamuraiUITableViewSection * section in self.sections )
-	{
-		[section clearCache];
-	}
-	
-	[self.tableView reloadData];
-}
-
-#pragma mark -
-
-- (void)constructSections:(SamuraiRenderObject *)renderObject
-{
-	[self.sections removeAllObjects];
-
-	NSUInteger index = 0;
-
-	SamuraiDocument * parentDoc = renderObject.dom.document;
-	if ( parentDoc )
-	{
-		for ( SamuraiDomNode * childDom in renderObject.dom.childs )
-		{
-			if ( DomNodeType_Document == childDom.type || DomNodeType_Element == childDom.type )
-			{
-				SamuraiDocument * childDoc = [parentDoc childDocument:childDom];
-				if ( nil == childDoc )
-					continue;
-
-				BOOL succeed = [childDoc parse];
-				if ( succeed )
-				{
-					succeed = [childDoc reflow];
-					if ( succeed )
-					{
-						SamuraiUITableViewSection * section = [[SamuraiUITableViewSection alloc] init];
-						
-						section.index = index++;
-						section.document = childDoc;
-						section.tableView = self.tableView;
-						
-						[self.sections addObject:section];
-					}
-				}
-			}
-		}
-	}
-}
-
-#pragma mark -
-
-- (SamuraiUITableViewSection *)getSection:(NSUInteger)index
-{
-	return [self.sections safeObjectAtIndex:(index % [self.sections count])];
-}
-
-#pragma mark -
-
-- (id)serialize
-{
-	if ( nil == self.sections || 0 == [self.sections count] )
-		return nil;
-	
-//	if ( 1 == [self.sections count] )
-//	{
-//		return [[self.sections firstObject] serialize];
-//	}
-//	else
-	{
-		NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-		
-		for ( SamuraiUITableViewSection * section in self.sections )
-		{
-			NSString * sectionKey = nil;
-			NSString * sectionData = nil;
-			
-			if ( section.document.domTree.domName )
-			{
-				sectionKey = section.document.domTree.domName;
-			}
-			else
-			{
-				sectionKey = [NSString stringWithFormat:@"%lu", (unsigned long)section.index];
-			}
-			
-			sectionData = [section serialize];
-			
-			if ( sectionKey && sectionData )
-			{
-				[dict setObject:sectionData forKey:sectionKey];
-			}
-		}
-		
-		return dict;
-	}
-}
-
-- (void)unserialize:(id)obj
-{
-	if ( nil == self.sections || 0 == [self.sections count] )
+	if ( nil == section )
 		return;
 	
-//	if ( 1 == [self.sections count] )
-//	{
-//		[[self.sections firstObject] unserialize:obj];
-//	}
-//	else
-	{
-		for ( SamuraiUITableViewSection * section in self.sections )
-		{
-			NSString * sectionKey = nil;
-			NSString * sectionData = nil;
-			
-			if ( section.document.domTree.domName )
-			{
-				sectionKey = section.document.domTree.domName;
-			}
-			else
-			{
-				sectionKey = [NSString stringWithFormat:@"%lu", (unsigned long)section.index];
-			}
-			
-			if ( [obj isKindOfClass:[NSDictionary class]] || [obj conformsToProtocol:@protocol(NSDictionaryProtocol)] )
-			{
-				sectionData = [(NSDictionary *)obj objectForKey:sectionKey];
-			}
-			else
-			{
-				sectionData = [obj valueForKey:sectionKey];
-			}
-			
-			if ( sectionData && NO == [sectionData isKindOfClass:[NSNull class]] )
-			{
-				[section unserialize:sectionData];
-			}
-			else
-			{
-				[section zerolize];
-			}
-		}
-	}
+	[self.sections addObject:section];
 }
 
-- (void)zerolize
+- (void)insertSection:(SamuraiUITableViewSection *)section atIndex:(NSUInteger)index
 {
-	for ( SamuraiUITableViewSection * section in self.sections )
-	{
-		[section zerolize];
-	}
-}
-
-#pragma mark -
-
-- (void)deselectCurrentRow
-{
-	NSIndexPath * indexPath = [self.tableView indexPathForSelectedRow];
+	if ( nil == section )
+		return;
 	
-	if ( indexPath )
-	{
-		[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-	}
+	[self.sections insertObject:section atIndex:index];
+}
+
+- (void)removeAllSections
+{
+	[self.sections removeAllObjects];
 }
 
 #pragma mark -
@@ -492,7 +153,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	SamuraiUITableViewSection * tableSection = [self getSection:indexPath.section];
+	SamuraiUITableViewSection * tableSection = [self.sections safeObjectAtIndex:(indexPath.section % self.sections.count)];
 	
 	if ( nil == tableSection )
 	{
@@ -567,122 +228,40 @@
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(6_0)
 {
-	UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-	
-	if ( cell )
-	{
-		if ( NO == cell.highlighted )
-		{
-			[cell cellWillUnhighlight];
-		}
-	}
-
-	return YES;
+	return NO;
 }
 
 - (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(6_0)
 {
-	UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-	
-	if ( cell )
-	{
-		if ( cell.highlighted )
-		{
-			[cell cellDidHighlight];
-		}
-	}
+
 }
 
 - (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(6_0)
 {
-	UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-	
-	if ( cell )
-	{
-		if ( cell.highlighted )
-		{
-			[cell cellWillUnhighlight];
-			[cell cellDidUnhighlight];
-		}
-	}
+
 }
 
 // Called before the user changes the selection. Return a new indexPath, or nil, to change the proposed selection.
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	[tableView sendSignal:UITableView.eventWillSelectRow withObject:indexPath];
-
-	UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-	
-	if ( cell )
-	{
-		if ( NO == cell.selected )
-		{
-			[cell cellWillSelect];
-		}
-	}
-	
-	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(deselectCurrentRow) object:nil];
-	
-	return indexPath;
+	return nil;
 }
 
 // Called after the user changes the selection.
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	[tableView sendSignal:UITableView.eventDidSelectRow withObject:indexPath];
-
-	UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-
-	if ( cell )
-	{
-		if ( cell.selected )
-		{
-			[cell cellDidSelect];
-		}
-	}
-	
-	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(deselectCurrentRow) object:nil];
-	
-	[self performSelector:@selector(deselectCurrentRow) withObject:nil afterDelay:1.0f];
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(3_0)
 {
-	[tableView sendSignal:UITableView.eventWillDeselectRow withObject:indexPath];
-	
-	UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-	
-	if ( cell )
-	{
-		if ( cell.selected )
-		{
-			[cell cellWillDeselect];
-		}
-	}
-	
-	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(deselectCurrentRow) object:nil];
-	
-	return indexPath;
+	return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(3_0)
 {
-	[tableView sendSignal:UITableView.eventDidDeselectRow withObject:indexPath];
-	
-	UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-	
-	if ( cell )
-	{
-		if ( NO == cell.selected )
-		{
-			[cell cellDidDeselect];
-		}
-	}
-	
-	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(deselectCurrentRow) object:nil];
+
 }
 
 // Editing
@@ -784,7 +363,7 @@
 {
 	// Default is 1 if not implemented
 
-	SamuraiUITableViewSection * tableSection = [self getSection:section];
+	SamuraiUITableViewSection * tableSection = [self.sections safeObjectAtIndex:(section % self.sections.count)];
 	
 	if ( nil == tableSection )
 	{
@@ -801,7 +380,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	SamuraiUITableViewSection * tableSection = [self getSection:indexPath.section];
+	SamuraiUITableViewSection * tableSection = [self.sections safeObjectAtIndex:(indexPath.section % self.sections.count)];
 
 	if ( nil == tableSection )
 	{
@@ -885,8 +464,6 @@
 
 	tableView.renderer = renderer;
 
-	[[tableView tableViewAgent] constructSections:renderer];
-
 	return tableView;
 }
 
@@ -937,30 +514,41 @@
 
 - (id)serialize
 {
-	return [[self tableViewAgent] serialize];
+	return nil;
 }
 
 - (void)unserialize:(id)obj
 {
-	[[self tableViewAgent] unserialize:obj];
-
-	[self reloadData];
 }
 
 - (void)zerolize
 {
-	[[self tableViewAgent] zerolize];
-	
-	[self reloadData];
 }
 
 #pragma mark -
 
-- (void)applyFrame:(CGRect)frame
+- (void)applyDom:(SamuraiDomNode *)dom
+{
+	[super applyDom:dom];
+}
+
+- (void)applyStyle:(SamuraiRenderStyle *)style
+{
+	[super applyStyle:style];
+}
+
+- (void)applyFrame:(CGRect)newFrame
 {
 //	[super applyFrame:frame];
 
-	[self setFrame:frame];
+	// TODO: if animation
+	
+	newFrame.origin.x = isnan( newFrame.origin.x ) ? 0.0f : newFrame.origin.x;
+	newFrame.origin.y = isnan( newFrame.origin.y ) ? 0.0f : newFrame.origin.y;
+	newFrame.size.width = isnan( newFrame.size.width ) ? 0.0f : newFrame.size.width;
+	newFrame.size.height = isnan( newFrame.size.height ) ? 0.0f : newFrame.size.height;
+
+	[self setFrame:newFrame];
 }
 
 #pragma mark -

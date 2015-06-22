@@ -7,7 +7,9 @@
 //
 
 #import "AppDelegate.h"
+
 #import "Samurai.h"
+#import "Samurai_WebCore.h"
 
 @interface AppDelegate ()
 

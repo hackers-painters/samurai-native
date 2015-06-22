@@ -40,6 +40,23 @@
 
 #pragma mark -
 
+@implementation UIViewController(Samurai)
+
+- (id)serialize
+{
+	return nil;
+}
+
+- (void)unserialize:(id)obj
+{
+}
+
+- (void)zerolize
+{
+}
+
+@end
+
 // ----------------------------------
 // Unit test
 // ----------------------------------

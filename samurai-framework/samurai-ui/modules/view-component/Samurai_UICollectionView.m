@@ -43,137 +43,6 @@
 
 @implementation SamuraiUICollectionViewSection
 
-@def_prop_assign( NSUInteger,				minCount );
-@def_prop_assign( NSUInteger,				maxCount );
-
-@def_prop_strong( NSObject *,				cachedData );
-@def_prop_strong( NSMutableDictionary *,	cachedHeight );
-
-@def_prop_assign( NSUInteger,				index );
-@def_prop_strong( SamuraiDocument *,		document );
-@def_prop_unsafe( UICollectionView *,		collectionView );
-@def_prop_strong( NSString *,				reuseIdentifier );
-
-#pragma mark -
-
-- (id)init
-{
-	self = [super init];
-	if ( self )
-	{
-		self.minCount = 0;
-		self.maxCount = 0;
-		self.cachedHeight = [[NSMutableDictionary alloc] init];
-	}
-	return self;
-}
-
-- (void)dealloc
-{
-	self.cachedData = nil;
-	self.cachedHeight = nil;
-
-	self.document = nil;
-	self.collectionView = nil;
-	self.reuseIdentifier = nil;
-}
-
-#pragma mark -
-
-- (id)serialize
-{
-	return _cachedData;
-}
-
-- (void)unserialize:(id)obj
-{
-	[_cachedHeight removeAllObjects];
-
-	_cachedData = obj;
-}
-
-- (void)zerolize
-{
-	[_cachedHeight removeAllObjects];
-	
-	_cachedData = nil;
-}
-
-#pragma mark -
-
-- (void)clearCache
-{
-//	_cachedData = nil;
-	
-	[_cachedHeight removeAllObjects];
-}
-
-#pragma mark -
-
-- (CGSize)getSizeForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	return [self getSizeForRowAtIndexPath:indexPath byBounds:CGSizeMake(INVALID_VALUE, INVALID_VALUE)];
-}
-
-- (CGSize)getSizeForRowAtIndexPath:(NSIndexPath *)indexPath byWidth:(CGFloat)width
-{
-	return [self getSizeForRowAtIndexPath:indexPath byBounds:CGSizeMake(width, INVALID_VALUE)];
-}
-
-- (CGSize)getSizeForRowAtIndexPath:(NSIndexPath *)indexPath byHeight:(CGFloat)height
-{
-	return [self getSizeForRowAtIndexPath:indexPath byBounds:CGSizeMake(INVALID_VALUE, height)];
-}
-
-- (CGSize)getSizeForRowAtIndexPath:(NSIndexPath *)indexPath byBounds:(CGSize)bounds
-{
-	if ( CGRectEqualToRect( self.collectionView.frame, CGRectZero ) )
-	{
-		return CGSizeZero;
-	}
-	
-	NSString *	cachedKey = [NSString stringWithFormat:@"%ld-%ld", (long)indexPath.section, (long)indexPath.row];
-	NSValue *	cachedSize = [_cachedHeight objectForKey:cachedKey];
-
-	if ( cachedSize )
-	{
-		return [cachedSize CGSizeValue];
-	}
-
-	UICollectionViewCell * reuseCell = (UICollectionViewCell *)self.document.renderTree.view;
-	
-	if ( nil == reuseCell )
-	{
-		reuseCell = (UICollectionViewCell *)[self.document.renderTree createViewWithIdentifier:nil];
-		
-		[reuseCell.renderer bindOutletsTo:reuseCell];
-	}
-	
-	if ( nil == reuseCell )
-	{
-		reuseCell = [[UICollectionViewCell alloc] initWithFrame:CGRectZero];
-		
-		[reuseCell.renderer bindOutletsTo:reuseCell];
-	}
-	
-	NSObject * reuseData = [self getDataForRowAtIndexPath:indexPath];
-	
-	if ( reuseData )
-	{
-		[reuseCell unserialize:reuseData];
-	}
-//	else
-//	{
-//		[reuseCell zerolize];
-//	}
-
-	CGSize cellSize = [reuseCell.renderer computeSize:bounds];
-
-	[_cachedHeight setObject:[NSValue valueWithCGSize:cellSize] forKey:cachedKey];
-
-	return cellSize;
-}
-
 - (CGFloat)getWidthForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	return [self getSizeForRowAtIndexPath:indexPath byBounds:CGSizeMake(INVALID_VALUE, INVALID_VALUE)].width;
@@ -194,102 +63,39 @@
 	return [self getSizeForRowAtIndexPath:indexPath byBounds:CGSizeMake(width, INVALID_VALUE)].height;
 }
 
+- (CGSize)getSizeForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return [self getSizeForRowAtIndexPath:indexPath byBounds:CGSizeMake(INVALID_VALUE, INVALID_VALUE)];
+}
+
+- (CGSize)getSizeForRowAtIndexPath:(NSIndexPath *)indexPath byWidth:(CGFloat)width
+{
+	return [self getSizeForRowAtIndexPath:indexPath byBounds:CGSizeMake(width, INVALID_VALUE)];
+}
+
+- (CGSize)getSizeForRowAtIndexPath:(NSIndexPath *)indexPath byHeight:(CGFloat)height
+{
+	return [self getSizeForRowAtIndexPath:indexPath byBounds:CGSizeMake(INVALID_VALUE, height)];
+}
+
+- (CGSize)getSizeForRowAtIndexPath:(NSIndexPath *)indexPath byBounds:(CGSize)bounds
+{
+	return CGSizeZero;
+}
+
 - (NSUInteger)getRowCount
 {
-	if ( nil == self.document || nil == self.document.domTree || nil == self.document.renderTree )
-	{
-		return 0;
-	}
-	
-	NSUInteger count = 0;
-	
-	if ( [_cachedData isKindOfClass:[NSArray class]] || [_cachedData conformsToProtocol:@protocol(NSArrayProtocol)] )
-	{
-		count = [(NSArray *)_cachedData count];
-	}
-	
-	if ( self.maxCount )
-	{
-		count = MIN( count, self.maxCount );
-	}
-	
-	if ( self.minCount )
-	{
-		count = MAX( count, self.minCount );
-	}
-	
-	return count;
+	return 0;
 }
 
 - (NSObject *)getDataForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	ASSERT( indexPath );
-	
-	if ( _cachedData )
-	{
-		if ( [_cachedData isKindOfClass:[NSArray class]] || [_cachedData conformsToProtocol:@protocol(NSArrayProtocol)] )
-		{
-			if ( indexPath.row >= [(NSArray *)_cachedData count] )
-			{
-				return nil;
-			}
-			else
-			{
-				NSInteger row = indexPath.row;
-				
-				return [(NSArray *)_cachedData objectAtIndex:row];
-			}
-		}
-		else
-		{
-			return _cachedData;
-		}
-	}
-	
 	return nil;
 }
 
 - (UICollectionViewCell *)getCellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	ASSERT( indexPath );
-
-	SamuraiRenderObject *	reuseRenderer = nil;
-	NSObject *				reuseData = nil;
-	UICollectionViewCell *	reuseCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:self.reuseIdentifier forIndexPath:indexPath];
-
-	if ( reuseCell )
-	{
-		PERF( @"UICollectionView '%p', reusing cell '%@' for row #%d", self, self.reuseIdentifier, indexPath.row );
-
-		reuseRenderer = reuseCell.renderer;
-
-		if ( nil == reuseRenderer )
-		{
-			reuseRenderer = [self.document.renderTree clone];
-			
-			[reuseRenderer bindView:reuseCell];
-			[reuseRenderer bindOutletsTo:reuseCell];
-
-		//	[reuseRenderer restyle];
-
-			[self.collectionView.renderer appendNode:reuseRenderer];
-		}
-		
-		reuseData = [self getDataForRowAtIndexPath:indexPath];
-
-		if ( reuseData )
-		{
-			[reuseCell unserialize:reuseData];
-		}
-//		else
-//		{
-//			[reuseCell zerolize];
-//		}
-
-		[reuseRenderer rechain];
-	}
-	
-	return reuseCell;
+	return nil;
 }
 
 @end
@@ -307,287 +113,70 @@
 	if ( self )
 	{
 		self.sections = [[NSMutableArray alloc] init];
-		
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(UIApplicationWillChangeStatusBarOrientationNotification:)
-													 name:UIApplicationWillChangeStatusBarOrientationNotification
-												   object:nil];
 	}
 	return self;
 }
 
 - (void)dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
 	[self.sections removeAllObjects];
 	self.sections = nil;
 }
 
 #pragma mark -
 
-- (void)UIApplicationWillChangeStatusBarOrientationNotification:(NSNotification *)notification
+- (void)appendSection:(SamuraiUICollectionViewSection *)section
 {
-	for ( SamuraiUICollectionViewSection * section in self.sections )
-	{
-		[section clearCache];
-	}
+	if ( nil == section )
+		return;
 	
-	[self.collectionView reloadData];
+	[self.sections addObject:section];
 }
 
-#pragma mark -
+- (void)insertSection:(SamuraiUICollectionViewSection *)section atIndex:(NSUInteger)index
+{
+	if ( nil == section )
+		return;
+	
+	[self.sections insertObject:section atIndex:index];
+}
 
-- (void)constructSections:(SamuraiRenderObject *)renderObject
+- (void)removeAllSections
 {
 	[self.sections removeAllObjects];
-	
-	NSUInteger index = 0;
-	
-	SamuraiDocument * parentDoc = renderObject.dom.document;
-	if ( parentDoc )
-	{
-		for ( SamuraiDomNode * childDom in renderObject.dom.childs )
-		{
-			if ( DomNodeType_Document == childDom.type || DomNodeType_Element == childDom.type )
-			{
-				SamuraiDocument * childDoc = [parentDoc childDocument:childDom];
-				if ( nil == childDoc )
-					continue;
-				
-				BOOL succeed = [childDoc parse];
-				if ( succeed )
-				{
-					succeed = [childDoc reflow];
-					if ( succeed )
-					{
-						if ( [UICollectionViewCell class] == childDoc.renderTree.viewClass || [childDoc.renderTree.viewClass isSubclassOfClass:[UICollectionViewCell class]] )
-						{
-							SamuraiUICollectionViewSection * section = [[SamuraiUICollectionViewSection alloc] init];
-							
-							section.index = index++;
-							section.document = childDoc;
-							section.collectionView = self.collectionView;
-							section.reuseIdentifier = [NSString stringWithFormat:@"%@-%@", childDoc.domTree.domTag, childDoc.renderTree.id];
-							
-							[self.sections addObject:section];
-						}
-					}
-				}
-			}
-		}
-	}
-
-	for ( SamuraiUICollectionViewSection * section in self.sections )
-	{
-		if ( section.document.renderTree.viewClass )
-		{
-			[self.collectionView registerClass:section.document.renderTree.viewClass forCellWithReuseIdentifier:section.reuseIdentifier];
-//			[self.collectionView registerClass:section.document.renderTree.viewClass forSupplementaryViewOfKind: withReuseIdentifier:section.reuseIdentifier];
-		}
-	}
-}
-
-#pragma mark -
-
-- (SamuraiUICollectionViewSection *)getSection:(NSUInteger)index
-{
-	return [self.sections safeObjectAtIndex:(index % [self.sections count])];
-}
-
-#pragma mark -
-
-- (id)serialize
-{
-	if ( nil == self.sections || 0 == [self.sections count] )
-		return nil;
-
-//	if ( 1 == [self.sections count] )
-//	{
-//		return [[self.sections firstObject] serialize];
-//	}
-//	else
-	{
-		NSMutableDictionary * dict = [NSMutableDictionary dictionary];
-
-		for ( SamuraiUICollectionViewSection * section in self.sections )
-		{
-			NSString * sectionKey = nil;
-			NSString * sectionData = nil;
-			
-			if ( section.document.domTree.domName )
-			{
-				sectionKey = section.document.domTree.domName;
-			}
-			else
-			{
-				sectionKey = [NSString stringWithFormat:@"%lu", (unsigned long)section.index];
-			}
-			
-			sectionData = [section serialize];
-			
-			if ( sectionKey && sectionData )
-			{
-				[dict setObject:sectionData forKey:sectionKey];
-			}
-		}
-
-		return dict;
-	}
-}
-
-- (void)unserialize:(id)obj
-{
-	if ( nil == self.sections || 0 == [self.sections count] )
-		return;
-
-//	if ( 1 == [self.sections count] )
-//	{
-//		[[self.sections firstObject] unserialize:obj];
-//	}
-//	else
-	{
-		for ( SamuraiUICollectionViewSection * section in self.sections )
-		{
-			NSString * sectionKey = nil;
-			NSString * sectionData = nil;
-			
-			if ( section.document.domTree.domName )
-			{
-				sectionKey = section.document.domTree.domName;
-			}
-			else
-			{
-				sectionKey = [NSString stringWithFormat:@"%lu", (unsigned long)section.index];
-			}
-			
-			if ( [obj isKindOfClass:[NSDictionary class]] || [obj conformsToProtocol:@protocol(NSDictionaryProtocol)] )
-			{
-				sectionData = [(NSDictionary *)obj objectForKey:sectionKey];
-			}
-			else
-			{
-				sectionData = [obj valueForKey:sectionKey];
-			}
-			
-			if ( sectionData && NO == [sectionData isKindOfClass:[NSNull class]] )
-			{
-				[section unserialize:sectionData];
-			}
-			else
-			{
-				[section zerolize];
-			}
-		}
-	}
-}
-
-- (void)zerolize
-{
-	for ( SamuraiUICollectionViewSection * section in self.sections )
-	{
-		[section zerolize];
-	}
 }
 
 #pragma mark - UICollectionViewDelegate
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	UICollectionViewCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
-	
-	if ( cell )
-	{
-		if ( NO == cell.highlighted )
-		{
-			[cell cellWillHighlight];
-		}
-	}
-	
-	return YES;
+	return NO;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	UICollectionViewCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
-	
-	if ( cell )
-	{
-		if ( cell.highlighted )
-		{
-			[cell cellDidHighlight];
-		}
-	}
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	UICollectionViewCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
-	
-	if ( cell )
-	{
-		if ( cell.highlighted )
-		{
-			[cell cellWillUnhighlight];
-			[cell cellDidUnhighlight];
-		}
-	}
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	UICollectionViewCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
-	
-	if ( cell )
-	{
-		if ( NO == cell.selected )
-		{
-			[cell cellWillSelect];
-		}
-	}
-	
-	return YES;
+	return NO;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	UICollectionViewCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
-	
-	if ( cell )
-	{
-		if ( cell.selected )
-		{
-			[cell cellDidSelect];
-		}
-	}
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath // called when the user taps on an already-selected item in multi-select mode
 {
-	UICollectionViewCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
-	
-	if ( cell )
-	{
-		if ( cell.selected )
-		{
-			[cell cellWillDeselect];
-		}
-	}
-
-	return YES;
+	return NO;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	UICollectionViewCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
-	
-	if ( cell )
-	{
-		if ( NO == cell.selected )
-		{
-			[cell cellDidDeselect];
-		}
-	}
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(8_0)
@@ -638,7 +227,7 @@
 {
 	// Default is 1 if not implemented
 
-	SamuraiUICollectionViewSection * collectionSection = [self getSection:section];
+	SamuraiUICollectionViewSection * collectionSection = [self.sections safeObjectAtIndex:(section % [self.sections count])];
 	
 	if ( nil == collectionSection )
 	{
@@ -653,7 +242,7 @@
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	SamuraiUICollectionViewSection * collectionSection = [self getSection:indexPath.section];
+	SamuraiUICollectionViewSection * collectionSection = [self.sections safeObjectAtIndex:(indexPath.section % [self.sections count])];
 	
 	if ( nil == collectionSection )
 	{
@@ -693,8 +282,6 @@
 	collectionView.allowsMultipleSelection = NO;
 	
 	collectionView.renderer = renderer;
-	
-	[[collectionView collectionViewAgent] constructSections:renderer];
 
 	return collectionView;
 }
@@ -746,28 +333,41 @@
 
 - (id)serialize
 {
-	return [[self collectionViewAgent] serialize];
+	return nil;
 }
 
 - (void)unserialize:(id)obj
 {
-	[[self collectionViewAgent] unserialize:obj];
-
-	[self reloadData];
 }
 
 - (void)zerolize
 {
-	[[self collectionViewAgent] zerolize];
-	
-	[self reloadData];
 }
 
 #pragma mark -
 
-- (void)applyFrame:(CGRect)frame
+- (void)applyDom:(SamuraiDomNode *)dom
 {
-	[super applyFrame:frame];
+	[super applyDom:dom];
+}
+
+- (void)applyStyle:(SamuraiRenderStyle *)style
+{
+	[super applyStyle:style];
+}
+
+- (void)applyFrame:(CGRect)newFrame
+{
+//	[super applyFrame:frame];
+	
+	// TODO: if animation
+	
+	newFrame.origin.x = isnan( newFrame.origin.x ) ? 0.0f : newFrame.origin.x;
+	newFrame.origin.y = isnan( newFrame.origin.y ) ? 0.0f : newFrame.origin.y;
+	newFrame.size.width = isnan( newFrame.size.width ) ? 0.0f : newFrame.size.width;
+	newFrame.size.height = isnan( newFrame.size.height ) ? 0.0f : newFrame.size.height;
+
+	[self setFrame:newFrame];
 }
 
 #pragma mark -

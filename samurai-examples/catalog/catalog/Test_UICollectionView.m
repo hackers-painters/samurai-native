@@ -38,7 +38,7 @@
 
 - (void)onTemplateLoaded
 {
-	self[@"sections"] = @{
+	self.viewStorage[@"sections"] = @{
 	
 		@"section2" : @[ @"1", @"2", @"3", @"4", @"5", @"6" ],
 		@"section4" : @[ @"1", @"2", @"3", @"4", @"5", @"6" ],

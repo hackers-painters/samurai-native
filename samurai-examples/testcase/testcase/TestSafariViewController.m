@@ -8,6 +8,9 @@
 
 #import "TestSafariViewController.h"
 
+#import "Samurai.h"
+#import "Samurai_WebCore.h"
+
 @implementation TestSafariViewController
 {
 	UIWebView * _webView;

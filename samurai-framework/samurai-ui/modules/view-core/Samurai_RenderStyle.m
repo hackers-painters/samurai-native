@@ -127,12 +127,12 @@ BASE_CLASS( SamuraiRenderStyle )
 
 #pragma mark -
 
-- (void)clear
+- (void)clearProperties
 {
 	[self removeAllObjects];
 }
 
-- (void)merge:(NSDictionary *)properties
+- (void)mergeProperties:(NSDictionary *)properties
 {
 	for ( NSString * key in [properties.allKeys copy] )
 	{

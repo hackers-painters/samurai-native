@@ -45,20 +45,8 @@
 - (void)dataWillChange;			// override point
 - (void)dataDidChanged;			// override point
 
-- (void)cellWillHighlight;		// override point
-- (void)cellDidHighlight;		// override point
-
-- (void)cellWillUnhighlight;	// override point
-- (void)cellDidUnhighlight;		// override point
-
 - (void)cellWillDisplay;		// override point
 - (void)cellDidDisplay;			// override point
-
-- (void)cellWillSelect;			// override point
-- (void)cellDidSelect;			// override point
-
-- (void)cellWillDeselect;		// override point
-- (void)cellDidDeselect;		// override point
 
 @end
 

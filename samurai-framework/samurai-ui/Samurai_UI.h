@@ -34,22 +34,13 @@
 
 // Extension
 
-#import "Samurai_HtmlSupport.h"
-#import "Samurai_XmlSupport.h"
-
 #import "Signal+View.h"
 #import "Signal+ViewController.h"
-
-#import "View+Binding.h"
-#import "View+Query.h"
-#import "View+Signal.h"
-#import "View+Template.h"
-
-#import "ViewController+Binding.h"
-#import "ViewController+NavigationBar.h"
-#import "ViewController+Query.h"
-#import "ViewController+Signal.h"
-#import "ViewController+Template.h"
+#import "UIView+SignalHandling.h"
+#import "UIView+TemplateLoading.h"
+#import "UIViewController+NavigationBar.h"
+#import "UIViewController+SignalHandling.h"
+#import "UIViewController+TemplateLoading.h"
 
 // Modules
 

@@ -162,6 +162,16 @@
 
 #pragma mark -
 
+- (void)applyDom:(SamuraiDomNode *)dom
+{
+	[super applyDom:dom];
+}
+
+- (void)applyStyle:(SamuraiRenderStyle *)style
+{
+	[super applyStyle:style];
+}
+
 - (void)applyFrame:(CGRect)frame
 {
 	[super applyFrame:frame];

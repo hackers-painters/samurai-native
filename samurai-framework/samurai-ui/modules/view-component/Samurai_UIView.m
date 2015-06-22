@@ -120,7 +120,6 @@
 	
 	newFrame.origin.x = isnan( newFrame.origin.x ) ? 0.0f : newFrame.origin.x;
 	newFrame.origin.y = isnan( newFrame.origin.y ) ? 0.0f : newFrame.origin.y;
-
 	newFrame.size.width = isnan( newFrame.size.width ) ? 0.0f : newFrame.size.width;
 	newFrame.size.height = isnan( newFrame.size.height ) ? 0.0f : newFrame.size.height;
 	
@@ -169,6 +168,21 @@
 		[invocation setSelector:selector];
 		[invocation invoke];
 	}
+}
+
+#pragma mark -
+
+- (id)serialize
+{
+	return nil;
+}
+
+- (void)unserialize:(id)obj
+{
+}
+
+- (void)zerolize
+{
 }
 
 @end

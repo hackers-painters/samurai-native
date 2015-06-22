@@ -45,8 +45,8 @@
 + (instancetype)renderStyle;
 + (instancetype)renderStyle:(NSDictionary *)props;
 
-- (void)clear;
-- (void)merge:(NSDictionary *)properties;
+- (void)clearProperties;
+- (void)mergeProperties:(NSDictionary *)properties;
 
 @end
 

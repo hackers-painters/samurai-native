@@ -27,7 +27,7 @@
 
 		<div name="tabbar" class="tab-bar">
 			<div class="tab-col">
-				<div id="tab1" name="popular" class="tab" onclick="@selector(switchTab1:)" debug-layout>Popular</div>
+				<div id="tab1" name="popular" class="tab" onclick="@selector(switchTab1:)">Popular</div>
 			</div>
 			<div class="tab-col">
 				<div id="tab2" name="debuts" class="tab" onclick="@selector(switchTab2:)">Debuts</div>
@@ -57,13 +57,13 @@
 			body {
 				width: 100%;
 				height: 100%;
+				background-color: #e5508c;
 			}
 
 			.tab-bar {
 				display: block;
 				width: 100%;
 				height: 34px;
-				background-color: #e5508c;
 				/* box-shadow: 0px 0.5px 0.5px black; */
 				z-index: 2;
 			}
@@ -89,10 +89,8 @@
 			.active {
 				color: #fff;
 				font-size: 14px;
-			/*	font-weight: bold; */
-				background-color: #e5508c;
-				border-bottom-color: white;
-				border-bottom-width: 2px;
+				font-weight: bold;
+				border-bottom: 2px solid white;
 			}
 
 			.list {
@@ -100,8 +98,8 @@
 				width: 100%;
 				height: 100%;
 				inset-bottom: 34px;
-				z-index: 1;
-				background-color: #e5508c;
+				inset-left: 2px;
+				inset-right: 2px;
 			}
 
 			.list-item {
@@ -116,7 +114,6 @@
 				inset: 2px;
 				background-color: #eee;
 				border-radius: 2px;
-				border-width: 2px;
 				border-color: white;
 			}
 

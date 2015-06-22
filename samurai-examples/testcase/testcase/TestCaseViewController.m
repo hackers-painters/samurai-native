@@ -9,6 +9,9 @@
 #import "TestCaseViewController.h"
 #import "TestSafariViewController.h"
 
+#import "Samurai.h"
+#import "Samurai_WebCore.h"
+
 @implementation TestCaseViewController
 
 @synthesize testCase;

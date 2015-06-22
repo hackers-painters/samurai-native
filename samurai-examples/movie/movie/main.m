@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+
 #import "Samurai.h"
+#import "Samurai_WebCore.h"
 
 int main(int argc, char * argv[])
 {

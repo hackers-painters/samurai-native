@@ -198,7 +198,7 @@
 
 - (void)reloadData
 {
-	self[@"player"] = @{
+	self.viewStorage[@"player"] = @{
 
 		@"author" : @{
 			@"avatar" : self.player.avatar_url ?: @"", // @"https://d13yacurqjgara.cloudfront.net/users/162360/avatars/normal/logo.png?1402322917",
