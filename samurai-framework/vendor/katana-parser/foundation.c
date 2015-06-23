@@ -13,8 +13,8 @@
 #include <stdbool.h>
 #include <assert.h>
 
-#undef	assert
-#define assert
+//#undef	assert
+//#define assert(x)
 
 struct KatanaInternalParser;
 

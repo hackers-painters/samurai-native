@@ -35,8 +35,8 @@
 
 #include "foundation.h"
 
-#undef	assert
-#define assert
+//#undef	assert
+//#define assert(x)
 
 #define breakpoint
 #define KATANA_PARSER_STRING(literal) { literal, sizeof(literal) - 1 }
@@ -1262,6 +1262,7 @@ bool katana_string_is_function(KatanaParserString* string)
 
 void katana_string_clear(KatanaParser* parser, KatanaParserString* string)
 {
+	printf("==%s==\n", string->data);
     katana_parser_deallocate(parser, (void*) string->data);
     katana_parser_deallocate(parser, (void*) string);
 }
