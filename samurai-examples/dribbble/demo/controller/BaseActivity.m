@@ -52,7 +52,7 @@
 {
 	[self hideLoading];
 
-	[self unloadViewTemplate];
+	[self unloadTemplate];
 	[self unobserveAllNotifications];
 }
 
@@ -148,13 +148,13 @@
 
 - (void)reloadTemplate
 {
-	[self unloadViewTemplate];
+	[self unloadTemplate];
 	
 	NSString * theme = [ThemeConfig sharedInstance].theme;
 	NSString * name = [self templateName];
 	NSString * path = [NSString stringWithFormat:@"/www/html/%@/%@", theme, name];
 	
-	[self loadViewTemplate:path];
+	[self loadTemplate:path];
 }
 
 #pragma mark -

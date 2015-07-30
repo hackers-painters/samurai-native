@@ -189,6 +189,7 @@
 	{
 		self.backgroundColor = [UIColor blackColor];
 		self.windowLevel = UIWindowLevelStatusBar + 1.0f;
+		self.rootViewController = [[UIViewController alloc] init];
 
 		_panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPan:)];
 		[self addGestureRecognizer:_panGesture];

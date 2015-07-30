@@ -144,7 +144,7 @@
 
 - (void)reloadData
 {
-    self.viewStorage[@"photo"] = self.shot.images.normal ?: @"";
+    self.scope[@"photo"] = self.shot.images.normal ?: @"";
 }
 
 @end

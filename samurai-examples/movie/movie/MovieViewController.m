@@ -19,7 +19,7 @@
 
 - (void)dealloc
 {
-    [self unloadViewTemplate];
+    [self unloadTemplate];
 }
 
 - (void)viewDidLoad {
@@ -50,7 +50,7 @@
 		
 	});
 
-    [self loadViewTemplate:@"/www/html/movies-detail.html"];
+    [self loadTemplate:@"/www/html/movies-detail.html"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -95,7 +95,7 @@
 
 - (void)reloadData
 {
-    self.viewStorage[@"list" ] = @{
+    self.scope[@"list" ] = @{
 								  
 		  @"movie": @{
 				  @"cover" : _model.movie.posters.thumbnail ?: @"",

@@ -32,14 +32,14 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
-#import "Samurai_HtmlRenderScope.h"
+#import "Samurai_HtmlRenderStoreScope.h"
 #import "Samurai_HtmlRenderStore.h"
 
 #pragma mark -
 
 @interface UIViewController(DataBinding)
 
-@prop_readonly( SamuraiHtmlRenderScope *,	viewStorage )
+@prop_readonly( SamuraiHtmlRenderStoreScope *,	scope )
 
 - (id)getViewData;
 - (id)getViewDataWithPath:(NSString *)path;

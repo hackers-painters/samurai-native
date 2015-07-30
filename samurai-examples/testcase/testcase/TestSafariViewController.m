@@ -20,7 +20,7 @@
 
 - (void)dealloc
 {
-	[self unloadViewTemplate];
+	[self unloadTemplate];
 	
 	[_webView removeFromSuperview];
 	_webView = nil;
@@ -48,7 +48,7 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	
-	[self loadViewTemplate:@"/www/html/test-safari.html"];
+	[self loadTemplate:@"/www/html/test-safari.html"];
 	
 	[_webView loadHTMLString:self.html baseURL:nil];
 }

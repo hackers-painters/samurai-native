@@ -348,11 +348,13 @@ static __strong id __applicationInstance = nil;
 // no equiv. notification. return NO if the application can't open for some reason
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-	UNUSED( application )
-	UNUSED( annotation )
-	
+    return [self application:application openURL:url options:nil];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary *)options
+{
 	self.sourceUrl = url.absoluteString;
-	self.sourceBundleId = sourceApplication;
+//	self.sourceBundleId = sourceApplication;
 	
 	[self notify:SamuraiApp.Ready];
 	

@@ -15,7 +15,7 @@
 
 - (void)dealloc
 {
-	[self unloadViewTemplate];
+	[self unloadTemplate];
 }
 
 - (void)viewDidLoad {
@@ -23,7 +23,7 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	
-	[self loadViewTemplate:@"/www/html/Test_UITextView.html"];
+	[self loadTemplate:@"/www/html/Test_UITextView.html"];
 }
 
 - (void)viewDidAppear:(BOOL)animated

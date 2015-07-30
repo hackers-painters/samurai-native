@@ -68,7 +68,7 @@
     self.modalPresentationCapturesStatusBarAppearance = NO;
     self.automaticallyAdjustsScrollViewInsets = YES;
     
-    [self loadViewTemplate:@"/www/html/movies-index.html"];
+    [self loadTemplate:@"/www/html/movies-index.html"];
 }
 
 - (void)viewDidLayoutSubviews
@@ -78,7 +78,7 @@
 
 - (void)dealloc
 {
-    [self unloadViewTemplate];
+    [self unloadTemplate];
 }
 
 #pragma mark -
@@ -124,7 +124,7 @@
 
 - (void)reloadData
 {
-	self.viewStorage[@"list" ] = @{
+	self.scope[@"list" ] = @{
 								  
 		  @"movies" : ({
 			  

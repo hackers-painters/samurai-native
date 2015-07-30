@@ -18,7 +18,7 @@
 
 - (void)dealloc
 {
-	[self unloadViewTemplate];
+	[self unloadTemplate];
 }
 
 - (void)setView:(UIView *)newView
@@ -43,7 +43,7 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	
-	[self loadViewTemplate:self.testCase];
+	[self loadTemplate:self.testCase];
 	
 	self.navigationBarTitle = [self.testCase lastPathComponent];
 	self.navigationBarDoneButton = @"Compare";

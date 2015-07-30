@@ -16,7 +16,7 @@
 
 - (void)dealloc
 {
-	[self unloadViewTemplate];
+	[self unloadTemplate];
 }
 
 - (void)viewDidLoad {
@@ -40,7 +40,7 @@
 		@"UITextView"
 	];
 
-	[self loadViewTemplate:@"/www/html/catalog.html"];
+	[self loadTemplate:@"/www/html/catalog.html"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,7 +58,7 @@
 
 - (void)onTemplateLoaded
 {
-	self.viewStorage[@"list"] = @{
+	self.scope[@"list"] = @{
 					  
 		@"items" : ({
 

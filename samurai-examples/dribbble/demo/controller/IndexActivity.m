@@ -205,25 +205,25 @@
 {
 	if ( _currentIndex != newIndex )
 	{
-//		CATransition * animation = [CATransition animation];
-//		if ( animation )
-//		{
-//			[animation setDuration:0.5f];
-//			[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault]];
-//			[animation setType:kCATransitionPush];
-//			[animation setRemovedOnCompletion:YES];
-//			
-//			if ( newIndex < _currentIndex )
-//			{
-//				[animation setSubtype:kCATransitionFromLeft];
-//			}
-//			else
-//			{
-//				[animation setSubtype:kCATransitionFromRight];
-//			}
-//
-//			[self.list.layer addAnimation:animation forKey:@"push"];
-//		}
+		CATransition * animation = [CATransition animation];
+		if ( animation )
+		{
+			[animation setDuration:0.5f];
+			[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault]];
+			[animation setType:kCATransitionPush];
+			[animation setRemovedOnCompletion:YES];
+			
+			if ( newIndex < _currentIndex )
+			{
+				[animation setSubtype:kCATransitionFromLeft];
+			}
+			else
+			{
+				[animation setSubtype:kCATransitionFromRight];
+			}
+
+			[self.list.layer addAnimation:animation forKey:@"push"];
+		}
 		
 		_currentIndex = newIndex;
 	}
@@ -236,33 +236,33 @@
 		
 		_currentModel = self.model1;
 		
-		[self.tab1.styleClasses addObject:@"active"];
+		[self.tab1.htmlRenderer.customClasses addObject:@"active"];
 	}
 	else
 	{
-		[self.tab1.styleClasses removeObject:@"active"];
+		[self.tab1.htmlRenderer.customClasses removeObject:@"active"];
 	}
 	
 	if ( 1 == _currentIndex )
 	{
 		_currentModel = self.model2;
 		
-		[self.tab2.styleClasses addObject:@"active"];
+		[self.tab2.htmlRenderer.customClasses addObject:@"active"];
 	}
 	else
 	{
-		[self.tab2.styleClasses removeObject:@"active"];
+		[self.tab2.htmlRenderer.customClasses removeObject:@"active"];
 	}
 	
 	if ( 2 == _currentIndex )
 	{
 		_currentModel = self.model3;
 		
-		[self.tab3.styleClasses addObject:@"active"];
+		[self.tab3.htmlRenderer.customClasses addObject:@"active"];
 	}
 	else
 	{
-		[self.tab3.styleClasses removeObject:@"active"];
+		[self.tab3.htmlRenderer.customClasses removeObject:@"active"];
 	}
 
 	[self.tab1 restyle];
@@ -298,10 +298,10 @@
 
 - (void)reloadData
 {
-	self.viewStorage[ @"tabbar.popular" ]	= _currentModel == self.model1 ? @"/Popular/" : @"Popular";
-	self.viewStorage[ @"tabbar.debuts" ]	= _currentModel == self.model2 ? @"/Debuts/" : @"Debuts";
-	self.viewStorage[ @"tabbar.everyone" ]	= _currentModel == self.model3 ? @"/Everyone/" : @"Everyone";
-	self.viewStorage[ @"list" ] = @{
+	self.scope[ @"tabbar.popular" ]	= _currentModel == self.model1 ? @"/Popular/" : @"Popular";
+	self.scope[ @"tabbar.debuts" ]		= _currentModel == self.model2 ? @"/Debuts/" : @"Debuts";
+	self.scope[ @"tabbar.everyone" ]	= _currentModel == self.model3 ? @"/Everyone/" : @"Everyone";
+	self.scope[ @"list" ] = @{
 						
 		@"section-shots" : ({
 			

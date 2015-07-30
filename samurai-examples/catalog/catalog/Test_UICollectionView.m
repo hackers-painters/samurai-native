@@ -12,7 +12,7 @@
 
 - (void)dealloc
 {
-	[self unloadViewTemplate];
+	[self unloadTemplate];
 }
 
 - (void)viewDidLoad {
@@ -20,7 +20,7 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	
-	[self loadViewTemplate:@"/www/html/Test_UICollectionView.html"];
+	[self loadTemplate:@"/www/html/Test_UICollectionView.html"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,7 +38,7 @@
 
 - (void)onTemplateLoaded
 {
-	self.viewStorage[@"sections"] = @{
+	self.scope[@"sections"] = @{
 	
 		@"section2" : @[ @"1", @"2", @"3", @"4", @"5", @"6" ],
 		@"section4" : @[ @"1", @"2", @"3", @"4", @"5", @"6" ],

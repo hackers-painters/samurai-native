@@ -18,7 +18,7 @@
 
 - (void)dealloc
 {
-	[self unloadViewTemplate];
+	[self unloadTemplate];
 }
 
 - (void)viewDidLoad {
@@ -26,7 +26,7 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	
-	[self loadViewTemplate:@"/www/html/Test_UITextField.html"];
+	[self loadTemplate:@"/www/html/Test_UITextField.html"];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -69,52 +69,47 @@
 	
 	if ( 0 == [_t1.text length] )
 	{
-		[_t1 style_addClass:@"error"];
+		$(_t1).ADD_CLASS( @"error" );
 		
 		valid = NO;
 	}
 	else
 	{
-		[_t1 style_removeClass:@"error"];
+		$(_t1).REMOVE_CLASS( @"error" );
 	}
 	
 	if ( 0 == [_t2.text length] )
 	{
-		[_t2 style_addClass:@"error"];
+		$(_t2).ADD_CLASS( @"error" );
 		
 		valid = NO;
 	}
 	else
 	{
-		[_t2 style_removeClass:@"error"];
+		$(_t2).REMOVE_CLASS( @"error" );
 	}
 
 	if ( 0 == [_t3.text length] )
 	{
-		[_t3 style_addClass:@"error"];
+		$(_t3).ADD_CLASS( @"error" );
 		
 		valid = NO;
 	}
 	else
 	{
-		[_t3 style_removeClass:@"error"];
+		$(_t3).REMOVE_CLASS( @"error" );
 	}
 
 	if ( 0 == [_t4.text length] || NO == [_t3.text isEqualToString:_t4.text] )
 	{
-		[_t4 style_addClass:@"error"];
+		$(_t4).ADD_CLASS( @"error" );
 		
 		valid = NO;
 	}
 	else
 	{
-		[_t4 style_removeClass:@"error"];
+		$(_t4).REMOVE_CLASS( @"error" );
 	}
-
-	[_t1 restyle];
-	[_t2 restyle];
-	[_t3 restyle];
-	[_t4 restyle];
 
 	if ( NO == valid )
 	{

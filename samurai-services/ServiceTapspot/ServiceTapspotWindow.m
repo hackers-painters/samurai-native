@@ -49,6 +49,7 @@
 	{
 		self.backgroundColor = [UIColor blackColor];
 		self.windowLevel = UIWindowLevelStatusBar + 1.0f;
+		self.rootViewController = [[UIViewController alloc] init];
 	}
 	return self;
 }

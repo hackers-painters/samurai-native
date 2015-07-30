@@ -310,7 +310,7 @@ BASE_CLASS( SamuraiSignal )
 
 - (void)deepCopyFrom:(SamuraiSignal *)right
 {
-	[super deepCopyFrom:right];
+//	[super deepCopyFrom:right];
 	
 //	self.foreign			= right.foreign;
 	self.source				= right.source;
@@ -321,7 +321,7 @@ BASE_CLASS( SamuraiSignal )
 	self.name				= [right.name copy];
 //	self.prefix				= [right.prefix copy];
 	self.object				= right.object;
-	
+
 	self.initTimeStamp		= right.initTimeStamp;
 	self.sendTimeStamp		= right.sendTimeStamp;
 	self.arriveTimeStamp	= right.arriveTimeStamp;

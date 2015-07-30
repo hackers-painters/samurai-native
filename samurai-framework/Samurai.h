@@ -34,7 +34,7 @@
 #import "Samurai_Event.h"
 #import "Samurai_Model.h"
 #import "Samurai_Service.h"
-#import "Samurai_UI.h"
+#import "Samurai_View.h"
 
 #import "Samurai_App.h"
 #import "Samurai_Vendor.h"

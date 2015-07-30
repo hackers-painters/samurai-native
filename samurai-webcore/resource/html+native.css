@@ -29,243 +29,243 @@
  */
 
 UIActivityIndicatorView {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-
-    -samurai-render-model: 'element';
-    -samurai-render-class: 'UIActivityIndicatorView';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UIActivityIndicatorView';
 }
 
 UIButton {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    
-    -samurai-render-model: 'element';
-    -samurai-render-class: 'UIButton';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UIButton';
 }
 
 UICollectionView {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    
-    -samurai-render-model: 'element';
-    -samurai-render-class: 'UICollectionView';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UICollectionView';
 }
 
 UICollectionViewCell {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: auto;
-    
-    -samurai-render-model: 'container';
-    -samurai-render-class: 'UICollectionViewCell';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: auto;
+	
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'UICollectionViewCell';
 }
 
 UIImageView {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    
-    -samurai-render-model: 'element';
-    -samurai-render-class: 'UIImageView';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UIImageView';
 }
 
 UILabel {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    
-    -samurai-render-model: 'element';
-    -samurai-render-class: 'UILabel';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UILabel';
 }
 
 UIPageControl {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    
-    -samurai-render-model: 'element';
-    -samurai-render-class: 'UIPageControl';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UIPageControl';
 }
 
 UIPickerView {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    
-    -samurai-render-model: 'element';
-    -samurai-render-class: 'UIPickerView';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UIPickerView';
 }
 
 UIProgressView {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    
-    -samurai-render-model: 'element';
-    -samurai-render-class: 'UIProgressView';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UIProgressView';
 }
 
 UIScrollView {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    
-    -samurai-render-model: 'container';
-    -samurai-render-class: 'UIScrollView';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'UIScrollView';
 }
 
 UISearchBar {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 44px;
-    
-    -samurai-render-model: 'element';
-    -samurai-render-class: 'UISearchBar';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 44px;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UISearchBar';
 }
 
 UISlider {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    
-    -samurai-render-model: 'element';
-    -samurai-render-class: 'UISlider';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UISlider';
 }
 
 UIStepper {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    
-    -samurai-render-model: 'element';
-    -samurai-render-class: 'UIStepper';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UIStepper';
 }
 
 UISwitch {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    
-    -samurai-render-model: 'element';
-    -samurai-render-class: 'UISwitch';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UISwitch';
 }
 
 UITabBar {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 44px;
-    
-    -samurai-render-model: 'element';
-    -samurai-render-class: 'UITabBar';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 44px;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UITabBar';
 }
 
 UITableView {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    
-    -samurai-render-model: 'element';
-    -samurai-render-class: 'UITableView';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UITableView';
 }
 
 UITableViewCell {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: auto;
-    
-    -samurai-render-model: 'container';
-    -samurai-render-class: 'UITableViewCell';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: auto;
+
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'UITableViewCell';
 }
 
 UITextField {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    
-    -samurai-render-model: 'element';
-    -samurai-render-class: 'UITextField';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UITextField';
 }
 
 UITextView {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    
-    -samurai-render-model: 'element';
-    -samurai-render-class: 'UITextView';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UITextView';
 }
 
 UIToolbar {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 44px;
-    
-    -samurai-render-model: 'container';
-    -samurai-render-class: 'UIToolbar';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 44px;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UIToolbar';
 }
 
 UIView {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    
-    -samurai-render-model: 'container';
-    -samurai-render-class: 'UIView';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'UIView';
 }
 
 UIWebView {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    
-    -samurai-render-model: 'element';
-    -samurai-render-class: 'UIWebView';
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	height: auto;
+	
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'UIWebView';
 }

@@ -12,7 +12,7 @@
 
 - (void)dealloc
 {
-	[self unloadViewTemplate];
+	[self unloadTemplate];
 }
 
 - (void)viewDidLoad {
@@ -20,7 +20,7 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	
-	[self loadViewTemplate:@"/www/html/Test_UIPageControl.html"];
+	[self loadTemplate:@"/www/html/Test_UIPageControl.html"];
 }
 
 - (void)didReceiveMemoryWarning {

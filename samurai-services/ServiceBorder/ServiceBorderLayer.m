@@ -79,6 +79,8 @@
 - (void)show
 {
 	self.hidden = NO;
+	self.frame = CGRectInset( CGRectMake( 0, 0, self.container.bounds.size.width, self.container.bounds.size.height ), 0.1f, 0.1f );
+	self.masksToBounds = YES;
 }
 
 - (void)hide

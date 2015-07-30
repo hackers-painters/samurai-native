@@ -29,5 +29,3 @@
 //
 
 #import "Samurai_Predefine.h"
-
-#import "AFNetworking.h"
