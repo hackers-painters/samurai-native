@@ -29,7 +29,7 @@
 #include "foundation.h"
 
 #undef	assert
-#define assert
+#define assert(x)
 
 static inline double katana_characters_to_double(const char* data, size_t length, bool* ok);
 static inline bool katana_is_html_space(char c);

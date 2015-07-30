@@ -26,7 +26,7 @@
 #include <assert.h>
 
 #undef	assert
-#define assert
+#define assert(x)
 
 // Refs:
 // http://www.w3.org/TR/css3-selectors/
