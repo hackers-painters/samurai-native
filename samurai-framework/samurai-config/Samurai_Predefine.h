@@ -174,7 +174,7 @@
 #endif
 
 #ifndef	TODO
-#define TODO( X )			_Pragma(macro_cstr(message("✖✖✖✖✖✖✖✖✖✖✖✖✖✖✖✖✖✖ TODO: " X)))
+#define TODO( X )			_Pragma(macro_cstr(message("TODO: " X)))
 #endif
 
 #ifndef	EXTERN_C

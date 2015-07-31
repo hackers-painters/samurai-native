@@ -8,11 +8,11 @@ p {
 	margin: 0;
 	padding: 0;
 	
-	-samurai-render-model: 'element';
+	-samurai-render-model: 'leaf';
 	-samurai-render-class: 'EMStringLabel';
 }
 
 img, image {
-	-samurai-render-model: 'element';
+	-samurai-render-model: 'leaf';
 	-samurai-render-class: 'SDWebImageView';
 }

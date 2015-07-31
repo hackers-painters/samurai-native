@@ -377,19 +377,20 @@
 }
 
 - (NSString *)URLEncoding
-{  
-	return (__bridge_transfer NSString *)
-	CFURLCreateStringByAddingPercentEscapes( kCFAllocatorDefault, (CFStringRef)self, NULL, (CFStringRef)@"!*'();:@&=+$,/?%#[]", kCFStringEncodingUTF8 );
+{
+	return [self stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"!*'();:@&=+$,/?%#[]"]];
 }
 
 - (NSString *)URLDecoding
 {
 	NSMutableString * string = [NSMutableString stringWithString:self];
-    [string replaceOccurrencesOfString:@"+"  
+
+	[string replaceOccurrencesOfString:@"+"
 							withString:@" "  
 							   options:NSLiteralSearch  
-								 range:NSMakeRange(0, [string length])];  
-    return [string stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+								 range:NSMakeRange(0, [string length])];
+
+	return [string stringByRemovingPercentEncoding];
 }
 
 - (NSString *)trim

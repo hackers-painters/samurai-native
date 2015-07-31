@@ -39,7 +39,6 @@
 @interface SamuraiDockerWindow : UIWindow
 
 - (void)addDockerView:(SamuraiDockerView *)docker;
-
 - (void)removeDockerView:(SamuraiDockerView *)docker;
 - (void)removeAllDockerViews;
 

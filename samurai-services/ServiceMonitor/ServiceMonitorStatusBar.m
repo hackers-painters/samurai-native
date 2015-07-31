@@ -70,6 +70,7 @@
 		self.hidden = YES;
 		self.backgroundColor = [UIColor clearColor]; // [UIColor colorWithRed:0.96f green:0.96f blue:0.96f alpha:0.5f];
 		self.windowLevel = UIWindowLevelStatusBar + 5.0f;
+		self.rootViewController = [[UIViewController alloc] init];
 		
 		_cpuModel = [ServiceMonitorCPUModel sharedInstance];
 		_fpsModel = [ServiceMonitorFPSModel sharedInstance];

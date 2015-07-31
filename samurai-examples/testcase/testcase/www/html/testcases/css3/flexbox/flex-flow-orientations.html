@@ -176,7 +176,7 @@ writingModes.forEach(function(writingMode) {
             var flexItemExpectations = expectations[writingMode][flexFlow][direction];
 
             var container = document.createElement('div');
-            container.className = 'container';
+            container.className = 'tree';
             container.innerHTML = '<div class="flexbox ' + flexboxClassName + '">\n' +
                 '<div style="width: 20px; height: 20px;" ' + asString(flexItemExpectations[0]) + '></div>\n' +
                 '<div style="width: 20px; height: 20px;" ' + asString(flexItemExpectations[1]) + '></div>\n' +

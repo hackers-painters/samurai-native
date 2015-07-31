@@ -16,7 +16,7 @@
 
 @implementation PlayerShotListModel
 
-@def_prop_assign( NSInteger,             page )
+@def_prop_assign( NSInteger,			page )
 @def_prop_assign( NSInteger,			player_id )
 
 @def_prop_strong( NSMutableArray *,		shots )

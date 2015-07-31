@@ -28,7 +28,6 @@
 //	THE SOFTWARE.
 //
 
-#import "UIView+CSS.h"
 #import "UIView+DataBinding.h"
 #import "UIViewController+DataBinding.h"
 
@@ -37,8 +36,7 @@
 
 #import "Samurai_HtmlRenderObject.h"
 #import "Samurai_HtmlRenderQuery.h"
-#import "Samurai_HtmlRenderObject.h"
+#import "Samurai_HtmlRenderStore.h"
+#import "Samurai_HtmlRenderStoreScope.h"
 #import "Samurai_HtmlRenderWorkflow.h"
-
-#import "Samurai_HtmlStyle.h"
-#import "Samurai_HtmlStyleObject.h"
+#import "Samurai_HtmlRenderStyle.h"

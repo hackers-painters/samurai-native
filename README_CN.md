@@ -125,13 +125,13 @@ samurai-native 为您带来了流式 CSS 样式及布局，通过层叠或嵌套
 
 - (void)viewDidLoad
 {
-	[self loadViewTemplate:@"/www/html/dribbble-index.html"];
-//	[self loadViewTemplate:@"http://localhost:8000/html/dribbble-index.html"];
+	[self loadTemplate:@"/www/html/dribbble-index.html"];
+//	[self loadTemplate:@"http://localhost:8000/html/dribbble-index.html"];
 }
 
 - (void)dealloc
 {
-	[self unloadViewTemplate];
+	[self unloadTemplate];
 }
 
 - (void)onTemplateLoading {}

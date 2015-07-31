@@ -1,5 +1,5 @@
 
 .no-scroll {
-	-samurai-render-class: 'UIView';
+	-samurai-view-class: 'UIView';
 }
 

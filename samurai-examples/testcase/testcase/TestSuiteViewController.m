@@ -22,7 +22,7 @@
 
 - (void)dealloc
 {
-	[self unloadViewTemplate];
+	[self unloadTemplate];
 }
 
 - (void)setView:(UIView *)newView
@@ -81,8 +81,8 @@
 	
 	[_files sortUsingSelector:@selector(compare:)];
 
-	[self loadViewTemplate:@"/www/html/test-suite.html"];
-//	[self loadViewTemplate:@"http://www.36kr.com"];
+	[self loadTemplate:@"/www/html/test-suite.html"];
+//	[self loadTemplate:@"http://www.36kr.com"];
 
 	self.navigationBarTitle = self.testSuite;
 	self.navigationBarTitle = [self.testSuite lastPathComponent];

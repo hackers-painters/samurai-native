@@ -42,41 +42,41 @@
 
 @implementation UIViewController(DataBinding)
 
-@def_prop_dynamic( SamuraiHtmlRenderScope *,	viewStorage )
+@def_prop_dynamic( SamuraiHtmlRenderStoreScope *,	scope )
 
-- (SamuraiHtmlRenderScope *)viewStorage
+- (SamuraiHtmlRenderStoreScope *)scope
 {
-	return [SamuraiHtmlRenderScope scope:[self.view renderer]];
+	return [SamuraiHtmlRenderStoreScope scope:[self.view renderer]];
 }
 
 - (id)getViewData
 {
-	return [self.viewStorage getData];
+	return [self.scope getData];
 }
 
 - (id)getViewDataWithPath:(NSString *)path
 {
-	return [self.viewStorage getDataWithPath:path];
+	return [self.scope getDataWithPath:path];
 }
 
 - (void)setViewData:(NSObject *)data
 {
-	[self.viewStorage setData:data];
+	[self.scope setData:data];
 }
 
 - (void)setViewData:(NSObject *)data withPath:(NSString *)path
 {
-	[self.viewStorage setData:data withPath:path];
+	[self.scope setData:data withPath:path];
 }
 
 - (void)clearViewData
 {
-	[self.viewStorage clearData];
+	[self.scope clearData];
 }
 
 - (void)clearViewDataWithPath:(NSString *)path
 {
-	[self.viewStorage clearDataWithPath:path];
+	[self.scope clearDataWithPath:path];
 }
 
 @end

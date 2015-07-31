@@ -12,7 +12,7 @@
 
 - (void)dealloc
 {
-	[self unloadViewTemplate];
+	[self unloadTemplate];
 }
 
 - (void)viewDidLoad {
@@ -20,7 +20,7 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	
-	[self loadViewTemplate:@"/www/html/Test_UITableView.html"];
+	[self loadTemplate:@"/www/html/Test_UITableView.html"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,7 +38,7 @@
 
 - (void)onTemplateLoaded
 {
-	self.viewStorage[@"list"] = @{
+	self.scope[@"list"] = @{
 					  
 	  @"section1" : ({
 		  

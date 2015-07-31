@@ -59,6 +59,9 @@ script {
 body {
 	display: block;
 	width: 100%;
+	margin: 8px;
+	border: 0;
+	padding: 0;
 }
 
 body:-webkit-full-page-media {
@@ -67,6 +70,7 @@ body:-webkit-full-page-media {
 
 p {
 	display: block;
+	width: 100%;
 	-webkit-margin-before: 1em;
 	-webkit-margin-after: 1em;
 	-webkit-margin-start: 0;
@@ -147,8 +151,8 @@ map {
 
 img {
 	background-color: #ccc;
-	width: 100px;
-	height: 50px;
+	width: 24px;
+	height: 24px;
 }
 
 video {
@@ -252,25 +256,33 @@ table {
 	display: table;
 	border-collapse: separate;
 	border-spacing: 2px;
-	border-color: gray
+	border-color: gray;
+	border-width: 0px;
+	border-style: solid;
 }
 
 thead {
 	display: table-header-group;
 	vertical-align: middle;
-	border-color: inherit
+	border-color: inherit;
+	border-width: inherit;
+	border-style: inherit;
 }
 
 tbody {
 	display: table-row-group;
 	vertical-align: middle;
-	border-color: inherit
+	border-color: inherit;
+	border-width: inherit;
+	border-style: inherit;
 }
 
 tfoot {
 	display: table-footer-group;
 	vertical-align: middle;
-	border-color: inherit
+	border-color: inherit;
+	border-width: inherit;
+	border-style: inherit;
 }
 
 /* for tables without table section elements (can happen with XHTML or dynamically created tables) */
@@ -289,13 +301,17 @@ colgroup {
 tr {
 	display: table-row;
 	vertical-align: inherit;
-	border-color: inherit
+	border-color: inherit;
+	border-width: inherit;
+	border-style: inherit;
 }
 
 td, th {
 	display: table-cell;
 	vertical-align: inherit;
-	border-color: inherit
+	border-color: inherit;
+	border-width: inherit;
+	border-style: inherit;
 }
 
 th {
@@ -918,7 +934,7 @@ progress::-webkit-progress-value {
 /* inline elements */
 
 a {
-	color: blue;
+	/*color: blue;*/
 	text-decoration: underline
 }
 

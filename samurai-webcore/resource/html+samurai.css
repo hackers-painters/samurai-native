@@ -29,661 +29,661 @@
  */
 
 html {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Html';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementHtml';
 }
 
 head {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 title {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 meta {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 base {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 link {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 style {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 script {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 body {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Body';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementBody';
 }
 
 element {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Element';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementElement';
 }
 
 template {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Template';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementTemplate';
 }
 
 article {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Article';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementArticle';
 }
 
 aside {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Aside';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementAside';
 }
 
 div {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Div';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementDiv';
 }
 
 footer {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Footer';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementFooter';
 }
 
 header {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Header';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementHeader';
 }
 
 hgroup {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Hgroup';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementHgroup';
 }
 
 main {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Main';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementMain';
 }
 
 nav {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Nav';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementNav';
 }
 
 section {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Section';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementSection';
 }
 
 span {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Span';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementSpan';
 }
 
 dir {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Dir';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementDir';
 }
 
 ul {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Ul';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementUl';
 }
 
 ol {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Ol';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementOl';
 }
 
 li {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Li';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementLi';
 }
 
 dl {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Dl';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementDl';
 }
 
 dt {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Dt';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementDt';
 }
 
 dd {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Dd';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementDd';
 }
 
 table {
-	-samurai-render-model: 'table';
-	-samurai-render-class: 'HtmlElement_Table';
+	-samurai-view-hierarchy: 'table';
+	-samurai-view-class: 'SamuraiHtmlElementTable';
 }
 
 caption {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Caption';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementCaption';
 }
 
 thead {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Thead';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementThead';
 }
 
 tbody {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Tbody';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementTbody';
 }
 
 tfoot {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Tfoot';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementTfoot';
 }
 
 tr {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Tr';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementTr';
 }
 
 td {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Td';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementTd';
 }
 
 th {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Th';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementTh';
 }
 
 col {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Col';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementCol';
 }
 
 colgroup {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Colgroup';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementColgroup';
 }
 
 form {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Form';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementForm';
 }
 
 fieldset {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Fieldset';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementFieldset';
 }
 
 legend {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Legend';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementLegend';
 }
 
 keygen {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 menu {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 menuitem {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 button {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Button';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementButton';
 }
 
 canvas {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Canvas';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementCanvas';
 }
 
 datalist {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Datalist';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementDatalist';
 }
 
 img, image {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Img';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementImg';
 }
 
 input, input[type="text"] {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Input_Text';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementInput_Text';
 }
 
 input[type="button"] {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Input_Button';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementInput_Button';
 }
 
 input[type="checkbox"] {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Input_Checkbox';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementInput_Checkbox';
 }
 
 input[type="file"] {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Input_File';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementInput_File';
 }
 
 input[type="hidden"] {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Input_Hidden';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementInput_Hidden';
 }
 
 input[type="image"] {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Input_Image';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementInput_Image';
 }
 
 input[type="password"] {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Input_Password';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementInput_Password';
 }
 
 input[type="radio"] {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Input_Radio';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementInput_Radio';
 }
 
 input[type="reset"] {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Input_Reset';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementInput_Reset';
 }
 
 input[type="submit"] {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Input_Submit';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementInput_Submit';
 }
 
 label {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Label';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementLabel';
 }
 
 output {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Output';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementOutput';
 }
 
 progress {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Progress';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementProgress';
 }
 
 select {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Select';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementSelect';
 }
 
 optgroup {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 option {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 textarea {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Textarea';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementTextarea';
 }
 
 time {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Time';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementTime';
 }
 
 meter {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Meter';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementMeter';
 }
 
 h1 {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_H1';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementH1';
 }
 
 h2 {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_H2';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementH2';
 }
 
 h3 {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_H3';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementH3';
 }
 
 h4 {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_H4';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementH4';
 }
 
 h5 {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_H5';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementH5';
 }
 
 h6 {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_H6';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementH6';
 }
 
 hr {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Hr';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementHr';
 }
 
 a {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 b {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 i {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 q {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 u {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 wbr {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 abbr {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 address {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 acronym {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 code {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Code';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementCode';
 }
 
 strong {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 small {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 big {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 del {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 ins {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 s, strike {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 rp {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 rt {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 ruby {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 em {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 tt {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 cite {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 dfn {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 kbd {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 samp {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 var {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 mark {
-	-samurai-render-model: 'inline';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'branch';
+	-samurai-view-class: 'UIView';
 }
 
 sub {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Sub';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementSub';
 }
 
 sup {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Sup';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementSup';
 }
 
 basefont {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 font {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 bdi {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 bdo {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 br {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Br';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementBr';
 }
 
 blockquote {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_Blockquote';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementBlockquote';
 }
 
 p {
-	-samurai-render-model: 'container';
-	-samurai-render-class: 'HtmlElement_P';
+	-samurai-view-hierarchy: 'tree';
+	-samurai-view-class: 'SamuraiHtmlElementP';
 }
 
 pre {
-	-samurai-render-model: 'element';
-	-samurai-render-class: 'HtmlElement_Pre';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SamuraiHtmlElementPre';
 }
 
 figcaption {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 figure {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 details {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 summary {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 area {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 map {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 frame {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 frameset {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 iframe {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 noframes {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 noscript {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 dialog {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 object {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 param {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 audio {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 source {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 video {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 track {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 applet {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 command {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }
 
 embed {
-	-samurai-render-model: 'hidden';
-	-samurai-render-class: '';
+	-samurai-view-hierarchy: 'hidden';
+	-samurai-view-class: 'UIView';
 }

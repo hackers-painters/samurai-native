@@ -48,6 +48,7 @@
 	//	self.alpha = 0.75f;
 		self.backgroundColor = [UIColor clearColor];
 		self.windowLevel = UIWindowLevelStatusBar + 2.0f;
+        self.rootViewController = [[UIViewController alloc] init];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(orientationWillChange)

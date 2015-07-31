@@ -45,6 +45,7 @@
 		self.backgroundColor = [UIColor clearColor];
 		self.windowLevel = UIWindowLevelStatusBar + 2.0f;
 		self.userInteractionEnabled = NO;
+		self.rootViewController = [[UIViewController alloc] init];
 	}
 	return self;
 }

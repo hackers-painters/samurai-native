@@ -74,9 +74,6 @@
 	self = [super init];
 	if ( self )
 	{
-		_dockerWindow = [[SamuraiDockerWindow alloc] init];
-		_dockerWindow.alpha = 0.0f;
-		_dockerWindow.hidden = NO;
 	}
 	return self;
 }
@@ -94,26 +91,35 @@
 	{
 		if ( [service conformsToProtocol:@protocol(ManagedDocker)] )
 		{
-            TODO("NSBundle(Exntension) delete")
-
 			SamuraiDockerView * dockerView = [[SamuraiDockerView alloc] init];
 			[dockerView setImageOpened:[service.bundle imageForResource:@"docker-open.png"]];
 			[dockerView setImageClosed:[service.bundle imageForResource:@"docker-close.png"]];
 			[dockerView setService:(SamuraiService<ManagedDocker> *)service];
+            
+            if ( nil == _dockerWindow )
+            {
+                _dockerWindow = [[SamuraiDockerWindow alloc] init];
+                _dockerWindow.alpha = 0.0f;
+                _dockerWindow.hidden = NO;
+            }
+            
 			[_dockerWindow addDockerView:dockerView];
 		}
 	}
 
-	[_dockerWindow relayoutAllDockerViews];
-//	[_dockerWindow setHidden:NO];
-	
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDuration:0.5f];
-	[UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+    if ( _dockerWindow )
+    {
+        [_dockerWindow relayoutAllDockerViews];
+    //	[_dockerWindow setHidden:NO];
+        
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:0.5f];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
 
-	_dockerWindow.alpha = 1.0f;
+        _dockerWindow.alpha = 1.0f;
 
-	[UIView commitAnimations];
+        [UIView commitAnimations];
+    }
 }
 
 - (void)uninstallDockers

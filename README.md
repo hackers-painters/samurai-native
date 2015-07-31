@@ -155,13 +155,13 @@ We brought the css layout model from the web to samurai-native, css layout makes
 
 - (void)viewDidLoad
 {
-	[self loadViewTemplate:@"/www/html/dribbble-index.html"];
-//	[self loadViewTemplate:@"http://localhost:8000/html/dribbble-index.html"];
+	[self loadTemplate:@"/www/html/dribbble-index.html"];
+//	[self loadTemplate:@"http://localhost:8000/html/dribbble-index.html"];
 }
 
 - (void)dealloc
 {
-	[self unloadViewTemplate];
+	[self unloadTemplate];
 }
 
 - (void)onTemplateLoading {}

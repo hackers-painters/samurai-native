@@ -167,7 +167,7 @@
 		@"__ClassLoader_Config",
 		@"__ClassLoader_Core",
 		@"__ClassLoader_Event",
-		@"__ClassLoader_Model",
+		@"__ClassLoader_Module",
 
 	#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 		@"__ClassLoader_UI",
