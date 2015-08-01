@@ -32,6 +32,7 @@
 #import "AutoCoding.h"
 #import "NSObject+AutoCoding.h"
 #import "AFNetworking.h"
+#import "Samurai_Singleton.h"
 
 #pragma mark -
 
@@ -51,6 +52,83 @@
 
 #pragma mark -
 
+@interface STIHTTPApiManager : NSObject
+
+@singleton( STIHTTPApiManager )
+
+@property (nonatomic, strong) NSMutableDictionary * apis;
+
+- (void)cancel:(STIHTTPApi *)api;
+
+@end
+
+@implementation STIHTTPApiManager
+
+@def_singleton( STIHTTPApiManager )
+
+- (instancetype)init
+{
+	self = [super init];
+	if (self) {
+		self.apis = [NSMutableDictionary dictionary];
+	}
+	return self;
+}
+
+- (void)add:(id)api
+{
+	NSString * clazz = NSStringFromClass([api class]);
+	NSMutableArray * apis = self.apis[clazz];
+	if ( !apis )
+	{
+		self.apis[clazz] = [NSMutableArray arrayWithObject:api];
+	}
+	else
+	{
+		[apis addObject:api];
+	}
+}
+
+- (void)cancel:(id)api
+{
+	[self removeAll:[api class]];
+}
+
+- (void)remove:(id)api
+{
+	NSString * clazz = NSStringFromClass([api class]);
+	NSMutableArray * apis = self.apis[clazz];
+	if ( apis && apis.count )
+	{
+		[apis removeObject:api];
+	}
+}
+
+- (void)removeAll:(Class)clazz
+{
+	NSMutableArray * apis = self.apis[NSStringFromClass(clazz)];
+	if ( apis && apis.count )
+	{
+		[apis enumerateObjectsUsingBlock:^(STIHTTPApi * obj, NSUInteger idx, BOOL *stop) {
+	 		if ( !obj.manuallyCancel )
+			{
+				[obj cancel];
+			}
+		}];
+		[apis removeAllObjects];
+	}
+}
+
+- (void)send:(id)api
+{
+	[self cancel:api];
+	[self add:api];
+}
+
+@end
+
+#pragma mark -
+
 static STIHTTPSessionManager * kGlobalHTTPSessionManager = nil;
 
 @implementation STIHTTPApi
@@ -61,6 +139,11 @@ static STIHTTPSessionManager * kGlobalHTTPSessionManager = nil;
     dispatch_once(&onceToken, ^{
         kGlobalHTTPSessionManager = HTTPSessionManager;
     });
+}
+
++ (void)cancel
+{
+	[[STIHTTPApiManager sharedInstance] removeAll:self];
 }
 
 - (void)dealloc
@@ -80,7 +163,7 @@ static STIHTTPSessionManager * kGlobalHTTPSessionManager = nil;
 - (id)processedDataWithResponseObject:(id)responseObject task:(NSURLSessionDataTask *)task
 {
     // By default, just make the HTTPSessionManager process data
-    return [self.HTTPSessionManager processedDataWithResponseObject:responseObject task:task];
+	return responseObject;
 }
 
 - (void)handleError:(NSError *)error responseObject:(id)responseObject task:(NSURLSessionDataTask *)task failureBlock:(void (^)(id, id))failureBlock
@@ -94,18 +177,31 @@ static STIHTTPSessionManager * kGlobalHTTPSessionManager = nil;
     if ( self.HTTPSessionManager.setup ) {
         self.HTTPSessionManager.setup(nil);
     }
+	
+	[[STIHTTPApiManager sharedInstance] send:self];
 
     self.task = [self.HTTPSessionManager method:self.req.method
                            endpoint:self.req.endpoint
                          parameters:self.req.parameters
-                            success:^(NSURLSessionDataTask *task, id responseObject) {
-                                self.resp = [self.req.responseClass ac_objectWithAny:[self processedDataWithResponseObject:responseObject task:task]];
+                            success:^(NSURLSessionDataTask *task, id responseObject)
+							{
+								// 请求成功，将自己从manager中移除
+								[[STIHTTPApiManager sharedInstance] remove:self];
+								// 请求成功，解析数据
+								id resp = [self.HTTPSessionManager processedDataWithResponseObject:responseObject task:task];
+								resp = [self processedDataWithResponseObject:resp task:task];
+                                self.resp = [self.req.responseClass ac_objectWithAny:resp];
                                 self.responseObject = responseObject;
                                 if ( self.whenUpdated ) {
                                     self.whenUpdated( self.resp, nil );
                                 }
                             }
-                            failure:^(NSURLSessionDataTask *task, id responseObject, NSError *error) {
+                            failure:^(NSURLSessionDataTask *task, id responseObject, NSError *error)
+							{
+								// 请求失败，将自己从manager中移除
+								[[STIHTTPApiManager sharedInstance] remove:self];
+								
+								// 请求被取消
                                 if ( NSURLErrorCancelled == error.code )
                                 {
                                     if ( self.whenCanceled )

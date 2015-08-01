@@ -211,14 +211,6 @@
 		CBCC6FC51B68C03D00E038D3 /* UIView+DataBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6D801B68C03C00E038D3 /* UIView+DataBinding.m */; };
 		CBCC6FC61B68C03D00E038D3 /* UIViewController+DataBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6D821B68C03C00E038D3 /* UIViewController+DataBinding.m */; };
 		CBCC6FC71B68C03D00E038D3 /* Samurai_CSSMediaQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6D861B68C03C00E038D3 /* Samurai_CSSMediaQuery.m */; };
-		CBCC6FC81B68C03D00E038D3 /* Samurai_CSSCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6D891B68C03C00E038D3 /* Samurai_CSSCondition.m */; };
-		CBCC6FC91B68C03D00E038D3 /* Samurai_CSSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6D8B1B68C03C00E038D3 /* Samurai_CSSParser.m */; };
-		CBCC6FCA1B68C03D00E038D3 /* Samurai_CSSProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6D8D1B68C03C00E038D3 /* Samurai_CSSProtocol.m */; };
-		CBCC6FCB1B68C03D00E038D3 /* Samurai_CSSRuleCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6D8F1B68C03C00E038D3 /* Samurai_CSSRuleCollector.m */; };
-		CBCC6FCC1B68C03D00E038D3 /* Samurai_CSSRuleData.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6D911B68C03C00E038D3 /* Samurai_CSSRuleData.m */; };
-		CBCC6FCD1B68C03D00E038D3 /* Samurai_CSSRuleSet.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6D931B68C03C00E038D3 /* Samurai_CSSRuleSet.m */; };
-		CBCC6FCE1B68C03D00E038D3 /* Samurai_CSSSelectorChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6D951B68C03C00E038D3 /* Samurai_CSSSelectorChecker.m */; };
-		CBCC6FCF1B68C03D00E038D3 /* Samurai_CSSStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6D971B68C03C00E038D3 /* Samurai_CSSStyleSheet.m */; };
 		CBCC6FD01B68C03D00E038D3 /* Samurai_CSSArray.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6D9A1B68C03C00E038D3 /* Samurai_CSSArray.m */; };
 		CBCC6FD11B68C03D00E038D3 /* Samurai_CSSColor.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6D9C1B68C03C00E038D3 /* Samurai_CSSColor.m */; };
 		CBCC6FD21B68C03D00E038D3 /* Samurai_CSSFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6D9E1B68C03C00E038D3 /* Samurai_CSSFunction.m */; };
@@ -282,7 +274,6 @@
 		CBCC700C1B68C03D00E038D3 /* Samurai_HtmlDocumentWorklet_10Begin.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6E151B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_10Begin.m */; };
 		CBCC700D1B68C03D00E038D3 /* Samurai_HtmlDocumentWorklet_20ParseDomTree.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6E171B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_20ParseDomTree.m */; };
 		CBCC700E1B68C03D00E038D3 /* Samurai_HtmlDocumentWorklet_30ParseResource.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6E191B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_30ParseResource.m */; };
-		CBCC700F1B68C03D00E038D3 /* Samurai_HtmlDocumentWorklet_40ParseStyleTree.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6E1B1B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_40ParseStyleTree.m */; };
 		CBCC70101B68C03D00E038D3 /* Samurai_HtmlDocumentWorklet_50MergeDomTree.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6E1D1B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_50MergeDomTree.m */; };
 		CBCC70111B68C03D00E038D3 /* Samurai_HtmlDocumentWorklet_60ApplyStyleTree.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6E1F1B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_60ApplyStyleTree.m */; };
 		CBCC70121B68C03D00E038D3 /* Samurai_HtmlDocumentWorklet_70BuildRenderTree.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCC6E211B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_70BuildRenderTree.m */; };
@@ -418,6 +409,14 @@
 		CBE2BBF11AFA14D400E5EE9D /* Test_UITableView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE2BBF01AFA14D400E5EE9D /* Test_UITableView.m */; };
 		CBE2BBF41AFA198400E5EE9D /* Test_UITextField.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE2BBF31AFA198400E5EE9D /* Test_UITextField.m */; };
 		CBE2BBF71AFA487100E5EE9D /* Test_UITextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE2BBF61AFA487100E5EE9D /* Test_UITextView.m */; };
+		E94EC7F41B6CE26000B6135A /* Samurai_CSSParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E94EC7E51B6CE26000B6135A /* Samurai_CSSParser.m */; };
+		E94EC7F51B6CE26000B6135A /* Samurai_CSSProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = E94EC7E81B6CE26000B6135A /* Samurai_CSSProtocol.m */; };
+		E94EC7F61B6CE26000B6135A /* Samurai_CSSRule.m in Sources */ = {isa = PBXBuildFile; fileRef = E94EC7EA1B6CE26000B6135A /* Samurai_CSSRule.m */; };
+		E94EC7F71B6CE26000B6135A /* Samurai_CSSRuleCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = E94EC7EC1B6CE26000B6135A /* Samurai_CSSRuleCollector.m */; };
+		E94EC7F81B6CE26000B6135A /* Samurai_CSSRuleSet.m in Sources */ = {isa = PBXBuildFile; fileRef = E94EC7EE1B6CE26000B6135A /* Samurai_CSSRuleSet.m */; };
+		E94EC7F91B6CE26000B6135A /* Samurai_CSSSelectorChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = E94EC7F01B6CE26000B6135A /* Samurai_CSSSelectorChecker.m */; };
+		E94EC7FA1B6CE26000B6135A /* Samurai_CSSStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = E94EC7F31B6CE26000B6135A /* Samurai_CSSStyleSheet.m */; };
+		E94EC7FD1B6CE28B00B6135A /* Samurai_HtmlDocumentWorklet_40MergeStyleTree.m in Sources */ = {isa = PBXBuildFile; fileRef = E94EC7FC1B6CE28B00B6135A /* Samurai_HtmlDocumentWorklet_40MergeStyleTree.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -838,22 +837,6 @@
 		CBCC6D821B68C03C00E038D3 /* UIViewController+DataBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+DataBinding.m"; sourceTree = "<group>"; };
 		CBCC6D851B68C03C00E038D3 /* Samurai_CSSMediaQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSMediaQuery.h; sourceTree = "<group>"; };
 		CBCC6D861B68C03C00E038D3 /* Samurai_CSSMediaQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CSSMediaQuery.m; sourceTree = "<group>"; };
-		CBCC6D881B68C03C00E038D3 /* Samurai_CSSCondition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSCondition.h; sourceTree = "<group>"; };
-		CBCC6D891B68C03C00E038D3 /* Samurai_CSSCondition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CSSCondition.m; sourceTree = "<group>"; };
-		CBCC6D8A1B68C03C00E038D3 /* Samurai_CSSParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSParser.h; sourceTree = "<group>"; };
-		CBCC6D8B1B68C03C00E038D3 /* Samurai_CSSParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CSSParser.m; sourceTree = "<group>"; };
-		CBCC6D8C1B68C03C00E038D3 /* Samurai_CSSProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSProtocol.h; sourceTree = "<group>"; };
-		CBCC6D8D1B68C03C00E038D3 /* Samurai_CSSProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CSSProtocol.m; sourceTree = "<group>"; };
-		CBCC6D8E1B68C03C00E038D3 /* Samurai_CSSRuleCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSRuleCollector.h; sourceTree = "<group>"; };
-		CBCC6D8F1B68C03C00E038D3 /* Samurai_CSSRuleCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CSSRuleCollector.m; sourceTree = "<group>"; };
-		CBCC6D901B68C03C00E038D3 /* Samurai_CSSRuleData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSRuleData.h; sourceTree = "<group>"; };
-		CBCC6D911B68C03C00E038D3 /* Samurai_CSSRuleData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CSSRuleData.m; sourceTree = "<group>"; };
-		CBCC6D921B68C03C00E038D3 /* Samurai_CSSRuleSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSRuleSet.h; sourceTree = "<group>"; };
-		CBCC6D931B68C03C00E038D3 /* Samurai_CSSRuleSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CSSRuleSet.m; sourceTree = "<group>"; };
-		CBCC6D941B68C03C00E038D3 /* Samurai_CSSSelectorChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSSelectorChecker.h; sourceTree = "<group>"; };
-		CBCC6D951B68C03C00E038D3 /* Samurai_CSSSelectorChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CSSSelectorChecker.m; sourceTree = "<group>"; };
-		CBCC6D961B68C03C00E038D3 /* Samurai_CSSStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSStyleSheet.h; sourceTree = "<group>"; };
-		CBCC6D971B68C03C00E038D3 /* Samurai_CSSStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CSSStyleSheet.m; sourceTree = "<group>"; };
 		CBCC6D991B68C03C00E038D3 /* Samurai_CSSArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSArray.h; sourceTree = "<group>"; };
 		CBCC6D9A1B68C03C00E038D3 /* Samurai_CSSArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CSSArray.m; sourceTree = "<group>"; };
 		CBCC6D9B1B68C03C00E038D3 /* Samurai_CSSColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSColor.h; sourceTree = "<group>"; };
@@ -980,8 +963,6 @@
 		CBCC6E171B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_20ParseDomTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_HtmlDocumentWorklet_20ParseDomTree.m; sourceTree = "<group>"; };
 		CBCC6E181B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_30ParseResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_HtmlDocumentWorklet_30ParseResource.h; sourceTree = "<group>"; };
 		CBCC6E191B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_30ParseResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_HtmlDocumentWorklet_30ParseResource.m; sourceTree = "<group>"; };
-		CBCC6E1A1B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_40ParseStyleTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_HtmlDocumentWorklet_40ParseStyleTree.h; sourceTree = "<group>"; };
-		CBCC6E1B1B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_40ParseStyleTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_HtmlDocumentWorklet_40ParseStyleTree.m; sourceTree = "<group>"; };
 		CBCC6E1C1B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_50MergeDomTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_HtmlDocumentWorklet_50MergeDomTree.h; sourceTree = "<group>"; };
 		CBCC6E1D1B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_50MergeDomTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_HtmlDocumentWorklet_50MergeDomTree.m; sourceTree = "<group>"; };
 		CBCC6E1E1B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_60ApplyStyleTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_HtmlDocumentWorklet_60ApplyStyleTree.h; sourceTree = "<group>"; };
@@ -1254,6 +1235,22 @@
 		CBE2BBF31AFA198400E5EE9D /* Test_UITextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Test_UITextField.m; sourceTree = "<group>"; };
 		CBE2BBF51AFA487100E5EE9D /* Test_UITextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Test_UITextView.h; sourceTree = "<group>"; };
 		CBE2BBF61AFA487100E5EE9D /* Test_UITextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Test_UITextView.m; sourceTree = "<group>"; };
+		E94EC7E41B6CE26000B6135A /* Samurai_CSSParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSParser.h; sourceTree = "<group>"; };
+		E94EC7E51B6CE26000B6135A /* Samurai_CSSParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CSSParser.m; sourceTree = "<group>"; };
+		E94EC7E71B6CE26000B6135A /* Samurai_CSSProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSProtocol.h; sourceTree = "<group>"; };
+		E94EC7E81B6CE26000B6135A /* Samurai_CSSProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CSSProtocol.m; sourceTree = "<group>"; };
+		E94EC7E91B6CE26000B6135A /* Samurai_CSSRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSRule.h; sourceTree = "<group>"; };
+		E94EC7EA1B6CE26000B6135A /* Samurai_CSSRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CSSRule.m; sourceTree = "<group>"; };
+		E94EC7EB1B6CE26000B6135A /* Samurai_CSSRuleCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSRuleCollector.h; sourceTree = "<group>"; };
+		E94EC7EC1B6CE26000B6135A /* Samurai_CSSRuleCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CSSRuleCollector.m; sourceTree = "<group>"; };
+		E94EC7ED1B6CE26000B6135A /* Samurai_CSSRuleSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSRuleSet.h; sourceTree = "<group>"; };
+		E94EC7EE1B6CE26000B6135A /* Samurai_CSSRuleSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CSSRuleSet.m; sourceTree = "<group>"; };
+		E94EC7EF1B6CE26000B6135A /* Samurai_CSSSelectorChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSSelectorChecker.h; sourceTree = "<group>"; };
+		E94EC7F01B6CE26000B6135A /* Samurai_CSSSelectorChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CSSSelectorChecker.m; sourceTree = "<group>"; };
+		E94EC7F21B6CE26000B6135A /* Samurai_CSSStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_CSSStyleSheet.h; sourceTree = "<group>"; };
+		E94EC7F31B6CE26000B6135A /* Samurai_CSSStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_CSSStyleSheet.m; sourceTree = "<group>"; };
+		E94EC7FB1B6CE28B00B6135A /* Samurai_HtmlDocumentWorklet_40MergeStyleTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Samurai_HtmlDocumentWorklet_40MergeStyleTree.h; sourceTree = "<group>"; };
+		E94EC7FC1B6CE28B00B6135A /* Samurai_HtmlDocumentWorklet_40MergeStyleTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Samurai_HtmlDocumentWorklet_40MergeStyleTree.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2126,8 +2123,10 @@
 		CBCC6D831B68C03C00E038D3 /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				E94EC7E31B6CE26000B6135A /* css-parser */,
+				E94EC7E61B6CE26000B6135A /* css-resolver */,
+				E94EC7F11B6CE26000B6135A /* css-stylesheet */,
 				CBCC6D841B68C03C00E038D3 /* css-media */,
-				CBCC6D871B68C03C00E038D3 /* css-parser */,
 				CBCC6D981B68C03C00E038D3 /* css-value */,
 				CBCC6DE71B68C03C00E038D3 /* html-component */,
 				CBCC6E0E1B68C03C00E038D3 /* html-document */,
@@ -2152,29 +2151,6 @@
 				CBCC6D861B68C03C00E038D3 /* Samurai_CSSMediaQuery.m */,
 			);
 			path = "css-media";
-			sourceTree = "<group>";
-		};
-		CBCC6D871B68C03C00E038D3 /* css-parser */ = {
-			isa = PBXGroup;
-			children = (
-				CBCC6D881B68C03C00E038D3 /* Samurai_CSSCondition.h */,
-				CBCC6D891B68C03C00E038D3 /* Samurai_CSSCondition.m */,
-				CBCC6D8A1B68C03C00E038D3 /* Samurai_CSSParser.h */,
-				CBCC6D8B1B68C03C00E038D3 /* Samurai_CSSParser.m */,
-				CBCC6D8C1B68C03C00E038D3 /* Samurai_CSSProtocol.h */,
-				CBCC6D8D1B68C03C00E038D3 /* Samurai_CSSProtocol.m */,
-				CBCC6D8E1B68C03C00E038D3 /* Samurai_CSSRuleCollector.h */,
-				CBCC6D8F1B68C03C00E038D3 /* Samurai_CSSRuleCollector.m */,
-				CBCC6D901B68C03C00E038D3 /* Samurai_CSSRuleData.h */,
-				CBCC6D911B68C03C00E038D3 /* Samurai_CSSRuleData.m */,
-				CBCC6D921B68C03C00E038D3 /* Samurai_CSSRuleSet.h */,
-				CBCC6D931B68C03C00E038D3 /* Samurai_CSSRuleSet.m */,
-				CBCC6D941B68C03C00E038D3 /* Samurai_CSSSelectorChecker.h */,
-				CBCC6D951B68C03C00E038D3 /* Samurai_CSSSelectorChecker.m */,
-				CBCC6D961B68C03C00E038D3 /* Samurai_CSSStyleSheet.h */,
-				CBCC6D971B68C03C00E038D3 /* Samurai_CSSStyleSheet.m */,
-			);
-			path = "css-parser";
 			sourceTree = "<group>";
 		};
 		CBCC6D981B68C03C00E038D3 /* css-value */ = {
@@ -2327,8 +2303,8 @@
 				CBCC6E171B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_20ParseDomTree.m */,
 				CBCC6E181B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_30ParseResource.h */,
 				CBCC6E191B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_30ParseResource.m */,
-				CBCC6E1A1B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_40ParseStyleTree.h */,
-				CBCC6E1B1B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_40ParseStyleTree.m */,
+				E94EC7FB1B6CE28B00B6135A /* Samurai_HtmlDocumentWorklet_40MergeStyleTree.h */,
+				E94EC7FC1B6CE28B00B6135A /* Samurai_HtmlDocumentWorklet_40MergeStyleTree.m */,
 				CBCC6E1C1B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_50MergeDomTree.h */,
 				CBCC6E1D1B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_50MergeDomTree.m */,
 				CBCC6E1E1B68C03C00E038D3 /* Samurai_HtmlDocumentWorklet_60ApplyStyleTree.h */,
@@ -2692,6 +2668,41 @@
 			path = "katana-parser";
 			sourceTree = "<group>";
 		};
+		E94EC7E31B6CE26000B6135A /* css-parser */ = {
+			isa = PBXGroup;
+			children = (
+				E94EC7E41B6CE26000B6135A /* Samurai_CSSParser.h */,
+				E94EC7E51B6CE26000B6135A /* Samurai_CSSParser.m */,
+			);
+			path = "css-parser";
+			sourceTree = "<group>";
+		};
+		E94EC7E61B6CE26000B6135A /* css-resolver */ = {
+			isa = PBXGroup;
+			children = (
+				E94EC7E71B6CE26000B6135A /* Samurai_CSSProtocol.h */,
+				E94EC7E81B6CE26000B6135A /* Samurai_CSSProtocol.m */,
+				E94EC7E91B6CE26000B6135A /* Samurai_CSSRule.h */,
+				E94EC7EA1B6CE26000B6135A /* Samurai_CSSRule.m */,
+				E94EC7EB1B6CE26000B6135A /* Samurai_CSSRuleCollector.h */,
+				E94EC7EC1B6CE26000B6135A /* Samurai_CSSRuleCollector.m */,
+				E94EC7ED1B6CE26000B6135A /* Samurai_CSSRuleSet.h */,
+				E94EC7EE1B6CE26000B6135A /* Samurai_CSSRuleSet.m */,
+				E94EC7EF1B6CE26000B6135A /* Samurai_CSSSelectorChecker.h */,
+				E94EC7F01B6CE26000B6135A /* Samurai_CSSSelectorChecker.m */,
+			);
+			path = "css-resolver";
+			sourceTree = "<group>";
+		};
+		E94EC7F11B6CE26000B6135A /* css-stylesheet */ = {
+			isa = PBXGroup;
+			children = (
+				E94EC7F21B6CE26000B6135A /* Samurai_CSSStyleSheet.h */,
+				E94EC7F31B6CE26000B6135A /* Samurai_CSSStyleSheet.m */,
+			);
+			path = "css-stylesheet";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2817,7 +2828,6 @@
 				CBCC6C181B68C03600E038D3 /* SDWebImageDecoder.m in Sources */,
 				CBCC70181B68C03D00E038D3 /* Samurai_HtmlElementBody.m in Sources */,
 				CBCC70021B68C03D00E038D3 /* UISwitch+Html.m in Sources */,
-				CBCC6FCE1B68C03D00E038D3 /* Samurai_CSSSelectorChecker.m in Sources */,
 				CBCC6F821B68C03D00E038D3 /* Samurai_Intent.m in Sources */,
 				CBCC6FFF1B68C03D00E038D3 /* UIScrollView+Html.m in Sources */,
 				CBCC704D1B68C03D00E038D3 /* Samurai_HtmlElementSub.m in Sources */,
@@ -2826,9 +2836,7 @@
 				CBCC6FEB1B68C03D00E038D3 /* Samurai_CSSNumberRems.m in Sources */,
 				CBCC6C231B68C03600E038D3 /* UIView+WebCacheOperation.m in Sources */,
 				CBCC6F651B68C03D00E038D3 /* UIView+SignalHandling.m in Sources */,
-				CBCC6FC91B68C03D00E038D3 /* Samurai_CSSParser.m in Sources */,
 				CBCC6FFD1B68C03D00E038D3 /* UIPageControl+Html.m in Sources */,
-				CBCC6FCA1B68C03D00E038D3 /* Samurai_CSSProtocol.m in Sources */,
 				CBCC6F8C1B68C03D00E038D3 /* Samurai_Script.m in Sources */,
 				CBCC6F4C1B68C03D00E038D3 /* Samurai_Core.m in Sources */,
 				CBCC6F581B68C03D00E038D3 /* Samurai_ModelManager.m in Sources */,
@@ -2858,8 +2866,8 @@
 				CBCC6FD71B68C03D00E038D3 /* Samurai_CSSNumberConstant.m in Sources */,
 				CBCC708B1B68C03D00E038D3 /* foundation.c in Sources */,
 				CBCC6C171B68C03600E038D3 /* SDWebImageCompat.m in Sources */,
-				CBCC6FCC1B68C03D00E038D3 /* Samurai_CSSRuleData.m in Sources */,
 				CBCC6FBA1B68C03D00E038D3 /* ServiceMonitor.m in Sources */,
+				E94EC7FA1B6CE26000B6135A /* Samurai_CSSStyleSheet.m in Sources */,
 				CBCC6FDD1B68C03D00E038D3 /* Samurai_CSSNumberEx.m in Sources */,
 				CBCC701B1B68C03D00E038D3 /* Samurai_HtmlElementCanvas.m in Sources */,
 				CBCC6FD21B68C03D00E038D3 /* Samurai_CSSFunction.m in Sources */,
@@ -2911,6 +2919,7 @@
 				CBCC6FA21B68C03D00E038D3 /* Samurai_Vendor.m in Sources */,
 				CBCC6F961B68C03D00E038D3 /* Samurai_ViewEvent.m in Sources */,
 				CBCC6FE41B68C03D00E038D3 /* Samurai_CSSNumberMs.m in Sources */,
+				E94EC7FD1B6CE28B00B6135A /* Samurai_HtmlDocumentWorklet_40MergeStyleTree.m in Sources */,
 				CBCC70071B68C03D00E038D3 /* UIToolbar+Html.m in Sources */,
 				CBCC6C261B68C03600E038D3 /* EMStringLabel.m in Sources */,
 				CBCC707A1B68C03D00E038D3 /* AFNetworkReachabilityManager.m in Sources */,
@@ -2928,7 +2937,6 @@
 				CBCC6F931B68C03D00E038D3 /* Samurai_EventPinchGesture.m in Sources */,
 				CBCC704F1B68C03D00E038D3 /* Samurai_HtmlElementTable.m in Sources */,
 				CBCC6F561B68C03D00E038D3 /* Signal+Model.m in Sources */,
-				CBCC700F1B68C03D00E038D3 /* Samurai_HtmlDocumentWorklet_40ParseStyleTree.m in Sources */,
 				CBCC6F661B68C03D00E038D3 /* UIView+TemplateLoading.m in Sources */,
 				CBCC6C0D1B68C03600E038D3 /* AutoCoding.m in Sources */,
 				CB56B56D1AF78E280028CC35 /* Test_UILabel.m in Sources */,
@@ -2960,7 +2968,6 @@
 				CBCC703E1B68C03D00E038D3 /* Samurai_HtmlElementInputText.m in Sources */,
 				CBCC70861B68C03D00E038D3 /* tag.c in Sources */,
 				CB56B52E1AF27B8B0028CC35 /* Test_UIButton.m in Sources */,
-				CBCC6FCB1B68C03D00E038D3 /* Samurai_CSSRuleCollector.m in Sources */,
 				CBCC6FEC1B68C03D00E038D3 /* Samurai_CSSNumberS.m in Sources */,
 				CBCC70231B68C03D00E038D3 /* Samurai_HtmlElementDiv.m in Sources */,
 				CBCC6F551B68C03D00E038D3 /* Samurai_EventConfig.m in Sources */,
@@ -3007,7 +3014,6 @@
 				CBCC708E1B68C03D00E038D3 /* parser.c in Sources */,
 				CBCC6C1C1B68C03600E038D3 /* SDWebImagePrefetcher.m in Sources */,
 				CBCC6FF81B68C03D00E038D3 /* UIButton+Html.m in Sources */,
-				CBCC6FCD1B68C03D00E038D3 /* Samurai_CSSRuleSet.m in Sources */,
 				CBCC6FF91B68C03D00E038D3 /* UICollectionView+Html.m in Sources */,
 				CBCC6F7B1B68C03D00E038D3 /* Samurai_UIView.m in Sources */,
 				CBCC6F5D1B68C03D00E038D3 /* Samurai_DockerView.m in Sources */,
@@ -3027,6 +3033,7 @@
 				CBCC6F601B68C03D00E038D3 /* Samurai_ServiceLoader.m in Sources */,
 				CBCC6FFC1B68C03D00E038D3 /* UILabel+Html.m in Sources */,
 				CBCC6FE31B68C03D00E038D3 /* Samurai_CSSNumberMm.m in Sources */,
+				E94EC7F41B6CE26000B6135A /* Samurai_CSSParser.m in Sources */,
 				CBCC6C251B68C03600E038D3 /* STIHTTPSessionManager.m in Sources */,
 				CBCC6F881B68C03D00E038D3 /* Samurai_RenderObject.m in Sources */,
 				CBCC708F1B68C03D00E038D3 /* selector.c in Sources */,
@@ -3058,7 +3065,6 @@
 				CBCC6F7A1B68C03D00E038D3 /* Samurai_UIToolbar.m in Sources */,
 				CBCC6FC21B68C03D00E038D3 /* ServiceTapspotManager.m in Sources */,
 				CBCC6FB01B68C03D00E038D3 /* ServiceGestureViewSwipe.m in Sources */,
-				CBCC6FC81B68C03D00E038D3 /* Samurai_CSSCondition.m in Sources */,
 				CBCC6F791B68C03D00E038D3 /* Samurai_UITextView.m in Sources */,
 				CBCC6FC31B68C03D00E038D3 /* ServiceTapspotView.m in Sources */,
 				CBCC6F4F1B68C03D00E038D3 /* Samurai_NotificationBus.m in Sources */,
@@ -3092,7 +3098,6 @@
 				CBCC708D1B68C03D00E038D3 /* katana.tab.c in Sources */,
 				CBCC702C1B68C03D00E038D3 /* Samurai_HtmlElementH3.m in Sources */,
 				CBCC702E1B68C03D00E038D3 /* Samurai_HtmlElementH5.m in Sources */,
-				CBCC6FCF1B68C03D00E038D3 /* Samurai_CSSStyleSheet.m in Sources */,
 				CBCC6FBF1B68C03D00E038D3 /* ServiceMonitorStatusBar.m in Sources */,
 				CBCC6FDC1B68C03D00E038D3 /* Samurai_CSSNumberEm.m in Sources */,
 				CBCC70431B68C03D00E038D3 /* Samurai_HtmlElementMeter.m in Sources */,
@@ -3142,13 +3147,16 @@
 				CBCC6F4B1B68C03D00E038D3 /* Samurai_Validator.m in Sources */,
 				CBCC6F741B68C03D00E038D3 /* Samurai_UIStepper.m in Sources */,
 				CBCC70481B68C03D00E038D3 /* Samurai_HtmlElementPre.m in Sources */,
+				E94EC7F91B6CE26000B6135A /* Samurai_CSSSelectorChecker.m in Sources */,
 				CBCC6FD41B68C03D00E038D3 /* Samurai_CSSNumberAutomatic.m in Sources */,
+				E94EC7F61B6CE26000B6135A /* Samurai_CSSRule.m in Sources */,
 				CBCC70591B68C03D00E038D3 /* Samurai_HtmlElementTr.m in Sources */,
 				CBCC70441B68C03D00E038D3 /* Samurai_HtmlElementNav.m in Sources */,
 				CBCC6F731B68C03D00E038D3 /* Samurai_UISlider.m in Sources */,
 				CBCC6F411B68C03D00E038D3 /* Samurai_Log.m in Sources */,
 				CBCC70121B68C03D00E038D3 /* Samurai_HtmlDocumentWorklet_70BuildRenderTree.m in Sources */,
 				CBCC70611B68C03D00E038D3 /* Samurai_HtmlLayoutViewport.m in Sources */,
+				E94EC7F71B6CE26000B6135A /* Samurai_CSSRuleCollector.m in Sources */,
 				CBE2BBEB1AF9E95200E5EE9D /* Test_UISwitch.m in Sources */,
 				CBCC70301B68C03D00E038D3 /* Samurai_HtmlElementHeader.m in Sources */,
 				CBCC6F541B68C03D00E038D3 /* Samurai_Event.m in Sources */,
@@ -3178,6 +3186,7 @@
 				CBCC6FD51B68C03D00E038D3 /* Samurai_CSSNumberChs.m in Sources */,
 				CBCC70351B68C03D00E038D3 /* Samurai_HtmlElementInputButton.m in Sources */,
 				CBCC6F8F1B68C03D00E038D3 /* Samurai_ViewCore.m in Sources */,
+				E94EC7F81B6CE26000B6135A /* Samurai_CSSRuleSet.m in Sources */,
 				CBCC6FC61B68C03D00E038D3 /* UIViewController+DataBinding.m in Sources */,
 				CBCC6FFB1B68C03D00E038D3 /* UIImageView+Html.m in Sources */,
 				CBCC6F7E1B68C03D00E038D3 /* Samurai_Activity.m in Sources */,
@@ -3191,6 +3200,7 @@
 				CBCC6FD11B68C03D00E038D3 /* Samurai_CSSColor.m in Sources */,
 				CBCC6F781B68C03D00E038D3 /* Samurai_UITextField.m in Sources */,
 				CBCC70171B68C03D00E038D3 /* Samurai_HtmlElementBlockquote.m in Sources */,
+				E94EC7F51B6CE26000B6135A /* Samurai_CSSProtocol.m in Sources */,
 				CBCC70651B68C03D00E038D3 /* Samurai_HtmlRenderTable.m in Sources */,
 				CBCC70161B68C03D00E038D3 /* Samurai_HtmlElementAside.m in Sources */,
 				CBE2BBF71AFA487100E5EE9D /* Test_UITextView.m in Sources */,

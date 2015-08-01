@@ -74,7 +74,6 @@
 @protocol STIHTTPResponse <NSObject>
 @optional
 @property (nonatomic, assign, readonly) BOOL isValidated;
-@property (nonatomic, strong) id responseObject;
 @end
 
 @interface STIHTTPResponse : STIHTTPBaseObject<STIHTTPResponse>
@@ -97,11 +96,22 @@
 @property (nonatomic, strong) id responseObject;
 @property (nonatomic, weak) NSURLSessionDataTask * task;
 @property (nonatomic, copy) STIHTTPApiBlock whenUpdated;
+@property (nonatomic, copy) STIHTTPApiBlock whenFailed;
 @property (nonatomic, copy) void (^ whenCanceled)(void);
+
+/**
+ * Api will not be auto cancelled, that means `[STIHTTPApi cacenl]` will not 
+ * cancel it if set YES.
+ */
+@property (nonatomic, assign) BOOL manuallyCancel;
 
 - (void)send;
 - (void)cancel;
 
+/**
+ * This operation will cancel all the apis kind of this class.
+ */
++ (void)cancel;
 + (void)setGlobalHTTPSessionManager:(STIHTTPSessionManager *)HTTPSessionManager;
 
 @end

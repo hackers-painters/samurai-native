@@ -10,7 +10,6 @@
 #import "Movies.h"
 
 @interface MovieModel ()
-@property (nonatomic, strong) STIHTTPApi * api;
 @end
 
 @implementation MovieModel
@@ -57,8 +56,6 @@
 
 - (void)refresh
 {
-    [self.api cancel];
-    
     GET_A_MOVIE_API * api = [GET_A_MOVIE_API new];
     
     @weakify( self );
@@ -82,9 +79,7 @@
             [self sendSignal:self.eventError];
         }
     };
-    
-    self.api = api;
-    
+
     [api send];
     
     [self sendSignal:self.eventLoading];

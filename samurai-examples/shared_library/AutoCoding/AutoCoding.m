@@ -47,7 +47,7 @@ static NSString *const AutocodingException = @"AutocodingException";
     return YES;
 }
 
-+ (instancetype)ac_objectWithContentsOfFile:(NSString *)filePath
++ (instancetype)objectWithContentsOfFile:(NSString *)filePath
 {
     //load the file
     NSData *data = [NSData dataWithContentsOfFile:filePath];
@@ -79,7 +79,7 @@ static NSString *const AutocodingException = @"AutocodingException";
 	return object;
 }
 
-- (BOOL)ac_writeToFile:(NSString *)filePath atomically:(BOOL)useAuxiliaryFile
+- (BOOL)writeToFile:(NSString *)filePath atomically:(BOOL)useAuxiliaryFile
 {
     //note: NSData, NSDictionary and NSArray already implement this method
     //and do not save using NSCoding, however the objectWithContentsOfFile
@@ -120,6 +120,7 @@ static NSString *const AutocodingException = @"AutocodingException";
         objc_property_t property = properties[i];
         const char *propertyName = property_getName(property);
         __autoreleasing NSString *key = @(propertyName);
+
         //check if codable
         if (![uncodableProperties containsObject:key])
         {
@@ -239,12 +240,21 @@ static NSString *const AutocodingException = @"AutocodingException";
         //make the association atomically so that we don't need to bother with an @synchronize
         objc_setAssociatedObject([self class], _cmd, codableProperties, OBJC_ASSOCIATION_RETAIN);
     }
-
     return codableProperties;
 }
 
 - (NSDictionary *)dictionaryRepresentation
 {
+	if ( [self isKindOfClass:NSDictionary.class] )
+		return (NSDictionary *)self;
+	
+	if ( [self isKindOfClass:NSData.class] )
+		return nil;
+
+	// TODO: foundation object
+//	if ( [self isKindOfClass:NSDate.class] )
+//		return [self description];
+	
     NSDictionary * codableProperties = [self codableProperties];
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     for (__unsafe_unretained NSString *key in codableProperties)
@@ -260,13 +270,29 @@ static NSString *const AutocodingException = @"AutocodingException";
             {
                 if (value) dict[key] = value;
             }
+			else if ( [clz isSubclassOfClass:NSArray.class] )
+			{
+				NSMutableArray * values = [NSMutableArray array];
+				[(NSArray *)value enumerateObjectsUsingBlock:^(NSObject * obj, NSUInteger idx, BOOL *stop) {
+					if ( [obj.class isSubclassOfClass:NSValue.class]
+						|| [obj.class isSubclassOfClass:NSString.class]
+						|| [obj.class isSubclassOfClass:NSDictionary.class]
+						)
+					{
+						[values addObject:obj];
+					}
+					else
+					{
+						[values addObject:[obj dictionaryRepresentation]];
+					}
+				}];
+				if (value) dict[key] = [NSArray arrayWithArray:values];
+			}
             else
             {
                 if (value) dict[key] = [value dictionaryRepresentation];
             }
         }
-        
-        
     }
     return dict;
 }
@@ -292,6 +318,8 @@ static NSString *const AutocodingException = @"AutocodingException";
         {
             if (secureSupported && ![object isKindOfClass:propertyClass])
             {
+                NSString * message = [NSString stringWithFormat:@"Expected '%@' to be a %@, but was actually a %@", key, propertyClass, [object class]];
+				NSLog(@"%@", message );
                 [NSException raise:AutocodingException format:@"Expected '%@' to be a %@, but was actually a %@", key, propertyClass, [object class]];
             }
             [self setValue:object forKey:key];
@@ -312,16 +340,6 @@ static NSString *const AutocodingException = @"AutocodingException";
         id object = [self valueForKey:key];
         if (object) [aCoder encodeObject:object forKey:key];
     }
-}
-
-+ (instancetype)objectWithContentsOfFile:(NSString *)path
-{
-    return [self ac_objectWithContentsOfFile:path];
-}
-
-- (BOOL)writeToFile:(NSString *)filePath atomically:(BOOL)useAuxiliaryFile
-{
-   return [self ac_writeToFile:filePath atomically:useAuxiliaryFile];
 }
 
 @end

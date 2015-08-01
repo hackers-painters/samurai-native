@@ -251,14 +251,6 @@
         }
     }
 }
-- (void)mergeWithRuleSet:(SamuraiCSSRuleSet *)ruleSet
-{
-	[self.idRules addEntriesFromDictionary:ruleSet.idRules];
-	[self.tagRules addEntriesFromDictionary:ruleSet.tagRules];
-	[self.classRules addEntriesFromDictionary:ruleSet.classRules];
-	[self.pseudoRules addEntriesFromDictionary:ruleSet.pseudoRules];
-	[self.privateUniversalRules addObjectsFromArray:ruleSet.privateUniversalRules];
-}
 
 #pragma mark -
 

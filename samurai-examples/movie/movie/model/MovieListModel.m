@@ -9,7 +9,6 @@
 #import "MovieListModel.h"
 
 @interface MovieListModel ()
-@property (nonatomic, strong) STIHTTPApi * api;
 @end
 
 @implementation MovieListModel
@@ -71,8 +70,6 @@
 
 - (void)loadFirstTime:(BOOL)isFirstTime
 {
-    [self.api cancel];
-    
     LIST_MOVIES_API * api = [LIST_MOVIES_API new];
     
     @weakify( self );
@@ -114,8 +111,6 @@
             [self sendSignal:self.eventError];
         }
     };
-    
-    self.api = api;
     
     [api send];
     
