@@ -28,86 +28,48 @@
 //	THE SOFTWARE.
 //
 
-#import "Samurai_CSSProtocol.h"
-
-#import "_pragma_push.h"
+#import "Samurai.h"
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
-// ----------------------------------
-// Source code
-// ----------------------------------
-
 #pragma mark -
 
-@implementation SamuraiCSSCondition
+@protocol SamuraiCSSProtocol <NSObject>
 
-@def_prop_strong( NSString *,		cssId );
-@def_prop_strong( NSString *,		cssTag );
-@def_prop_strong( NSString *,		cssPseudos );
-@def_prop_strong( NSString *,		cssShadowPseudoId );
-@def_prop_strong( NSArray *,		cssClasses );
-@def_prop_strong( NSDictionary *,	cssAttributes );
+- (NSString *)cssId;
+- (NSString *)cssTag;
+- (NSString *)cssPseudos;
+- (NSString *)cssShadowPseudoId;
 
-- (id<SamuraiCSSProtocol>)cssParent
-{
-	return nil;
-}
+- (NSArray *)cssClasses;
+- (NSDictionary *)cssAttributes;
 
-- (id<SamuraiCSSProtocol>)cssPreviousSibling
-{
-	return nil;
-}
+- (id<SamuraiCSSProtocol>)cssParent;
+- (id<SamuraiCSSProtocol>)cssPreviousSibling;
+- (id<SamuraiCSSProtocol>)cssFollowingSibling;
+- (id<SamuraiCSSProtocol>)cssSiblingAtIndex:(NSInteger)index;
 
-- (id<SamuraiCSSProtocol>)cssFollowingSibling
-{
-	return nil;
-}
-
-- (id<SamuraiCSSProtocol>)cssSiblingAtIndex:(NSInteger)index
-{
-	return nil;
-}
-
-- (NSArray *)cssChildren
-{
-	return nil;
-}
-
-- (NSArray *)cssPreviousSiblings
-{
-	return nil;
-}
-
-- (NSArray *)cssFollowingSiblings
-{
-	return nil;
-}
+- (NSArray *)cssChildren;
+- (NSArray *)cssPreviousSiblings;
+- (NSArray *)cssFollowingSiblings;
 
 @end
 
-// ----------------------------------
-// Unit test
-// ----------------------------------
+#pragma mark -
+
+FOUNDATION_EXPORT NSString * NSStringFromSamuraiCSSProtocolElement(id<SamuraiCSSProtocol>);
 
 #pragma mark -
 
-#if __SAMURAI_TESTING__
+@interface SamuraiCSSCondition : NSObject<SamuraiCSSProtocol>
 
-TEST_CASE( WebCore, CSSProtocol )
+@prop_strong( NSString *,		cssId );
+@prop_strong( NSString *,		cssTag );
+@prop_strong( NSString *,		cssPseudos );
+@prop_strong( NSString *,		cssShadowPseudoId );
+@prop_strong( NSArray *,		cssClasses );
+@prop_strong( NSDictionary *,	cssAttributes );
 
-DESCRIBE( before )
-{
-}
-
-DESCRIBE( after )
-{
-}
-
-TEST_CASE_END
-
-#endif	// #if __SAMURAI_TESTING__
+@end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
-
-#import "_pragma_pop.h"

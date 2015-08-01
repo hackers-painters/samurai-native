@@ -40,6 +40,18 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
+#if __SAMURAI_DEBUG__
+
+#undef  IS_CSS_DEBUG
+#define IS_CSS_DEBUG(__x) [[__x cssAttributes] hasObjectForKey:@"debug"] || [[__x cssAttributes] hasObjectForKey:@"debug-css"]
+
+#else 
+
+#undef  IS_CSS_DEBUG
+#define IS_CSS_DEBUG(__x) NO
+
+#endif
+
 // ----------------------------------
 // Source code
 // ----------------------------------
@@ -94,7 +106,7 @@
 					forElement:element
 				toMatchedRules:matchedRules];
 
-	return [self buildResultFromMatchedRules:matchedRules];
+    return [self buildResultFromMatchedRules:matchedRules forElement:element];;
 }
 
 #pragma mark -
@@ -147,48 +159,95 @@
 	}
 }
 
-- (NSDictionary *)buildResultFromMatchedRules:(NSMutableArray *)matchedRules
+- (NSDictionary *)buildResultFromMatchedRules:(NSMutableArray *)matchedRules forElement:(id<SamuraiCSSProtocol>)element
 {
-	NSMutableDictionary * style = nil;
-	
+#if __SAMURAI_DEBUG__
+    if ( IS_CSS_DEBUG(element) )
+    {
+        PRINT( @">>>> Debug CSS at >>" );
+        PRINT( @"Collecting rule for %@", element);
+        TRAP();
+    }
+#endif // #if __SAMURAI_DEBUG__
+    
 	[matchedRules sortUsingComparator:^NSComparisonResult( SamuraiCSSRule * obj1, SamuraiCSSRule * obj2 ) {
 		
 		NSUInteger specificity1 = obj1.specificity;
 		NSUInteger specificity2 = obj2.specificity;
 
-// TODO: @(QFish) should consider position
-//        return (specificity1 == specificity2) ? obj1.position > obj2.position : specificity1 > specificity2;
-
-		return specificity1 > specificity2;
+#if __SAMURAI_DEBUG__
+        if ( IS_CSS_DEBUG(element) )
+        {
+            PRINT(@"%@ | %@", obj1, obj2);
+        }
+#endif // #if __SAMURAI_DEBUG__
+        
+        return (specificity1 == specificity2) ? obj1.position > obj2.position : specificity1 > specificity2;
 	}];
 
+	NSMutableDictionary * style = nil;
+    
     for ( SamuraiCSSRule * ruleData in matchedRules )
     {
-        KatanaStyleRule * rule = ruleData.rule;
+        [[self class] collectDeclarations:ruleData.rule->declarations intoStyle:&style];
+    }
+    
+#if __SAMURAI_DEBUG__
+    if ( IS_CSS_DEBUG(element) )
+    {
+        PRINT( @"Result: %@", style );
+    }
+#endif // #if __SAMURAI_DEBUG__
+    
+	return style;
+}
+
+#pragma mark -
+
++ (void)collectDeclarations:(KatanaArray *)declarations intoStyle:(__autoreleasing NSMutableDictionary **)style
+{
+    if ( NULL == declarations )
+        return;
+    
+    for ( size_t i = 0; i < declarations->length; i++ )
+    {
+        KatanaDeclaration * decl = declarations->data[i];
         
-        for ( size_t i = 0; i < rule->declarations->length; i++ )
+        if ( NULL == decl->property )
+            continue;
+        
+        if ( nil == *style )
         {
-            KatanaDeclaration * decl = rule->declarations->data[i];
-
-            if ( NULL == decl->property )
-				continue;
-
-			if ( nil == style )
-			{
-				style = [NSMutableDictionary dictionary];
-			}
-
-			NSString * key = [NSString stringWithUTF8String:decl->property];
-			NSObject * val = [SamuraiCSSArray parseArray:decl->values];
-
-			if ( key && val )
-			{
-				[style setValue:val forKey:key];
-			}
+            *style = [NSMutableDictionary dictionary];
+        }
+        
+        NSString * key = [NSString stringWithUTF8String:decl->property];
+        NSObject * val = [SamuraiCSSArray parseDeclaration:decl];
+        
+        if ( key && val )
+        {
+            SamuraiCSSArray * last = [*style valueForKey:key];
+            
+            if ( last ) // Already exists for current property,
+            {
+                if ( last.isImportant ) // If last one is important,
+                {
+                    if ( decl->important ) // and current one is impotrant too.
+                    {
+                        [*style setValue:val forKey:key]; // Replace it
+                    } // or do nothing
+                }
+                else // or just replace it
+                {
+                    [*style setValue:val forKey:key];
+                }
+            }
+            else // or just set it
+            {
+                [*style setValue:val forKey:key];
+            }
         }
     }
-	
-	return style;
 }
 
 @end

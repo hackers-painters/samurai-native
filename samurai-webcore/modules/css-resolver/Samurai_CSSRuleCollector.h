@@ -38,9 +38,9 @@
 
 @interface SamuraiCSSRuleCollector : NSObject
 
-@singleton( SamuraiCSSRuleCollector )
-
 - (NSDictionary *)collectFromRuleSet:(SamuraiCSSRuleSet *)ruleSet forElement:(id<SamuraiCSSProtocol>)element;
+
++ (void)collectDeclarations:(KatanaArray *)declarations intoStyle:(NSMutableDictionary **)style;
 
 @end
 

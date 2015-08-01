@@ -116,29 +116,10 @@
 	{
 		KatanaOutput * output = [[SamuraiCSSParser sharedInstance] parseDeclaration:domNode.attrStyle];
 		
-		if ( output )
+		if ( NULL != output )
 		{
-			KatanaArray * declarations = output->declarations;
-			
-			if ( declarations->length > 0 )
-			{
-				for ( size_t i = 0; i < declarations->length; i++ )
-				{
-					KatanaDeclaration * decl = declarations->data[i];
-					
-					if ( NULL == decl->property )
-						continue;
-
-					NSString * key = [NSString stringWithUTF8String:decl->property];
-					NSObject * val = [SamuraiCSSArray parseArray:decl->values];
-
-					if ( key && val )
-					{
-						[styleProperties setValue:val forKey:key];
-					}
-				}
-			}
-			
+            [SamuraiCSSRuleCollector collectDeclarations:output->declarations intoStyle:&styleProperties];
+						
 			katana_destroy_output( output );
 		}
 	}
@@ -189,13 +170,13 @@
 
 - (void)mergeStyleForDomNode:(SamuraiHtmlDomNode *)domNode
 {
-	DEBUG_HTML_CSS( domNode );
+	DEBUG_HTML_STYLE( domNode );
 	
 	if ( nil == domNode.document )
 		return;
 	
 // dom
-	
+    
 	NSMutableDictionary * domStyle = [self computeStyleForDomNode:domNode];
 
 	[domNode.computedStyle removeAllObjects];

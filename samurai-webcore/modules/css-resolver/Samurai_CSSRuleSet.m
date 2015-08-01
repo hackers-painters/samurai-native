@@ -90,8 +90,6 @@
 		self.pseudoRules				= [NSMutableDictionary dictionary];
 		self.fontFaceRules				= [NSMutableArray array];
 		self.keyframesRules				= [NSMutableArray array];
-        self.linkPseudoClassRules		= [NSMutableArray array];
-        self.focusPseudoClassRules		= [NSMutableArray array];
         self.privateUniversalRules		= [NSMutableArray array];
 		self.shadowPseudoElementRules	= [NSMutableDictionary dictionary];
     }

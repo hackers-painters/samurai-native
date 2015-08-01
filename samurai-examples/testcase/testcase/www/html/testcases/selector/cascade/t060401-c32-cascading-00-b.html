@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+ <head>
+  <title>CSS 2.1 Test Suite: Cascading Order</title>
+  <link rel="stylesheet" href="support/c-red.css">
+  <style type="text/css">
+   body * { color: red; list-style: none; margin: 0; padding: 0; }
+   label { color: red; }
+   li label.a { color: red; x: li-label-a;}
+   li label.b { color: red; x: li-label-b;}
+   li label.c { color: red; x: li-label-c;}
+   li label.d { color: red; x: li-label-d;}
+   li label.e { color: red; x: li-label-e;}
+   li label.f { color: red; x: li-label-f;}
+   ul li label.a { color: green; x: ul-li-label-a;}
+   ul li label.b { color: green; x: ul-li-label-b;}
+   ul li li label.c { color: red; x: ul-li-li-label-c}
+   ul li li label.d { color: red; x: ul-li-li-label-d}
+   ul li li label.e { color: red; x: ul-li-li-label-e}
+   ul li li label.f { color: red; x: ul-li-li-label-f}
+   ul li li label.c { color: green; x: ul-li-li-label-c}
+   li.test1 label.d { color: green; x: li-test1-label-d}
+   ul li.test2 label.e { color: green; x: ul-li-test2-label-e}
+   ul li.test3 label.f { color: red; x: ul-li-test3-label-f}
+   ul li#test3 label.f { color: green; x: ul-li-test3-label-f}
+   .test4 { color: red; }
+   .test4 { color: green; }
+   .c { color: green; }
+   
+  </style>
+  <link rel="help" href="http://www.w3.org/TR/CSS21/cascade.html#cascading-order" title="6.4.1 Cascading order">
+  <link rel="help" href="http://www.w3.org/TR/CSS21/cascade.html#specificity" title="6.4.3 Calculating a selector's specificity">
+ </head>
+ <body>
+     
+
+  <ul>
+   <li> <label class="a" debug-css> This should be green. </label> </li>
+   <li> <label class="b"> This should be green. </label>
+    <ul>
+     <li> <label class="c"> This should be green. </label> </li>
+     <li> <label class="c"> This should be green. </label> </li>
+     <li class="test1"> <label class="d"> This should be green. </label> </li>
+    </ul>
+   </li>
+   <li class="test2"> <label class="e"> This should be green. </label> </li>
+   <li id="test3" class="test3"> <label class="f"> This should be green. </label> </li>
+   <li> <label class="a"> This should be green. </label> </li>
+  </ul>
+  <p style="color: green;"> This should be green. </p>
+  <p class="test4"> This should be green. </p>
+  <p class="c"> This should be green. </p>
+ </body>
+</html>

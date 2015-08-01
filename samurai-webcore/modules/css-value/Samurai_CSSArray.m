@@ -123,6 +123,21 @@
 @def_prop_dynamic( SamuraiCSSValue *,	right );
 @def_prop_dynamic( SamuraiCSSValue *,	bottom );
 
++ (instancetype)parseDeclaration:(KatanaDeclaration *)decl
+{
+    if ( NULL == decl )
+        return nil;
+    
+    SamuraiCSSArray * result = [self parseArray:decl->values];
+    
+    if ( nil != result )
+    {
+        result.important = decl->important;
+    }
+    
+    return result;
+}
+
 + (instancetype)parseArray:(KatanaArray *)array
 {
 	if ( NULL == array || 0 == array->length )

@@ -39,10 +39,18 @@
 // Source code
 // ----------------------------------
 
+#import "../../vendor/katana-parser/parser.h"
+#import "../../vendor/katana-parser/selector.h"
+
 #pragma mark -
+
+@interface SamuraiCSSRule ()
+@prop_strong( NSString *,           selectorName );
+@end
 
 @implementation SamuraiCSSRule
 
+@def_prop_strong( NSString *,           selectorName );
 @def_prop_unsafe( KatanaStyleRule *,	rule );
 @def_prop_unsafe( KatanaSelector *,		selector );
 
@@ -55,20 +63,47 @@
 {
     self = [super init];
     if ( self )
-	{
-        self.rule = rule;
-		self.selector = selector;
-
-        self.position = position;
-		self.specificity = katana_calc_specificity_for_selector( selector );
+    {
+        _rule        = rule;
+        _selector    = selector;
+        _position    = position;
+        _specificity = -1;
 	}
     return self;
+}
+
+- (NSInteger)specificity
+{
+    if ( _specificity == -1 ) {
+        _specificity = katana_calc_specificity_for_selector( self.selector );
+    }
+    
+    return _specificity;
 }
 
 - (void)dealloc
 {
 	self.rule = nil;
 	self.selector = nil;
+}
+
+- (NSString *)description
+{
+    if ( !self.selectorName )
+    {
+        KatanaParser parser;
+        parser.options = &kKatanaDefaultOptions;
+        KatanaParserString * string = katana_selector_to_string(&parser, self.selector, NULL);
+        const char* text = katana_string_to_characters(&parser, string);
+        katana_parser_deallocate(&parser, (void*) string->data);
+        katana_parser_deallocate(&parser, (void*) string);
+        NSString * selectorName = [NSString stringWithUTF8String:text];
+        katana_parser_deallocate(&parser, (void*) text);
+        
+        self.selectorName = selectorName;
+    }
+   
+    return [NSString stringWithFormat:@"%@: %ld %ld", self.selectorName, self.specificity, self.position];
 }
 
 @end

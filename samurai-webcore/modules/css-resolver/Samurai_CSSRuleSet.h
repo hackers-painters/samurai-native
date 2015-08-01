@@ -48,8 +48,6 @@
 - (void)addStyleRule:(KatanaStyleRule *)rule;
 - (void)addStyleRules:(KatanaArray *)styleRules;
 
-- (void)mergeWithRuleSet:(SamuraiCSSRuleSet *)ruleSet;
-
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

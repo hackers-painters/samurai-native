@@ -54,12 +54,15 @@
 
 @interface SamuraiCSSArray : SamuraiCSSObject
 
+@property (nonatomic, assign, getter=isImportant) BOOL important;
+
 @prop_strong( NSMutableArray *,		array );
 @prop_strong( SamuraiCSSValue *,	top );
 @prop_strong( SamuraiCSSValue *,	left );
 @prop_strong( SamuraiCSSValue *,	right );
 @prop_strong( SamuraiCSSValue *,	bottom );
 
++ (instancetype)parseDeclaration:(KatanaDeclaration *)decl;
 + (instancetype)parseArray:(KatanaArray *)array;	// override point
 + (instancetype)parseString:(NSString *)string;		// override point
 

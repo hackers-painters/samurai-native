@@ -143,9 +143,9 @@
 			TRAP(); \
 		}
 
-#undef	DEBUG_HTML_CSS
-#define DEBUG_HTML_CSS( __x ) \
-		if ( [__x.attr hasObjectForKey:@"debug"] || [__x.attr hasObjectForKey:@"debug-css"] ) \
+#undef	DEBUG_HTML_STYLE
+#define DEBUG_HTML_STYLE( __x ) \
+		if ( [__x.attr hasObjectForKey:@"debug"] || [__x.attr hasObjectForKey:@"debug-style"] ) \
 		{ \
 			PRINT( @">>>> Debug style at >>" ); \
 			[__x dump]; \
@@ -168,6 +168,9 @@
 
 #undef	DEBUG_HTML_CSS
 #define DEBUG_HTML_CSS( __x )
+
+#undef	DEBUG_HTML_STYLE
+#define DEBUG_HTML_STYLE( __x )
 
 #undef	DEBUG_HTML_RENDER
 #define DEBUG_HTML_RENDER( __x )
