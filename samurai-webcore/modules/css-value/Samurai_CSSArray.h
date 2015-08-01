@@ -62,7 +62,7 @@
 @prop_strong( SamuraiCSSValue *,	right );
 @prop_strong( SamuraiCSSValue *,	bottom );
 
-+ (instancetype)parseDeclaration:(KatanaDeclaration *)decl;
++ (instancetype)parseDeclaration:(KatanaDeclaration *)declaration;
 + (instancetype)parseArray:(KatanaArray *)array;	// override point
 + (instancetype)parseString:(NSString *)string;		// override point
 

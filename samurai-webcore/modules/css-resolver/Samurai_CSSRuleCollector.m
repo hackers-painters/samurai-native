@@ -235,7 +235,8 @@
                     if ( decl->important ) // and current one is impotrant too.
                     {
                         [*style setValue:val forKey:key]; // Replace it
-                    } // or do nothing
+                    }
+                    // or do nothing
                 }
                 else // or just replace it
                 {
