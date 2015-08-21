@@ -36,9 +36,6 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
-#import "Samurai_HtmlLayoutObject.h"
-#import "Samurai_HtmlLayoutElement.h"
-
 #import "Samurai_HtmlRenderObject.h"
 #import "Samurai_HtmlRenderStyle.h"
 
@@ -51,14 +48,27 @@
 
 #pragma mark -
 
-#define HTML_DEFAULT_WRAP		CSSWrap_Wrap
-#define HTML_DEFAULT_ALIGN		CSSAlign_None
-#define HTML_DEFAULT_CLEAR		CSSClear_None
-#define HTML_DEFAULT_DISPLAY	CSSDisplay_Inline
-#define HTML_DEFAULT_FLOATING	CSSFloating_None
-#define HTML_DEFAULT_POSITION	CSSPosition_Relative
-#define HTML_DEFAULT_DIRECTION	CSSDirection_Row
-#define HTML_DEFAULT_VALIGN		CSSVerticalAlign_Baseline
+#define HTML_DEFAULT_WRAP			CSSWrap_Wrap
+#define HTML_DEFAULT_ALIGN			CSSAlign_None
+#define HTML_DEFAULT_CLEAR			CSSClear_None
+#define HTML_DEFAULT_DISPLAY		CSSDisplay_Inline
+#define HTML_DEFAULT_FLOATING		CSSFloating_None
+#define HTML_DEFAULT_POSITION		CSSPosition_Relative
+#define HTML_DEFAULT_VALIGN			CSSVerticalAlign_Baseline
+
+#define HTML_DEFAULT_BOXALIGN		CSSBoxAlign_Stretch
+#define HTML_DEFAULT_BOXORIENT		CSSBoxOrient_InlineAxis
+#define HTML_DEFAULT_BOXDIRECTION	CSSBoxDirection_Normal
+#define HTML_DEFAULT_BOXLINES		CSSBoxLines_Single
+#define HTML_DEFAULT_BOXPACK		CSSBoxPack_Start
+
+#define HTML_DEFAULT_FLEXWRAP		CSSFlexWrap_Nowrap
+#define HTML_DEFAULT_FLEXDIRECTION	CSSFlexDirection_Row
+
+#define HTML_DEFAULT_ALIGNSELF		CSSAlignSelf_Auto
+#define HTML_DEFAULT_ALIGNITEMS		CSSAlignItems_Stretch
+#define HTML_DEFAULT_ALIGNCONTENT	CSSAlignContent_Stretch
+#define HTML_DEFAULT_JUSTIFYCONTENT	CSSJustifyContent_FlexStart
 
 #pragma mark -
 
@@ -105,9 +115,9 @@
 
 @implementation SamuraiHtmlRenderObject
 {
-	SamuraiHtmlRenderWorkflow_UpdateFrame *	_relayoutFlow;
-	SamuraiHtmlRenderWorkflow_UpdateStyle *	_restyleFlow;
-	SamuraiHtmlRenderWorkflow_UpdateChain *	_rechainFlow;
+	SamuraiHtmlRenderWorkflow_UpdateFrame *		_relayoutFlow;
+	SamuraiHtmlRenderWorkflow_UpdateStyle *		_restyleFlow;
+	SamuraiHtmlRenderWorkflow_UpdateChain *		_rechainFlow;
 }
 
 @def_prop_strong( NSMutableArray *,				customClasses );
@@ -119,10 +129,29 @@
 @def_prop_assign( CSSDisplay,					display );
 @def_prop_assign( CSSFloating,					floating );
 @def_prop_assign( CSSPosition,					position );
-@def_prop_assign( CSSDirection,					direction );
 @def_prop_assign( CSSVerticalAlign,				verticalAlign );
 
+@def_prop_assign( CSSBoxAlign,					boxAlign );
+@def_prop_assign( CSSBoxOrient,					boxOrient );
+@def_prop_assign( CSSBoxDirection,				boxDirection );
+@def_prop_assign( CSSBoxLines,					boxLines );
+@def_prop_assign( CSSBoxPack,					boxPack );
+
+@def_prop_assign( CSSFlexWrap,					flexWrap );
+@def_prop_assign( CSSFlexDirection,				flexDirection );
+
+@def_prop_assign( CSSAlignSelf,					alignSelf );
+@def_prop_assign( CSSAlignItems,				alignItems );
+@def_prop_assign( CSSAlignContent,				alignContent );
+@def_prop_assign( CSSJustifyContent,			justifyContent );
+
 @def_prop_assign( CGFloat,						zIndex );
+@def_prop_assign( CGFloat,						order );
+
+@def_prop_assign( CGFloat,						flexGrow );
+@def_prop_assign( CGFloat,						flexBasis );
+@def_prop_assign( CGFloat,						flexShrink );
+
 @def_prop_assign( NSInteger,					tableRow );
 @def_prop_assign( NSInteger,					tableCol );
 @def_prop_assign( NSInteger,					tableRowSpan );
@@ -164,10 +193,29 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 		self.display		= HTML_DEFAULT_DISPLAY;
 		self.floating		= HTML_DEFAULT_FLOATING;
 		self.position		= HTML_DEFAULT_POSITION;
-		self.direction		= HTML_DEFAULT_DIRECTION;
 		self.verticalAlign	= HTML_DEFAULT_VALIGN;
+
+		self.boxAlign		= HTML_DEFAULT_BOXALIGN;
+		self.boxOrient		= HTML_DEFAULT_BOXORIENT;
+		self.boxDirection	= HTML_DEFAULT_BOXDIRECTION;
+		self.boxLines		= HTML_DEFAULT_BOXLINES;
+		self.boxPack		= HTML_DEFAULT_BOXPACK;
+
+		self.flexWrap		= HTML_DEFAULT_FLEXWRAP;
+		self.flexDirection	= HTML_DEFAULT_FLEXDIRECTION;
+		
+		self.alignSelf		= HTML_DEFAULT_ALIGNSELF;
+		self.alignItems		= HTML_DEFAULT_ALIGNITEMS;
+		self.alignContent	= HTML_DEFAULT_ALIGNCONTENT;
+		self.justifyContent	= HTML_DEFAULT_JUSTIFYCONTENT;
 		
 		self.zIndex			= 0.0f;
+		self.order			= 0.0f;
+		
+		self.flexGrow		= 0;
+		self.flexBasis		= INVALID_VALUE;
+		self.flexShrink		= 1;
+
 		self.tableCol		= -1;
 		self.tableRow		= -1;
 		self.tableRowSpan	= 0;
@@ -715,18 +763,62 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (void)computeProperties
 {
-	if ( nil == self.layout )
-	{
-		Class layoutClass = [[self class] defaultLayoutClass];
-		
-		if ( nil == layoutClass )
-		{
-			layoutClass = [SamuraiHtmlLayoutElement class];
-		}
+// compute properties
+	
+	self.wrap			= [self.style computeWrap:HTML_DEFAULT_WRAP];
+	self.align			= [self.style computeAlign:HTML_DEFAULT_ALIGN];
+	self.clear			= [self.style computeClear:HTML_DEFAULT_CLEAR];
+	self.display		= [self.style computeDisplay:HTML_DEFAULT_DISPLAY];
+	self.floating		= [self.style computeFloating:HTML_DEFAULT_FLOATING];
+	self.position		= [self.style computePosition:HTML_DEFAULT_POSITION];
+	self.verticalAlign	= [self.style computeVerticalAlign:HTML_DEFAULT_VALIGN];
+	
+	self.wrap			= (CSSWrap_Inherit == self.wrap) ? HTML_DEFAULT_WRAP : self.wrap;
+	self.align			= (CSSAlign_Inherit == self.align) ? HTML_DEFAULT_ALIGN : self.align;
+	self.clear			= (CSSClear_Inherit == self.clear) ? HTML_DEFAULT_CLEAR : self.clear;
+	self.display		= (CSSDisplay_Inherit == self.display) ? HTML_DEFAULT_DISPLAY : self.display;
+	self.floating		= (CSSFloating_Inherit == self.floating) ? HTML_DEFAULT_FLOATING : self.floating;
+	self.position		= (CSSPosition_Inherit == self.position) ? HTML_DEFAULT_POSITION : self.position;
+	self.verticalAlign	= (CSSVerticalAlign_Inherit == self.verticalAlign) ? HTML_DEFAULT_VALIGN : self.verticalAlign;
+	
+	self.order			= [self.style computeOrder:0.0f];
+	self.zIndex			= [self.style computeZIndex:0.0f];
+	
+// compute properties
+	
+	self.boxPack		= [self.style computeBoxPack:HTML_DEFAULT_BOXPACK];
+	self.boxAlign		= [self.style computeBoxAlign:HTML_DEFAULT_BOXALIGN];
+	self.boxLines		= [self.style computeBoxLines:HTML_DEFAULT_BOXLINES];
+	self.boxOrient		= [self.style computeBoxOrient:HTML_DEFAULT_BOXORIENT];
+	self.boxDirection	= [self.style computeBoxDirection:HTML_DEFAULT_BOXDIRECTION];
 
-		self.layout = [layoutClass layout:self];
-	}
+	self.flexWrap		= [self.style computeFlexWrap:HTML_DEFAULT_FLEXWRAP];
+	self.flexDirection	= [self.style computeFlexDirection:HTML_DEFAULT_FLEXDIRECTION];
+	self.flexGrow		= [self.style computeFlexGrow:0];
+	self.flexBasis		= [self.style computeFlexBasis:INVALID_VALUE];
+	self.flexShrink		= [self.style computeFlexShrink:1];
 
+	self.alignSelf		= [self.style computeAlignSelf:HTML_DEFAULT_ALIGNSELF];
+	self.alignItems		= [self.style computeAlignItems:HTML_DEFAULT_ALIGNITEMS];
+	self.alignContent	= [self.style computeAlignContent:HTML_DEFAULT_ALIGNCONTENT];
+	self.justifyContent	= [self.style computeJustifyContent:HTML_DEFAULT_JUSTIFYCONTENT];
+
+	self.boxPack		= (CSSBoxPack_Inherit == self.boxPack) ? HTML_DEFAULT_BOXPACK : self.boxPack;
+	self.boxAlign		= (CSSBoxAlign_Inherit == self.boxAlign) ? HTML_DEFAULT_BOXALIGN : self.boxAlign;
+	self.boxLines		= (CSSBoxLines_Inherit == self.boxLines) ? HTML_DEFAULT_BOXLINES : self.boxLines;
+	self.boxOrient		= (CSSBoxOrient_Inherit == self.boxOrient) ? HTML_DEFAULT_BOXORIENT : self.boxOrient;
+	self.boxDirection	= (CSSBoxDirection_Inherit == self.boxDirection) ? HTML_DEFAULT_BOXDIRECTION : self.boxDirection;
+	
+	self.flexWrap		= (CSSFlexWrap_Inherit == self.flexWrap) ? HTML_DEFAULT_FLEXWRAP : self.flexWrap;
+	self.flexDirection	= (CSSFlexDirection_Inherit == self.flexDirection) ? HTML_DEFAULT_FLEXDIRECTION : self.flexDirection;
+	
+	self.alignSelf		= (CSSAlignSelf_Inherit == self.alignSelf) ? HTML_DEFAULT_ALIGNSELF : self.alignSelf;
+	self.alignItems		= (CSSAlignItems_Inherit == self.alignItems) ? HTML_DEFAULT_ALIGNITEMS : self.alignItems;
+	self.alignContent	= (CSSAlignContent_Inherit == self.alignContent) ? HTML_DEFAULT_ALIGNCONTENT : self.alignContent;
+	self.justifyContent	= (CSSJustifyContent_Inherit == self.justifyContent) ? HTML_DEFAULT_JUSTIFYCONTENT : self.justifyContent;
+
+// compute view class
+	
 	if ( nil == self.viewClass )
 	{
 		Class classType = nil;
@@ -737,40 +829,16 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 		
 		self.viewClass = classType;
 	}
-
-	self.wrap = [self.style computeWrap:HTML_DEFAULT_WRAP];
-	self.align = [self.style computeAlign:HTML_DEFAULT_ALIGN];
-	self.clear = [self.style computeClear:HTML_DEFAULT_CLEAR];
-	self.display = [self.style computeDisplay:HTML_DEFAULT_DISPLAY];
-	self.floating = [self.style computeFloating:HTML_DEFAULT_FLOATING];
-	self.position = [self.style computePosition:HTML_DEFAULT_POSITION];
-	self.direction = [self.style computeDirection:HTML_DEFAULT_DIRECTION];
-	self.verticalAlign = [self.style computeVerticalAlign:HTML_DEFAULT_VALIGN];
-
-	self.wrap = (CSSWrap_Inherit == self.wrap) ? HTML_DEFAULT_WRAP : self.wrap;
-	self.align = (CSSAlign_Inherit == self.align) ? HTML_DEFAULT_ALIGN : self.align;
-	self.clear = (CSSClear_Inherit == self.clear) ? HTML_DEFAULT_CLEAR : self.clear;
-	self.display = (CSSDisplay_Inherit == self.display) ? HTML_DEFAULT_DISPLAY : self.display;
-	self.floating = (CSSFloating_Inherit == self.floating) ? HTML_DEFAULT_FLOATING : self.floating;
-	self.position = (CSSPosition_Inherit == self.position) ? HTML_DEFAULT_POSITION : self.position;
-	self.direction = (CSSDirection_Inherit == self.direction) ? HTML_DEFAULT_DIRECTION : self.direction;
-	self.verticalAlign = (CSSVerticalAlign_Inherit == self.verticalAlign) ? HTML_DEFAULT_VALIGN : self.verticalAlign;
-
-	self.zIndex = [self.style computeZIndex:0.0f];
 }
 
 #pragma mark -
 
 - (CGSize)computeSize:(CGSize)bounds
 {
-	self.layout.insetFlags		= UIEdgeFlagsYes;
-	self.layout.marginFlags		= UIEdgeFlagsYes;
-	self.layout.borderFlags		= UIEdgeFlagsYes;
-	self.layout.paddingFlags	= UIEdgeFlagsYes;
-
-	self.layout.bounds			= bounds;
-	self.layout.origin			= CGPointZero;
-	self.layout.collapse		= UIEdgeInsetsZero;
+	self.layout.bounds		= bounds;
+	self.layout.origin		= CGPointZero;
+	self.layout.stretch		= CGSizeMake( INVALID_VALUE, INVALID_VALUE );
+	self.layout.collapse	= UIEdgeInsetsZero;
 
 	if ( [self.layout begin:YES] )
 	{
@@ -783,14 +851,10 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (CGFloat)computeWidth:(CGFloat)height
 {
-	self.layout.insetFlags		= UIEdgeFlagsYes;
-	self.layout.marginFlags		= UIEdgeFlagsYes;
-	self.layout.borderFlags		= UIEdgeFlagsYes;
-	self.layout.paddingFlags	= UIEdgeFlagsYes;
-
-	self.layout.bounds			= CGSizeMake( INVALID_VALUE, height );
-	self.layout.origin			= CGPointZero;
-	self.layout.collapse		= UIEdgeInsetsZero;
+	self.layout.bounds		= CGSizeMake( INVALID_VALUE, height );
+	self.layout.origin		= CGPointZero;
+	self.layout.stretch		= CGSizeMake( INVALID_VALUE, INVALID_VALUE );
+	self.layout.collapse	= UIEdgeInsetsZero;
 
 	if ( [self.layout begin:YES] )
 	{
@@ -803,14 +867,10 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 
 - (CGFloat)computeHeight:(CGFloat)width
 {
-	self.layout.insetFlags		= UIEdgeFlagsYes;
-	self.layout.marginFlags		= UIEdgeFlagsYes;
-	self.layout.borderFlags		= UIEdgeFlagsYes;
-	self.layout.paddingFlags	= UIEdgeFlagsYes;
-
-	self.layout.bounds			= CGSizeMake( width, INVALID_VALUE );
-	self.layout.origin			= CGPointZero;
-	self.layout.collapse		= UIEdgeInsetsZero;
+	self.layout.bounds		= CGSizeMake( width, INVALID_VALUE );
+	self.layout.origin		= CGPointZero;
+	self.layout.stretch		= CGSizeMake( INVALID_VALUE, INVALID_VALUE );
+	self.layout.collapse	= UIEdgeInsetsZero;
 	
 	if ( [self.layout begin:YES] )
 	{

@@ -28,49 +28,15 @@
 //	THE SOFTWARE.
 //
 
-#import "Samurai_WebCore.h"
-
-#import "_pragma_push.h"
+#import "Samurai.h"
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
-// ----------------------------------
-// Source code
-// ----------------------------------
+#import "Samurai_HtmlLayoutContainer.h"
 
 #pragma mark -
 
-@implementation SamuraiWebcore
-
-+ (void)load
-{
-	fprintf( stderr, "  Starting WebCore ...\n" );
-}
-
+@interface SamuraiHtmlLayoutContainerFlex : SamuraiHtmlLayoutContainer
 @end
 
-// ----------------------------------
-// Unit test
-// ----------------------------------
-
-#pragma mark -
-
-#if __SAMURAI_TESTING__
-
-TEST_CASE( Samurai, WebCore )
-
-DESCRIBE( before )
-{
-}
-
-DESCRIBE( after )
-{
-}
-
-TEST_CASE_END
-
-#endif	// #if __SAMURAI_TESTING__
-
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
-
-#import "_pragma_pop.h"

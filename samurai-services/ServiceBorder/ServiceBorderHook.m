@@ -162,22 +162,22 @@ static BOOL __enabled = NO;
 		if ( DomNodeType_Document == renderer.dom.type )
 		{
 			borderLayer.borderColor = [HEX_RGBA(0x000000, 1.0f) CGColor];
-			borderLayer.borderWidth = 1.0f;
+			borderLayer.borderWidth = 2.0f;
 		}
 		else if ( DomNodeType_Element == renderer.dom.type )
 		{
 			borderLayer.borderColor = [HEX_RGBA(0xd22042, 1.0f) CGColor];
-			borderLayer.borderWidth = 1.0f;
+			borderLayer.borderWidth = 2.0f;
 		}
 		else if ( DomNodeType_Text == renderer.dom.type )
 		{
 			borderLayer.borderColor = [HEX_RGBA(0x666666, 1.0f) CGColor];
-			borderLayer.borderWidth = 1.0f;
+			borderLayer.borderWidth = 2.0f;
 		}
 		else
 		{
 			borderLayer.borderColor = [HEX_RGBA(0xcccccc, 1.0f) CGColor];
-			borderLayer.borderWidth = 1.0f;
+			borderLayer.borderWidth = 2.0f;
 		}
 		
 		if ( [renderer.childs count] )
@@ -193,7 +193,7 @@ static BOOL __enabled = NO;
 	{
 		borderLayer.backgroundColor = [[UIColor clearColor] CGColor];
 		borderLayer.borderColor = [HEX_RGBA(0xcccccc, 1.0f) CGColor];
-		borderLayer.borderWidth = 0.5f;
+		borderLayer.borderWidth = 2.0f;
 	}
 	
 	[borderLayer setNeedsDisplay];

@@ -16,8 +16,8 @@
 
 @implementation PlayerModel
 
-@def_prop_assign( NSInteger,				player_id )
-@def_prop_strong( USER *,               player )
+@def_prop_assign( NSInteger,	player_id )
+@def_prop_strong( USER *,		player )
 
 @def_signal( eventLoading )
 @def_signal( eventLoaded )

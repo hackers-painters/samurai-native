@@ -225,6 +225,21 @@
 	}
 }
 
+#pragma mark -
+
+- (NSArray*)keyCommands
+{
+	UIKeyCommand * command = [UIKeyCommand keyCommandWithInput:@"r"
+												 modifierFlags:UIKeyModifierCommand
+														action:@selector(handleCommandR:)];
+	return [NSArray arrayWithObject:command];
+}
+
+- (void)handleCommandR:(UIKeyCommand *)command
+{
+	int __break = 0;
+}
+
 @end
 
 // ----------------------------------

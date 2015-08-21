@@ -1,18 +1,18 @@
 
 .no-scroll {
-	-samurai-render-class: 'UIView';
+	-samurai-view-class: 'UIView';
 }
 
 p {
 	border: 0;
 	margin: 0;
 	padding: 0;
-	
-	-samurai-render-model: 'leaf';
-	-samurai-render-class: 'EMStringLabel';
+
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'EMStringLabel';
 }
 
 img, image {
-	-samurai-render-model: 'leaf';
-	-samurai-render-class: 'SDWebImageView';
+	-samurai-view-hierarchy: 'leaf';
+	-samurai-view-class: 'SDWebImageView';
 }

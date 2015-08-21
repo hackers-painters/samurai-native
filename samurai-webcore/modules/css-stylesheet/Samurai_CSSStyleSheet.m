@@ -137,12 +137,69 @@
 
 	if ( _output )
 	{
-		if ( _output->stylesheet && _output->stylesheet->imports.length )
+		KatanaStylesheet * stylesheet = _output->stylesheet;
+		
+		if ( stylesheet && stylesheet->imports.length )
 		{
-			[self.ruleSet addStyleRules:&_output->stylesheet->imports];
+			/*
+			for ( unsigned int i = 0; i < stylesheet->imports.length; i++ )
+			{
+				KatanaImportRule * rule = stylesheet->imports.data[i];
+				
+				if ( [[SamuraiCSSMediaQuery sharedInstance] testMediaQueries:rule->medias] )
+				{
+					SamuraiCSSStyleSheet * styleSheet = nil;
+
+					NSString *	href = [NSString stringWithUTF8String:rule->href];
+					NSString *	basePath = self.resPath;
+
+					NSString *	fileName = [[href lastPathComponent] stringByDeletingPathExtension];
+					NSString *	fileExt = [[href lastPathComponent] pathExtension];
+					NSString *	filePath = [[NSBundle mainBundle] pathForResource:fileName ofType:fileExt];
+					
+					if ( filePath && [[NSFileManager defaultManager] fileExistsAtPath:filePath] )
+					{
+						styleSheet = [SamuraiCSSStyleSheet resourceAtPath:filePath];
+					}
+					else if ( [href hasPrefix:@"http://"] || [href hasPrefix:@"https://"] )
+					{
+						styleSheet = [SamuraiCSSStyleSheet resourceWithURL:href];
+					}
+					else if ( [href hasPrefix:@"//"] )
+					{
+						styleSheet = [SamuraiCSSStyleSheet resourceWithURL:[@"http:" stringByAppendingString:href]];
+					}
+					else if ( [basePath hasPrefix:@"http://"] || [basePath hasPrefix:@"https://"] )
+					{
+						NSURL * url = [NSURL URLWithString:href relativeToURL:[NSURL URLWithString:basePath]];
+						
+						styleSheet = [SamuraiCSSStyleSheet resourceWithURL:[url absoluteString]];
+					}
+					else
+					{
+						NSString * cssPath;
+						
+						cssPath = [basePath stringByDeletingLastPathComponent];
+						cssPath = [cssPath stringByAppendingPathComponent:href];
+						cssPath = [cssPath stringByStandardizingPath];
+						
+						styleSheet = [SamuraiCSSStyleSheet resourceAtPath:cssPath];
+					}
+					
+					if ( styleSheet )
+					{
+						BOOL succeed = [styleSheet parse];
+						if ( succeed )
+						{
+							[self.ruleSet mergeWithRuleSet:styleSheet.ruleSet];
+						}
+					}
+				}
+			}
+			*/
 		}
 
-		if ( _output->stylesheet && _output->stylesheet->rules.length )
+		if ( stylesheet && stylesheet->rules.length )
 		{
 			[self.ruleSet addStyleRules:&_output->stylesheet->rules];
 		}

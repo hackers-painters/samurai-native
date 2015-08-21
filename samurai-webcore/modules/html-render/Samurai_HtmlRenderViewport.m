@@ -36,6 +36,7 @@
 
 #import "Samurai_HtmlLayoutViewport.h"
 #import "Samurai_HtmlElementViewport.h"
+
 #import "Samurai_HtmlRenderStoreScope.h"
 #import "Samurai_HtmlRenderStore.h"
 
@@ -74,6 +75,18 @@
 - (void)renderDidLoad
 {
 	[super renderDidLoad];
+}
+
+#pragma mark -
+
+- (void)computeProperties
+{
+	[super computeProperties];
+	
+	if ( nil == self.layout )
+	{
+		self.layout = [SamuraiHtmlLayoutViewport layout:self];
+	}
 }
 
 #pragma mark -

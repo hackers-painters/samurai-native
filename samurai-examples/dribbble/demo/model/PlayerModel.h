@@ -13,8 +13,8 @@
 
 @interface PlayerModel : SamuraiModel
 
-@prop_assign( NSInteger,				player_id )
-@prop_strong( USER *,               player )
+@prop_assign( NSInteger,	player_id )
+@prop_strong( USER *,		player )
 
 @signal( eventLoading )
 @signal( eventLoaded )

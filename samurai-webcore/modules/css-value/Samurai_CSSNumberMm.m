@@ -63,7 +63,7 @@
 	
 	SamuraiCSSNumberMm * result = nil;
 	
-	if ( KATANA_VALUE_IN == value->unit )
+	if ( KATANA_VALUE_MM == value->unit )
 	{
 		result = [[SamuraiCSSNumberMm alloc] init];
 		result.value = value->fValue;
@@ -115,11 +115,11 @@
 	return YES;
 }
 
-- (CGFloat)computeValue:(__unused CGFloat)value
+- (CGFloat)computeValue:(CGFloat)value
 {
-	// 25.4mm = 6pc = 16px
+	// 8.56cm = 85.6mm = 3.37in
 
-	return self.value * (25.4f / 6.0f * 16.0f / 10.0f);	// mm to px
+	return self.value * (16.0f * 6.0f * (3.37f / 8.56f) / 10.0f); // mm to px
 }
 
 @end

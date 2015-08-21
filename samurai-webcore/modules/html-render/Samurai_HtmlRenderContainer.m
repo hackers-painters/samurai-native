@@ -35,6 +35,11 @@
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
 #import "Samurai_HtmlLayoutContainer.h"
+#import "Samurai_HtmlLayoutContainerBlock.h"
+#import "Samurai_HtmlLayoutContainerFlex.h"
+#import "Samurai_HtmlLayoutContainerTable.h"
+#import "Samurai_HtmlLayoutElement.h"
+
 #import "Samurai_HtmlElementDiv.h"
 
 #import "Samurai_HtmlRenderStoreScope.h"
@@ -50,12 +55,27 @@
 
 + (Class)defaultLayoutClass
 {
-	return [SamuraiHtmlLayoutContainer class];
+	return [SamuraiHtmlLayoutContainerBlock class];
 }
 
 + (Class)defaultViewClass
 {
 	return [SamuraiHtmlElementDiv class];
+}
+
+#pragma mark -
+
+- (id)init
+{
+	self = [super init];
+	if ( self )
+	{		
+	}
+	return self;
+}
+
+- (void)dealloc
+{
 }
 
 #pragma mark -
@@ -68,6 +88,53 @@
 - (void)renderDidLoad
 {
 	[super renderDidLoad];
+}
+
+#pragma mark -
+
+- (void)computeProperties
+{
+	[super computeProperties];
+
+// compute layout class
+
+	Class layoutClass = nil;
+	
+	switch ( self.display )
+	{
+		case CSSDisplay_Inline:				layoutClass = [SamuraiHtmlLayoutContainerBlock class];	break;
+		case CSSDisplay_Block:				layoutClass = [SamuraiHtmlLayoutContainerBlock class];	break;
+		case CSSDisplay_InlineBlock:		layoutClass = [SamuraiHtmlLayoutContainerBlock class];	break;
+		case CSSDisplay_Flex:				layoutClass = [SamuraiHtmlLayoutContainerFlex class];	break;
+		case CSSDisplay_InlineFlex:			layoutClass = [SamuraiHtmlLayoutContainerFlex class];	break;
+		case CSSDisplay_ListItem:			layoutClass = [SamuraiHtmlLayoutContainerBlock class];	break;
+		case CSSDisplay_Table:				layoutClass = [SamuraiHtmlLayoutContainerTable class];	break;
+		case CSSDisplay_TableRowGroup:		layoutClass = [SamuraiHtmlLayoutContainerBlock class];	break;
+		case CSSDisplay_TableHeaderGroup:	layoutClass = [SamuraiHtmlLayoutContainerBlock class];	break;
+		case CSSDisplay_TableFooterGroup:	layoutClass = [SamuraiHtmlLayoutContainerBlock class];	break;
+		case CSSDisplay_TableRow:			layoutClass = [SamuraiHtmlLayoutContainerBlock class];	break;
+		case CSSDisplay_TableColumnGroup:	layoutClass = [SamuraiHtmlLayoutContainerBlock class];	break;
+		case CSSDisplay_TableColumn:		layoutClass = [SamuraiHtmlLayoutContainerBlock class];	break;
+		case CSSDisplay_TableCell:			layoutClass = [SamuraiHtmlLayoutContainerBlock class];	break;
+		case CSSDisplay_TableCaption:		layoutClass = [SamuraiHtmlLayoutContainerBlock class];	break;
+		default:
+			break;
+	}
+
+	if ( nil == layoutClass )
+	{
+		layoutClass = [[self class] defaultLayoutClass];
+		
+		if ( nil == layoutClass )
+		{
+			layoutClass = [SamuraiHtmlLayoutElement class];
+		}
+	}
+
+	if ( nil == self.layout || NO == [self.layout isKindOfClass:layoutClass] )
+	{
+		self.layout = [layoutClass layout:self];
+	}
 }
 
 #pragma mark -

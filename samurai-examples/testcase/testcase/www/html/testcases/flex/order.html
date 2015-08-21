@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+<ul id="box" class="box">
+	<li>a</li>
+	<li>b</li>
+	<li>c</li>
+	<li>d</li>
+	<li>e</li>
+</ul>
+
+	<style>
+		.box{
+			display:-webkit-flex;
+			display:flex;
+			margin:0;padding:10px;list-style:none; list-style-type:none; background-color:#eee;}
+	.box li{width:100px;height:100px;border:1px solid #aaa;text-align:center;}
+	#box li:nth-child(3){
+		-webkit-order:-1;
+		order:-1;
+	}
+	</style>
+
+</body>
+</html>

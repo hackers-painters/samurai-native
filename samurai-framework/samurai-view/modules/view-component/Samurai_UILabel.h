@@ -54,7 +54,9 @@ typedef enum
 @interface UILabel(Samurai)
 
 @prop_assign( BOOL,					trimmed );
+@prop_assign( BOOL,					flattern );
 @prop_assign( BOOL,					normalized );
+@prop_assign( CGFloat,				headIndent );
 @prop_assign( CGFloat,				lineHeight );
 @prop_assign( CGFloat,				letterSpacing );
 @prop_assign( UITextDecoration,		textDecoration );

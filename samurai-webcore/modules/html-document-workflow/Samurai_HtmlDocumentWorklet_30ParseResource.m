@@ -243,7 +243,7 @@ typedef enum
 		}
 		else if ( content && content.length )
 		{
-			styleSheet = [SamuraiCSSStyleSheet resourceWithString:content type:type baseURL:nil/*basePath*/];
+			styleSheet = [SamuraiCSSStyleSheet resourceWithString:content type:type baseURL:basePath];
 		}
 		else
 		{

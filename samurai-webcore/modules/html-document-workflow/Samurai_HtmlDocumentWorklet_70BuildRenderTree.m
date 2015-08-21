@@ -37,7 +37,6 @@
 #import "Samurai_HtmlRenderStyle.h"
 #import "Samurai_HtmlRenderContainer.h"
 #import "Samurai_HtmlRenderElement.h"
-#import "Samurai_HtmlRenderTable.h"
 #import "Samurai_HtmlRenderText.h"
 #import "Samurai_HtmlRenderViewport.h"
 
@@ -240,31 +239,6 @@
 			case CSSViewHierarchy_Tree:
 			{
 				thisObject = [SamuraiHtmlRenderContainer renderObjectWithDom:domNode andStyle:thisStyle];
-				
-				if ( thisObject )
-				{
-					[thisObject renderWillLoad];
-					
-					if ( container )
-					{
-						[container appendNode:thisObject];
-					}
-					
-					[thisObject computeProperties];
-					
-					for ( SamuraiHtmlDomNode * childDom in domNode.childs )
-					{
-						[self renderDomNode:childDom forContainer:thisObject inDocument:document];
-					}
-					
-					[thisObject renderDidLoad];
-				}
-			}
-			break;
-
-			case CSSViewHierarchy_Table:
-			{
-				thisObject = [SamuraiHtmlRenderTable renderObjectWithDom:domNode andStyle:thisStyle];
 				
 				if ( thisObject )
 				{

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+<ul id="box" class="box">
+	<li>flex:1;</li>
+	<li>flex:1;</li>
+	<li>flex:1;</li>
+</ul>
+<ul id="box2" class="box">
+	<li>flex:1 0 100px;</li>
+	<li>flex:2 0 100px;</li>
+	<li>flex:3 0 100px;</li>
+</ul>
+<ul id="box3" class="box">
+	<li>flex:1 1 400px;</li>
+	<li>flex:1 2 400px;</li>
+	<li>flex:1 2 400px;</li>
+</ul>
+
+	<style>
+		.box{
+			display:-webkit-flex;
+			display:flex;
+			max-width:400px;height:100px;margin:10px 0 0;padding:0;border-radius:5px;list-style:none; list-style-type:none; background-color:#eee;}
+	.box li{background:#aaa;text-align:center;}
+	.box li:nth-child(1){background:#999;}
+	.box li:nth-child(2){background:#aaa;}
+	.box li:nth-child(3){background:#ccc;}
+	#box li:nth-child(1){-webkit-flex:1;flex:1;}
+	#box li:nth-child(2){-webkit-flex:1;flex:1;}
+	#box li:nth-child(3){-webkit-flex:1;flex:1;}
+	#box2 li:nth-child(1){-webkit-flex:1 0 100px;flex:1 0 100px;}
+	#box2 li:nth-child(2){-webkit-flex:2 0 100px;flex:2 0 100px;}
+	#box2 li:nth-child(3){-webkit-flex:3 0 100px;flex:3 0 100px;}
+	#box3{max-width: 800px;}
+	#box3 li:nth-child(1){-webkit-flex:1 1 300px;flex:1 1 300px;background:#999;}
+	#box3 li:nth-child(2){-webkit-flex:1 2 500px;flex:1 2 500px;background:#aaa;}
+	#box3 li:nth-child(3){-webkit-flex:1 3 600px;flex:1 3 600px;background:#ccc;}
+	</style>
+
+</body>
+</html>

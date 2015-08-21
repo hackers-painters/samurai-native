@@ -18,9 +18,9 @@
 
 @implementation MovieCell
 
-- (void)unserialize:(id)obj
+- (void)store_unserialize:(id)obj
 {
-    [super unserialize:obj];
+    [super store_unserialize:obj];
     
     if ( obj )
     {

@@ -43,32 +43,12 @@
 
 #pragma mark -
 
-UIEdgeFlags UIEdgeFlagsYes = {
-	.top	= YES,
-	.left	= YES,
-	.right	= YES,
-	.bottom	= YES
-};
-
-UIEdgeFlags UIEdgeFlagsNo = {
-	.top	= NO,
-	.left	= NO,
-	.right	= NO,
-	.bottom	= NO
-};
-
-#pragma mark -
-
 @implementation SamuraiHtmlLayoutObject
 
 @def_prop_unsafe( SamuraiHtmlRenderObject *,	source );
 
-@def_prop_assign( UIEdgeFlags,					insetFlags );
-@def_prop_assign( UIEdgeFlags,					marginFlags );
-@def_prop_assign( UIEdgeFlags,					borderFlags );
-@def_prop_assign( UIEdgeFlags,					paddingFlags );
-
 @def_prop_assign( UIEdgeInsets,					collapse );
+@def_prop_assign( CGSize,						stretch );
 @def_prop_assign( CGSize,						bounds );
 @def_prop_assign( CGPoint,						origin );
 
@@ -87,6 +67,7 @@ UIEdgeFlags UIEdgeFlagsNo = {
 @def_prop_assign( CGFloat,						computedBorderSpacing );
 @def_prop_assign( CGFloat,						computedCellSpacing );
 @def_prop_assign( CGFloat,						computedCellPadding );
+
 @def_prop_assign( CGRect,						frame );
 
 + (instancetype)layout
@@ -141,8 +122,9 @@ UIEdgeFlags UIEdgeFlagsNo = {
 			[self computeMargin];
 			[self computeBorder];
 			[self computePadding];
-			[self computeCollpase];
-			[self computeResize];
+			
+			[self computeWidthShrink];
+			[self computeMarginCollpase];
 			
 			[self computeBorderSpacing];
 			[self computeCellPadding];
@@ -154,7 +136,7 @@ UIEdgeFlags UIEdgeFlagsNo = {
 	return ( CSSDisplay_None == self.source.display ) ? NO : YES;
 }
 
-- (void)offset:(CGPoint)point
+- (BOOL)offset:(CGPoint)point
 {
 	if ( NO == CGPointEqualToPoint( point, self.origin ) )
 	{
@@ -162,10 +144,34 @@ UIEdgeFlags UIEdgeFlagsNo = {
 		
 //		[self computeBounds];
 //		[self computeFrame];
+		
+		return YES;
+	}
+	else
+	{
+		return NO;
 	}
 }
 
-- (void)resize:(CGSize)size
+- (BOOL)stretchWidth:(CGFloat)width
+{	
+	if ( self.stretch.width == width )
+		return NO;
+	
+	self.stretch = CGSizeMake( width, self.stretch.height );
+	return YES;
+}
+
+- (BOOL)stretchHeight:(CGFloat)height
+{
+	if ( self.stretch.height == height )
+		return NO;
+	
+	self.stretch = CGSizeMake( self.stretch.width, height );
+	return YES;
+}
+
+- (BOOL)resize:(CGSize)size
 {
 	CGSize newSize = size;
 	
@@ -206,9 +212,14 @@ UIEdgeFlags UIEdgeFlagsNo = {
 	{
 		self.computedSize = newSize;
 
-//		[self computeResize];
 //		[self computeBounds];
 //		[self computeFrame];
+		
+		return YES;
+	}
+	else
+	{
+		return NO;
 	}
 }
 
@@ -294,7 +305,42 @@ UIEdgeFlags UIEdgeFlagsNo = {
 	self.computedPadding = padding;
 }
 
-- (void)computeCollpase
+- (void)computeWidthShrink
+{
+	if ( [self.source.style isFixedWidth] )
+		return;
+
+	CGFloat boundsWidth = self.bounds.width;
+	
+	if ( INVALID_VALUE != boundsWidth )
+	{
+		CGFloat sizeWidth = self.computedSize.width;
+		
+		if ( INVALID_VALUE != sizeWidth )
+		{
+			CGFloat edgeWidth = 0.0f;
+
+			edgeWidth += self.computedMargin.left;
+			edgeWidth += self.computedBorder.left;
+			edgeWidth += self.computedPadding.left;
+
+			edgeWidth += self.computedMargin.right;
+			edgeWidth += self.computedBorder.right;
+			edgeWidth += self.computedPadding.right;
+
+			if ( edgeWidth > 0.0f && sizeWidth + edgeWidth > boundsWidth )
+			{
+				CGSize newSize = self.computedSize;
+				
+				newSize.width = boundsWidth - edgeWidth;
+				
+				self.computedSize = newSize;
+			}
+		}
+	}
+}
+
+- (void)computeMarginCollpase
 {
 	UIEdgeInsets margin = self.computedMargin;
 	
@@ -327,7 +373,7 @@ UIEdgeFlags UIEdgeFlagsNo = {
 			}
 		}
 	}
-
+	
 	self.computedMargin = margin;
 }
 
@@ -377,43 +423,6 @@ UIEdgeFlags UIEdgeFlagsNo = {
 	}
 	
 	self.computedSize = result;
-}
-
-- (void)computeResize
-{
-	if ( [self.source.style isFixedWidth] )
-		return;
-
-//	if ( self.source.parent && NO == [self.source.parent.style isFixedWidth] )
-//		return;
-
-	CGFloat boundsWidth = self.bounds.width;
-	
-	if ( INVALID_VALUE != boundsWidth )
-	{
-		CGFloat sizeWidth = self.computedSize.width;
-
-		if ( INVALID_VALUE != sizeWidth )
-		{
-			CGFloat edgeWidth = 0.0f;
-			
-			edgeWidth += self.computedPadding.left;
-			edgeWidth += self.computedPadding.right;
-			edgeWidth += self.computedBorder.left;
-			edgeWidth += self.computedBorder.right;
-			edgeWidth += self.computedMargin.left;
-			edgeWidth += self.computedMargin.right;
-			
-			if ( edgeWidth > 0.0f && sizeWidth + edgeWidth > boundsWidth )
-			{
-				CGSize newSize = self.computedSize;
-
-				newSize.width = boundsWidth - edgeWidth;
-
-				self.computedSize = newSize;
-			}
-		}
-	}
 }
 
 - (void)computeOffset

@@ -117,9 +117,9 @@
 
 - (CGFloat)computeValue:(CGFloat)value
 {
-	// 2.54cm = 25.4mm = 6pc = 16px
+	// 8.56cm = 85.6mm = 3.37in
 
-	return self.value * (2.54f / 6.0f * 16.0f);	// mm to px
+	return self.value * (16.0f * 6.0f * (3.37f / 8.56f));	// in to px
 }
 
 @end

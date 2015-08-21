@@ -32,11 +32,11 @@
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
-#import "Samurai_HtmlLayoutObject.h"
+#import "Samurai_HtmlLayoutContainer.h"
 
 #pragma mark -
 
-@interface SamuraiHtmlLayoutTable : SamuraiHtmlLayoutObject
+@interface SamuraiHtmlLayoutContainerBlock : SamuraiHtmlLayoutContainer
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

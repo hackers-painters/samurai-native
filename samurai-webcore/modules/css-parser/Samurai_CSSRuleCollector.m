@@ -162,13 +162,11 @@
 		return specificity1 > specificity2;
 	}];
 
-    for ( SamuraiCSSRule * ruleData in matchedRules )
+    for ( SamuraiCSSRule * rule in matchedRules )
     {
-        KatanaStyleRule * rule = ruleData.rule;
-        
-        for ( size_t i = 0; i < rule->declarations->length; i++ )
+        for ( size_t i = 0; i < rule.rule->declarations->length; i++ )
         {
-            KatanaDeclaration * decl = rule->declarations->data[i];
+            KatanaDeclaration * decl = rule.rule->declarations->data[i];
 
             if ( NULL == decl->property )
 				continue;

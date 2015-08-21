@@ -28,8 +28,14 @@
 //	THE SOFTWARE.
 //
 
+#import "Samurai.h"
+
+// Extension
+
 #import "UIView+DataBinding.h"
 #import "UIViewController+DataBinding.h"
+
+// Modules
 
 #import "Samurai_HtmlDocument.h"
 #import "Samurai_HtmlDocumentWorkflow.h"
@@ -40,3 +46,8 @@
 #import "Samurai_HtmlRenderStoreScope.h"
 #import "Samurai_HtmlRenderWorkflow.h"
 #import "Samurai_HtmlRenderStyle.h"
+
+#pragma mark -
+
+@interface SamuraiWebcore : NSObject
+@end

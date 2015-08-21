@@ -72,6 +72,18 @@
 
 #pragma mark -
 
+- (void)computeProperties
+{
+	[super computeProperties];
+	
+	if ( nil == self.layout )
+	{
+		self.layout = [SamuraiHtmlLayoutElement layout:self];
+	}
+}
+
+#pragma mark -
+
 - (void)html_applyDom:(SamuraiHtmlDomNode *)dom
 {
 	[super html_applyDom:dom];

@@ -45,6 +45,7 @@
 @implementation UILabel(Samurai)
 
 @def_prop_dynamic( BOOL,				trimmed );
+@def_prop_dynamic( BOOL,				flattern );
 @def_prop_dynamic( BOOL,				normalized );
 @def_prop_dynamic( CGFloat,				lineHeight );
 @def_prop_dynamic( CGFloat,				letterSpacing );
@@ -121,6 +122,25 @@
 
 #pragma mark -
 
+- (BOOL)flattern
+{
+	NSNumber * flattern = [self getAssociatedObjectForKey:"flattern"];
+	
+	if ( flattern )
+	{
+		return [flattern boolValue];
+	}
+	
+	return NO;
+}
+
+- (void)setFlattern:(BOOL)flattern
+{
+	[self retainAssociatedObject:@(flattern) forKey:"flattern"];
+}
+
+#pragma mark -
+
 - (CGFloat)lineHeight
 {
 	NSNumber * lineHeight = [self getAssociatedObjectForKey:"lineHeight"];
@@ -136,6 +156,25 @@
 - (void)setLineHeight:(CGFloat)value
 {
 	[self retainAssociatedObject:@(value) forKey:"lineHeight"];
+}
+
+#pragma mark -
+
+- (CGFloat)headIndent
+{
+	NSNumber * headIndent = [self getAssociatedObjectForKey:"headIndent"];
+	
+	if ( headIndent )
+	{
+		return [headIndent floatValue];
+	}
+	
+	return INVALID_VALUE;
+}
+
+- (void)setHeadIndent:(CGFloat)value
+{
+	[self retainAssociatedObject:@(value) forKey:"headIndent"];
 }
 
 #pragma mark -
@@ -202,7 +241,12 @@
 		{
 			content = [content trim];
 		}
-		
+
+		if ( [self flattern] )
+		{
+			content = [content flat];
+		}
+
 		if ( [self normalized] )
 		{
 			content = [content normalize];
@@ -211,8 +255,9 @@
 		if ( content )
 		{
 			UITextDecoration	decoration = self.textDecoration;
-//			CGFloat				lineHeight = self.lineHeight;
-//			CGFloat				letterSpacing = self.letterSpacing;
+			CGFloat				headIndent = self.headIndent;
+			CGFloat				lineHeight = self.lineHeight;
+			CGFloat				letterSpacing = self.letterSpacing;
 			
 			NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:content];
 			
@@ -236,24 +281,40 @@
 										 range:NSMakeRange(0, [content length])];
 			}
 
-//			NSMutableParagraphStyle * paragraphStyle = nil;
-//			
+			NSMutableParagraphStyle * paragraphStyle = nil;
+			
 //			if ( INVALID_VALUE != lineHeight && lineHeight > 0 )
 //			{
 //				if ( nil == paragraphStyle )
 //				{
 //					paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 //				}
-//				
-//				paragraphStyle.lineSpacing = lineHeight;
+//	
+//			//	paragraphStyle.lineSpacing = lineHeight;
+//			//	paragraphStyle.lineHeightMultiple = 1.f;
+//				paragraphStyle.maximumLineHeight = lineHeight;
+//				paragraphStyle.minimumLineHeight = lineHeight;
 //			}
-//
-//			if ( paragraphStyle )
-//			{
-//				[attributedString addAttribute:(NSString *)kCTParagraphStyleAttributeName
-//										 value:paragraphStyle
-//										 range:NSMakeRange(0, [content length])];
-//			}
+			
+			if ( INVALID_VALUE != headIndent && headIndent > 0 )
+			{
+				if ( nil == paragraphStyle )
+				{
+					paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+				}
+				
+				paragraphStyle.firstLineHeadIndent = headIndent;
+			}
+
+			if ( paragraphStyle )
+			{
+				paragraphStyle.lineHeightMultiple = 1.f;
+				paragraphStyle.alignment = self.textAlignment;
+
+				[attributedString addAttribute:(NSString *)NSParagraphStyleAttributeName
+										 value:paragraphStyle
+										 range:NSMakeRange(0, [content length])];
+			}
 
 			self.attributedText = attributedString;
 		}

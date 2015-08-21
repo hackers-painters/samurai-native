@@ -43,6 +43,7 @@
 - (BOOL)test:(NSString *)condition;
 
 - (BOOL)testMediaQueries:(KatanaArray *)medias;
+- (BOOL)testMediaQueryType:(const char *)mediaQueryType;
 - (BOOL)testMediaQueryExpression:(KatanaMediaQueryExp *)mediaQueryExp;
 
 @end

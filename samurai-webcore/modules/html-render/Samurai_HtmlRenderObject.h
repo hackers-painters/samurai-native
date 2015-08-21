@@ -66,10 +66,29 @@
 @prop_assign( CSSDisplay,					display );
 @prop_assign( CSSFloating,					floating );
 @prop_assign( CSSPosition,					position );
-@prop_assign( CSSDirection,					direction );
 @prop_assign( CSSVerticalAlign,				verticalAlign );
 
+@prop_assign( CSSBoxAlign,					boxAlign );
+@prop_assign( CSSBoxOrient,					boxOrient );
+@prop_assign( CSSBoxDirection,				boxDirection );
+@prop_assign( CSSBoxLines,					boxLines );
+@prop_assign( CSSBoxPack,					boxPack );
+
+@prop_assign( CSSFlexWrap,					flexWrap );
+@prop_assign( CSSFlexDirection,				flexDirection );
+
+@prop_assign( CSSAlignSelf,					alignSelf );
+@prop_assign( CSSAlignItems,				alignItems );
+@prop_assign( CSSAlignContent,				alignContent );
+@prop_assign( CSSJustifyContent,			justifyContent );
+
 @prop_assign( CGFloat,						zIndex );
+@prop_assign( CGFloat,						order );
+
+@prop_assign( CGFloat,						flexGrow );
+@prop_assign( CGFloat,						flexBasis );
+@prop_assign( CGFloat,						flexShrink );
+
 @prop_assign( NSInteger,					tableRow );
 @prop_assign( NSInteger,					tableCol );
 @prop_assign( NSInteger,					tableRowSpan );
@@ -89,8 +108,7 @@
 
 - (void)renderWillLoad;									// override point
 - (void)renderDidLoad;									// override point
-
-- (void)computeProperties;
+- (void)computeProperties;								// override point
 
 - (SamuraiHtmlRenderObject *)queryById:(NSString *)domId;
 - (SamuraiHtmlRenderObject *)queryByDom:(SamuraiDomNode *)domNode;
@@ -114,24 +132,6 @@
 #undef	DEBUG_RENDERER_LAYOUT
 #define DEBUG_RENDERER_LAYOUT( __x ) \
 		if ( [__x.dom.attr hasObjectForKey:@"debug"] || [__x.dom.attr hasObjectForKey:@"debug-layout"] ) \
-		{ \
-			PRINT( @">>>> Debug layout at >>" ); \
-			[__x dump]; \
-			TRAP(); \
-		}
-
-#undef	DEBUG_RENDERER_FLOAT
-#define DEBUG_RENDERER_FLOAT( __x ) \
-		if ( [__x.dom.attr hasObjectForKey:@"debug-layout"] || [__x.dom.attr hasObjectForKey:@"debug-float"] ) \
-		{ \
-			PRINT( @">>>> Debug layout at >>" ); \
-			[__x dump]; \
-			TRAP(); \
-		}
-
-#undef	DEBUG_RENDERER_ALIGN
-#define DEBUG_RENDERER_ALIGN( __x ) \
-		if ( [__x.dom.attr hasObjectForKey:@"debug-layout"] || [__x.dom.attr hasObjectForKey:@"debug-align"] ) \
 		{ \
 			PRINT( @">>>> Debug layout at >>" ); \
 			[__x dump]; \
@@ -166,12 +166,6 @@
 
 #undef	DEBUG_RENDERER_STYLE
 #define DEBUG_RENDERER_STYLE( __x )
-
-#undef	DEBUG_RENDERER_FLOAT
-#define DEBUG_RENDERER_FLOAT( __x )
-
-#undef	DEBUG_RENDERER_ALIGN
-#define	DEBUG_RENDERER_ALIGN( __x )
 
 #undef	DEBUG_RENDERER_FRAME
 #define DEBUG_RENDERER_FRAME( __x )

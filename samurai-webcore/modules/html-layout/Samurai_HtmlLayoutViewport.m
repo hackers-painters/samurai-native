@@ -51,14 +51,10 @@
 
 	for ( SamuraiHtmlRenderObject * child in self.source.childs )
 	{
-		child.layout.insetFlags		= UIEdgeFlagsYes;
-		child.layout.marginFlags	= UIEdgeFlagsYes;
-		child.layout.borderFlags	= UIEdgeFlagsYes;
-		child.layout.paddingFlags	= UIEdgeFlagsYes;
-
-		child.layout.bounds			= self.bounds,
-		child.layout.origin			= CGPointZero;
-		child.layout.collapse		= self.computedMargin;
+		child.layout.bounds		= self.bounds,
+		child.layout.origin		= CGPointZero;
+		child.layout.stretch	= CGSizeMake( INVALID_VALUE, INVALID_VALUE );
+		child.layout.collapse	= self.computedMargin;
 		
 		if ( [child.layout begin:YES] )
 		{

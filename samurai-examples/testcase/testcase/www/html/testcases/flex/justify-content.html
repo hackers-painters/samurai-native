@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+<h2>justify-content:flex-start</h2>
+<ul id="box" class="box">
+	<li>a</li>
+	<li>b</li>
+	<li>c</li>
+</ul>
+<h2>justify-content:flex-end</h2>
+<ul id="box2" class="box">
+	<li>a</li>
+	<li>b</li>
+	<li>c</li>
+</ul>
+<h2>justify-content:center</h2>
+<ul id="box3" class="box">
+	<li>a</li>
+	<li>b</li>
+	<li>c</li>
+</ul>
+<h2>justify-content:space-between</h2>
+<ul id="box4" class="box">
+	<li>a</li>
+	<li>b</li>
+	<li>c</li>
+</ul>
+<h2>justify-content:space-around</h2>
+<ul id="box5" class="box">
+	<li>a</li>
+	<li>b</li>
+	<li>c</li>
+</ul>
+
+	<style>
+		.box{
+			display:-webkit-flex;
+			display:flex;
+			width:400px;height:100px;margin:0;padding:0;border-radius:5px;list-style:none; list-style-type:none; background-color:#eee;}
+	.box li{margin:5px;padding:10px;border-radius:5px;background:#aaa;text-align:center;}
+	#box{
+		-webkit-justify-content:flex-start;
+		justify-content:flex-start;
+	}
+	#box2{
+		-webkit-justify-content:flex-end;
+		justify-content:flex-end;
+	}
+	#box3{
+		-webkit-justify-content:center;
+		justify-content:center;
+	}
+	#box4{
+		-webkit-justify-content:space-between;
+		justify-content:space-between;
+	}
+	#box5{
+		-webkit-justify-content:space-around;
+		justify-content:space-around;
+	}
+	</style>
+
+</body>
+</html>

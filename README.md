@@ -26,7 +26,7 @@ You can use the native components such as `UICollectionView` and `UICollectionVi
 <html>
 
 	<body>
-		
+
 		<UICollectionView class="list" is-vertical>
 			<UICollectionViewCell is-static is-row>
 				...
@@ -34,7 +34,7 @@ You can use the native components such as `UICollectionView` and `UICollectionVi
 		</UICollectionView>
 
 	</body>
-	
+
 </html>
 ```
 
@@ -67,26 +67,24 @@ You can use the standard HTML tags such as `div` and `img` on iOS. This gives yo
 		</UICollectionViewCell>
 
 	</body>
-	
+
 </html>
 ```
 
-## CSS Fluid layout	
+## CSS Fluid layout
 
 We brought the css layout model from the web to samurai-native, css layout makes it simple to build the most common UI layouts, such as stacked and nested boxes with margin and padding. samurai-native also supports common web styles, such as `font-weight` and `border-radius`, and you can extend your style in `SamuraiHtmlRenderStyle` class.
-
-(TODO: Flex-Box)
 
 ```html
 <html>
 
 	<head>
-		
+
 		<link rel="stylesheet" type="text/css" href="../css/normalize.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/main.css"/>
-		
+
 	</head>
-	
+
 </html>
 ```
 
@@ -94,11 +92,11 @@ We brought the css layout model from the web to samurai-native, css layout makes
 <html>
 
 	<body>
-	
+
 		<p style="color: red;">
 			Hello, world!
 		</p>
-		
+
 	</body>
 
 </html>
@@ -108,7 +106,7 @@ We brought the css layout model from the web to samurai-native, css layout makes
 <html>
 
 	<body>
-	
+
 		<div class="tab-bar">
 			<div class="tab">Popular</div>
 			<div class="tab">Debuts</div>
@@ -116,7 +114,7 @@ We brought the css layout model from the web to samurai-native, css layout makes
 		</div>
 
 		<style>
-		
+
 			.tab-bar {
 				display: block;
 				width: 100%;
@@ -125,7 +123,7 @@ We brought the css layout model from the web to samurai-native, css layout makes
 				/* box-shadow: 0px 0.5px 0.5px black; */
 				z-index: 2;
 			}
-		
+
 			.tab {
 				float: left;
 				display: block;
@@ -137,11 +135,11 @@ We brought the css layout model from the web to samurai-native, css layout makes
 				text-align: center;
 				font-weight: normal;
 			}
-			
+
 			...
-			
+
 		</style>
-		
+
 	</body>
 
 </html>
@@ -213,9 +211,9 @@ samurai-native provide a efficient way to binding native objects to HTML page in
 ```html
 <html>
 	<body>
-	
-		...		
-	
+
+		...
+
 		<div name="author">
 			<img name="avatar"/>
 			<div>
@@ -223,9 +221,9 @@ samurai-native provide a efficient way to binding native objects to HTML page in
 				<div>by <span name="name"/></div>
 			</div>
 		</div>
-		
+
 		...
-		
+
 	</body>
 </html>
 ```
@@ -238,7 +236,7 @@ samurai-native provide a efficient way to binding native objects to HTML page in
 
 - (void)reloadData
 {
-	self[@"author"] = @{			  
+	self[@"author"] = @{
 		@"avatar" : "xxx.jpg",
 		@"title"  : @"Hello",
 		@"name"   : @"World"
@@ -274,7 +272,7 @@ samurai-native is designed to be easily extended with custom native components, 
 	self.baselineAdjustment = [style computeBaselineAdjustment:self.baselineAdjustment];
 	self.lineBreakMode = [style computeLineBreakMode:self.lineBreakMode];
 	self.numberOfLines = 0;
-	
+
 	...
 }
 

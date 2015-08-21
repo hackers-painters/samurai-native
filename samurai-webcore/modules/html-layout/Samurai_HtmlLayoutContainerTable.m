@@ -28,14 +28,11 @@
 //	THE SOFTWARE.
 //
 
-#import "Samurai_HtmlLayoutTable.h"
+#import "Samurai_HtmlLayoutContainerTable.h"
 
 #import "_pragma_push.h"
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
-
-#import "Samurai_HtmlRenderObject.h"
-#import "Samurai_HtmlRenderStyle.h"
 
 // ----------------------------------
 // Source code
@@ -51,7 +48,7 @@
 
 #pragma mark -
 
-@implementation SamuraiHtmlLayoutTable
+@implementation SamuraiHtmlLayoutContainerTable
 {
 	BOOL					_layoutParsed;
 	NSInteger				_layoutMaxRow;
@@ -87,16 +84,16 @@
 	
 	_layoutMaxRow = 0;
 	_layoutMaxCol = 0;
-
+	
 	memset( _layoutBlocks, 0x0, sizeof(_layoutBlocks) );
 	memset( _layoutWidths, 0x0, sizeof(_layoutWidths) );
 	memset( _layoutHeights, 0x0, sizeof(_layoutHeights) );
-
+	
 	NSMutableArray * thead = [NSMutableArray array];
 	NSMutableArray * tbody = [NSMutableArray array];
 	NSMutableArray * tfoot = [NSMutableArray array];
 	NSMutableArray * groups = [NSMutableArray array];
-
+	
 	for ( SamuraiHtmlRenderObject * child in self.source.childs )
 	{
 		if ( NSOrderedSame == [child.dom.tag compare:@"thead"] )
@@ -120,7 +117,7 @@
 	[groups addObjectsFromArray:thead];
 	[groups addObjectsFromArray:tbody];
 	[groups addObjectsFromArray:tfoot];
-
+	
 	NSMutableArray * rows = [NSMutableArray array];
 	NSMutableArray * tr = nil;
 	
@@ -130,7 +127,7 @@
 		{
 			// row
 			
-			tr = [NSMutableArray nonRetainingArray];
+			tr = [NSMutableArray array];
 			
 			for ( SamuraiHtmlRenderObject * column in child.childs )
 			{
@@ -141,24 +138,24 @@
 			}
 			
 			[rows addObject:tr];
-
+			
 			tr = nil;
 		}
 		else if ( NSOrderedSame == [child.dom.tag compare:@"td"] || NSOrderedSame == [child.dom.tag compare:@"th"] )
 		{
 			// column
-
+			
 			if ( nil == tr )
 			{
-				tr = [NSMutableArray nonRetainingArray];
+				tr = [NSMutableArray array];
 				
 				[rows addObject:tr];
 			}
-
+			
 			[tr addObject:child];
 		}
 	}
-
+	
 	for ( NSUInteger rowIndex = 0; rowIndex < [rows count]; ++rowIndex )
 	{
 		NSArray * row = [rows objectAtIndex:rowIndex];
@@ -169,12 +166,12 @@
 			
 			column.tableRow = -1;
 			column.tableCol = -1;
-
+			
 			if ( CSSDisplay_None == column.display )
 			{
 				continue;
 			}
-
+			
 			NSInteger rowSpan = 1;
 			NSInteger colSpan = 1;
 			
@@ -217,7 +214,7 @@
 							break;
 						}
 					}
-
+					
 					_layoutMaxCol = MAX( column.tableCol + column.tableColSpan, _layoutMaxCol );
 				}
 				
@@ -234,57 +231,96 @@
 - (void)layout
 {
 	DEBUG_RENDERER_LAYOUT( self.source );
-
+	
 	[self parseTableStructure];
-
+	
 	CGSize relSize = CGSizeMake( self.computedSize.width, self.computedSize.height );
 	
 	if ( INVALID_VALUE == relSize.width )
 	{
 		relSize.width = self.bounds.width;
 	}
-	
+
 //	if ( INVALID_VALUE == relSize.height )
 //	{
 //		relSize.height = self.bound.height;
 //	}
+	
+	CGSize cellBounds;
 
+	if ( INVALID_VALUE != self.stretch.width )
+	{
+		cellBounds.width = self.stretch.width;
+	}
+	else
+	{
+		cellBounds.width = (INVALID_VALUE != self.computedMaxWidth) ? self.computedMaxWidth : relSize.width;
+	}
+	
+	if ( INVALID_VALUE != self.stretch.height )
+	{
+		cellBounds.height = self.stretch.height;
+	}
+	else
+	{
+		cellBounds.height = (INVALID_VALUE != self.computedMaxHeight) ? self.computedMaxHeight : relSize.height;
+	}
+
+	if ( INVALID_VALUE != self.computedMinWidth && cellBounds.width < self.computedMinWidth )
+	{
+		cellBounds.width = self.computedMinWidth;
+	}
+	
+	if ( INVALID_VALUE != self.computedMinHeight && cellBounds.height < self.computedMinHeight )
+	{
+		cellBounds.height = self.computedMinHeight;
+	}
+	
+	if ( INVALID_VALUE != self.computedMaxWidth && cellBounds.width > self.computedMaxWidth )
+	{
+		cellBounds.width = self.computedMaxWidth;
+	}
+	
+	if ( INVALID_VALUE != self.computedMaxHeight && cellBounds.height > self.computedMaxHeight )
+	{
+		cellBounds.height = self.computedMaxHeight;
+	}
+	
 	for ( NSInteger rowIndex = 0; rowIndex < _layoutMaxRow; ++rowIndex )
 	{
 		for ( NSInteger colIndex = 0; colIndex < _layoutMaxCol; ++colIndex )
 		{
 			SamuraiHtmlRenderObject * tableCell = _layoutBlocks[rowIndex][colIndex];
-
+			
 			if ( nil == tableCell )
 				continue;
-
+			
 			if ( tableCell.tableRow == rowIndex && tableCell.tableCol == colIndex )
 			{
-				CGSize cellBounds;
-
-				cellBounds.width = (INVALID_VALUE != self.computedMaxWidth) ? self.computedMaxWidth : relSize.width; // INVALID_VALUE; // computedSize.width;
-				cellBounds.height = (INVALID_VALUE != self.computedMaxHeight) ? self.computedMaxHeight : relSize.height; // INVALID_VALUE; // computedSize.height;
-
-				tableCell.layout.insetFlags		= UIEdgeFlagsYes;
-				tableCell.layout.marginFlags	= UIEdgeFlagsYes;
-				tableCell.layout.borderFlags	= UIEdgeFlagsYes;
-				tableCell.layout.paddingFlags	= UIEdgeFlagsYes;
-
-				tableCell.layout.bounds			= cellBounds;
-				tableCell.layout.origin			= CGPointZero;
-				tableCell.layout.collapse		= UIEdgeInsetsZero;
+				tableCell.layout.bounds		= cellBounds;
+				tableCell.layout.origin		= CGPointZero;
+				tableCell.layout.stretch	= CGSizeMake( INVALID_VALUE, INVALID_VALUE );
+				tableCell.layout.collapse	= UIEdgeInsetsZero;
 				
 				if ( [tableCell.layout begin:YES] )
 				{
-					[tableCell.layout layout];
+					if ( [tableCell.childs count] )
+					{
+						[tableCell.layout layout];
+					}
+					else
+					{
+						[tableCell.layout resize:CGSizeZero];
+					}
+
 					[tableCell.layout finish];
 				}
-
+				
 				if ( tableCell.tableColSpan <= 1 )
 				{
 					_layoutWidths[colIndex] = fmax( _layoutWidths[colIndex], tableCell.layout.computedBounds.size.width );
 				}
-
+				
 				if ( tableCell.tableRowSpan <= 1 )
 				{
 					_layoutHeights[rowIndex] = fmax( _layoutHeights[rowIndex], tableCell.layout.computedBounds.size.height );
@@ -295,13 +331,13 @@
 	
 	CGFloat xOrigin = 0.0f;
 	CGFloat yOrigin = 0.0f;
-
+	
 	xOrigin += self.computedBorder.left;
 //	xOrigin += self.computedMargin.left;
 	xOrigin += self.computedPadding.left;
 	xOrigin += self.computedCellSpacing;
 	xOrigin += self.computedBorderSpacing;
-
+	
 	yOrigin += self.computedBorder.top;
 //	yOrigin += self.computedMargin.top;
 	yOrigin += self.computedPadding.top;
@@ -310,25 +346,20 @@
 	
 	CGFloat	xOffset = xOrigin;
 	CGFloat	yOffset = yOrigin;
-
+	
 	CGSize	contentSize = CGSizeZero;
-
+	
 	for ( NSInteger rowIndex = 0; rowIndex < _layoutMaxRow; ++rowIndex )
 	{
 		for ( NSInteger colIndex = 0; colIndex < _layoutMaxCol; ++colIndex )
 		{
 			SamuraiHtmlRenderObject * tableCell = _layoutBlocks[rowIndex][colIndex];
-
+			
 			if ( nil == tableCell )
 				continue;
 			
 			if ( tableCell.tableRow == rowIndex && tableCell.tableCol == colIndex )
 			{
-				tableCell.layout.insetFlags		= UIEdgeFlagsYes;
-				tableCell.layout.marginFlags	= UIEdgeFlagsYes;
-				tableCell.layout.borderFlags	= UIEdgeFlagsYes;
-				tableCell.layout.paddingFlags	= UIEdgeFlagsYes;
-
 				if ( [tableCell.layout begin:NO] )
 				{
 					CGPoint	cellOffset = CGPointZero;
@@ -356,7 +387,7 @@
 					{
 						cellSize.height += (tableCell.tableRowSpan - 1) * self.computedCellSpacing;
 					}
-
+					
 					cellSize.width = fmax( cellSize.width, tableCell.layout.computedBounds.size.width );
 					cellSize.height = fmax( cellSize.height, tableCell.layout.computedBounds.size.height );
 					
@@ -364,7 +395,7 @@
 					[tableCell.layout resize:cellSize];
 					[tableCell.layout finish];
 				}
-
+				
 				xOffset += tableCell.layout.computedBounds.size.width;
 				xOffset += self.computedCellSpacing;
 			}
@@ -374,19 +405,19 @@
 				xOffset += self.computedCellSpacing;
 			}
 		}
-
+		
 		yOffset += _layoutHeights[rowIndex];
 		yOffset += self.computedCellSpacing;
 		
 		contentSize.width = fmax( xOffset, contentSize.width );
 		contentSize.height = fmax( yOffset, contentSize.height );
-
+		
 		xOffset = xOrigin;
 	}
 
 //	contentSize.width += self.computedBorderSpacing;
 //	contentSize.width += self.computedCellSpacing;
-//
+
 //	contentSize.height += self.computedBorderSpacing;
 //	contentSize.height += self.computedCellSpacing;
 
@@ -403,7 +434,7 @@
 
 #if __SAMURAI_TESTING__
 
-TEST_CASE( WebCore, HtmlLayoutTable )
+TEST_CASE( WebCore, HtmlLayoutContainerTable )
 
 DESCRIBE( before )
 {

@@ -43,23 +43,6 @@
 
 #pragma mark -
 
-@interface SamuraiCSSRuleSet()
-
-@prop_strong( NSMutableDictionary *,		idRules );
-@prop_strong( NSMutableDictionary *,		tagRules );
-@prop_strong( NSMutableDictionary *,		classRules );
-@prop_strong( NSMutableDictionary *,		pseudoRules );
-@prop_strong( NSMutableArray *,				fontFaceRules );
-@prop_strong( NSMutableArray *,				keyframesRules );
-@prop_strong( NSMutableArray *,				linkPseudoClassRules );
-@prop_strong( NSMutableArray *,				focusPseudoClassRules );
-@prop_strong( NSMutableArray *,				privateUniversalRules );
-@prop_strong( NSMutableDictionary *,		shadowPseudoElementRules );
-
-@end
-
-#pragma mark -
-
 @implementation SamuraiCSSRuleSet
 {
 	NSUInteger _ruleSeed;
@@ -253,6 +236,7 @@
         }
     }
 }
+
 - (void)mergeWithRuleSet:(SamuraiCSSRuleSet *)ruleSet
 {
 	[self.idRules addEntriesFromDictionary:ruleSet.idRules];

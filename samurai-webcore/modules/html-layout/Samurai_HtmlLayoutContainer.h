@@ -33,6 +33,57 @@
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
 #import "Samurai_HtmlLayoutObject.h"
+#import "Samurai_HtmlRenderObject.h"
+#import "Samurai_HtmlRenderStyle.h"
+
+#pragma mark -
+
+@interface SamuraiHtmlRenderObject(ContainerLayout)
+
+- (BOOL)block_isInline;
+- (BOOL)block_isBlock;
+- (BOOL)block_isTable;
+
+- (BOOL)block_isFloating;
+- (BOOL)block_isClearLeft;
+- (BOOL)block_isClearRight;
+
+- (BOOL)block_shouldWrapLine;
+- (BOOL)block_shouldWrapBefore;
+- (BOOL)block_shouldWrapAfter;
+
+- (BOOL)block_shouldCenteringInRow;
+- (BOOL)block_shouldCenteringInCol;
+- (BOOL)block_shouldLeftJustifiedInRow;
+- (BOOL)block_shouldRightJustifiedInRow;
+
+- (BOOL)block_shouldAutoSizing;
+- (BOOL)block_shouldAutoWidth;
+- (BOOL)block_shouldAutoWidthByContent;
+- (BOOL)block_shouldAutoHeight;
+
+- (BOOL)block_shouldPositioningChildren;
+- (BOOL)block_shouldStretchContentSize;
+
+- (BOOL)block_shouldHorizontalAlign;
+- (BOOL)block_shouldHorizontalAlignLeft;
+- (BOOL)block_shouldHorizontalAlignRight;
+- (BOOL)block_shouldHorizontalAlignCenter;
+- (BOOL)block_shouldVerticalAlign;
+- (BOOL)block_shouldVerticalAlignBaseline;
+- (BOOL)block_shouldVerticalAlignTop;
+- (BOOL)block_shouldVerticalAlignMiddle;
+- (BOOL)block_shouldVerticalAlignBottom;
+- (BOOL)block_shouldMarginCollapse;
+
+- (BOOL)flex_shouldWrap;
+- (BOOL)flex_shouldWrapReverse;
+
+- (BOOL)flex_shouldArrangedInRow;
+- (BOOL)flex_shouldArrangedInCol;
+- (BOOL)flex_shouldArrangedReverse;
+
+@end
 
 #pragma mark -
 

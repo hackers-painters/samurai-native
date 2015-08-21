@@ -169,7 +169,7 @@ dd {
 }
 
 table {
-	-samurai-view-hierarchy: 'table';
+	-samurai-view-hierarchy: 'tree';
 	-samurai-view-class: 'SamuraiHtmlElementTable';
 }
 

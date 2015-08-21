@@ -137,15 +137,6 @@ typedef enum
 
 typedef enum
 {
-	CSSDirection_Inherit = 0,		/// 继承自父级
-	CSSDirection_Row,				/// 水平排版
-	CSSDirection_RowReverse,		/// 水平排版（反转）
-	CSSDirection_Column,			/// 垂直排版
-	CSSDirection_ColumnReverse		/// 垂直排版（反转）
-} CSSDirection;
-
-typedef enum
-{
 	CSSFloating_Inherit = 0,		/// 继承自父级
 	CSSFloating_Left,				/// 左浮动
 	CSSFloating_None,				/// 非浮动
@@ -226,11 +217,111 @@ typedef enum
 
 typedef enum
 {
+	CSSBoxOrient_Inherit = 0,
+	CSSBoxOrient_Horizontal,
+	CSSBoxOrient_Vertical,
+	CSSBoxOrient_InlineAxis,
+	CSSBoxOrient_BlockAxis
+} CSSBoxOrient;
+
+typedef enum
+{
+	CSSBoxAlign_Inherit = 0,
+	CSSBoxAlign_Start,
+	CSSBoxAlign_End,
+	CSSBoxAlign_Center,
+	CSSBoxAlign_Baseline,
+	CSSBoxAlign_Stretch
+} CSSBoxAlign;
+
+typedef enum
+{
+	CSSBoxDirection_Inherit = 0,
+	CSSBoxDirection_Normal,
+	CSSBoxDirection_Reverse
+} CSSBoxDirection;
+
+typedef enum
+{
+	CSSBoxLines_Inherit = 0,
+	CSSBoxLines_Single,
+	CSSBoxLines_Multiple
+} CSSBoxLines;
+
+typedef enum
+{
+	CSSBoxPack_Inherit = 0,
+	CSSBoxPack_Start,
+	CSSBoxPack_End,
+	CSSBoxPack_Center,
+	CSSBoxPack_Justify
+} CSSBoxPack;
+
+typedef enum
+{
+	CSSFlexWrap_Inherit = 0,
+	CSSFlexWrap_Nowrap,
+	CSSFlexWrap_Wrap,
+	CSSFlexWrap_WrapReverse
+} CSSFlexWrap;
+
+typedef enum
+{
+	CSSFlexDirection_Inherit = 0,
+	CSSFlexDirection_Row,
+	CSSFlexDirection_RowReverse,
+	CSSFlexDirection_Column,
+	CSSFlexDirection_ColumnReverse
+} CSSFlexDirection;
+
+typedef enum
+{
+	CSSAlignContent_Inherit = 0,
+	CSSAlignContent_FlexStart,
+	CSSAlignContent_FlexEnd,
+	CSSAlignContent_Center,
+	CSSAlignContent_SpaceBetween,
+	CSSAlignContent_SpaceAround,
+	CSSAlignContent_Stretch
+} CSSAlignContent;
+
+typedef enum
+{
+	CSSAlignItems_Inherit = 0,
+	CSSAlignItems_FlexStart,
+	CSSAlignItems_FlexEnd,
+	CSSAlignItems_Center,
+	CSSAlignItems_Baseline,
+	CSSAlignItems_Stretch
+} CSSAlignItems;
+
+typedef enum
+{
+	CSSAlignSelf_Inherit = 0,
+	CSSAlignSelf_Auto,
+	CSSAlignSelf_FlexStart,
+	CSSAlignSelf_FlexEnd,
+	CSSAlignSelf_Center,
+	CSSAlignSelf_Baseline,
+	CSSAlignSelf_Stretch
+} CSSAlignSelf;
+
+typedef enum
+{
+	CSSJustifyContent_Inherit = 0,
+	CSSJustifyContent_FlexStart,
+	CSSJustifyContent_FlexEnd,
+	CSSJustifyContent_Center,
+	CSSJustifyContent_SpaceBetween,
+	CSSJustifyContent_SpaceAround
+} CSSJustifyContent;
+
+typedef enum
+{
 	CSSViewHierarchy_Inherit = 0,			/// 继承自父级
-	CSSViewHierarchy_Leaf,					/// 叶子
 	CSSViewHierarchy_Tree,					/// 树
-	CSSViewHierarchy_Table,					/// 表
 	CSSViewHierarchy_Branch,				/// 分支
+	CSSViewHierarchy_Leaf,					/// 叶子
 	CSSViewHierarchy_Hidden					/// 隐藏
 } CSSViewHierarchy;
 
@@ -263,7 +354,9 @@ typedef enum
 @css_value( floating );
 @css_value( clear );
 
+@css_value( order );
 @css_value( zIndex );
+
 @css_value( display );
 @css_value( overflow );
 @css_value( visibility );
@@ -307,10 +400,27 @@ typedef enum
 
 // flex box
 
-@css_value( flex );
-@css_value( flexWrap );
-@css_value( flexFlow );
-@css_value( flexDirection );
+@css_array( flex );				// new
+@css_value( flexGrow );			// new
+@css_value( flexShrink );		// new
+@css_value( flexBasis );		// new
+@css_value( flexWrap );			// new
+@css_array( flexFlow );			// new
+@css_value( flexDirection );	// new
+
+@css_value( alignSelf );		// new
+@css_value( alignItems );		// new
+@css_value( alignContent );		// new
+@css_value( justifyContent );	// new
+
+@css_value( boxAlign );			// old
+@css_value( boxDirection );		// old
+@css_value( boxFlex );			// old
+@css_value( boxFlexGroup );		// old
+@css_value( boxLines );			// old
+@css_value( boxOrdinalGroup );	// old
+@css_value( boxOrient );		// old
+@css_value( boxPack );			// old
 
 // font
 
@@ -437,11 +547,24 @@ typedef enum
 - (CSSDisplay)computeDisplay:(CSSDisplay)defaultValue;
 - (CSSFloating)computeFloating:(CSSFloating)defaultValue;
 - (CSSPosition)computePosition:(CSSPosition)defaultValue;
-- (CSSDirection)computeDirection:(CSSDirection)defaultValue;
 - (CSSWhiteSpace)computeWhiteSpace:(CSSWhiteSpace)defaultValue;
 - (CSSVerticalAlign)computeVerticalAlign:(CSSVerticalAlign)defaultValue;
 - (CSSViewHierarchy)computeViewHierarchy:(CSSViewHierarchy)defaultValue;
 - (CSSBorderCollapse)computeBorderCollapse:(CSSBorderCollapse)defaultValue;
+
+- (CSSBoxPack)computeBoxPack:(CSSBoxPack)defaultValue;
+- (CSSBoxAlign)computeBoxAlign:(CSSBoxAlign)defaultValue;
+- (CSSBoxLines)computeBoxLines:(CSSBoxLines)defaultValue;
+- (CSSBoxOrient)computeBoxOrient:(CSSBoxOrient)defaultValue;
+- (CSSBoxDirection)computeBoxDirection:(CSSBoxDirection)defaultValue;
+
+- (CSSFlexWrap)computeFlexWrap:(CSSFlexWrap)defaultValue;
+- (CSSFlexDirection)computeFlexDirection:(CSSFlexDirection)defaultValue;
+
+- (CSSAlignSelf)computeAlignSelf:(CSSAlignSelf)defaultValue;
+- (CSSAlignItems)computeAlignItems:(CSSAlignItems)defaultValue;
+- (CSSAlignContent)computeAlignContent:(CSSAlignContent)defaultValue;
+- (CSSJustifyContent)computeJustifyContent:(CSSJustifyContent)defaultValue;
 
 - (CGFloat)computeTop:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
 - (CGFloat)computeLeft:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
@@ -495,10 +618,16 @@ typedef enum
 - (CGFloat)computeCellSpacing:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
 - (CGFloat)computeCellPadding:(CGFloat)bounds defaultSize:(CGFloat)defaultSize;
 
+- (CGFloat)computeTextIndent:(CGFloat)defaultSize;
 - (CGFloat)computeLineHeight:(CGFloat)fontHeight defaultSize:(CGFloat)defaultSize;
 - (CGFloat)computeLetterSpacing:(CGFloat)defaultSize;
 
+- (CGFloat)computeOrder:(CGFloat)defaultOrder;
 - (CGFloat)computeZIndex:(CGFloat)defaultIndex;
+
+- (CGFloat)computeFlexGrow:(CGFloat)defaultValue;
+- (CGFloat)computeFlexShrink:(CGFloat)defaultValue;
+- (CGFloat)computeFlexBasis:(CGFloat)defaultValue;
 
 @end
 

@@ -190,7 +190,9 @@
 @def_css_value( floating, setFloating,									@"float" );
 @def_css_value( clear, setClear,										@"clear" );
 
+@def_css_value( order, setOrder,										@"order" );
 @def_css_value( zIndex, setZIndex,										@"z-index" );
+
 @def_css_value( display, setDisplay,									@"display" );
 @def_css_value( overflow, setOverflow,									@"overflow" );
 @def_css_value( visibility, setVisibility,								@"visibility" );
@@ -234,10 +236,27 @@
 
 // flex box
 
-@def_css_value( flex, setFlex,											@"flex" );
+@def_css_array( flex, setFlex,											@"flex" );
+@def_css_value( flexGrow, setFlexGrow,									@"flex-grow" );
+@def_css_value( flexShrink, setFlexShrink,								@"flex-shrink" );
+@def_css_value( flexBasis, setFlexBasis,								@"flex-basis" );
 @def_css_value( flexWrap, setFlexWrap,									@"flex-wrap" );
-@def_css_value( flexFlow, setFlexFlow,									@"flex-flow" );
+@def_css_array( flexFlow, setFlexFlow,									@"flex-flow" );
 @def_css_value( flexDirection, setFlexDirection,						@"flex-direction" );
+
+@def_css_value( alignSelf, setAlignSelf,								@"align-self" );
+@def_css_value( alignItems, setAlignItems,								@"align-items" );
+@def_css_value( alignContent, setAlignContent,							@"align-content" );
+@def_css_value( justifyContent, setJustifyContent,						@"justify-content" );
+
+@def_css_value( boxAlign, setBoxAlign,									@"box-align" );
+@def_css_value( boxDirection, setBoxDirection,							@"box-direction" );
+@def_css_value( boxFlex, setBoxFlex,									@"box-flex" );
+@def_css_value( boxFlexGroup, setBoxFlexGroup,							@"box-flex-group" );
+@def_css_value( boxLines, setBoxLines,									@"box-lines" );
+@def_css_value( boxOrdinalGroup, setBoxOrdinalGroup,					@"box-ordinal-group" );
+@def_css_value( boxOrient, setBoxOrient,								@"box-orient" );
+@def_css_value( boxPack, setBoxPack,									@"box-pack" );
 
 // font
 
@@ -349,6 +368,12 @@
 		return nil;
 	
 	NSObject * object = [self.properties objectForKey:key];
+
+	if ( nil == object )
+	{
+		object = [self.properties objectForKey:[@"-webkit-" stringByAppendingString:key]];
+	}
+	
 	if ( object )
 	{
 		if ( [object isKindOfClass:[NSString class]] )
@@ -1076,11 +1101,11 @@
 		{
 			return CSSDisplay_InlineBlock;
 		}
-		else if ( [display isString:@"flex"] )
+		else if ( [display isString:@"flex"] || [display isString:@"box"] || [display isString:@"flexbox"] )
 		{
 			return CSSDisplay_Flex;
 		}
-		else if ( [display isString:@"inline-flex"] )
+		else if ( [display isString:@"inline-flex"] || [display isString:@"inline-box"] || [display isString:@"inline-flexbox"] )
 		{
 			return CSSDisplay_InlineFlex;
 		}
@@ -1203,37 +1228,6 @@
 	return defaultValue;
 }
 
-- (CSSDirection)computeDirection:(CSSDirection)defaultValue
-{
-	SamuraiCSSValue * direction = self.flexDirection;
-	
-	if ( direction )
-	{
-		if ( [direction isString:@"column"] )
-		{
-			return CSSDirection_Column;
-		}
-		else if ( [direction isString:@" column-reverse"] )
-		{
-			return CSSDirection_ColumnReverse;
-		}
-		else if ( [direction isString:@"row"] )
-		{
-			return CSSDirection_Row;
-		}
-		else if ( [direction isString:@"row-reverse"] )
-		{
-			return CSSDirection_RowReverse;
-		}
-		else if ( [direction isString:@"inherit"] )
-		{
-			return CSSDirection_Inherit;
-		}
-	}
-	
-	return defaultValue;
-}
-
 - (CSSWhiteSpace)computeWhiteSpace:(CSSWhiteSpace)defaultValue
 {
 	SamuraiCSSValue * whiteSpace = self.whiteSpace;
@@ -1326,10 +1320,6 @@
 		{
 			return CSSViewHierarchy_Tree;
 		}
-		else if ( [hierarchy isString:@"table"] )
-		{
-			return CSSViewHierarchy_Table;
-		}
 		else if ( [hierarchy isString:@"branch"] )
 		{
 			return CSSViewHierarchy_Branch;
@@ -1367,6 +1357,357 @@
 		}
 	}
 	
+	return defaultValue;
+}
+
+#pragma mark -
+
+- (CSSBoxPack)computeBoxPack:(CSSBoxPack)defaultValue
+{
+	SamuraiCSSValue * boxPack = self.boxPack;
+	
+	if ( boxPack )
+	{
+		if ( [boxPack isString:@"inherit"] )
+		{
+			return CSSBoxPack_Inherit;
+		}
+		else if ( [boxPack isString:@"start"] )
+		{
+			return CSSBoxPack_Start;
+		}
+		else if ( [boxPack isString:@"end"] )
+		{
+			return CSSBoxPack_End;
+		}
+		else if ( [boxPack isString:@"center"] )
+		{
+			return CSSBoxPack_Center;
+		}
+		else if ( [boxPack isString:@"justify"] )
+		{
+			return CSSBoxPack_Justify;
+		}
+	}
+
+	return defaultValue;
+}
+
+- (CSSBoxAlign)computeBoxAlign:(CSSBoxAlign)defaultValue
+{
+	SamuraiCSSValue * boxAlign = self.boxAlign;
+	
+	if ( boxAlign )
+	{
+		if ( [boxAlign isString:@"inherit"] )
+		{
+			return CSSBoxAlign_Inherit;
+		}
+		else if ( [boxAlign isString:@"start"] )
+		{
+			return CSSBoxAlign_Start;
+		}
+		else if ( [boxAlign isString:@"end"] )
+		{
+			return CSSBoxAlign_End;
+		}
+		else if ( [boxAlign isString:@"center"] )
+		{
+			return CSSBoxAlign_Center;
+		}
+		else if ( [boxAlign isString:@"baseline"] )
+		{
+			return CSSBoxAlign_Baseline;
+		}
+		else if ( [boxAlign isString:@"stretch"] )
+		{
+			return CSSBoxAlign_Stretch;
+		}
+	}
+	
+	return defaultValue;
+}
+
+- (CSSBoxLines)computeBoxLines:(CSSBoxLines)defaultValue
+{
+	SamuraiCSSValue * boxLines = self.boxLines;
+	
+	if ( boxLines )
+	{
+		if ( [boxLines isString:@"inherit"] )
+		{
+			return CSSBoxLines_Inherit;
+		}
+		else if ( [boxLines isString:@"single"] )
+		{
+			return CSSBoxLines_Single;
+		}
+		else if ( [boxLines isString:@"multiple"] )
+		{
+			return CSSBoxLines_Multiple;
+		}
+	}
+	
+	return defaultValue;
+}
+
+- (CSSBoxOrient)computeBoxOrient:(CSSBoxOrient)defaultValue
+{
+	SamuraiCSSValue * boxOrient = self.boxOrient;
+	
+	if ( boxOrient )
+	{
+		if ( [boxOrient isString:@"inherit"] )
+		{
+			return CSSBoxOrient_Inherit;
+		}
+		else if ( [boxOrient isString:@"horizontal"] )
+		{
+			return CSSBoxOrient_Horizontal;
+		}
+		else if ( [boxOrient isString:@"vertical"] )
+		{
+			return CSSBoxOrient_Vertical;
+		}
+		else if ( [boxOrient isString:@"inline-axis"] )
+		{
+			return CSSBoxOrient_InlineAxis;
+		}
+		else if ( [boxOrient isString:@"block-axis"] )
+		{
+			return CSSBoxOrient_BlockAxis;
+		}
+	}
+	
+	return defaultValue;
+}
+
+- (CSSBoxDirection)computeBoxDirection:(CSSBoxDirection)defaultValue
+{
+	SamuraiCSSValue * boxDirection = self.boxDirection;
+	
+	if ( boxDirection )
+	{
+		if ( [boxDirection isString:@"inherit"] )
+		{
+			return CSSBoxDirection_Inherit;
+		}
+		else if ( [boxDirection isString:@"normal"] )
+		{
+			return CSSBoxDirection_Normal;
+		}
+		else if ( [boxDirection isString:@"reverse"] )
+		{
+			return CSSBoxDirection_Reverse;
+		}
+	}
+	
+	return defaultValue;
+}
+
+- (CSSFlexWrap)computeFlexWrap:(CSSFlexWrap)defaultValue
+{
+	SamuraiCSSValue * flexWrap = self.flexWrap ?: [self.flexFlow objectAtIndex:1];
+	
+	if ( flexWrap )
+	{
+		if ( [flexWrap isString:@"inherit"] )
+		{
+			return CSSFlexWrap_Inherit;
+		}
+		else if ( [flexWrap isString:@"nowrap"] )
+		{
+			return CSSFlexWrap_Nowrap;
+		}
+		else if ( [flexWrap isString:@"wrap"] )
+		{
+			return CSSFlexWrap_Wrap;
+		}
+		else if ( [flexWrap isString:@"wrap-reverse"] )
+		{
+			return CSSFlexWrap_WrapReverse;
+		}
+	}
+	
+	return defaultValue;
+}
+
+- (CSSFlexDirection)computeFlexDirection:(CSSFlexDirection)defaultValue
+{
+	SamuraiCSSValue * flexDirection = self.flexDirection ?: [self.flexFlow objectAtIndex:0];
+	
+	if ( flexDirection )
+	{
+		if ( [flexDirection isString:@"inherit"] )
+		{
+			return CSSFlexDirection_Inherit;
+		}
+		else if ( [flexDirection isString:@"row"] )
+		{
+			return CSSFlexDirection_Row;
+		}
+		else if ( [flexDirection isString:@"row-reverse"] )
+		{
+			return CSSFlexDirection_RowReverse;
+		}
+		else if ( [flexDirection isString:@"column"] )
+		{
+			return CSSFlexDirection_Column;
+		}
+		else if ( [flexDirection isString:@"column-reverse"] )
+		{
+			return CSSFlexDirection_ColumnReverse;
+		}
+	}
+	
+	return defaultValue;
+}
+
+- (CSSAlignSelf)computeAlignSelf:(CSSAlignSelf)defaultValue
+{
+	SamuraiCSSValue * alignSelf = self.alignSelf;
+	
+	if ( alignSelf )
+	{
+		if ( [alignSelf isString:@"inherit"] )
+		{
+			return CSSAlignSelf_Inherit;
+		}
+		else if ( [alignSelf isString:@"auto"] )
+		{
+			return CSSAlignSelf_Auto;
+		}
+		else if ( [alignSelf isString:@"flex-start"] )
+		{
+			return CSSAlignSelf_FlexStart;
+		}
+		else if ( [alignSelf isString:@"flex-end"] )
+		{
+			return CSSAlignSelf_FlexEnd;
+		}
+		else if ( [alignSelf isString:@"center"] )
+		{
+			return CSSAlignSelf_Center;
+		}
+		else if ( [alignSelf isString:@"baseline"] )
+		{
+			return CSSAlignSelf_Baseline;
+		}
+		else if ( [alignSelf isString:@"stretch"] )
+		{
+			return CSSAlignSelf_Stretch;
+		}
+	}
+	
+	return defaultValue;
+}
+
+- (CSSAlignItems)computeAlignItems:(CSSAlignItems)defaultValue
+{
+	SamuraiCSSValue * alignItems = self.alignItems;
+	
+	if ( alignItems )
+	{
+		if ( [alignItems isString:@"inherit"] )
+		{
+			return CSSAlignItems_Inherit;
+		}
+		else if ( [alignItems isString:@"flex-start"] )
+		{
+			return CSSAlignItems_FlexStart;
+		}
+		else if ( [alignItems isString:@"flex-end"] )
+		{
+			return CSSAlignItems_FlexEnd;
+		}
+		else if ( [alignItems isString:@"center"] )
+		{
+			return CSSAlignItems_Center;
+		}
+		else if ( [alignItems isString:@"baseline"] )
+		{
+			return CSSAlignItems_Baseline;
+		}
+		else if ( [alignItems isString:@"stretch"] )
+		{
+			return CSSAlignItems_Stretch;
+		}
+	}
+	
+	return defaultValue;
+}
+
+- (CSSAlignContent)computeAlignContent:(CSSAlignContent)defaultValue
+{
+	SamuraiCSSValue * alignContent = self.alignContent;
+	
+	if ( alignContent )
+	{
+		if ( [alignContent isString:@"inherit"] )
+		{
+			return CSSAlignContent_Inherit;
+		}
+		else if ( [alignContent isString:@"flex-start"] )
+		{
+			return CSSAlignContent_FlexStart;
+		}
+		else if ( [alignContent isString:@"flex-end"] )
+		{
+			return CSSAlignContent_FlexEnd;
+		}
+		else if ( [alignContent isString:@"center"] )
+		{
+			return CSSAlignContent_Center;
+		}
+		else if ( [alignContent isString:@"space-between"] )
+		{
+			return CSSAlignContent_SpaceBetween;
+		}
+		else if ( [alignContent isString:@"space-around"] )
+		{
+			return CSSAlignContent_SpaceAround;
+		}
+		else if ( [alignContent isString:@"stretch"] )
+		{
+			return CSSAlignContent_Stretch;
+		}
+	}
+
+	return defaultValue;
+}
+
+- (CSSJustifyContent)computeJustifyContent:(CSSJustifyContent)defaultValue;
+{
+	SamuraiCSSValue * justifyContent = self.justifyContent;
+	
+	if ( justifyContent )
+	{
+		if ( [justifyContent isString:@"inherit"] )
+		{
+			return CSSJustifyContent_Inherit;
+		}
+		else if ( [justifyContent isString:@"flex-start"] )
+		{
+			return CSSJustifyContent_FlexStart;
+		}
+		else if ( [justifyContent isString:@"flex-end"] )
+		{
+			return CSSJustifyContent_FlexEnd;
+		}
+		else if ( [justifyContent isString:@"center"] )
+		{
+			return CSSJustifyContent_Center;
+		}
+		else if ( [justifyContent isString:@"space-between"] )
+		{
+			return CSSJustifyContent_SpaceBetween;
+		}
+		else if ( [justifyContent isString:@"space-around"] )
+		{
+			return CSSJustifyContent_SpaceAround;
+		}
+	}
+
 	return defaultValue;
 }
 
@@ -2452,6 +2793,20 @@
 	}
 }
 
+- (CGFloat)computeTextIndent:(CGFloat)defaultSize
+{
+	if ( self.textIndent )
+	{
+		CGFloat textIndent = [self.textIndent computeValue:defaultSize];
+		
+		return INVALID_VALUE == textIndent ? defaultSize : textIndent;
+	}
+	else
+	{
+		return INVALID_VALUE;
+	}
+}
+
 - (CGFloat)computeLineHeight:(CGFloat)fontHeight defaultSize:(CGFloat)defaultSize
 {
 	if ( self.lineHeight )
@@ -2502,6 +2857,20 @@
 	}
 }
 
+- (CGFloat)computeOrder:(CGFloat)defaultOrder
+{
+	if ( self.order )
+	{
+		CGFloat order = [self.order computeValue:INVALID_VALUE];
+		
+		return INVALID_VALUE == order ? defaultOrder : order;
+	}
+	else
+	{
+		return defaultOrder;
+	}
+}
+
 - (CGFloat)computeZIndex:(CGFloat)defaultIndex
 {
 	if ( self.zIndex )
@@ -2513,6 +2882,54 @@
 	else
 	{
 		return defaultIndex;
+	}
+}
+
+- (CGFloat)computeFlexGrow:(CGFloat)defaultValue
+{
+	SamuraiCSSValue * grow = self.flexGrow ?: [self.flex objectAtIndex:0];
+	
+	if ( grow )
+	{
+		CGFloat flexGrow = [grow computeValue:INVALID_VALUE];
+		
+		return INVALID_VALUE == flexGrow ? defaultValue : flexGrow;
+	}
+	else
+	{
+		return defaultValue;
+	}
+}
+
+- (CGFloat)computeFlexShrink:(CGFloat)defaultValue
+{
+	SamuraiCSSValue * shrink = self.flexShrink ?: [self.flex objectAtIndex:1];
+
+	if ( shrink )
+	{
+		CGFloat flexShrink = [shrink computeValue:INVALID_VALUE];
+		
+		return INVALID_VALUE == flexShrink ? defaultValue : flexShrink;
+	}
+	else
+	{
+		return defaultValue;
+	}
+}
+
+- (CGFloat)computeFlexBasis:(CGFloat)defaultValue
+{
+	SamuraiCSSValue * basis = self.flexBasis ?: [self.flex objectAtIndex:2];
+
+	if ( basis )
+	{
+		CGFloat flexBasis = [basis computeValue:INVALID_VALUE];
+		
+		return INVALID_VALUE == flexBasis ? defaultValue : flexBasis;
+	}
+	else
+	{
+		return defaultValue;
 	}
 }
 

@@ -79,100 +79,175 @@
     {
         KatanaMediaQuery * mediaQuery = medias->data[i];
 
-        if ( NULL == mediaQuery->expressions )
+        if ( NULL == mediaQuery->expressions || 0 == mediaQuery->expressions->length )
 		{
-            return YES;
-		}
-		
-        for ( int i = 0; i < mediaQuery->expressions->length; i++ )
-        {
-            BOOL matches = [self testMediaQueryExpression:mediaQuery->expressions->data[i]];
-            
-            switch ( mediaQuery->restrictor )
-            {
-                case KatanaMediaQueryRestrictorNot:
-				{
-                    passed = passed && !matches;
-				}
-				break;
-
-                default:
-				{
-                    passed = passed && matches;
-				}
-				break;
-            }
-            
-            if ( NO == passed )
+			if ( mediaQuery->type )
 			{
-                return NO;
+				BOOL matches = [self testMediaQueryType:mediaQuery->type];
+				
+				if ( KatanaMediaQueryRestrictorNot == mediaQuery->restrictor )
+				{
+					passed = passed && !matches;
+				}
+				else
+				{
+					passed = passed && matches;
+				}
+				
+				if ( NO == passed )
+				{
+					return NO;
+				}
 			}
-        }
+			else
+			{
+				return YES;
+			}
+		}
+		else
+		{
+			for ( int i = 0; i < mediaQuery->expressions->length; i++ )
+			{
+				BOOL matches = [self testMediaQueryExpression:mediaQuery->expressions->data[i]];
+				
+				if ( KatanaMediaQueryRestrictorNot == mediaQuery->restrictor )
+				{
+					passed = passed && !matches;
+				}
+				else
+				{
+					passed = passed && matches;
+				}
+				
+				if ( NO == passed )
+				{
+					return NO;
+				}
+			}
+		}
     }
 
     return YES;
 }
 
+- (BOOL)testMediaQueryType:(const char *)mediaQueryType
+{
+	if ( NULL == mediaQueryType )
+		return YES;
+	
+	if ( 0 == strcasecmp( mediaQueryType, "all" ) )
+	{
+		return YES;
+	}
+	else if ( 0 == strcasecmp( mediaQueryType, "aural" ) )
+	{
+		return NO;
+	}
+	else if ( 0 == strcasecmp( mediaQueryType, "braille" ) )
+	{
+		return NO;
+	}
+	else if ( 0 == strcasecmp( mediaQueryType, "handheld" ) )
+	{
+		return YES;
+	}
+	else if ( 0 == strcasecmp( mediaQueryType, "print" ) )
+	{
+		return NO;
+	}
+	else if ( 0 == strcasecmp( mediaQueryType, "projection" ) )
+	{
+		return NO;
+	}
+	else if ( 0 == strcasecmp( mediaQueryType, "screen" ) )
+	{
+		return YES;
+	}
+	else if ( 0 == strcasecmp( mediaQueryType, "tty" ) )
+	{
+		return NO;
+	}
+	else if ( 0 == strcasecmp( mediaQueryType, "tv" ) )
+	{
+		return NO;
+	}
+	else if ( 0 == strcasecmp( mediaQueryType, "embossed" ) )
+	{
+		return NO;
+	}
+	else
+	{
+		return NO;
+	}
+}
+
 - (BOOL)testMediaQueryExpression:(KatanaMediaQueryExp *)mediaQueryExp
 {
-    NSString * feature = [NSString stringWithUTF8String:mediaQueryExp->feature];
+	if ( NULL == mediaQueryExp )
+		return YES;
+	
+	KatanaValue * value = mediaQueryExp->values->length ? mediaQueryExp->values->data[0] : NULL;
+	
+	if ( NULL == value )
+		return NO;
 
-    KatanaValue * value = *(mediaQueryExp->values->data);
-    
-    if ( [feature isEqualToString:@"device-width"] )
+	if ( 0 == strcasecmp( mediaQueryExp->feature, "device-width" ) )
     {
         return [[UIScreen mainScreen] bounds].size.width == value->fValue;
     }
-    else if ( [feature isEqualToString:@"min-device-width"] )
+    else if ( 0 == strcasecmp( mediaQueryExp->feature, "min-device-width" ) )
     {
         return [[UIScreen mainScreen] bounds].size.width >= value->fValue;
     }
-    else if ( [feature isEqualToString:@"max-device-width"] )
+    else if ( 0 == strcasecmp( mediaQueryExp->feature, "max-device-width" ) )
     {
         return [[UIScreen mainScreen] bounds].size.width <= value->fValue;
     }
-    else if ( [feature isEqualToString:@"device-height"] )
+    else if ( 0 == strcasecmp( mediaQueryExp->feature, "device-height" ) )
     {
         return [[UIScreen mainScreen] bounds].size.height == value->fValue;
     }
-    else if ( [feature isEqualToString:@"min-device-height"] )
+    else if ( 0 == strcasecmp( mediaQueryExp->feature, "min-device-height" ) )
     {
         return [[UIScreen mainScreen] bounds].size.height >= value->fValue;
     }
-    else if ( [feature isEqualToString:@"max-device-height"] )
+    else if ( 0 == strcasecmp( mediaQueryExp->feature, "max-device-height" ) )
     {
         return [[UIScreen mainScreen] bounds].size.height <= value->fValue;
     }
-    else if ( [feature isEqualToString:@"scale"] )
+    else if ( 0 == strcasecmp( mediaQueryExp->feature, "scale" ) )
     {
         return [[UIScreen mainScreen] scale] == value->fValue;
     }
-    else if ( [feature isEqualToString:@"min-scale"] )
+    else if ( 0 == strcasecmp( mediaQueryExp->feature, "min-scale" ) )
     {
         return [[UIScreen mainScreen] scale] >= value->fValue;
     }
-    else if ( [feature isEqualToString:@"max-scale"] )
+    else if ( 0 == strcasecmp( mediaQueryExp->feature, "max-scale" ) )
     {
         return [[UIScreen mainScreen] scale] <= value->fValue;
     }
-    else if ( [feature isEqualToString:@"orientation"] )
+    else if ( 0 == strcasecmp( mediaQueryExp->feature, "orientation" ) )
     {
-        UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-        NSString * userValue = [NSString stringWithUTF8String:value->string];
-        switch (orientation) {
-            case UIInterfaceOrientationLandscapeLeft:
-            case UIInterfaceOrientationLandscapeRight:
-                return [userValue isEqualToString:@"landscape"];
-                
-            case UIInterfaceOrientationPortrait:
-            case UIDeviceOrientationPortraitUpsideDown:
-                return [userValue isEqualToString:@"portrait"];
-                
-            default:
-                return NO;
-        }
+		if ( NULL == value->string )
+			return NO;
+
+		UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+		
+		if ( UIInterfaceOrientationLandscapeLeft == orientation || UIInterfaceOrientationLandscapeRight == orientation )
+		{
+			return (0 == strcasecmp(value->string, "landscape")) ? YES : NO;
+		}
+		else if ( UIInterfaceOrientationPortrait == orientation || UIDeviceOrientationPortraitUpsideDown == orientation )
+		{
+			return (0 == strcasecmp(value->string, "portrait")) ? YES : NO;
+		}
+		else
+		{
+			return NO;
+		}
     }
-// else if ( [feature isEqualToString:@"device"] )
+// else if ( 0 == strcasecmp( mediaQueryExp->feature, "device"] )
 // {
 //     return NO;
 // }

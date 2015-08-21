@@ -54,14 +54,10 @@
 {
 	if ( NO == CGSizeEqualToSize( renderObject.view.frame.size, CGSizeZero ) )
 	{
-		renderObject.layout.insetFlags		= UIEdgeFlagsYes;
-		renderObject.layout.marginFlags		= UIEdgeFlagsYes;
-		renderObject.layout.borderFlags		= UIEdgeFlagsYes;
-		renderObject.layout.paddingFlags	= UIEdgeFlagsYes;
-
-		renderObject.layout.bounds			= renderObject.view.frame.size,
-		renderObject.layout.origin			= renderObject.view.frame.origin;
-		renderObject.layout.collapse		= UIEdgeInsetsZero;
+		renderObject.layout.bounds		= renderObject.view.frame.size,
+		renderObject.layout.origin		= renderObject.view.frame.origin;
+		renderObject.layout.stretch		= CGSizeMake( INVALID_VALUE, INVALID_VALUE );
+		renderObject.layout.collapse	= UIEdgeInsetsZero;
 
 		if ( [renderObject.layout begin:YES] )
 		{

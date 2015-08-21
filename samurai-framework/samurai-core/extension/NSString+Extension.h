@@ -66,6 +66,7 @@
 - (NSString *)URLEncoding;
 - (NSString *)URLDecoding;
 
+- (NSString *)flat;
 - (NSString *)trim;
 - (NSString *)unwrap;
 - (NSString *)normalize;

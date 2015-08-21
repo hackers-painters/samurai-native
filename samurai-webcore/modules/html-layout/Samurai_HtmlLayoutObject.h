@@ -39,30 +39,12 @@
 
 #pragma mark -
 
-typedef struct
-{
-	BOOL	top;
-	BOOL	left;
-	BOOL	right;
-	BOOL	bottom;
-
-} UIEdgeFlags;
-
-extern UIEdgeFlags UIEdgeFlagsYes;
-extern UIEdgeFlags UIEdgeFlagsNo;
-
-#pragma mark -
-
 @interface SamuraiHtmlLayoutObject : NSObject
 
 @prop_unsafe( SamuraiHtmlRenderObject *,	source );
 
-@prop_assign( UIEdgeFlags,					IN	insetFlags );
-@prop_assign( UIEdgeFlags,					IN	marginFlags );
-@prop_assign( UIEdgeFlags,					IN	borderFlags );
-@prop_assign( UIEdgeFlags,					IN	paddingFlags );
-
 @prop_assign( UIEdgeInsets,					IN	collapse );
+@prop_assign( CGSize,						IN	stretch );
 @prop_assign( CGSize,						IN	bounds );
 @prop_assign( CGPoint,						IN	origin );
 
@@ -81,14 +63,17 @@ extern UIEdgeFlags UIEdgeFlagsNo;
 @prop_assign( CGFloat,						OUT	computedBorderSpacing );
 @prop_assign( CGFloat,						OUT	computedCellSpacing );
 @prop_assign( CGFloat,						OUT	computedCellPadding );
+
 @prop_assign( CGRect,						OUT	frame );
 
 + (instancetype)layout;
 + (instancetype)layout:(SamuraiHtmlRenderObject *)renderer;
 
 - (BOOL)begin:(BOOL)reset;
-- (void)offset:(CGPoint)point;
-- (void)resize:(CGSize)size;
+- (BOOL)offset:(CGPoint)point;
+- (BOOL)stretchWidth:(CGFloat)width;
+- (BOOL)stretchHeight:(CGFloat)width;
+- (BOOL)resize:(CGSize)size;
 - (void)layout;					// override point
 - (void)finish;
 
@@ -96,7 +81,9 @@ extern UIEdgeFlags UIEdgeFlagsNo;
 - (void)computeMargin;
 - (void)computeBorder;
 - (void)computePadding;
-- (void)computeCollpase;
+
+- (void)computeWidthShrink;
+- (void)computeMarginCollpase;
 
 - (void)computeSize;
 - (void)computeFrame;

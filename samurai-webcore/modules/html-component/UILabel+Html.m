@@ -88,6 +88,7 @@
 		self.numberOfLines = 0;
 	}
 	
+	self.headIndent = [style computeTextIndent:INVALID_VALUE];
 	self.lineHeight = [style computeLineHeight:self.font.lineHeight defaultSize:INVALID_VALUE];
 	self.letterSpacing = [style computeLetterSpacing:INVALID_VALUE];
 	self.textDecoration = [style computeTextDecoration:UITextDecoration_None];
