@@ -80,7 +80,39 @@
 			}
 		}
 	}
+
+// attributed style
 	
+	for ( NSArray * pair in [SamuraiHtmlUserAgent sharedInstance].defaultDOMAttributedStyle )
+	{
+		NSString * attrName1 = [pair objectAtIndex:0];
+		NSString * attrName2 = [pair objectAtIndex:1];
+		
+		NSString * attrValue = [domNode.attr objectForKey:attrName1];
+		
+		if ( attrValue )
+		{
+			[styleProperties setObject:attrValue forKey:attrName2];
+		}
+	}
+	
+// inline style
+	
+	if ( domNode.attrStyle )
+	{
+		NSDictionary * attrStyle = [[SamuraiCSSParser sharedInstance] parseDictionary:domNode.attrStyle];
+		
+		for ( NSString * key in attrStyle )
+		{
+			NSObject * value = [attrStyle objectForKey:key];
+			
+			if ( value )
+			{
+				[styleProperties setObject:value forKey:key];
+			}
+		}
+	}
+
 // match style - tag {} / .class {} / #id {}
 
 	NSDictionary * matchedStyle = [domNode.document.styleTree queryForObject:domNode];
@@ -95,80 +127,25 @@
 		}
 	}
 
-// attributed style
-	
-	for ( NSArray * pair in [SamuraiHtmlUserAgent sharedInstance].defaultDOMAttributedStyle )
-	{
-		NSString * attrName1 = [pair objectAtIndex:0];
-		NSString * attrName2 = [pair objectAtIndex:1];
-
-		NSString * attrValue = [domNode.attr objectForKey:attrName1];
-
-		if ( attrValue )
-		{
-			[styleProperties setObject:attrValue forKey:attrName2];
-		}
-	}
-
-// inline style - <tag style=""/>
-	
-	if ( domNode.attrStyle )
-	{
-		KatanaOutput * output = [[SamuraiCSSParser sharedInstance] parseDeclaration:domNode.attrStyle];
-		
-		if ( output )
-		{
-			KatanaArray * declarations = output->declarations;
-			
-			if ( declarations->length > 0 )
-			{
-				for ( size_t i = 0; i < declarations->length; i++ )
-				{
-					KatanaDeclaration * decl = declarations->data[i];
-					
-					if ( NULL == decl->property )
-						continue;
-
-					NSString * key = [NSString stringWithUTF8String:decl->property];
-					NSObject * val = [SamuraiCSSArray parseArray:decl->values];
-
-					if ( key && val )
-					{
-						[styleProperties setValue:val forKey:key];
-					}
-				}
-			}
-			
-			katana_destroy_output( output );
-		}
-	}
-
 // style inherition
 	
 	if ( domNode.parent )
 	{
 		for ( NSString * key in styleProperties.allKeys )
 		{
-			NSObject * object = [styleProperties objectForKey:key];
-			NSString * string = nil;
+			BOOL		inherit = NO;
+			NSObject *	object = [styleProperties objectForKey:key];
 			
 			if ( [object isKindOfClass:[NSString class]] )
 			{
-				string = (NSString *)object;
+				inherit = (NSOrderedSame == [(NSString *)object compare:@"inherit"]) ? YES : NO;
 			}
 			else if ( [object isKindOfClass:[SamuraiCSSObject class]] )
 			{
-				if ( [object isKindOfClass:[SamuraiCSSValue class]] )
-				{
-					string = [(SamuraiCSSValue *)object string];
-				}
-				else if ( [object isKindOfClass:[SamuraiCSSArray class]] )
-				{
-					string = [(SamuraiCSSValue *)[(SamuraiCSSArray *)object objectAtIndex:0] string];
-				}
+				inherit = [(SamuraiCSSObject *)object isInherit];
 			}
 
-			if ( string && NSOrderedSame == [string compare:@"inherit"] )
+			if ( inherit )
 			{
 				NSObject * inheritedValue = [domNode.parent.computedStyle objectForKey:key];
 				
@@ -189,13 +166,13 @@
 
 - (void)mergeStyleForDomNode:(SamuraiHtmlDomNode *)domNode
 {
-	DEBUG_HTML_CSS( domNode );
+	DEBUG_HTML_STYLE( domNode );
 	
 	if ( nil == domNode.document )
 		return;
 	
 // dom
-	
+    
 	NSMutableDictionary * domStyle = [self computeStyleForDomNode:domNode];
 
 	[domNode.computedStyle removeAllObjects];

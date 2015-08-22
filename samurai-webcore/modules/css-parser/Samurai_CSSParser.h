@@ -46,6 +46,12 @@
 - (KatanaOutput *)parseSelector:(NSString *)text;		// tag .class #id
 - (KatanaOutput *)parseDeclaration:(NSString *)text;	// key1: val1; key2: val2;
 
+- (NSDictionary *)parseDictionary:(NSString *)text;
+- (NSDictionary *)parseImportants:(NSString *)text;
+
+- (NSDictionary *)buildDictionary:(KatanaArray *)declarations;
+- (NSDictionary *)buildImportants:(KatanaArray *)declarations;
+
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

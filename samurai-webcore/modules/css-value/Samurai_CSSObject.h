@@ -37,6 +37,9 @@
 #pragma mark -
 
 @interface SamuraiCSSObject : NSObject
+
+- (BOOL)isInherit;
+
 @end
 
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)

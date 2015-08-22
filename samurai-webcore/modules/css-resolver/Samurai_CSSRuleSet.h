@@ -28,86 +28,37 @@
 //	THE SOFTWARE.
 //
 
-#import "Samurai_CSSProtocol.h"
-
-#import "_pragma_push.h"
+#import "Samurai.h"
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
-// ----------------------------------
-// Source code
-// ----------------------------------
+#import "katana.h"
 
-#pragma mark -
+@interface SamuraiCSSRuleSet : NSObject
 
-@implementation SamuraiCSSCondition
+@prop_strong( NSMutableDictionary *,		idRules );
+@prop_strong( NSMutableDictionary *,		tagRules );
+@prop_strong( NSMutableDictionary *,		classRules );
+@prop_strong( NSMutableDictionary *,		pseudoRules );
+@prop_strong( NSMutableArray *,				fontFaceRules );
+@prop_strong( NSMutableArray *,				keyframesRules );
+@prop_strong( NSMutableArray *,				linkPseudoClassRules );
+@prop_strong( NSMutableArray *,				focusPseudoClassRules );
+@prop_strong( NSMutableArray *,				privateUniversalRules );
+@prop_strong( NSMutableDictionary *,		shadowPseudoElementRules );
 
-@def_prop_strong( NSString *,		cssId );
-@def_prop_strong( NSString *,		cssTag );
-@def_prop_strong( NSString *,		cssPseudos );
-@def_prop_strong( NSString *,		cssShadowPseudoId );
-@def_prop_strong( NSArray *,		cssClasses );
-@def_prop_strong( NSDictionary *,	cssAttributes );
+- (NSArray *)universalRules;
+- (NSArray *)idRulesWithKey:(NSString *)key;
+- (NSArray *)tagRulesWithKey:(NSString *)key;
+- (NSArray *)classRulesWithKey:(NSString *)key;
+- (NSArray *)pseudoRulesWithKey:(NSString *)key;
+- (NSArray *)shadowPseudoElementRulesWithKey:(NSString *)key;
 
-- (id<SamuraiCSSProtocol>)cssParent
-{
-	return nil;
-}
+- (void)clear;
 
-- (id<SamuraiCSSProtocol>)cssPreviousSibling
-{
-	return nil;
-}
-
-- (id<SamuraiCSSProtocol>)cssFollowingSibling
-{
-	return nil;
-}
-
-- (id<SamuraiCSSProtocol>)cssSiblingAtIndex:(NSInteger)index
-{
-	return nil;
-}
-
-- (NSArray *)cssChildren
-{
-	return nil;
-}
-
-- (NSArray *)cssPreviousSiblings
-{
-	return nil;
-}
-
-- (NSArray *)cssFollowingSiblings
-{
-	return nil;
-}
+- (void)addStyleRule:(KatanaStyleRule *)rule;
+- (void)addStyleRules:(KatanaArray *)styleRules;
 
 @end
 
-// ----------------------------------
-// Unit test
-// ----------------------------------
-
-#pragma mark -
-
-#if __SAMURAI_TESTING__
-
-TEST_CASE( WebCore, CSSProtocol )
-
-DESCRIBE( before )
-{
-}
-
-DESCRIBE( after )
-{
-}
-
-TEST_CASE_END
-
-#endif	// #if __SAMURAI_TESTING__
-
 #endif	// #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
-
-#import "_pragma_pop.h"

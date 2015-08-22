@@ -34,20 +34,19 @@
 
 @interface NSObject (AutoCoding) <NSSecureCoding>
 
-// coding
+//coding
+
 + (NSDictionary *)codableProperties;
 - (void)setWithCoder:(NSCoder *)aDecoder;
 
-// property access
+//property access
+
 - (NSDictionary *)codableProperties;
-// TODO: not nested
 - (NSDictionary *)dictionaryRepresentation;
 
-// loading / saving
+//loading / saving
+
 + (instancetype)objectWithContentsOfFile:(NSString *)path;
 - (BOOL)writeToFile:(NSString *)filePath atomically:(BOOL)useAuxiliaryFile;
-
-+ (instancetype)ac_objectWithContentsOfFile:(NSString *)path;
-- (BOOL)ac_writeToFile:(NSString *)filePath atomically:(BOOL)useAuxiliaryFile;
 
 @end

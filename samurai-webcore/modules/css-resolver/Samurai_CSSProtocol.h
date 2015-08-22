@@ -29,18 +29,46 @@
 //
 
 #import "Samurai.h"
-#import "Samurai_CSSProtocol.h"
-#import "Samurai_CSSRuleSet.h"
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
 #pragma mark -
 
-@interface SamuraiCSSRuleCollector : NSObject
+@protocol SamuraiCSSProtocol <NSObject>
 
-@singleton( SamuraiCSSRuleCollector )
+- (NSString *)cssId;
+- (NSString *)cssTag;
+- (NSString *)cssPseudos;
+- (NSString *)cssShadowPseudoId;
 
-- (NSDictionary *)collectFromRuleSet:(SamuraiCSSRuleSet *)ruleSet forElement:(id<SamuraiCSSProtocol>)element;
+- (NSArray *)cssClasses;
+- (NSDictionary *)cssAttributes;
+
+- (id<SamuraiCSSProtocol>)cssParent;
+- (id<SamuraiCSSProtocol>)cssPreviousSibling;
+- (id<SamuraiCSSProtocol>)cssFollowingSibling;
+- (id<SamuraiCSSProtocol>)cssSiblingAtIndex:(NSInteger)index;
+
+- (NSArray *)cssChildren;
+- (NSArray *)cssPreviousSiblings;
+- (NSArray *)cssFollowingSiblings;
+
+@end
+
+#pragma mark -
+
+FOUNDATION_EXPORT NSString * NSStringFromSamuraiCSSProtocolElement(id<SamuraiCSSProtocol>);
+
+#pragma mark -
+
+@interface SamuraiCSSCondition : NSObject<SamuraiCSSProtocol>
+
+@prop_strong( NSString *,		cssId );
+@prop_strong( NSString *,		cssTag );
+@prop_strong( NSString *,		cssPseudos );
+@prop_strong( NSString *,		cssShadowPseudoId );
+@prop_strong( NSArray *,		cssClasses );
+@prop_strong( NSDictionary *,	cssAttributes );
 
 @end
 

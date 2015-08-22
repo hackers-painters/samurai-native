@@ -29,6 +29,8 @@
 //
 
 #import "Samurai_CSSParser.h"
+#import "Samurai_CSSArray.h"
+#import "Samurai_CSSValue.h"
 
 #import "_pragma_push.h"
 
@@ -86,6 +88,107 @@
 - (KatanaOutput *)parseDeclaration:(NSString *)text
 {
 	return katana_parse(text.UTF8String, text.length, KatanaParserModeDeclarationList);
+}
+
+- (NSDictionary *)parseDictionary:(NSString *)text
+{
+	if ( nil == text || 0 == text.length )
+		return nil;
+	
+	NSDictionary * result = nil;
+	KatanaOutput * output = [[SamuraiCSSParser sharedInstance] parseDeclaration:text];
+	
+	if ( NULL != output )
+	{
+		result = [self buildDictionary:output->declarations];
+		
+		katana_destroy_output( output );
+	}
+
+	return result;
+}
+
+- (NSDictionary *)parseImportants:(NSString *)text
+{
+	if ( nil == text || 0 == text.length )
+		return nil;
+	
+	NSDictionary * result = nil;
+	KatanaOutput * output = [[SamuraiCSSParser sharedInstance] parseDeclaration:text];
+	
+	if ( NULL != output )
+	{
+		result = [self buildImportants:output->declarations];
+		
+		katana_destroy_output( output );
+	}
+	
+	return result;
+}
+
+- (NSDictionary *)buildDictionary:(KatanaArray *)declarations
+{
+	if ( NULL == declarations || 0 == declarations->length )
+		return nil;
+	
+	NSMutableDictionary * result = nil;
+	
+	for ( size_t i = 0; i < declarations->length; i++ )
+	{
+		KatanaDeclaration * decl = declarations->data[i];
+		
+		if ( NULL == decl->property )
+			continue;
+		
+		NSString * key = [NSString stringWithUTF8String:decl->property];
+		NSObject * val = [SamuraiCSSArray parseArray:decl->values];
+
+		if ( key && val )
+		{
+			if ( nil == result )
+			{
+				result = [[NSMutableDictionary alloc] init];
+			}
+			
+			[result setValue:val forKey:key];
+		}
+	}
+	
+	return result;
+}
+
+- (NSDictionary *)buildImportants:(KatanaArray *)declarations
+{
+	if ( NULL == declarations || 0 == declarations->length )
+		return nil;
+	
+	NSMutableDictionary * result = nil;
+	
+	for ( size_t i = 0; i < declarations->length; i++ )
+	{
+		KatanaDeclaration * decl = declarations->data[i];
+		
+		if ( NULL == decl->property )
+			continue;
+		
+		if ( decl->important )
+		{
+			NSString * key = [NSString stringWithUTF8String:decl->property];
+			NSObject * val = [SamuraiCSSArray parseArray:decl->values];
+			
+			if ( key && val )
+			{
+				if ( nil == result )
+				{
+					result = [[NSMutableDictionary alloc] init];
+				}
+				
+				[result setValue:val forKey:key];
+			}
+		}
+	}
+	
+	return result;
 }
 
 @end

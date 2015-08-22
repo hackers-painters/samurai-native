@@ -44,6 +44,12 @@
 #pragma mark -
 
 @implementation SamuraiCSSObject
+
+- (BOOL)isInherit
+{
+	return NO;
+}
+
 @end
 
 // ----------------------------------

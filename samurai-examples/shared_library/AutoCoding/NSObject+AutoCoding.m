@@ -64,8 +64,13 @@
 
 + (instancetype)ac_objectWithDictionary:(NSDictionary *)dictionary
 {
+	if ( !dictionary || !dictionary.count )
+	{
+		return nil;
+	}
+
     id object = [[self alloc] init];
-    
+		
     NSDictionary * properties = [object codableProperties];
     
     for ( __unsafe_unretained NSString *property in properties )
@@ -101,7 +106,6 @@
                 
                 if ( ![convertedValue isKindOfClass:clazz] )
                 {
-                    //                    @"Expected '%@' to be a %@, but was actually a %@"
                     NSLog( @"The type of '%@' in <%@> is <%@>, but not compatible with expected <%@>, please see detail in the <AutoModelCoding> protocol.", property, [self class], [value class], clazz );
                 }
             }
@@ -115,7 +119,7 @@
 {
     NSError * error = nil;
     NSDictionary * dict = [self dictionaryRepresentation];
-    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
+    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
     if ( !error ) {
         return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }

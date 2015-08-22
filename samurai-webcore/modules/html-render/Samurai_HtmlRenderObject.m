@@ -486,6 +486,11 @@ BASE_CLASS( SamuraiHtmlRenderObject )
 	return array;
 }
 
+- (NSString *)description
+{
+    return NSStringFromSamuraiCSSProtocolElement(self);
+}
+
 #pragma mark -
 
 - (NSString *)signalNamespace

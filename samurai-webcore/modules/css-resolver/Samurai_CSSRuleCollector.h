@@ -29,37 +29,16 @@
 //
 
 #import "Samurai.h"
+#import "Samurai_CSSProtocol.h"
+#import "Samurai_CSSRuleSet.h"
 
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 
-#import "katana.h"
+#pragma mark -
 
-@interface SamuraiCSSRuleSet : NSObject
+@interface SamuraiCSSRuleCollector : NSObject
 
-@prop_strong( NSMutableDictionary *,		idRules );
-@prop_strong( NSMutableDictionary *,		tagRules );
-@prop_strong( NSMutableDictionary *,		classRules );
-@prop_strong( NSMutableDictionary *,		pseudoRules );
-@prop_strong( NSMutableArray *,				fontFaceRules );
-@prop_strong( NSMutableArray *,				keyframesRules );
-@prop_strong( NSMutableArray *,				linkPseudoClassRules );
-@prop_strong( NSMutableArray *,				focusPseudoClassRules );
-@prop_strong( NSMutableArray *,				privateUniversalRules );
-@prop_strong( NSMutableDictionary *,		shadowPseudoElementRules );
-
-- (NSArray *)universalRules;
-- (NSArray *)idRulesWithKey:(NSString *)key;
-- (NSArray *)tagRulesWithKey:(NSString *)key;
-- (NSArray *)classRulesWithKey:(NSString *)key;
-- (NSArray *)pseudoRulesWithKey:(NSString *)key;
-- (NSArray *)shadowPseudoElementRulesWithKey:(NSString *)key;
-
-- (void)clear;
-
-- (void)addStyleRule:(KatanaStyleRule *)rule;
-- (void)addStyleRules:(KatanaArray *)styleRules;
-
-- (void)mergeWithRuleSet:(SamuraiCSSRuleSet *)ruleSet;
+- (NSDictionary *)collectFromRuleSet:(SamuraiCSSRuleSet *)ruleSet forElement:(id<SamuraiCSSProtocol>)element;
 
 @end
 

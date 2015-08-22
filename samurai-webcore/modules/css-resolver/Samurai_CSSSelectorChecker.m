@@ -471,8 +471,8 @@ static BOOL matchNth(const KatanaSelector * selector, NSInteger count)
     }
 
 // TODO: @(QFish) Using isLastInTagHistory
-	
-/*
+
+    /*
     // Prepare next selector (blink)
     if (context.selector->isLastInTagHistory()) {
         if (scopeContainsLastMatchedElement(context)) {

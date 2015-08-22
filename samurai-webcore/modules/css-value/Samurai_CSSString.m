@@ -138,6 +138,11 @@
 	return [NSString stringWithFormat:@"String( %@ )", self.string];
 }
 
+- (BOOL)isInherit
+{
+	return [self isString:@"inherit"];
+}
+
 - (BOOL)isString
 {
 	return YES;

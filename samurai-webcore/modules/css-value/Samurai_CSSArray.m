@@ -210,6 +210,18 @@
 	return [NSString stringWithFormat:@"Array( %@ )", [self.array join:@" "]];
 }
 
+- (BOOL)isInherit
+{
+	if ( 1 == [self.array count] )
+	{
+		return [[self.array objectAtIndex:0] isInherit];
+	}
+	else
+	{
+		return NO;
+	}
+}
+
 - (BOOL)isArray
 {
 	return YES;

@@ -73,8 +73,6 @@
 		self.pseudoRules				= [NSMutableDictionary dictionary];
 		self.fontFaceRules				= [NSMutableArray array];
 		self.keyframesRules				= [NSMutableArray array];
-        self.linkPseudoClassRules		= [NSMutableArray array];
-        self.focusPseudoClassRules		= [NSMutableArray array];
         self.privateUniversalRules		= [NSMutableArray array];
 		self.shadowPseudoElementRules	= [NSMutableDictionary dictionary];
     }
@@ -235,15 +233,6 @@
 			break;
         }
     }
-}
-
-- (void)mergeWithRuleSet:(SamuraiCSSRuleSet *)ruleSet
-{
-	[self.idRules addEntriesFromDictionary:ruleSet.idRules];
-	[self.tagRules addEntriesFromDictionary:ruleSet.tagRules];
-	[self.classRules addEntriesFromDictionary:ruleSet.classRules];
-	[self.pseudoRules addEntriesFromDictionary:ruleSet.pseudoRules];
-	[self.privateUniversalRules addObjectsFromArray:ruleSet.privateUniversalRules];
 }
 
 #pragma mark -

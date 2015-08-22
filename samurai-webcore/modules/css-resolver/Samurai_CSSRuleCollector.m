@@ -31,6 +31,7 @@
 #import "Samurai_CSSRuleCollector.h"
 #import "Samurai_CSSRule.h"
 #import "Samurai_CSSRuleSet.h"
+#import "Samurai_CSSParser.h"
 #import "Samurai_CSSSelectorChecker.h"
 #import "Samurai_CSSObject.h"
 #import "Samurai_CSSArray.h"
@@ -94,7 +95,7 @@
 					forElement:element
 				toMatchedRules:matchedRules];
 
-	return [self buildResultFromMatchedRules:matchedRules];
+    return [self buildResultFromMatchedRules:matchedRules forElement:element];;
 }
 
 #pragma mark -
@@ -147,46 +148,58 @@
 	}
 }
 
-- (NSDictionary *)buildResultFromMatchedRules:(NSMutableArray *)matchedRules
+- (NSDictionary *)buildResultFromMatchedRules:(NSMutableArray *)matchedRules forElement:(id<SamuraiCSSProtocol>)element
 {
-	NSMutableDictionary * style = nil;
-	
 	[matchedRules sortUsingComparator:^NSComparisonResult( SamuraiCSSRule * obj1, SamuraiCSSRule * obj2 ) {
 		
 		NSUInteger specificity1 = obj1.specificity;
 		NSUInteger specificity2 = obj2.specificity;
 
-// TODO: @(QFish) should consider position
-//        return (specificity1 == specificity2) ? obj1.position > obj2.position : specificity1 > specificity2;
-
-		return specificity1 > specificity2;
+        return (specificity1 == specificity2) ? obj1.position > obj2.position : specificity1 > specificity2;
 	}];
 
-    for ( SamuraiCSSRule * rule in matchedRules )
+	NSMutableDictionary * result = [[NSMutableDictionary alloc] init];
+	NSMutableDictionary * importants = [[NSMutableDictionary alloc] init];
+
+    for ( SamuraiCSSRule * ruleData in matchedRules )
     {
-        for ( size_t i = 0; i < rule.rule->declarations->length; i++ )
-        {
-            KatanaDeclaration * decl = rule.rule->declarations->data[i];
-
-            if ( NULL == decl->property )
-				continue;
-
-			if ( nil == style )
+		NSDictionary * dict1 = [[SamuraiCSSParser sharedInstance] buildDictionary:ruleData.rule->declarations];
+		NSDictionary * dict2 = [[SamuraiCSSParser sharedInstance] buildImportants:ruleData.rule->declarations];
+		
+		for ( NSString * key in dict1 )
+		{
+			NSObject * value = [dict1 objectForKey:key];
+			
+			if ( value )
 			{
-				style = [NSMutableDictionary dictionary];
+				[result setObject:value forKey:key];
 			}
+		}
 
-			NSString * key = [NSString stringWithUTF8String:decl->property];
-			NSObject * val = [SamuraiCSSArray parseArray:decl->values];
-
-			if ( key && val )
+		for ( NSString * key in dict2 )
+		{
+			NSObject * value = [dict2 objectForKey:key];
+			
+			if ( value )
 			{
-				[style setValue:val forKey:key];
+				[importants setObject:value forKey:key];
 			}
-        }
+		}
     }
 	
-	return style;
+// !important
+	
+	for ( NSString * key in importants )
+	{
+		NSObject * value = [importants objectForKey:key];
+		
+		if ( value )
+		{
+			[result setObject:value forKey:key];
+		}
+	}
+
+	return result;
 }
 
 @end

@@ -47,11 +47,13 @@
 
 #pragma mark -
 
-@implementation SamuraiCSSStyleSheet
-{
-	KatanaOutput * _output;
-}
+@interface SamuraiCSSStyleSheet ()
+@prop_unsafe( KatanaOutput *,                   output );
+@end
 
+@implementation SamuraiCSSStyleSheet
+
+@def_prop_unsafe( KatanaOutput *,               output );
 @def_prop_strong( SamuraiCSSRuleSet *,			ruleSet );
 @def_prop_strong( SamuraiCSSRuleCollector *,	collector );
 
@@ -215,8 +217,12 @@
 	
 	if ( NO == [styleSheet isKindOfClass:[SamuraiCSSStyleSheet class]] )
 		return;
+    
+    if ( nil == styleSheet.output )
+        return;
+        
 
-    [self.ruleSet mergeWithRuleSet:styleSheet.ruleSet];
+    [self.ruleSet addStyleRules:&styleSheet.output->stylesheet->rules];
 }
 
 - (void)clear
